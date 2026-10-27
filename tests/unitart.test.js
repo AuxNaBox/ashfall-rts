@@ -37,6 +37,19 @@ test('Scrap Eater half/full: 1.05x / 1.1x baked into the frame pixels (scale fie
     }
   }
 });
+test('Scrap Eater shadow rx/ry scale by state (empty 1.0, half 1.05, full 1.1) on every facing; offset and alpha unchanged', () => {
+  for (const idx of [HOR.index, HOR.baked.get('violet'), HOR.baked.get('red')]) for (const f of 'ESNW') {
+    const e = idx.get(UA.fkey('scrap_eater', 'empty', f)).shadow;
+    for (const [st, k] of [['empty', 1.0], ['half', 1.05], ['full', 1.1]]) {
+      const s = idx.get(UA.fkey('scrap_eater', st, f)).shadow;
+      assert.ok(Math.abs(s.rx - e.rx * k) <= 0.006, st + ' ' + f + ' rx ' + s.rx + ' vs ' + e.rx * k);   // manifest rounds to 2 dp
+      assert.ok(Math.abs(s.ry - e.ry * k) <= 0.006, st + ' ' + f + ' ry ' + s.ry + ' vs ' + e.ry * k);
+      assert.equal(s.dx, 3); assert.equal(s.dy, 0.5); assert.equal(s.alpha, 0.3);
+    }
+  }
+  // W mirrors E, so its shadow matches E's
+  for (const st of ['empty', 'half', 'full']) assert.deepEqual(HOR.index.get(UA.fkey('scrap_eater', st, 'W')).shadow, HOR.index.get(UA.fkey('scrap_eater', st, 'E')).shadow);
+});
 test('parseManifest indexes every neutral frame of both atlases', () => {
   assert.equal(SUR.index.size, J('survivors-atlas.json').neutral.frames.length);
   assert.equal(HOR.index.size, J('horde-atlas.json').neutral.frames.length);
