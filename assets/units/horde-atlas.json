@@ -3,7 +3,7 @@
  "image": "horde-atlas.png",
  "size": [
   512,
-  128
+  256
  ],
  "default_team": "violet",
  "teams": [
@@ -234,8 +234,8 @@
    "facing": "E",
    "team": "red",
    "rect": [
-    289,
-    84,
+    146,
+    114,
     17,
     16
    ],
@@ -261,8 +261,8 @@
    "facing": "E",
    "team": "violet",
    "rect": [
-    270,
-    84,
+    127,
+    114,
     17,
     16
    ],
@@ -288,8 +288,8 @@
    "facing": "N",
    "team": "red",
    "rect": [
-    250,
-    84,
+    107,
+    114,
     18,
     16
    ],
@@ -315,8 +315,8 @@
    "facing": "N",
    "team": "violet",
    "rect": [
-    230,
-    84,
+    87,
+    114,
     18,
     16
    ],
@@ -342,8 +342,8 @@
    "facing": "S",
    "team": "red",
    "rect": [
-    210,
-    84,
+    67,
+    114,
     18,
     17
    ],
@@ -369,8 +369,8 @@
    "facing": "S",
    "team": "violet",
    "rect": [
-    190,
-    84,
+    47,
+    114,
     18,
     17
    ],
@@ -396,8 +396,8 @@
    "facing": "W",
    "team": "red",
    "rect": [
-    327,
-    84,
+    184,
+    114,
     17,
     16
    ],
@@ -423,8 +423,8 @@
    "facing": "W",
    "team": "violet",
    "rect": [
-    308,
-    84,
+    165,
+    114,
     17,
     16
    ],
@@ -450,8 +450,8 @@
    "facing": "E",
    "team": "red",
    "rect": [
-    411,
-    48,
+    260,
+    87,
     48,
     24
    ],
@@ -477,8 +477,8 @@
    "facing": "E",
    "team": "violet",
    "rect": [
-    361,
-    48,
+    210,
+    87,
     48,
     24
    ],
@@ -504,7 +504,7 @@
    "facing": "N",
    "team": "red",
    "rect": [
-    127,
+    478,
     48,
     28,
     30
@@ -531,7 +531,7 @@
    "facing": "N",
    "team": "violet",
    "rect": [
-    97,
+    448,
     48,
     28,
     30
@@ -558,7 +558,7 @@
    "facing": "S",
    "team": "red",
    "rect": [
-    68,
+    131,
     48,
     27,
     34
@@ -585,7 +585,7 @@
    "facing": "S",
    "team": "violet",
    "rect": [
-    39,
+    102,
     48,
     27,
     34
@@ -612,8 +612,8 @@
    "facing": "W",
    "team": "red",
    "rect": [
-    2,
-    84,
+    360,
+    87,
     48,
     24
    ],
@@ -639,8 +639,8 @@
    "facing": "W",
    "team": "violet",
    "rect": [
-    461,
-    48,
+    310,
+    87,
     48,
     24
    ],
@@ -666,18 +666,18 @@
    "facing": "E",
    "team": "red",
    "rect": [
-    208,
+    280,
     48,
-    49,
-    28
+    54,
+    30
    ],
    "anchor": [
-    24.5,
-    25
+    27.0,
+    27
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.04564,
+   "scale": 0.05021,
    "shadow": {
     "dx": 3.0,
     "dy": 0.5,
@@ -693,18 +693,18 @@
    "facing": "E",
    "team": "violet",
    "rect": [
-    157,
+    224,
     48,
-    49,
-    28
+    54,
+    30
    ],
    "anchor": [
-    24.5,
-    25
+    27.0,
+    27
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.04564,
+   "scale": 0.05021,
    "shadow": {
     "dx": 3.0,
     "dy": 0.5,
@@ -722,20 +722,20 @@
    "rect": [
     2,
     48,
-    35,
-    34
+    38,
+    37
    ],
    "anchor": [
-    17.5,
-    31
+    19.0,
+    34
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.04564,
+   "scale": 0.05021,
    "shadow": {
     "dx": 3.0,
     "dy": 0.5,
-    "rx": 13.95,
+    "rx": 15.3,
     "ry": 5,
     "alpha": 0.3
    }
@@ -747,22 +747,22 @@
    "facing": "N",
    "team": "violet",
    "rect": [
-    440,
+    450,
     2,
-    35,
-    34
+    38,
+    37
    ],
    "anchor": [
-    17.5,
-    31
+    19.0,
+    34
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.04564,
+   "scale": 0.05021,
    "shadow": {
     "dx": 3.0,
     "dy": 0.5,
-    "rx": 13.95,
+    "rx": 15.3,
     "ry": 5,
     "alpha": 0.3
    }
@@ -774,22 +774,22 @@
    "facing": "S",
    "team": "red",
    "rect": [
-    403,
+    408,
     2,
-    35,
-    36
+    40,
+    38
    ],
    "anchor": [
-    17.5,
-    33
+    20.0,
+    36
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.04564,
+   "scale": 0.05021,
    "shadow": {
     "dx": 3.0,
     "dy": 0.5,
-    "rx": 13.95,
+    "rx": 16.2,
     "ry": 5,
     "alpha": 0.3
    }
@@ -803,20 +803,20 @@
    "rect": [
     366,
     2,
-    35,
-    36
+    40,
+    38
    ],
    "anchor": [
-    17.5,
-    33
+    20.0,
+    36
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.04564,
+   "scale": 0.05021,
    "shadow": {
     "dx": 3.0,
     "dy": 0.5,
-    "rx": 13.95,
+    "rx": 16.2,
     "ry": 5,
     "alpha": 0.3
    }
@@ -828,18 +828,18 @@
    "facing": "W",
    "team": "red",
    "rect": [
-    310,
+    392,
     48,
-    49,
-    28
+    54,
+    30
    ],
    "anchor": [
-    24.5,
-    25
+    27.0,
+    27
    ],
    "mirror_of_E": true,
    "outline": "silhouette2",
-   "scale": 0.04564,
+   "scale": 0.05021,
    "shadow": {
     "dx": 3.0,
     "dy": 0.5,
@@ -855,18 +855,234 @@
    "facing": "W",
    "team": "violet",
    "rect": [
-    259,
+    336,
     48,
-    49,
-    28
+    54,
+    30
    ],
    "anchor": [
-    24.5,
-    25
+    27.0,
+    27
    ],
    "mirror_of_E": true,
    "outline": "silhouette2",
-   "scale": 0.04564,
+   "scale": 0.05021,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 17,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-half-e-red",
+   "unit": "scrap_eater",
+   "state": "half",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    54,
+    87,
+    50,
+    25
+   ],
+   "anchor": [
+    25.0,
+    22
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04793,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 17,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-half-e-violet",
+   "unit": "scrap_eater",
+   "state": "half",
+   "facing": "E",
+   "team": "violet",
+   "rect": [
+    2,
+    87,
+    50,
+    25
+   ],
+   "anchor": [
+    25.0,
+    22
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04793,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 17,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-half-n-red",
+   "unit": "scrap_eater",
+   "state": "half",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    192,
+    48,
+    30,
+    33
+   ],
+   "anchor": [
+    15.0,
+    30
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04793,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 11.7,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-half-n-violet",
+   "unit": "scrap_eater",
+   "state": "half",
+   "facing": "N",
+   "team": "violet",
+   "rect": [
+    160,
+    48,
+    30,
+    33
+   ],
+   "anchor": [
+    15.0,
+    30
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04793,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 11.7,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-half-s-red",
+   "unit": "scrap_eater",
+   "state": "half",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    72,
+    48,
+    28,
+    36
+   ],
+   "anchor": [
+    14.0,
+    34
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04793,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 10.8,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-half-s-violet",
+   "unit": "scrap_eater",
+   "state": "half",
+   "facing": "S",
+   "team": "violet",
+   "rect": [
+    42,
+    48,
+    28,
+    36
+   ],
+   "anchor": [
+    14.0,
+    34
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04793,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 10.8,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-half-w-red",
+   "unit": "scrap_eater",
+   "state": "half",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    158,
+    87,
+    50,
+    25
+   ],
+   "anchor": [
+    25.0,
+    22
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette2",
+   "scale": 0.04793,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 17,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-half-w-violet",
+   "unit": "scrap_eater",
+   "state": "half",
+   "facing": "W",
+   "team": "violet",
+   "rect": [
+    106,
+    87,
+    50,
+    25
+   ],
+   "anchor": [
+    25.0,
+    22
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette2",
+   "scale": 0.04793,
    "shadow": {
     "dx": 3.0,
     "dy": 0.5,
@@ -882,8 +1098,8 @@
    "facing": "E",
    "team": "red",
    "rect": [
-    71,
-    84,
+    429,
+    87,
     17,
     18
    ],
@@ -909,8 +1125,8 @@
    "facing": "E",
    "team": "violet",
    "rect": [
-    52,
-    84,
+    410,
+    87,
     17,
     18
    ],
@@ -936,8 +1152,8 @@
    "facing": "N",
    "team": "red",
    "rect": [
-    176,
-    84,
+    33,
+    114,
     12,
     18
    ],
@@ -963,8 +1179,8 @@
    "facing": "N",
    "team": "violet",
    "rect": [
-    162,
-    84,
+    19,
+    114,
     12,
     18
    ],
@@ -990,8 +1206,8 @@
    "facing": "S",
    "team": "red",
    "rect": [
-    145,
-    84,
+    2,
+    114,
     15,
     18
    ],
@@ -1017,8 +1233,8 @@
    "facing": "S",
    "team": "violet",
    "rect": [
-    128,
-    84,
+    486,
+    87,
     15,
     18
    ],
@@ -1044,8 +1260,8 @@
    "facing": "W",
    "team": "red",
    "rect": [
-    109,
-    84,
+    467,
+    87,
     17,
     18
    ],
@@ -1071,8 +1287,8 @@
    "facing": "W",
    "team": "violet",
    "rect": [
-    90,
-    84,
+    448,
+    87,
     17,
     18
    ],
@@ -1099,16 +1315,16 @@
    "dark": "#8E2418"
   },
   "violet": {
-   "light": "#C49BFF",
-   "base": "#9A5CFF",
-   "dark": "#5A2FA0"
+   "light": "#D2B0FF",
+   "base": "#B07CFF",
+   "dark": "#7A48D0"
   }
  },
  "trim_mask": {
   "image": "horde-atlas-trim.png",
   "size": [
    512,
-   128
+   256
   ],
   "rects": "same as frames[].rect",
   "encoding": "alpha 255 = team trim; R=G=B: 255 light, 170 base, 85 dark"
@@ -1250,7 +1466,7 @@
      "alpha": 0.3
     },
     "rect": [
-     161,
+     315,
      48,
      17,
      16
@@ -1276,7 +1492,7 @@
      "alpha": 0.3
     },
     "rect": [
-     141,
+     295,
      48,
      18,
      16
@@ -1302,7 +1518,7 @@
      "alpha": 0.3
     },
     "rect": [
-     121,
+     275,
      48,
      18,
      17
@@ -1328,7 +1544,7 @@
      "alpha": 0.3
     },
     "rect": [
-     180,
+     334,
      48,
      17,
      16
@@ -1354,8 +1570,8 @@
      "alpha": 0.3
     },
     "rect": [
-     419,
-     2,
+     106,
+     48,
      48,
      24
     ]
@@ -1380,7 +1596,7 @@
      "alpha": 0.3
     },
     "rect": [
-     287,
+     469,
      2,
      28,
      30
@@ -1406,7 +1622,7 @@
      "alpha": 0.3
     },
     "rect": [
-     258,
+     296,
      2,
      27,
      34
@@ -1432,7 +1648,7 @@
      "alpha": 0.3
     },
     "rect": [
-     2,
+     156,
      48,
      48,
      24
@@ -1444,12 +1660,12 @@
     "state": "full",
     "facing": "E",
     "anchor": [
-     24.5,
-     25
+     27.0,
+     27
     ],
     "mirror_of_E": false,
     "outline": "silhouette2",
-    "scale": 0.04564,
+    "scale": 0.05021,
     "shadow": {
      "dx": 3.0,
      "dy": 0.5,
@@ -1458,10 +1674,10 @@
      "alpha": 0.3
     },
     "rect": [
-     317,
+     357,
      2,
-     49,
-     28
+     54,
+     30
     ]
    },
    {
@@ -1470,24 +1686,24 @@
     "state": "full",
     "facing": "N",
     "anchor": [
-     17.5,
-     31
+     19.0,
+     34
     ],
     "mirror_of_E": false,
     "outline": "silhouette2",
-    "scale": 0.04564,
+    "scale": 0.05021,
     "shadow": {
      "dx": 3.0,
      "dy": 0.5,
-     "rx": 13.95,
+     "rx": 15.3,
      "ry": 5,
      "alpha": 0.3
     },
     "rect": [
-     221,
+     226,
      2,
-     35,
-     34
+     38,
+     37
     ]
    },
    {
@@ -1496,24 +1712,24 @@
     "state": "full",
     "facing": "S",
     "anchor": [
-     17.5,
-     33
+     20.0,
+     36
     ],
     "mirror_of_E": false,
     "outline": "silhouette2",
-    "scale": 0.04564,
+    "scale": 0.05021,
     "shadow": {
      "dx": 3.0,
      "dy": 0.5,
-     "rx": 13.95,
+     "rx": 16.2,
      "ry": 5,
      "alpha": 0.3
     },
     "rect": [
      184,
      2,
-     35,
-     36
+     40,
+     38
     ]
    },
    {
@@ -1522,12 +1738,12 @@
     "state": "full",
     "facing": "W",
     "anchor": [
-     24.5,
-     25
+     27.0,
+     27
     ],
     "mirror_of_E": true,
     "outline": "silhouette2",
-    "scale": 0.04564,
+    "scale": 0.05021,
     "shadow": {
      "dx": 3.0,
      "dy": 0.5,
@@ -1536,10 +1752,114 @@
      "alpha": 0.3
     },
     "rect": [
-     368,
+     413,
      2,
-     49,
-     28
+     54,
+     30
+    ]
+   },
+   {
+    "name": "scrap_eater-half-e",
+    "unit": "scrap_eater",
+    "state": "half",
+    "facing": "E",
+    "anchor": [
+     25.0,
+     22
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04793,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 17,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     48,
+     50,
+     25
+    ]
+   },
+   {
+    "name": "scrap_eater-half-n",
+    "unit": "scrap_eater",
+    "state": "half",
+    "facing": "N",
+    "anchor": [
+     15.0,
+     30
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04793,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 11.7,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     325,
+     2,
+     30,
+     33
+    ]
+   },
+   {
+    "name": "scrap_eater-half-s",
+    "unit": "scrap_eater",
+    "state": "half",
+    "facing": "S",
+    "anchor": [
+     14.0,
+     34
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04793,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 10.8,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     266,
+     2,
+     28,
+     36
+    ]
+   },
+   {
+    "name": "scrap_eater-half-w",
+    "unit": "scrap_eater",
+    "state": "half",
+    "facing": "W",
+    "anchor": [
+     25.0,
+     22
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette2",
+    "scale": 0.04793,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 17,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     54,
+     48,
+     50,
+     25
     ]
    },
    {
@@ -1562,7 +1882,7 @@
      "alpha": 0.3
     },
     "rect": [
-     52,
+     206,
      48,
      17,
      18
@@ -1588,7 +1908,7 @@
      "alpha": 0.3
     },
     "rect": [
-     107,
+     261,
      48,
      12,
      18
@@ -1614,7 +1934,7 @@
      "alpha": 0.3
     },
     "rect": [
-     90,
+     244,
      48,
      15,
      18
@@ -1640,7 +1960,7 @@
      "alpha": 0.3
     },
     "rect": [
-     71,
+     225,
      48,
      17,
      18

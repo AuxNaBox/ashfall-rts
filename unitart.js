@@ -20,7 +20,7 @@
   // HANDOFF §6 ramps. Survivors default blue, Horde default violet, red = alternate for either side.
   const RAMPS = {
     blue: { light: '#7FAEFF', base: '#3A7BFF', dark: '#1F4BB0' },
-    violet: { light: '#C49BFF', base: '#9A5CFF', dark: '#5A2FA0' },
+    violet: { light: '#D2B0FF', base: '#B07CFF', dark: '#7A48D0' },   // art v3 (manifest team_ramps wins when present)
     red: { light: '#FF7E66', base: '#E8432F', dark: '#8E2418' },
   };
   const DEFAULT_TEAM = { 0: 'blue', 1: 'violet' };
@@ -147,7 +147,7 @@
     if (A.forceBaked) { useBaked(fac); return null; }
     let c = null;
     try {
-      const img = A.img[fac], trim = A.trim[fac], ramp = RAMPS[team] || A.man[fac].ramps[team];
+      const img = A.img[fac], trim = A.trim[fac], ramp = A.man[fac].ramps[team] || RAMPS[team];   // manifest team_ramps first, code table for teams not baked (e.g. blue Horde)
       if (!ramp) throw new Error('no ramp for team ' + team);
       const w = img.width, h = img.height;
       c = document.createElement('canvas'); c.width = w; c.height = h;

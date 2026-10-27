@@ -9,6 +9,34 @@ const J = f => JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'assets', '
 const SUR = UA.parseManifest(J('survivors-atlas.json')), HOR = UA.parseManifest(J('horde-atlas.json'));
 const D = Math.PI / 180;
 
+const pngSize = f => { const b = fs.readFileSync(path.join(__dirname, '..', 'assets', 'units', f)); return [b.readUInt32BE(16), b.readUInt32BE(20)]; };
+test('art v3 atlases: frame counts, sizes from the manifest match the PNGs, half states present', () => {
+  const s = J('survivors-atlas.json'), h = J('horde-atlas.json');
+  assert.equal(s.frames.length, 176); assert.equal(s.neutral.frames.length, 88);
+  assert.equal(h.frames.length, 48); assert.equal(h.neutral.frames.length, 24);
+  for (const m of [s, h]) {
+    assert.deepEqual(pngSize(m.image), m.size); assert.deepEqual(pngSize(m.trim_mask.image), m.trim_mask.size);
+    assert.deepEqual(pngSize(m.neutral.image), m.neutral.size); assert.deepEqual(pngSize(m.neutral.trim_image), m.neutral.size);
+    for (const f of m.neutral.frames) { const [x, y, w, hh] = f.rect; assert.ok(x + w <= m.neutral.size[0] && y + hh <= m.neutral.size[1], f.name); assert.ok(f.anchor[0] >= 0 && f.anchor[0] <= w && f.anchor[1] >= 0 && f.anchor[1] <= hh, f.name); }
+  }
+  assert.deepEqual(h.size, [512, 256]);
+  for (let k = 0; k < 16; k++) assert.ok(SUR.index.get(UA.fkey('scrap_truck', 'half', k * 22.5)));
+  for (const f of 'ESNW') assert.ok(HOR.index.get(UA.fkey('scrap_eater', 'half', f)));
+  // Horde default ramp = Artie's v3 violet, read from the manifest
+  assert.equal(h.default_team, 'violet'); assert.deepEqual(h.team_ramps.violet, { light: '#D2B0FF', base: '#B07CFF', dark: '#7A48D0' });
+  assert.deepEqual(HOR.ramps.violet, h.team_ramps.violet);
+});
+test('Scrap Eater half/full: 1.05x / 1.1x baked into the frame pixels (scale field), same ground anchor and shadow offset', () => {
+  for (const f of 'ESN') {
+    const e = HOR.index.get(UA.fkey('scrap_eater', 'empty', f)), hf = HOR.index.get(UA.fkey('scrap_eater', 'half', f)), fu = HOR.index.get(UA.fkey('scrap_eater', 'full', f));
+    assert.ok(Math.abs(fu.scale / e.scale - 1.1) < 0.002); assert.ok(Math.abs(hf.scale / e.scale - 1.05) < 0.002);
+    for (const x of [hf, fu]) {
+      assert.ok(x.rect[2] >= e.rect[2] && x.rect[3] >= e.rect[3], 'bigger rect ' + f);
+      assert.equal(x.anchor[0], x.rect[2] / 2); assert.equal(x.rect[3] - x.anchor[1], e.rect[3] - e.anchor[1]); // bottom-centre ground point
+      assert.equal(x.shadow.dx, e.shadow.dx); assert.equal(x.shadow.dy, e.shadow.dy);
+    }
+  }
+});
 test('parseManifest indexes every neutral frame of both atlases', () => {
   assert.equal(SUR.index.size, J('survivors-atlas.json').neutral.frames.length);
   assert.equal(HOR.index.size, J('horde-atlas.json').neutral.frames.length);
@@ -81,9 +109,10 @@ test('cargo stages come from pipsOf + cargoHalfPips/cargoFullPips (Dezi option C
 // boundary loads (cap 500): 0, tiny, 0.2, 0.6, just over 0.6, 0.8, 1.0 -> pips 0,1,1,3,4,4,5
 const BOUNDS = [[0, 0, 'empty'], [1, 1, 'half'], [100, 1, 'half'], [300, 3, 'half'], [301, 4, 'full'], [400, 4, 'full'], [500, 5, 'full']];
 const stageOfPips = p => p >= 4 ? 'full' : p >= 1 ? 'half' : 'empty';
-const withHalf = (fac, unit) => { const j = J(fac); j.neutral.frames.push(...j.neutral.frames.filter(f => f.unit === unit && f.state === 'empty').map(f => Object.assign({}, f, { state: 'half', name: f.name + '-half' }))); return UA.parseManifest(j); };
-const S2 = withHalf('survivors-atlas.json', 'scrap_truck'), H2 = withHalf('horde-atlas.json', 'scrap_eater');
-const CASES = [[SUR, 'gleaner', false], [HOR, 'reaper', false], [S2, 'gleaner', true], [H2, 'reaper', true]];
+// v3 atlases ship 'half' frames; the "without" cases strip them to prove the per-facing fallback to 'empty' still works
+const noHalf = fac => { const j = J(fac); j.neutral.frames = j.neutral.frames.filter(f => f.state !== 'half'); return UA.parseManifest(j); };
+const S0 = noHalf('survivors-atlas.json'), H0 = noHalf('horde-atlas.json');
+const CASES = [[S0, 'gleaner', false], [H0, 'reaper', false], [SUR, 'gleaner', true], [HOR, 'reaper', true]];
 test('cargo stage at boundary loads, without (half -> empty frame) and with a half frame', () => {
   const d = { cap: 500 };
   for (const [load, pips, stage] of BOUNDS) {
@@ -108,7 +137,7 @@ test('sprite stage and pip bar agree at every load 0..1 (step 0.001 of capacity)
 });
 test('a half frame for only some facings is picked up per facing; others draw empty', () => {
   const j = J('horde-atlas.json'), d = { cap: 500 };
-  j.neutral.frames.push(Object.assign({}, j.neutral.frames.find(f => f.unit === 'scrap_eater' && f.state === 'empty' && f.facing === 'S'), { state: 'half' }));
+  j.neutral.frames = j.neutral.frames.filter(f => !(f.state === 'half' && f.facing !== 'S'));
   const H3 = UA.parseManifest(j);
   assert.equal(UA.selectFrame(H3, 'reaper', { ang: Math.PI / 2, load: 250, d }).frame.state, 'half');
   assert.equal(UA.selectFrame(H3, 'reaper', { ang: 0, load: 250, d }).frame.state, 'empty');
@@ -126,7 +155,8 @@ test('fallback selection: unmapped types, missing manifest, missing frames -> nu
   assert.ok(UA.selectFrame(only(f => !(f.unit === 'tank_hull' && f.facing === 90)), 'ark', { ang: 0 }));
   assert.equal(UA.selectFrame(only(f => !(f.unit === 'rifleman' && f.facing === 'S')), 'survivor', { ang: Math.PI / 2 }), null);
   assert.equal(UA.selectFrame(only(f => !(f.unit === 'scrap_truck' && f.state === 'full')), 'gleaner', { ang: 0, load: 500, d: { cap: 500 } }), null);
-  assert.equal(UA.selectFrame(only(f => !(f.unit === 'scrap_truck' && f.state === 'empty')), 'gleaner', { ang: 0, load: 200, d: { cap: 500 } }), null); // half -> empty missing -> procedural
+  assert.equal(UA.selectFrame(only(f => !(f.unit === 'scrap_truck' && f.state !== 'full')), 'gleaner', { ang: 0, load: 200, d: { cap: 500 } }), null); // half and empty both missing -> procedural
+  assert.equal(UA.selectFrame(only(f => !(f.unit === 'scrap_truck' && f.state === 'half')), 'gleaner', { ang: 0, load: 200, d: { cap: 500 } }).frame.state, 'empty');
   // draw() outside a browser with nothing loaded never throws and reports fallback
   assert.equal(UA.draw({}, { type: 'survivor', side: 0, x: 0, y: 0, ang: 0 }), false);
   assert.equal(UA.draw({}, { type: 'survivor', x: 0, y: 0, ang: 0 }), false); // sidebar icon (no side) stays procedural
@@ -135,7 +165,7 @@ test('recolourPixels rebuilds the trim ramp exactly and leaves non-trim pixels a
   const px = new Uint8ClampedArray([1, 2, 3, 255, 1, 2, 3, 255, 1, 2, 3, 255, 9, 9, 9, 255]);
   const mk = new Uint8ClampedArray([255, 255, 255, 255, 170, 170, 170, 255, 85, 85, 85, 255, 0, 0, 0, 0]);
   UA.recolourPixels(px, mk, UA.RAMPS.violet);
-  assert.deepEqual([...px], [0xC4, 0x9B, 0xFF, 255, 0x9A, 0x5C, 0xFF, 255, 0x5A, 0x2F, 0xA0, 255, 9, 9, 9, 255]);
+  assert.deepEqual([...px], [0xD2, 0xB0, 0xFF, 255, 0xB0, 0x7C, 0xFF, 255, 0x7A, 0x48, 0xD0, 255, 9, 9, 9, 255]);
   assert.deepEqual(UA.hexToRgb('#3A7BFF'), [0x3A, 0x7B, 0xFF]);
   assert.equal(UA.DEFAULT_TEAM[0], 'blue'); assert.equal(UA.DEFAULT_TEAM[1], 'violet');
   // manifest ramps agree with the ones in code

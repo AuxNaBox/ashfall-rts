@@ -18,8 +18,8 @@
    "facing": "E",
    "team": "blue",
    "rect": [
-    262,
-    495,
+    210,
+    623,
     22,
     22
    ],
@@ -45,8 +45,8 @@
    "facing": "E",
    "team": "red",
    "rect": [
-    286,
-    495,
+    234,
+    623,
     22,
     22
    ],
@@ -72,8 +72,8 @@
    "facing": "N",
    "team": "blue",
    "rect": [
-    314,
-    466,
+    42,
+    598,
     15,
     23
    ],
@@ -99,8 +99,8 @@
    "facing": "N",
    "team": "red",
    "rect": [
-    331,
-    466,
+    59,
+    598,
     15,
     23
    ],
@@ -126,8 +126,8 @@
    "facing": "S",
    "team": "blue",
    "rect": [
-    274,
-    466,
+    2,
+    598,
     18,
     23
    ],
@@ -153,8 +153,8 @@
    "facing": "S",
    "team": "red",
    "rect": [
-    294,
-    466,
+    22,
+    598,
     18,
     23
    ],
@@ -180,8 +180,8 @@
    "facing": "W",
    "team": "blue",
    "rect": [
-    310,
-    495,
+    258,
+    623,
     22,
     22
    ],
@@ -207,8 +207,8 @@
    "facing": "W",
    "team": "red",
    "rect": [
-    334,
-    495,
+    282,
+    623,
     22,
     22
    ],
@@ -234,8 +234,8 @@
    "facing": "E",
    "team": "blue",
    "rect": [
-    358,
-    495,
+    306,
+    623,
     17,
     18
    ],
@@ -261,8 +261,8 @@
    "facing": "E",
    "team": "red",
    "rect": [
-    377,
-    495,
+    325,
+    623,
     17,
     18
    ],
@@ -288,8 +288,8 @@
    "facing": "N",
    "team": "blue",
    "rect": [
-    434,
-    495,
+    382,
+    623,
     12,
     18
    ],
@@ -315,8 +315,8 @@
    "facing": "N",
    "team": "red",
    "rect": [
-    448,
-    495,
+    396,
+    623,
     12,
     18
    ],
@@ -342,8 +342,8 @@
    "facing": "S",
    "team": "blue",
    "rect": [
-    462,
-    495,
+    410,
+    623,
     11,
     18
    ],
@@ -369,8 +369,8 @@
    "facing": "S",
    "team": "red",
    "rect": [
-    475,
-    495,
+    423,
+    623,
     11,
     18
    ],
@@ -396,8 +396,8 @@
    "facing": "W",
    "team": "blue",
    "rect": [
-    396,
-    495,
+    344,
+    623,
     17,
     18
    ],
@@ -423,8 +423,8 @@
    "facing": "W",
    "team": "red",
    "rect": [
-    415,
-    495,
+    363,
+    623,
     17,
     18
    ],
@@ -450,8 +450,8 @@
    "facing": 0.0,
    "team": "blue",
    "rect": [
-    348,
-    466,
+    76,
+    598,
     50,
     22
    ],
@@ -478,8 +478,8 @@
    "facing": 0.0,
    "team": "red",
    "rect": [
-    400,
-    466,
+    128,
+    598,
     50,
     22
    ],
@@ -506,8 +506,8 @@
    "facing": 22.5,
    "team": "blue",
    "rect": [
-    338,
-    313,
+    274,
+    410,
     51,
     37
    ],
@@ -534,8 +534,8 @@
    "facing": 22.5,
    "team": "red",
    "rect": [
-    391,
-    313,
+    327,
+    410,
     51,
     37
    ],
@@ -562,8 +562,8 @@
    "facing": 45.0,
    "team": "blue",
    "rect": [
-    258,
-    164,
+    314,
+    217,
     46,
     47
    ],
@@ -590,8 +590,8 @@
    "facing": 45.0,
    "team": "red",
    "rect": [
-    306,
-    164,
+    362,
+    217,
     46,
     47
    ],
@@ -674,8 +674,8 @@
    "facing": 90.0,
    "team": "blue",
    "rect": [
-    66,
-    164,
+    338,
+    165,
     22,
     50
    ],
@@ -702,8 +702,8 @@
    "facing": 90.0,
    "team": "red",
    "rect": [
-    90,
-    164,
+    362,
+    165,
     22,
     50
    ],
@@ -730,7 +730,7 @@
    "facing": 112.5,
    "team": "blue",
    "rect": [
-    154,
+    306,
     58,
     37,
     51
@@ -758,7 +758,7 @@
    "facing": 112.5,
    "team": "red",
    "rect": [
-    193,
+    345,
     58,
     37,
     51
@@ -786,8 +786,8 @@
    "facing": 135.0,
    "team": "blue",
    "rect": [
-    146,
-    216,
+    394,
+    269,
     47,
     46
    ],
@@ -814,8 +814,8 @@
    "facing": 135.0,
    "team": "red",
    "rect": [
-    195,
-    216,
+    443,
+    269,
     47,
     46
    ],
@@ -842,8 +842,8 @@
    "facing": 157.5,
    "team": "blue",
    "rect": [
-    80,
-    395,
+    41,
+    492,
     52,
     36
    ],
@@ -870,8 +870,8 @@
    "facing": 157.5,
    "team": "red",
    "rect": [
-    134,
-    395,
+    95,
+    492,
     52,
     36
    ],
@@ -898,8 +898,8 @@
    "facing": 180.0,
    "team": "blue",
    "rect": [
-    452,
-    466,
+    180,
+    598,
     50,
     22
    ],
@@ -926,8 +926,8 @@
    "facing": 180.0,
    "team": "red",
    "rect": [
-    2,
-    495,
+    232,
+    598,
     50,
     22
    ],
@@ -954,8 +954,8 @@
    "facing": 202.5,
    "team": "blue",
    "rect": [
-    444,
-    313,
+    380,
+    410,
     51,
     37
    ],
@@ -982,8 +982,8 @@
    "facing": 202.5,
    "team": "red",
    "rect": [
-    2,
-    356,
+    433,
+    410,
     51,
     37
    ],
@@ -1010,8 +1010,8 @@
    "facing": 225.0,
    "team": "blue",
    "rect": [
-    354,
-    164,
+    410,
+    217,
     46,
     47
    ],
@@ -1038,8 +1038,8 @@
    "facing": 225.0,
    "team": "red",
    "rect": [
-    402,
-    164,
+    458,
+    217,
     46,
     47
    ],
@@ -1122,8 +1122,8 @@
    "facing": 270.0,
    "team": "blue",
    "rect": [
-    114,
-    164,
+    386,
+    165,
     22,
     50
    ],
@@ -1150,8 +1150,8 @@
    "facing": 270.0,
    "team": "red",
    "rect": [
-    138,
-    164,
+    410,
+    165,
     22,
     50
    ],
@@ -1178,7 +1178,7 @@
    "facing": 292.5,
    "team": "blue",
    "rect": [
-    232,
+    384,
     58,
     37,
     51
@@ -1206,7 +1206,7 @@
    "facing": 292.5,
    "team": "red",
    "rect": [
-    271,
+    423,
     58,
     37,
     51
@@ -1234,8 +1234,8 @@
    "facing": 315.0,
    "team": "blue",
    "rect": [
-    244,
-    216,
+    2,
+    318,
     47,
     46
    ],
@@ -1262,8 +1262,8 @@
    "facing": 315.0,
    "team": "red",
    "rect": [
-    293,
-    216,
+    51,
+    318,
     47,
     46
    ],
@@ -1290,8 +1290,8 @@
    "facing": 337.5,
    "team": "blue",
    "rect": [
-    188,
-    395,
+    149,
+    492,
     52,
     36
    ],
@@ -1318,8 +1318,8 @@
    "facing": 337.5,
    "team": "red",
    "rect": [
-    242,
-    395,
+    203,
+    492,
     52,
     36
    ],
@@ -1346,8 +1346,8 @@
    "facing": 0.0,
    "team": "blue",
    "rect": [
-    54,
-    495,
+    2,
+    623,
     50,
     22
    ],
@@ -1374,8 +1374,8 @@
    "facing": 0.0,
    "team": "red",
    "rect": [
-    106,
-    495,
+    54,
+    623,
     50,
     22
    ],
@@ -1402,8 +1402,8 @@
    "facing": 22.5,
    "team": "blue",
    "rect": [
-    55,
-    356,
+    2,
+    453,
     51,
     37
    ],
@@ -1430,8 +1430,8 @@
    "facing": 22.5,
    "team": "red",
    "rect": [
-    108,
-    356,
+    55,
+    453,
     51,
     37
    ],
@@ -1458,8 +1458,8 @@
    "facing": 45.0,
    "team": "blue",
    "rect": [
-    450,
-    164,
+    2,
+    269,
     46,
     47
    ],
@@ -1486,8 +1486,8 @@
    "facing": 45.0,
    "team": "red",
    "rect": [
-    2,
-    216,
+    50,
+    269,
     46,
     47
    ],
@@ -1514,7 +1514,7 @@
    "facing": 67.5,
    "team": "blue",
    "rect": [
-    2,
+    154,
     58,
     36,
     52
@@ -1542,7 +1542,7 @@
    "facing": 67.5,
    "team": "red",
    "rect": [
-    40,
+    192,
     58,
     36,
     52
@@ -1570,8 +1570,8 @@
    "facing": 90.0,
    "team": "blue",
    "rect": [
-    162,
-    164,
+    26,
+    217,
     22,
     50
    ],
@@ -1598,8 +1598,8 @@
    "facing": 90.0,
    "team": "red",
    "rect": [
-    186,
-    164,
+    50,
+    217,
     22,
     50
    ],
@@ -1626,8 +1626,8 @@
    "facing": 112.5,
    "team": "blue",
    "rect": [
-    310,
-    58,
+    119,
+    112,
     37,
     51
    ],
@@ -1654,8 +1654,8 @@
    "facing": 112.5,
    "team": "red",
    "rect": [
-    349,
-    58,
+    158,
+    112,
     37,
     51
    ],
@@ -1682,8 +1682,8 @@
    "facing": 135.0,
    "team": "blue",
    "rect": [
-    342,
-    216,
+    100,
+    318,
     47,
     46
    ],
@@ -1710,8 +1710,8 @@
    "facing": 135.0,
    "team": "red",
    "rect": [
-    391,
-    216,
+    149,
+    318,
     47,
     46
    ],
@@ -1738,8 +1738,8 @@
    "facing": 157.5,
    "team": "blue",
    "rect": [
-    296,
-    395,
+    2,
+    531,
     52,
     36
    ],
@@ -1766,8 +1766,8 @@
    "facing": 157.5,
    "team": "red",
    "rect": [
-    350,
-    395,
+    56,
+    531,
     52,
     36
    ],
@@ -1794,8 +1794,8 @@
    "facing": 180.0,
    "team": "blue",
    "rect": [
-    158,
-    495,
+    106,
+    623,
     50,
     22
    ],
@@ -1822,8 +1822,8 @@
    "facing": 180.0,
    "team": "red",
    "rect": [
-    210,
-    495,
+    158,
+    623,
     50,
     22
    ],
@@ -1850,8 +1850,8 @@
    "facing": 202.5,
    "team": "blue",
    "rect": [
-    161,
-    356,
+    108,
+    453,
     51,
     37
    ],
@@ -1878,8 +1878,8 @@
    "facing": 202.5,
    "team": "red",
    "rect": [
-    214,
-    356,
+    161,
+    453,
     51,
     37
    ],
@@ -1906,8 +1906,8 @@
    "facing": 225.0,
    "team": "blue",
    "rect": [
-    50,
-    216,
+    98,
+    269,
     46,
     47
    ],
@@ -1934,8 +1934,8 @@
    "facing": 225.0,
    "team": "red",
    "rect": [
-    98,
-    216,
+    146,
+    269,
     46,
     47
    ],
@@ -1962,7 +1962,7 @@
    "facing": 247.5,
    "team": "blue",
    "rect": [
-    78,
+    230,
     58,
     36,
     52
@@ -1990,7 +1990,7 @@
    "facing": 247.5,
    "team": "red",
    "rect": [
-    116,
+    268,
     58,
     36,
     52
@@ -2018,8 +2018,8 @@
    "facing": 270.0,
    "team": "blue",
    "rect": [
-    210,
-    164,
+    74,
+    217,
     22,
     50
    ],
@@ -2046,8 +2046,8 @@
    "facing": 270.0,
    "team": "red",
    "rect": [
-    234,
-    164,
+    98,
+    217,
     22,
     50
    ],
@@ -2074,8 +2074,8 @@
    "facing": 292.5,
    "team": "blue",
    "rect": [
-    388,
-    58,
+    197,
+    112,
     37,
     51
    ],
@@ -2102,8 +2102,8 @@
    "facing": 292.5,
    "team": "red",
    "rect": [
-    427,
-    58,
+    236,
+    112,
     37,
     51
    ],
@@ -2130,8 +2130,8 @@
    "facing": 315.0,
    "team": "blue",
    "rect": [
-    440,
-    216,
+    198,
+    318,
     47,
     46
    ],
@@ -2158,8 +2158,8 @@
    "facing": 315.0,
    "team": "red",
    "rect": [
-    2,
-    265,
+    247,
+    318,
     47,
     46
    ],
@@ -2186,8 +2186,8 @@
    "facing": 337.5,
    "team": "blue",
    "rect": [
-    404,
-    395,
+    110,
+    531,
     52,
     36
    ],
@@ -2214,13 +2214,909 @@
    "facing": 337.5,
    "team": "red",
    "rect": [
-    458,
-    395,
+    164,
+    531,
     52,
     36
    ],
    "anchor": [
     25.47,
+    18.33
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r0000-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 0.0,
+   "team": "blue",
+   "rect": [
+    284,
+    598,
+    50,
+    22
+   ],
+   "anchor": [
+    25.0,
+    11.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r0000-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 0.0,
+   "team": "red",
+   "rect": [
+    336,
+    598,
+    50,
+    22
+   ],
+   "anchor": [
+    25.0,
+    11.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r0225-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 22.5,
+   "team": "blue",
+   "rect": [
+    58,
+    410,
+    52,
+    37
+   ],
+   "anchor": [
+    25.79,
+    17.86
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r0225-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 22.5,
+   "team": "red",
+   "rect": [
+    112,
+    410,
+    52,
+    37
+   ],
+   "anchor": [
+    25.79,
+    17.86
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r0450-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 45.0,
+   "team": "blue",
+   "rect": [
+    122,
+    217,
+    46,
+    48
+   ],
+   "anchor": [
+    22.8,
+    23.23
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r0450-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 45.0,
+   "team": "red",
+   "rect": [
+    170,
+    217,
+    46,
+    48
+   ],
+   "anchor": [
+    22.8,
+    23.23
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r0675-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 67.5,
+   "team": "blue",
+   "rect": [
+    2,
+    58,
+    36,
+    52
+   ],
+   "anchor": [
+    17.67,
+    25.44
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r0675-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 67.5,
+   "team": "red",
+   "rect": [
+    40,
+    58,
+    36,
+    52
+   ],
+   "anchor": [
+    17.67,
+    25.44
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r0900-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 90.0,
+   "team": "blue",
+   "rect": [
+    434,
+    165,
+    22,
+    50
+   ],
+   "anchor": [
+    11.0,
+    24.97
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r0900-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 90.0,
+   "team": "red",
+   "rect": [
+    458,
+    165,
+    22,
+    50
+   ],
+   "anchor": [
+    11.0,
+    24.97
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r1125-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 112.5,
+   "team": "blue",
+   "rect": [
+    462,
+    58,
+    37,
+    51
+   ],
+   "anchor": [
+    19.11,
+    25.3
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r1125-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 112.5,
+   "team": "red",
+   "rect": [
+    2,
+    112,
+    37,
+    51
+   ],
+   "anchor": [
+    19.11,
+    25.3
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r1350-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 135.0,
+   "team": "blue",
+   "rect": [
+    194,
+    269,
+    48,
+    46
+   ],
+   "anchor": [
+    24.8,
+    22.8
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r1350-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 135.0,
+   "team": "red",
+   "rect": [
+    244,
+    269,
+    48,
+    46
+   ],
+   "anchor": [
+    24.8,
+    22.8
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r1575-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 157.5,
+   "team": "blue",
+   "rect": [
+    257,
+    492,
+    52,
+    36
+   ],
+   "anchor": [
+    26.56,
+    17.67
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r1575-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 157.5,
+   "team": "red",
+   "rect": [
+    311,
+    492,
+    52,
+    36
+   ],
+   "anchor": [
+    26.56,
+    17.67
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r1800-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 180.0,
+   "team": "blue",
+   "rect": [
+    388,
+    598,
+    50,
+    22
+   ],
+   "anchor": [
+    25.0,
+    11.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r1800-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 180.0,
+   "team": "red",
+   "rect": [
+    440,
+    598,
+    50,
+    22
+   ],
+   "anchor": [
+    25.0,
+    11.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r2025-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 202.5,
+   "team": "blue",
+   "rect": [
+    166,
+    410,
+    52,
+    37
+   ],
+   "anchor": [
+    26.21,
+    19.14
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r2025-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 202.5,
+   "team": "red",
+   "rect": [
+    220,
+    410,
+    52,
+    37
+   ],
+   "anchor": [
+    26.21,
+    19.14
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r2250-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 225.0,
+   "team": "blue",
+   "rect": [
+    218,
+    217,
+    46,
+    48
+   ],
+   "anchor": [
+    23.2,
+    24.77
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r2250-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 225.0,
+   "team": "red",
+   "rect": [
+    266,
+    217,
+    46,
+    48
+   ],
+   "anchor": [
+    23.2,
+    24.77
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r2475-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 247.5,
+   "team": "blue",
+   "rect": [
+    78,
+    58,
+    36,
+    52
+   ],
+   "anchor": [
+    18.33,
+    26.56
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r2475-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 247.5,
+   "team": "red",
+   "rect": [
+    116,
+    58,
+    36,
+    52
+   ],
+   "anchor": [
+    18.33,
+    26.56
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r2700-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 270.0,
+   "team": "blue",
+   "rect": [
+    482,
+    165,
+    22,
+    50
+   ],
+   "anchor": [
+    11.0,
+    25.03
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r2700-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 270.0,
+   "team": "red",
+   "rect": [
+    2,
+    217,
+    22,
+    50
+   ],
+   "anchor": [
+    11.0,
+    25.03
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r2925-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 292.5,
+   "team": "blue",
+   "rect": [
+    41,
+    112,
+    37,
+    51
+   ],
+   "anchor": [
+    17.89,
+    25.7
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r2925-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 292.5,
+   "team": "red",
+   "rect": [
+    80,
+    112,
+    37,
+    51
+   ],
+   "anchor": [
+    17.89,
+    25.7
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r3150-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 315.0,
+   "team": "blue",
+   "rect": [
+    294,
+    269,
+    48,
+    46
+   ],
+   "anchor": [
+    23.2,
+    23.2
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r3150-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 315.0,
+   "team": "red",
+   "rect": [
+    344,
+    269,
+    48,
+    46
+   ],
+   "anchor": [
+    23.2,
+    23.2
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r3375-blue",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 337.5,
+   "team": "blue",
+   "rect": [
+    365,
+    492,
+    52,
+    36
+   ],
+   "anchor": [
+    25.44,
+    18.33
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-half-r3375-red",
+   "unit": "scrap_truck",
+   "state": "half",
+   "facing": 337.5,
+   "team": "red",
+   "rect": [
+    419,
+    492,
+    52,
+    36
+   ],
+   "anchor": [
+    25.44,
     18.33
    ],
    "mirror_of_E": false,
@@ -2242,8 +3138,8 @@
    "facing": 0.0,
    "team": "blue",
    "rect": [
-    2,
-    434,
+    218,
+    531,
     50,
     30
    ],
@@ -2274,8 +3170,8 @@
    "facing": 0.0,
    "team": "red",
    "rect": [
-    54,
-    434,
+    270,
+    531,
     50,
     30
    ],
@@ -2306,8 +3202,8 @@
    "facing": 22.5,
    "team": "blue",
    "rect": [
-    383,
-    265,
+    118,
+    366,
     54,
     41
    ],
@@ -2338,8 +3234,8 @@
    "facing": 22.5,
    "team": "red",
    "rect": [
-    439,
-    265,
+    174,
+    366,
     54,
     41
    ],
@@ -2370,7 +3266,7 @@
    "facing": 45.0,
    "team": "blue",
    "rect": [
-    2,
+    275,
     112,
     50,
     50
@@ -2402,7 +3298,7 @@
    "facing": 45.0,
    "team": "red",
    "rect": [
-    54,
+    327,
     112,
     50,
     50
@@ -2498,8 +3394,8 @@
    "facing": 90.0,
    "team": "blue",
    "rect": [
-    418,
-    112,
+    210,
+    165,
     30,
     50
    ],
@@ -2530,8 +3426,8 @@
    "facing": 90.0,
    "team": "red",
    "rect": [
-    450,
-    112,
+    242,
+    165,
     30,
     50
    ],
@@ -2626,7 +3522,7 @@
    "facing": 135.0,
    "team": "blue",
    "rect": [
-    106,
+    379,
     112,
     50,
     50
@@ -2658,7 +3554,7 @@
    "facing": 135.0,
    "team": "red",
    "rect": [
-    158,
+    431,
     112,
     50,
     50
@@ -2690,8 +3586,8 @@
    "facing": 157.5,
    "team": "blue",
    "rect": [
-    2,
-    313,
+    230,
+    366,
     54,
     41
    ],
@@ -2722,8 +3618,8 @@
    "facing": 157.5,
    "team": "red",
    "rect": [
-    58,
-    313,
+    286,
+    366,
     54,
     41
    ],
@@ -2754,8 +3650,8 @@
    "facing": 180.0,
    "team": "blue",
    "rect": [
-    106,
-    434,
+    322,
+    531,
     50,
     30
    ],
@@ -2786,8 +3682,8 @@
    "facing": 180.0,
    "team": "red",
    "rect": [
-    158,
-    434,
+    374,
+    531,
     50,
     30
    ],
@@ -2818,8 +3714,8 @@
    "facing": 202.5,
    "team": "blue",
    "rect": [
-    114,
-    313,
+    342,
+    366,
     54,
     41
    ],
@@ -2850,8 +3746,8 @@
    "facing": 202.5,
    "team": "red",
    "rect": [
-    170,
-    313,
+    398,
+    366,
     54,
     41
    ],
@@ -2882,8 +3778,8 @@
    "facing": 225.0,
    "team": "blue",
    "rect": [
-    210,
-    112,
+    2,
+    165,
     50,
     50
    ],
@@ -2914,8 +3810,8 @@
    "facing": 225.0,
    "team": "red",
    "rect": [
-    262,
-    112,
+    54,
+    165,
     50,
     50
    ],
@@ -3010,8 +3906,8 @@
    "facing": 270.0,
    "team": "blue",
    "rect": [
-    2,
-    164,
+    274,
+    165,
     30,
     50
    ],
@@ -3042,8 +3938,8 @@
    "facing": 270.0,
    "team": "red",
    "rect": [
-    34,
-    164,
+    306,
+    165,
     30,
     50
    ],
@@ -3138,8 +4034,8 @@
    "facing": 315.0,
    "team": "blue",
    "rect": [
-    314,
-    112,
+    106,
+    165,
     50,
     50
    ],
@@ -3170,8 +4066,8 @@
    "facing": 315.0,
    "team": "red",
    "rect": [
-    366,
-    112,
+    158,
+    165,
     50,
     50
    ],
@@ -3202,8 +4098,8 @@
    "facing": 337.5,
    "team": "blue",
    "rect": [
-    226,
-    313,
+    454,
+    366,
     54,
     41
    ],
@@ -3234,8 +4130,8 @@
    "facing": 337.5,
    "team": "red",
    "rect": [
-    282,
-    313,
+    2,
+    410,
     54,
     41
    ],
@@ -3266,8 +4162,8 @@
    "facing": 0.0,
    "team": "blue",
    "rect": [
-    90,
-    466,
+    313,
+    569,
     44,
     23
    ],
@@ -3287,8 +4183,8 @@
    "facing": 0.0,
    "team": "red",
    "rect": [
-    136,
-    466,
+    359,
+    569,
     44,
     23
    ],
@@ -3308,8 +4204,8 @@
    "facing": 22.5,
    "team": "blue",
    "rect": [
-    390,
-    434,
+    137,
+    569,
     42,
     27
    ],
@@ -3329,8 +4225,8 @@
    "facing": 22.5,
    "team": "red",
    "rect": [
-    434,
-    434,
+    181,
+    569,
     42,
     27
    ],
@@ -3350,8 +4246,8 @@
    "facing": 45.0,
    "team": "blue",
    "rect": [
-    267,
-    356,
+    214,
+    453,
     37,
     37
    ],
@@ -3371,8 +4267,8 @@
    "facing": 45.0,
    "team": "red",
    "rect": [
-    306,
-    356,
+    253,
+    453,
     37,
     37
    ],
@@ -3392,8 +4288,8 @@
    "facing": 67.5,
    "team": "blue",
    "rect": [
-    151,
-    265,
+    396,
+    318,
     27,
     43
    ],
@@ -3413,8 +4309,8 @@
    "facing": 67.5,
    "team": "red",
    "rect": [
-    180,
-    265,
+    425,
+    318,
     27,
     43
    ],
@@ -3434,8 +4330,8 @@
    "facing": 90.0,
    "team": "blue",
    "rect": [
-    51,
-    265,
+    296,
+    318,
     23,
     44
    ],
@@ -3455,8 +4351,8 @@
    "facing": 90.0,
    "team": "red",
    "rect": [
-    76,
-    265,
+    321,
+    318,
     23,
     44
    ],
@@ -3476,8 +4372,8 @@
    "facing": 112.5,
    "team": "blue",
    "rect": [
-    267,
-    265,
+    2,
+    366,
     27,
     42
    ],
@@ -3497,8 +4393,8 @@
    "facing": 112.5,
    "team": "red",
    "rect": [
-    296,
-    265,
+    31,
+    366,
     27,
     42
    ],
@@ -3518,8 +4414,8 @@
    "facing": 135.0,
    "team": "blue",
    "rect": [
-    345,
-    356,
+    292,
+    453,
     37,
     37
    ],
@@ -3539,8 +4435,8 @@
    "facing": 135.0,
    "team": "red",
    "rect": [
-    384,
-    356,
+    331,
+    453,
     37,
     37
    ],
@@ -3560,8 +4456,8 @@
    "facing": 157.5,
    "team": "blue",
    "rect": [
-    210,
-    434,
+    426,
+    531,
     43,
     27
    ],
@@ -3581,8 +4477,8 @@
    "facing": 157.5,
    "team": "red",
    "rect": [
-    255,
-    434,
+    2,
+    569,
     43,
     27
    ],
@@ -3602,8 +4498,8 @@
    "facing": 180.0,
    "team": "blue",
    "rect": [
-    182,
-    466,
+    405,
+    569,
     44,
     23
    ],
@@ -3623,8 +4519,8 @@
    "facing": 180.0,
    "team": "red",
    "rect": [
-    228,
-    466,
+    451,
+    569,
     44,
     23
    ],
@@ -3644,8 +4540,8 @@
    "facing": 202.5,
    "team": "blue",
    "rect": [
-    2,
-    466,
+    225,
+    569,
     42,
     27
    ],
@@ -3665,8 +4561,8 @@
    "facing": 202.5,
    "team": "red",
    "rect": [
-    46,
-    466,
+    269,
+    569,
     42,
     27
    ],
@@ -3686,8 +4582,8 @@
    "facing": 225.0,
    "team": "blue",
    "rect": [
-    423,
-    356,
+    370,
+    453,
     37,
     37
    ],
@@ -3707,8 +4603,8 @@
    "facing": 225.0,
    "team": "red",
    "rect": [
-    462,
-    356,
+    409,
+    453,
     37,
     37
    ],
@@ -3728,8 +4624,8 @@
    "facing": 247.5,
    "team": "blue",
    "rect": [
-    209,
-    265,
+    454,
+    318,
     27,
     43
    ],
@@ -3749,8 +4645,8 @@
    "facing": 247.5,
    "team": "red",
    "rect": [
-    238,
-    265,
+    483,
+    318,
     27,
     43
    ],
@@ -3770,8 +4666,8 @@
    "facing": 270.0,
    "team": "blue",
    "rect": [
-    101,
-    265,
+    346,
+    318,
     23,
     44
    ],
@@ -3791,8 +4687,8 @@
    "facing": 270.0,
    "team": "red",
    "rect": [
-    126,
-    265,
+    371,
+    318,
     23,
     44
    ],
@@ -3812,8 +4708,8 @@
    "facing": 292.5,
    "team": "blue",
    "rect": [
-    325,
-    265,
+    60,
+    366,
     27,
     42
    ],
@@ -3833,8 +4729,8 @@
    "facing": 292.5,
    "team": "red",
    "rect": [
-    354,
-    265,
+    89,
+    366,
     27,
     42
    ],
@@ -3854,8 +4750,8 @@
    "facing": 315.0,
    "team": "blue",
    "rect": [
-    2,
-    395,
+    448,
+    453,
     37,
     37
    ],
@@ -3875,8 +4771,8 @@
    "facing": 315.0,
    "team": "red",
    "rect": [
-    41,
-    395,
+    2,
+    492,
     37,
     37
    ],
@@ -3896,8 +4792,8 @@
    "facing": 337.5,
    "team": "blue",
    "rect": [
-    300,
-    434,
+    47,
+    569,
     43,
     27
    ],
@@ -3917,8 +4813,8 @@
    "facing": 337.5,
    "team": "red",
    "rect": [
-    345,
-    434,
+    92,
+    569,
     43,
     27
    ],
@@ -3986,8 +4882,8 @@
      "alpha": 0.3
     },
     "rect": [
-     472,
-     241,
+     158,
+     322,
      22,
      22
     ]
@@ -4012,8 +4908,8 @@
      "alpha": 0.3
     },
     "rect": [
-     247,
-     241,
+     292,
+     293,
      15,
      23
     ]
@@ -4038,8 +4934,8 @@
      "alpha": 0.3
     },
     "rect": [
-     227,
-     241,
+     272,
+     293,
      18,
      23
     ]
@@ -4064,8 +4960,8 @@
      "alpha": 0.3
     },
     "rect": [
-     2,
-     270,
+     182,
+     322,
      22,
      22
     ]
@@ -4090,8 +4986,8 @@
      "alpha": 0.3
     },
     "rect": [
-     26,
-     270,
+     206,
+     322,
      17,
      18
     ]
@@ -4116,8 +5012,8 @@
      "alpha": 0.3
     },
     "rect": [
-     64,
-     270,
+     244,
+     322,
      12,
      18
     ]
@@ -4142,8 +5038,8 @@
      "alpha": 0.3
     },
     "rect": [
-     78,
-     270,
+     258,
+     322,
      11,
      18
     ]
@@ -4168,8 +5064,8 @@
      "alpha": 0.3
     },
     "rect": [
-     45,
-     270,
+     225,
+     322,
      17,
      18
     ]
@@ -4195,8 +5091,8 @@
      "alpha": 0.3
     },
     "rect": [
-     264,
-     241,
+     309,
+     293,
      50,
      22
     ]
@@ -4222,8 +5118,8 @@
      "alpha": 0.3
     },
     "rect": [
-     226,
-     159,
+     166,
+     211,
      51,
      37
     ]
@@ -4249,8 +5145,8 @@
      "alpha": 0.3
     },
     "rect": [
-     370,
-     58,
+     170,
+     111,
      46,
      47
     ]
@@ -4303,7 +5199,7 @@
      "alpha": 0.3
     },
     "rect": [
-     274,
+     430,
      58,
      22,
      50
@@ -4330,7 +5226,7 @@
      "alpha": 0.3
     },
     "rect": [
-     326,
+     402,
      2,
      37,
      51
@@ -4357,8 +5253,8 @@
      "alpha": 0.3
     },
     "rect": [
-     98,
-     110,
+     462,
+     111,
      47,
      46
     ]
@@ -4384,8 +5280,8 @@
      "alpha": 0.3
     },
     "rect": [
-     119,
-     202,
+     41,
+     254,
      52,
      36
     ]
@@ -4411,8 +5307,8 @@
      "alpha": 0.3
     },
     "rect": [
-     316,
-     241,
+     361,
+     293,
      50,
      22
     ]
@@ -4438,8 +5334,8 @@
      "alpha": 0.3
     },
     "rect": [
-     279,
-     159,
+     219,
+     211,
      51,
      37
     ]
@@ -4465,8 +5361,8 @@
      "alpha": 0.3
     },
     "rect": [
-     418,
-     58,
+     218,
+     111,
      46,
      47
     ]
@@ -4519,7 +5415,7 @@
      "alpha": 0.3
     },
     "rect": [
-     298,
+     454,
      58,
      22,
      50
@@ -4546,7 +5442,7 @@
      "alpha": 0.3
     },
     "rect": [
-     365,
+     441,
      2,
      37,
      51
@@ -4573,8 +5469,8 @@
      "alpha": 0.3
     },
     "rect": [
-     147,
-     110,
+     2,
+     163,
      47,
      46
     ]
@@ -4600,8 +5496,8 @@
      "alpha": 0.3
     },
     "rect": [
-     173,
-     202,
+     95,
+     254,
      52,
      36
     ]
@@ -4627,8 +5523,8 @@
      "alpha": 0.3
     },
     "rect": [
-     368,
-     241,
+     413,
+     293,
      50,
      22
     ]
@@ -4654,8 +5550,8 @@
      "alpha": 0.3
     },
     "rect": [
-     332,
-     159,
+     272,
+     211,
      51,
      37
     ]
@@ -4681,8 +5577,8 @@
      "alpha": 0.3
     },
     "rect": [
-     2,
-     110,
+     266,
+     111,
      46,
      47
     ]
@@ -4735,7 +5631,7 @@
      "alpha": 0.3
     },
     "rect": [
-     322,
+     478,
      58,
      22,
      50
@@ -4762,8 +5658,8 @@
      "alpha": 0.3
     },
     "rect": [
-     404,
      2,
+     58,
      37,
      51
     ]
@@ -4789,8 +5685,8 @@
      "alpha": 0.3
     },
     "rect": [
-     196,
-     110,
+     51,
+     163,
      47,
      46
     ]
@@ -4816,8 +5712,8 @@
      "alpha": 0.3
     },
     "rect": [
-     227,
-     202,
+     149,
+     254,
      52,
      36
     ]
@@ -4843,8 +5739,8 @@
      "alpha": 0.3
     },
     "rect": [
-     420,
-     241,
+     2,
+     322,
      50,
      22
     ]
@@ -4870,8 +5766,8 @@
      "alpha": 0.3
     },
     "rect": [
-     385,
-     159,
+     325,
+     211,
      51,
      37
     ]
@@ -4897,8 +5793,8 @@
      "alpha": 0.3
     },
     "rect": [
-     50,
-     110,
+     314,
+     111,
      46,
      47
     ]
@@ -4951,8 +5847,8 @@
      "alpha": 0.3
     },
     "rect": [
-     346,
-     58,
+     2,
+     111,
      22,
      50
     ]
@@ -4978,8 +5874,8 @@
      "alpha": 0.3
     },
     "rect": [
-     443,
-     2,
+     41,
+     58,
      37,
      51
     ]
@@ -5005,8 +5901,8 @@
      "alpha": 0.3
     },
     "rect": [
-     245,
-     110,
+     100,
+     163,
      47,
      46
     ]
@@ -5032,8 +5928,440 @@
      "alpha": 0.3
     },
     "rect": [
-     281,
-     202,
+     203,
+     254,
+     52,
+     36
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r0000",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 0.0,
+    "anchor": [
+     25.0,
+     11.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     54,
+     322,
+     50,
+     22
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r0225",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 22.5,
+    "anchor": [
+     25.79,
+     17.86
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     58,
+     211,
+     52,
+     37
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r0450",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 45.0,
+    "anchor": [
+     22.8,
+     23.23
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     74,
+     111,
+     46,
+     48
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r0675",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 67.5,
+    "anchor": [
+     17.67,
+     25.44
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     326,
+     2,
+     36,
+     52
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r0900",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 90.0,
+    "anchor": [
+     11.0,
+     24.97
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     26,
+     111,
+     22,
+     50
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r1125",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 112.5,
+    "anchor": [
+     19.11,
+     25.3
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     80,
+     58,
+     37,
+     51
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r1350",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 135.0,
+    "anchor": [
+     24.8,
+     22.8
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     362,
+     111,
+     48,
+     46
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r1575",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 157.5,
+    "anchor": [
+     26.56,
+     17.67
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     257,
+     254,
+     52,
+     36
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r1800",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 180.0,
+    "anchor": [
+     25.0,
+     11.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     106,
+     322,
+     50,
+     22
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r2025",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 202.5,
+    "anchor": [
+     26.21,
+     19.14
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     112,
+     211,
+     52,
+     37
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r2250",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 225.0,
+    "anchor": [
+     23.2,
+     24.77
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     122,
+     111,
+     46,
+     48
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r2475",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 247.5,
+    "anchor": [
+     18.33,
+     26.56
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     364,
+     2,
+     36,
+     52
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r2700",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 270.0,
+    "anchor": [
+     11.0,
+     25.03
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     50,
+     111,
+     22,
+     50
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r2925",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 292.5,
+    "anchor": [
+     17.89,
+     25.7
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     119,
+     58,
+     37,
+     51
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r3150",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 315.0,
+    "anchor": [
+     23.2,
+     23.2
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     412,
+     111,
+     48,
+     46
+    ]
+   },
+   {
+    "name": "scrap_truck-half-r3375",
+    "unit": "scrap_truck",
+    "state": "half",
+    "facing": 337.5,
+    "anchor": [
+     25.44,
+     18.33
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     311,
+     254,
      52,
      36
     ]
@@ -5063,8 +6391,8 @@
      "alpha": 0.3
     },
     "rect": [
-     335,
-     202,
+     365,
+     254,
      50,
      30
     ]
@@ -5094,8 +6422,8 @@
      "alpha": 0.3
     },
     "rect": [
-     2,
-     159,
+     315,
+     163,
      54,
      41
     ]
@@ -5125,7 +6453,7 @@
      "alpha": 0.3
     },
     "rect": [
-     2,
+     158,
      58,
      50,
      50
@@ -5187,7 +6515,7 @@
      "alpha": 0.3
     },
     "rect": [
-     210,
+     366,
      58,
      30,
      50
@@ -5249,7 +6577,7 @@
      "alpha": 0.3
     },
     "rect": [
-     54,
+     210,
      58,
      50,
      50
@@ -5280,8 +6608,8 @@
      "alpha": 0.3
     },
     "rect": [
-     58,
-     159,
+     371,
+     163,
      54,
      41
     ]
@@ -5311,8 +6639,8 @@
      "alpha": 0.3
     },
     "rect": [
-     387,
-     202,
+     417,
+     254,
      50,
      30
     ]
@@ -5342,8 +6670,8 @@
      "alpha": 0.3
     },
     "rect": [
-     114,
-     159,
+     427,
+     163,
      54,
      41
     ]
@@ -5373,7 +6701,7 @@
      "alpha": 0.3
     },
     "rect": [
-     106,
+     262,
      58,
      50,
      50
@@ -5435,7 +6763,7 @@
      "alpha": 0.3
     },
     "rect": [
-     242,
+     398,
      58,
      30,
      50
@@ -5497,7 +6825,7 @@
      "alpha": 0.3
     },
     "rect": [
-     158,
+     314,
      58,
      50,
      50
@@ -5528,8 +6856,8 @@
      "alpha": 0.3
     },
     "rect": [
-     170,
-     159,
+     2,
+     211,
      54,
      41
     ]
@@ -5548,8 +6876,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     135,
-     241,
+     180,
+     293,
      44,
      23
     ]
@@ -5568,8 +6896,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     47,
-     241,
+     92,
+     293,
      42,
      27
     ]
@@ -5588,8 +6916,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     438,
-     159,
+     378,
+     211,
      37,
      37
     ]
@@ -5608,8 +6936,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     344,
-     110,
+     199,
+     163,
      27,
      43
     ]
@@ -5628,8 +6956,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     294,
-     110,
+     149,
+     163,
      23,
      44
     ]
@@ -5648,8 +6976,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     402,
-     110,
+     257,
+     163,
      27,
      42
     ]
@@ -5668,8 +6996,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     2,
-     202,
+     417,
+     211,
      37,
      37
     ]
@@ -5688,8 +7016,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     439,
-     202,
+     2,
+     293,
      43,
      27
     ]
@@ -5708,8 +7036,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     181,
-     241,
+     226,
+     293,
      44,
      23
     ]
@@ -5728,8 +7056,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     91,
-     241,
+     136,
+     293,
      42,
      27
     ]
@@ -5748,8 +7076,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     41,
-     202,
+     456,
+     211,
      37,
      37
     ]
@@ -5768,8 +7096,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     373,
-     110,
+     228,
+     163,
      27,
      43
     ]
@@ -5788,8 +7116,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     319,
-     110,
+     174,
+     163,
      23,
      44
     ]
@@ -5808,8 +7136,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     431,
-     110,
+     286,
+     163,
      27,
      42
     ]
@@ -5828,8 +7156,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     80,
-     202,
+     2,
+     254,
      37,
      37
     ]
@@ -5848,8 +7176,8 @@
     "scale": 0.05572,
     "shadow": null,
     "rect": [
-     2,
-     241,
+     47,
+     293,
      43,
      27
     ]
