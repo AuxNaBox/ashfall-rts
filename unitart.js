@@ -24,7 +24,12 @@
     red: { light: '#FF7E66', base: '#E8432F', dark: '#8E2418' },
   };
   const DEFAULT_TEAM = { 0: 'blue', 1: 'violet' };
-  const FULL_AT = 0.5;                              // cargo state: 'full' at >= 50% of capacity (gameplay choice; no in-between frames)
+  // cargo stage thresholds come from the data/balance table (salvage.js TABLE: cargoHalfAt / cargoFullAt, Dezi Oct 27, 2026)
+  function balance() {
+    if (root.Salvage && root.Salvage.D) return root.Salvage.D;
+    if (typeof require === 'function') { try { return require('./salvage.js').D; } catch (e) { /* not available */ } }
+    return null;
+  }
 
   // ---------- pure helpers ----------
   const snap16 = deg => (Math.round((((deg % 360) + 360) % 360) / 22.5) % 16) * 22.5;
@@ -52,17 +57,26 @@
     }
     return { index, baked, bakedImage: json.image, image: json.neutral.image, trim: json.neutral.trim_image, size: json.neutral.size, ramps: json.team_ramps || {}, defaultTeam: json.default_team };
   }
-  function stateFor(map, u) {
+  // cargo stage: empty < cargoHalfAt <= half < cargoFullAt <= full (fraction of capacity). Non-cargo units: 'idle'.
+  // Returns null if the thresholds are unavailable (cargo unit then draws procedurally).
+  function stateFor(map, u, D) {
     if (!map.cargo) return 'idle';
-    const cap = (u.d && u.d.cap) || 500;
-    return (u.load || 0) >= cap * FULL_AT ? 'full' : 'empty';
+    D = D || balance(); if (!D || D.cargoHalfAt === undefined || D.cargoFullAt === undefined) return null;
+    const cap = (u.d && u.d.cap) || D.haulerCapacity, f = (u.load || 0) / cap;
+    return f >= D.cargoFullAt ? 'full' : f >= D.cargoHalfAt ? 'half' : 'empty';
   }
   // which frame(s) to draw for a unit, or null -> procedural fallback
   // returns { frame, mirror, heading?, turret? } ; W = E mirrored (mirror_of_E)
-  function selectFrame(man, type, u, idx) {
+  // stage 'half' uses a 'half' frame when the manifest has one, otherwise the 'empty' frame (data-driven)
+  function selectFrame(man, type, u, idx, D) {
     const map = UNIT_MAP[type]; if (!man || !map) return null;
-    const index = idx || man.index;
-    const state = stateFor(map, u);
+    const stage = stateFor(map, u, D); if (!stage) return null;
+    const r = pickFrame(man, map, u, idx || man.index, stage);
+    if (r || stage !== 'half') return r && Object.assign(r, { stage });
+    const e = pickFrame(man, map, u, idx || man.index, 'empty');
+    return e && Object.assign(e, { stage });
+  }
+  function pickFrame(man, map, u, index, state) {
     if (map.kind === 'vehicle') {
       const heading = snap16(radToDeg(u.ang || 0)), frame = index.get(fkey(map.unit, state, heading));
       if (!frame) return null;
@@ -177,7 +191,7 @@
     c.imageSmoothingEnabled = prev; A.stats.drawn++;
     return true;
   }
-  const UnitArt = { BASE, UNIT_MAP, RAMPS, DEFAULT_TEAM, FULL_AT, snap16, facing4, fkey, parseManifest, selectFrame, stateFor, topLeft, turretPos, recolourPixels, hexToRgb, load, draw, atlasFor, state: A };
+  const UnitArt = { BASE, UNIT_MAP, RAMPS, DEFAULT_TEAM, balance, snap16, facing4, fkey, parseManifest, selectFrame, stateFor, topLeft, turretPos, recolourPixels, hexToRgb, load, draw, atlasFor, state: A };
   if (typeof module !== 'undefined' && module.exports) module.exports = UnitArt;
   root.UnitArt = UnitArt;
 })(typeof window !== 'undefined' ? window : globalThis);

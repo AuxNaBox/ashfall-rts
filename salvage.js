@@ -21,6 +21,8 @@
     gatherPerSec:        { v: 25,   src: 'L1 (~20 s to fill)' },
     unloadPerSec:        { v: 100,  src: 'L1 (5 s to empty)' },
     loadPips:            { v: 5,    src: 'L1 art notes rev 3' },
+    cargoHalfAt:         { v: 0.2,  src: 'Dezi ruling Oct 27, 2026 (cargo sprite stage: half from 20% of capacity)' },
+    cargoFullAt:         { v: 0.8,  src: 'Dezi ruling Oct 27, 2026 (cargo sprite stage: full from 80% of capacity)' },
     // Wreck Yard tiles
     tileMax:             { v: 500,  src: 'L1' },
     stageCount:          { v: 4,    src: 'L1 (stage = ceil(amount/125))' },
