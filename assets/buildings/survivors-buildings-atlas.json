@@ -1,0 +1,4057 @@
+{
+ "_doc": "Ashfall survivors buildings atlas v1. See buildings/HANDOFF-buildings.md. rect = [x,y,w,h] in the atlas. Base frames: anchor = bottom-centre of the footprint inside the rect; footprint_origin = top-left corner of the footprint inside the rect, so draw at (tx*32 - footprint_origin[0], ty*32 - footprint_origin[1]). Sprites may rise above the footprint. Top frames (turret/bone spire heads): anchor = rotation pivot; draw the pivot at base rect + turret_mount. Pad frames: 32x32 ground decal for the dock pad tile. shadow: drawn by the engine first, 30% black, offset (+3,+3) from the footprint. No baked shadow.",
+ "image": "survivors-buildings-atlas.png",
+ "size": [
+  1024,
+  512
+ ],
+ "tile": 32,
+ "default_team": "blue",
+ "teams": [
+  "blue",
+  "red"
+ ],
+ "frames": [
+  {
+   "name": "barracks-construct-blue",
+   "building": "barracks",
+   "code_type": "barracks",
+   "part": "base",
+   "state": "construct",
+   "team": "blue",
+   "rect": [
+    332,
+    216,
+    64,
+    68
+   ],
+   "outline": "silhouette2",
+   "scale": 0.07916,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    68
+   ],
+   "footprint_origin": [
+    0.0,
+    4
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "barracks-construct-red",
+   "building": "barracks",
+   "code_type": "barracks",
+   "part": "base",
+   "state": "construct",
+   "team": "red",
+   "rect": [
+    398,
+    216,
+    64,
+    68
+   ],
+   "outline": "silhouette2",
+   "scale": 0.07916,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    68
+   ],
+   "footprint_origin": [
+    0.0,
+    4
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "barracks-damaged-blue",
+   "building": "barracks",
+   "code_type": "barracks",
+   "part": "base",
+   "state": "damaged",
+   "team": "blue",
+   "rect": [
+    464,
+    216,
+    64,
+    68
+   ],
+   "outline": "silhouette2",
+   "scale": 0.07916,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    68
+   ],
+   "footprint_origin": [
+    0.0,
+    4
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "barracks-damaged-red",
+   "building": "barracks",
+   "code_type": "barracks",
+   "part": "base",
+   "state": "damaged",
+   "team": "red",
+   "rect": [
+    530,
+    216,
+    64,
+    68
+   ],
+   "outline": "silhouette2",
+   "scale": 0.07916,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    68
+   ],
+   "footprint_origin": [
+    0.0,
+    4
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "barracks-idle-blue",
+   "building": "barracks",
+   "code_type": "barracks",
+   "part": "base",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    596,
+    216,
+    64,
+    68
+   ],
+   "outline": "silhouette2",
+   "scale": 0.07916,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    68
+   ],
+   "footprint_origin": [
+    0.0,
+    4
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "barracks-idle-red",
+   "building": "barracks",
+   "code_type": "barracks",
+   "part": "base",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    662,
+    216,
+    64,
+    68
+   ],
+   "outline": "silhouette2",
+   "scale": 0.07916,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    68
+   ],
+   "footprint_origin": [
+    0.0,
+    4
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "depot-construct-blue",
+   "building": "depot",
+   "code_type": "depot",
+   "part": "base",
+   "state": "construct",
+   "team": "blue",
+   "rect": [
+    134,
+    291,
+    64,
+    53
+   ],
+   "outline": "silhouette2",
+   "scale": 0.07937,
+   "footprint": [
+    2,
+    1
+   ],
+   "anchor": [
+    32.0,
+    53
+   ],
+   "footprint_origin": [
+    0.0,
+    21
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 28,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "depot-construct-red",
+   "building": "depot",
+   "code_type": "depot",
+   "part": "base",
+   "state": "construct",
+   "team": "red",
+   "rect": [
+    200,
+    291,
+    64,
+    53
+   ],
+   "outline": "silhouette2",
+   "scale": 0.07937,
+   "footprint": [
+    2,
+    1
+   ],
+   "anchor": [
+    32.0,
+    53
+   ],
+   "footprint_origin": [
+    0.0,
+    21
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 28,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "depot-damaged-blue",
+   "building": "depot",
+   "code_type": "depot",
+   "part": "base",
+   "state": "damaged",
+   "team": "blue",
+   "rect": [
+    266,
+    291,
+    64,
+    53
+   ],
+   "outline": "silhouette2",
+   "scale": 0.07937,
+   "footprint": [
+    2,
+    1
+   ],
+   "anchor": [
+    32.0,
+    53
+   ],
+   "footprint_origin": [
+    0.0,
+    21
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 28,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "depot-damaged-red",
+   "building": "depot",
+   "code_type": "depot",
+   "part": "base",
+   "state": "damaged",
+   "team": "red",
+   "rect": [
+    332,
+    291,
+    64,
+    53
+   ],
+   "outline": "silhouette2",
+   "scale": 0.07937,
+   "footprint": [
+    2,
+    1
+   ],
+   "anchor": [
+    32.0,
+    53
+   ],
+   "footprint_origin": [
+    0.0,
+    21
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 28,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "depot-idle-blue",
+   "building": "depot",
+   "code_type": "depot",
+   "part": "base",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    398,
+    291,
+    64,
+    53
+   ],
+   "outline": "silhouette2",
+   "scale": 0.07937,
+   "footprint": [
+    2,
+    1
+   ],
+   "anchor": [
+    32.0,
+    53
+   ],
+   "footprint_origin": [
+    0.0,
+    21
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 28,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "depot-idle-red",
+   "building": "depot",
+   "code_type": "depot",
+   "part": "base",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    464,
+    291,
+    64,
+    53
+   ],
+   "outline": "silhouette2",
+   "scale": 0.07937,
+   "footprint": [
+    2,
+    1
+   ],
+   "anchor": [
+    32.0,
+    53
+   ],
+   "footprint_origin": [
+    0.0,
+    21
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 28,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "factory-construct-blue",
+   "building": "factory",
+   "code_type": "factory",
+   "part": "base",
+   "state": "construct",
+   "team": "blue",
+   "rect": [
+    198,
+    120,
+    96,
+    85
+   ],
+   "outline": "silhouette2",
+   "scale": 0.12058,
+   "footprint": [
+    3,
+    3
+   ],
+   "anchor": [
+    48.0,
+    85
+   ],
+   "footprint_origin": [
+    0.0,
+    -11
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "factory-construct-red",
+   "building": "factory",
+   "code_type": "factory",
+   "part": "base",
+   "state": "construct",
+   "team": "red",
+   "rect": [
+    296,
+    120,
+    96,
+    85
+   ],
+   "outline": "silhouette2",
+   "scale": 0.12058,
+   "footprint": [
+    3,
+    3
+   ],
+   "anchor": [
+    48.0,
+    85
+   ],
+   "footprint_origin": [
+    0.0,
+    -11
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "factory-damaged-blue",
+   "building": "factory",
+   "code_type": "factory",
+   "part": "base",
+   "state": "damaged",
+   "team": "blue",
+   "rect": [
+    394,
+    120,
+    96,
+    85
+   ],
+   "outline": "silhouette2",
+   "scale": 0.12058,
+   "footprint": [
+    3,
+    3
+   ],
+   "anchor": [
+    48.0,
+    85
+   ],
+   "footprint_origin": [
+    0.0,
+    -11
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "factory-damaged-red",
+   "building": "factory",
+   "code_type": "factory",
+   "part": "base",
+   "state": "damaged",
+   "team": "red",
+   "rect": [
+    492,
+    120,
+    96,
+    85
+   ],
+   "outline": "silhouette2",
+   "scale": 0.12058,
+   "footprint": [
+    3,
+    3
+   ],
+   "anchor": [
+    48.0,
+    85
+   ],
+   "footprint_origin": [
+    0.0,
+    -11
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "factory-idle-blue",
+   "building": "factory",
+   "code_type": "factory",
+   "part": "base",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    590,
+    120,
+    96,
+    85
+   ],
+   "outline": "silhouette2",
+   "scale": 0.12058,
+   "footprint": [
+    3,
+    3
+   ],
+   "anchor": [
+    48.0,
+    85
+   ],
+   "footprint_origin": [
+    0.0,
+    -11
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "factory-idle-red",
+   "building": "factory",
+   "code_type": "factory",
+   "part": "base",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    688,
+    120,
+    96,
+    85
+   ],
+   "outline": "silhouette2",
+   "scale": 0.12058,
+   "footprint": [
+    3,
+    3
+   ],
+   "anchor": [
+    48.0,
+    85
+   ],
+   "footprint_origin": [
+    0.0,
+    -11
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "hq-construct-blue",
+   "building": "hq",
+   "code_type": "hq",
+   "part": "base",
+   "state": "construct",
+   "team": "blue",
+   "rect": [
+    2,
+    2,
+    96,
+    116
+   ],
+   "outline": "silhouette2",
+   "scale": 0.13529,
+   "footprint": [
+    3,
+    3
+   ],
+   "anchor": [
+    48.0,
+    116
+   ],
+   "footprint_origin": [
+    0.0,
+    20
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "hq-construct-red",
+   "building": "hq",
+   "code_type": "hq",
+   "part": "base",
+   "state": "construct",
+   "team": "red",
+   "rect": [
+    100,
+    2,
+    96,
+    116
+   ],
+   "outline": "silhouette2",
+   "scale": 0.13529,
+   "footprint": [
+    3,
+    3
+   ],
+   "anchor": [
+    48.0,
+    116
+   ],
+   "footprint_origin": [
+    0.0,
+    20
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "hq-damaged-blue",
+   "building": "hq",
+   "code_type": "hq",
+   "part": "base",
+   "state": "damaged",
+   "team": "blue",
+   "rect": [
+    198,
+    2,
+    96,
+    116
+   ],
+   "outline": "silhouette2",
+   "scale": 0.13529,
+   "footprint": [
+    3,
+    3
+   ],
+   "anchor": [
+    48.0,
+    116
+   ],
+   "footprint_origin": [
+    0.0,
+    20
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "hq-damaged-red",
+   "building": "hq",
+   "code_type": "hq",
+   "part": "base",
+   "state": "damaged",
+   "team": "red",
+   "rect": [
+    296,
+    2,
+    96,
+    116
+   ],
+   "outline": "silhouette2",
+   "scale": 0.13529,
+   "footprint": [
+    3,
+    3
+   ],
+   "anchor": [
+    48.0,
+    116
+   ],
+   "footprint_origin": [
+    0.0,
+    20
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "hq-idle-blue",
+   "building": "hq",
+   "code_type": "hq",
+   "part": "base",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    394,
+    2,
+    96,
+    116
+   ],
+   "outline": "silhouette2",
+   "scale": 0.13529,
+   "footprint": [
+    3,
+    3
+   ],
+   "anchor": [
+    48.0,
+    116
+   ],
+   "footprint_origin": [
+    0.0,
+    20
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "hq-idle-red",
+   "building": "hq",
+   "code_type": "hq",
+   "part": "base",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    492,
+    2,
+    96,
+    116
+   ],
+   "outline": "silhouette2",
+   "scale": 0.13529,
+   "footprint": [
+    3,
+    3
+   ],
+   "anchor": [
+    48.0,
+    116
+   ],
+   "footprint_origin": [
+    0.0,
+    20
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "nuke_silo-closed-blue",
+   "building": "nuke_silo",
+   "code_type": "silo",
+   "part": "base",
+   "state": "closed",
+   "team": "blue",
+   "rect": [
+    918,
+    120,
+    64,
+    73
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08798,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    73
+   ],
+   "footprint_origin": [
+    0.0,
+    9
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "nuke_silo-closed-red",
+   "building": "nuke_silo",
+   "code_type": "silo",
+   "part": "base",
+   "state": "closed",
+   "team": "red",
+   "rect": [
+    2,
+    216,
+    64,
+    73
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08798,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    73
+   ],
+   "footprint_origin": [
+    0.0,
+    9
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "nuke_silo-construct-blue",
+   "building": "nuke_silo",
+   "code_type": "silo",
+   "part": "base",
+   "state": "construct",
+   "team": "blue",
+   "rect": [
+    68,
+    216,
+    64,
+    73
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08798,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    73
+   ],
+   "footprint_origin": [
+    0.0,
+    9
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "nuke_silo-construct-red",
+   "building": "nuke_silo",
+   "code_type": "silo",
+   "part": "base",
+   "state": "construct",
+   "team": "red",
+   "rect": [
+    134,
+    216,
+    64,
+    73
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08798,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    73
+   ],
+   "footprint_origin": [
+    0.0,
+    9
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "nuke_silo-damaged-blue",
+   "building": "nuke_silo",
+   "code_type": "silo",
+   "part": "base",
+   "state": "damaged",
+   "team": "blue",
+   "rect": [
+    200,
+    216,
+    64,
+    73
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08798,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    73
+   ],
+   "footprint_origin": [
+    0.0,
+    9
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "nuke_silo-damaged-red",
+   "building": "nuke_silo",
+   "code_type": "silo",
+   "part": "base",
+   "state": "damaged",
+   "team": "red",
+   "rect": [
+    266,
+    216,
+    64,
+    73
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08798,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    73
+   ],
+   "footprint_origin": [
+    0.0,
+    9
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "nuke_silo-open-blue",
+   "building": "nuke_silo",
+   "code_type": "silo",
+   "part": "base",
+   "state": "open",
+   "team": "blue",
+   "rect": [
+    786,
+    120,
+    64,
+    78
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08798,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    78
+   ],
+   "footprint_origin": [
+    0.0,
+    14
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "nuke_silo-open-red",
+   "building": "nuke_silo",
+   "code_type": "silo",
+   "part": "base",
+   "state": "open",
+   "team": "red",
+   "rect": [
+    852,
+    120,
+    64,
+    78
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08798,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    78
+   ],
+   "footprint_origin": [
+    0.0,
+    14
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "power_plant-construct-blue",
+   "building": "power_plant",
+   "code_type": "power",
+   "part": "base",
+   "state": "construct",
+   "team": "blue",
+   "rect": [
+    728,
+    216,
+    64,
+    65
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08535,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    65
+   ],
+   "footprint_origin": [
+    0.0,
+    1
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "power_plant-construct-red",
+   "building": "power_plant",
+   "code_type": "power",
+   "part": "base",
+   "state": "construct",
+   "team": "red",
+   "rect": [
+    794,
+    216,
+    64,
+    65
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08535,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    65
+   ],
+   "footprint_origin": [
+    0.0,
+    1
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "power_plant-damaged-blue",
+   "building": "power_plant",
+   "code_type": "power",
+   "part": "base",
+   "state": "damaged",
+   "team": "blue",
+   "rect": [
+    860,
+    216,
+    64,
+    65
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08535,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    65
+   ],
+   "footprint_origin": [
+    0.0,
+    1
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "power_plant-damaged-red",
+   "building": "power_plant",
+   "code_type": "power",
+   "part": "base",
+   "state": "damaged",
+   "team": "red",
+   "rect": [
+    926,
+    216,
+    64,
+    65
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08535,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    65
+   ],
+   "footprint_origin": [
+    0.0,
+    1
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "power_plant-idle-blue",
+   "building": "power_plant",
+   "code_type": "power",
+   "part": "base",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    2,
+    291,
+    64,
+    65
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08535,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    65
+   ],
+   "footprint_origin": [
+    0.0,
+    1
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "power_plant-idle-red",
+   "building": "power_plant",
+   "code_type": "power",
+   "part": "base",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    68,
+    291,
+    64,
+    65
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08535,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    65
+   ],
+   "footprint_origin": [
+    0.0,
+    1
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "scrap_yard-construct-blue",
+   "building": "scrap_yard",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "construct",
+   "team": "blue",
+   "rect": [
+    590,
+    2,
+    96,
+    94
+   ],
+   "outline": "silhouette2",
+   "scale": 0.11795,
+   "footprint": [
+    3,
+    2
+   ],
+   "anchor": [
+    48.0,
+    94
+   ],
+   "footprint_origin": [
+    0.0,
+    30
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "scrap_yard_pad-idle-blue",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "scrap_yard-construct-red",
+   "building": "scrap_yard",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "construct",
+   "team": "red",
+   "rect": [
+    688,
+    2,
+    96,
+    94
+   ],
+   "outline": "silhouette2",
+   "scale": 0.11795,
+   "footprint": [
+    3,
+    2
+   ],
+   "anchor": [
+    48.0,
+    94
+   ],
+   "footprint_origin": [
+    0.0,
+    30
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "scrap_yard_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "scrap_yard-damaged-blue",
+   "building": "scrap_yard",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "damaged",
+   "team": "blue",
+   "rect": [
+    786,
+    2,
+    96,
+    94
+   ],
+   "outline": "silhouette2",
+   "scale": 0.11795,
+   "footprint": [
+    3,
+    2
+   ],
+   "anchor": [
+    48.0,
+    94
+   ],
+   "footprint_origin": [
+    0.0,
+    30
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "scrap_yard_pad-idle-blue",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   }
+  },
+  {
+   "name": "scrap_yard-damaged-red",
+   "building": "scrap_yard",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "damaged",
+   "team": "red",
+   "rect": [
+    884,
+    2,
+    96,
+    94
+   ],
+   "outline": "silhouette2",
+   "scale": 0.11795,
+   "footprint": [
+    3,
+    2
+   ],
+   "anchor": [
+    48.0,
+    94
+   ],
+   "footprint_origin": [
+    0.0,
+    30
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "scrap_yard_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   }
+  },
+  {
+   "name": "scrap_yard-idle-blue",
+   "building": "scrap_yard",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    2,
+    120,
+    96,
+    94
+   ],
+   "outline": "silhouette2",
+   "scale": 0.11795,
+   "footprint": [
+    3,
+    2
+   ],
+   "anchor": [
+    48.0,
+    94
+   ],
+   "footprint_origin": [
+    0.0,
+    30
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "scrap_yard_pad-idle-blue",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   }
+  },
+  {
+   "name": "scrap_yard-idle-red",
+   "building": "scrap_yard",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    100,
+    120,
+    96,
+    94
+   ],
+   "outline": "silhouette2",
+   "scale": 0.11795,
+   "footprint": [
+    3,
+    2
+   ],
+   "anchor": [
+    48.0,
+    94
+   ],
+   "footprint_origin": [
+    0.0,
+    30
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "scrap_yard_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   }
+  },
+  {
+   "name": "scrap_yard_pad-idle-blue",
+   "building": "scrap_yard_pad",
+   "code_type": "refinery",
+   "part": "pad",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    734,
+    291,
+    32,
+    32
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03513,
+   "anchor": [
+    16.0,
+    16.0
+   ],
+   "shadow": null,
+   "footprint": [
+    1,
+    1
+   ]
+  },
+  {
+   "name": "scrap_yard_pad-idle-red",
+   "building": "scrap_yard_pad",
+   "code_type": "refinery",
+   "part": "pad",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    768,
+    291,
+    32,
+    32
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03513,
+   "anchor": [
+    16.0,
+    16.0
+   ],
+   "shadow": null,
+   "footprint": [
+    1,
+    1
+   ]
+  },
+  {
+   "name": "turret-construct-blue",
+   "building": "turret",
+   "code_type": "turret",
+   "part": "base",
+   "state": "construct",
+   "team": "blue",
+   "rect": [
+    530,
+    291,
+    32,
+    38
+   ],
+   "outline": "silhouette2",
+   "scale": 0.04575,
+   "footprint": [
+    1,
+    1
+   ],
+   "anchor": [
+    16.0,
+    38
+   ],
+   "footprint_origin": [
+    0.0,
+    6
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 28,
+    "h": 28,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "turret_mount": [
+    15.82,
+    9.55
+   ],
+   "top": "turret_top",
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "turret-construct-red",
+   "building": "turret",
+   "code_type": "turret",
+   "part": "base",
+   "state": "construct",
+   "team": "red",
+   "rect": [
+    564,
+    291,
+    32,
+    38
+   ],
+   "outline": "silhouette2",
+   "scale": 0.04575,
+   "footprint": [
+    1,
+    1
+   ],
+   "anchor": [
+    16.0,
+    38
+   ],
+   "footprint_origin": [
+    0.0,
+    6
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 28,
+    "h": 28,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "turret_mount": [
+    15.82,
+    9.55
+   ],
+   "top": "turret_top",
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "turret-damaged-blue",
+   "building": "turret",
+   "code_type": "turret",
+   "part": "base",
+   "state": "damaged",
+   "team": "blue",
+   "rect": [
+    598,
+    291,
+    32,
+    38
+   ],
+   "outline": "silhouette2",
+   "scale": 0.04575,
+   "footprint": [
+    1,
+    1
+   ],
+   "anchor": [
+    16.0,
+    38
+   ],
+   "footprint_origin": [
+    0.0,
+    6
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 28,
+    "h": 28,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "turret_mount": [
+    15.82,
+    9.55
+   ],
+   "top": "turret_top"
+  },
+  {
+   "name": "turret-damaged-red",
+   "building": "turret",
+   "code_type": "turret",
+   "part": "base",
+   "state": "damaged",
+   "team": "red",
+   "rect": [
+    632,
+    291,
+    32,
+    38
+   ],
+   "outline": "silhouette2",
+   "scale": 0.04575,
+   "footprint": [
+    1,
+    1
+   ],
+   "anchor": [
+    16.0,
+    38
+   ],
+   "footprint_origin": [
+    0.0,
+    6
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 28,
+    "h": 28,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "turret_mount": [
+    15.82,
+    9.55
+   ],
+   "top": "turret_top"
+  },
+  {
+   "name": "turret-idle-blue",
+   "building": "turret",
+   "code_type": "turret",
+   "part": "base",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    666,
+    291,
+    32,
+    38
+   ],
+   "outline": "silhouette2",
+   "scale": 0.04575,
+   "footprint": [
+    1,
+    1
+   ],
+   "anchor": [
+    16.0,
+    38
+   ],
+   "footprint_origin": [
+    0.0,
+    6
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 28,
+    "h": 28,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "turret_mount": [
+    15.82,
+    9.55
+   ],
+   "top": "turret_top"
+  },
+  {
+   "name": "turret-idle-red",
+   "building": "turret",
+   "code_type": "turret",
+   "part": "base",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    700,
+    291,
+    32,
+    38
+   ],
+   "outline": "silhouette2",
+   "scale": 0.04575,
+   "footprint": [
+    1,
+    1
+   ],
+   "anchor": [
+    16.0,
+    38
+   ],
+   "footprint_origin": [
+    0.0,
+    6
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 28,
+    "h": 28,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "turret_mount": [
+    15.82,
+    9.55
+   ],
+   "top": "turret_top"
+  },
+  {
+   "name": "turret_top-idle-r0000-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    460,
+    358,
+    27,
+    16
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 0.0,
+   "anchor": [
+    9.0,
+    7.98
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r0000-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    489,
+    358,
+    27,
+    16
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 0.0,
+   "anchor": [
+    9.0,
+    7.98
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r0225-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    228,
+    358,
+    27,
+    18
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 22.5,
+   "anchor": [
+    9.47,
+    8.71
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r0225-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    257,
+    358,
+    27,
+    18
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 22.5,
+   "anchor": [
+    9.47,
+    8.71
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r0450-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    20,
+    358,
+    24,
+    24
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 45.0,
+   "anchor": [
+    9.68,
+    9.59
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r0450-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    46,
+    358,
+    24,
+    24
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 45.0,
+   "anchor": [
+    9.68,
+    9.59
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r0675-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    802,
+    291,
+    18,
+    27
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 67.5,
+   "anchor": [
+    8.8,
+    9.42
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r0675-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    822,
+    291,
+    18,
+    27
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 67.5,
+   "anchor": [
+    8.8,
+    9.42
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r0900-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    962,
+    291,
+    16,
+    27
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 90.0,
+   "anchor": [
+    8.02,
+    9.0
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r0900-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    980,
+    291,
+    16,
+    27
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 90.0,
+   "anchor": [
+    8.02,
+    9.0
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r1125-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    842,
+    291,
+    18,
+    27
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 112.5,
+   "anchor": [
+    9.29,
+    9.47
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r1125-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    862,
+    291,
+    18,
+    27
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 112.5,
+   "anchor": [
+    9.29,
+    9.47
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r1350-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    72,
+    358,
+    24,
+    24
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 135.0,
+   "anchor": [
+    14.41,
+    9.68
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r1350-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    98,
+    358,
+    24,
+    24
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 135.0,
+   "anchor": [
+    14.41,
+    9.68
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r1575-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    286,
+    358,
+    27,
+    18
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 157.5,
+   "anchor": [
+    17.58,
+    8.8
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r1575-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    315,
+    358,
+    27,
+    18
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 157.5,
+   "anchor": [
+    17.58,
+    8.8
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r1800-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    518,
+    358,
+    27,
+    16
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 180.0,
+   "anchor": [
+    18.0,
+    8.02
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r1800-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    547,
+    358,
+    27,
+    16
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 180.0,
+   "anchor": [
+    18.0,
+    8.02
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r2025-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    344,
+    358,
+    27,
+    18
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 202.5,
+   "anchor": [
+    17.53,
+    9.29
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r2025-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    373,
+    358,
+    27,
+    18
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 202.5,
+   "anchor": [
+    17.53,
+    9.29
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r2250-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    124,
+    358,
+    24,
+    24
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 225.0,
+   "anchor": [
+    14.32,
+    14.41
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r2250-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    150,
+    358,
+    24,
+    24
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 225.0,
+   "anchor": [
+    14.32,
+    14.41
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r2475-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    882,
+    291,
+    18,
+    27
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 247.5,
+   "anchor": [
+    9.2,
+    17.58
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r2475-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    902,
+    291,
+    18,
+    27
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 247.5,
+   "anchor": [
+    9.2,
+    17.58
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r2700-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    998,
+    291,
+    16,
+    27
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 270.0,
+   "anchor": [
+    7.98,
+    18.0
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r2700-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    2,
+    358,
+    16,
+    27
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 270.0,
+   "anchor": [
+    7.98,
+    18.0
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r2925-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    922,
+    291,
+    18,
+    27
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 292.5,
+   "anchor": [
+    8.71,
+    17.53
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r2925-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    942,
+    291,
+    18,
+    27
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 292.5,
+   "anchor": [
+    8.71,
+    17.53
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r3150-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    176,
+    358,
+    24,
+    24
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 315.0,
+   "anchor": [
+    9.59,
+    14.32
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r3150-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    202,
+    358,
+    24,
+    24
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 315.0,
+   "anchor": [
+    9.59,
+    14.32
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r3375-blue",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    402,
+    358,
+    27,
+    18
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 337.5,
+   "anchor": [
+    9.42,
+    9.2
+   ],
+   "shadow": null
+  },
+  {
+   "name": "turret_top-idle-r3375-red",
+   "building": "turret_top",
+   "code_type": "turret",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    431,
+    358,
+    27,
+    18
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03053,
+   "facing": 337.5,
+   "anchor": [
+    9.42,
+    9.2
+   ],
+   "shadow": null
+  }
+ ],
+ "team_ramps": {
+  "blue": {
+   "light": "#7FAEFF",
+   "base": "#3A7BFF",
+   "dark": "#1F4BB0"
+  },
+  "red": {
+   "light": "#FF7E66",
+   "base": "#E8432F",
+   "dark": "#8E2418"
+  }
+ },
+ "trim_mask": {
+  "image": "survivors-buildings-atlas-trim.png",
+  "size": [
+   1024,
+   512
+  ],
+  "rects": "same as frames[].rect",
+  "encoding": "alpha 255 = team trim; R=G=B: 255 light, 170 base, 85 dark"
+ },
+ "neutral": {
+  "image": "survivors-buildings-atlas-neutral.png",
+  "trim_image": "survivors-buildings-atlas-neutral-trim.png",
+  "size": [
+   1024,
+   256
+  ],
+  "trim_neutral_rgb": {
+   "light": "#FFFFFF",
+   "base": "#FFFFFF",
+   "dark": "#949494"
+  },
+  "frames": [
+   {
+    "name": "barracks-construct",
+    "building": "barracks",
+    "code_type": "barracks",
+    "part": "base",
+    "state": "construct",
+    "outline": "silhouette2",
+    "scale": 0.07916,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     68
+    ],
+    "footprint_origin": [
+     0.0,
+     4
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
+    "rect": [
+     134,
+     120,
+     64,
+     68
+    ]
+   },
+   {
+    "name": "barracks-damaged",
+    "building": "barracks",
+    "code_type": "barracks",
+    "part": "base",
+    "state": "damaged",
+    "outline": "silhouette2",
+    "scale": 0.07916,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     68
+    ],
+    "footprint_origin": [
+     0.0,
+     4
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     200,
+     120,
+     64,
+     68
+    ]
+   },
+   {
+    "name": "barracks-idle",
+    "building": "barracks",
+    "code_type": "barracks",
+    "part": "base",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.07916,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     68
+    ],
+    "footprint_origin": [
+     0.0,
+     4
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     266,
+     120,
+     64,
+     68
+    ]
+   },
+   {
+    "name": "depot-construct",
+    "building": "depot",
+    "code_type": "depot",
+    "part": "base",
+    "state": "construct",
+    "outline": "silhouette2",
+    "scale": 0.07937,
+    "footprint": [
+     2,
+     1
+    ],
+    "anchor": [
+     32.0,
+     53
+    ],
+    "footprint_origin": [
+     0.0,
+     21
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 28,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
+    "rect": [
+     530,
+     120,
+     64,
+     53
+    ]
+   },
+   {
+    "name": "depot-damaged",
+    "building": "depot",
+    "code_type": "depot",
+    "part": "base",
+    "state": "damaged",
+    "outline": "silhouette2",
+    "scale": 0.07937,
+    "footprint": [
+     2,
+     1
+    ],
+    "anchor": [
+     32.0,
+     53
+    ],
+    "footprint_origin": [
+     0.0,
+     21
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 28,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     596,
+     120,
+     64,
+     53
+    ]
+   },
+   {
+    "name": "depot-idle",
+    "building": "depot",
+    "code_type": "depot",
+    "part": "base",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.07937,
+    "footprint": [
+     2,
+     1
+    ],
+    "anchor": [
+     32.0,
+     53
+    ],
+    "footprint_origin": [
+     0.0,
+     21
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 28,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     662,
+     120,
+     64,
+     53
+    ]
+   },
+   {
+    "name": "factory-construct",
+    "building": "factory",
+    "code_type": "factory",
+    "part": "base",
+    "state": "construct",
+    "outline": "silhouette2",
+    "scale": 0.12058,
+    "footprint": [
+     3,
+     3
+    ],
+    "anchor": [
+     48.0,
+     85
+    ],
+    "footprint_origin": [
+     0.0,
+     -11
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 92,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
+    "rect": [
+     590,
+     2,
+     96,
+     85
+    ]
+   },
+   {
+    "name": "factory-damaged",
+    "building": "factory",
+    "code_type": "factory",
+    "part": "base",
+    "state": "damaged",
+    "outline": "silhouette2",
+    "scale": 0.12058,
+    "footprint": [
+     3,
+     3
+    ],
+    "anchor": [
+     48.0,
+     85
+    ],
+    "footprint_origin": [
+     0.0,
+     -11
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 92,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     688,
+     2,
+     96,
+     85
+    ]
+   },
+   {
+    "name": "factory-idle",
+    "building": "factory",
+    "code_type": "factory",
+    "part": "base",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.12058,
+    "footprint": [
+     3,
+     3
+    ],
+    "anchor": [
+     48.0,
+     85
+    ],
+    "footprint_origin": [
+     0.0,
+     -11
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 92,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     786,
+     2,
+     96,
+     85
+    ]
+   },
+   {
+    "name": "hq-construct",
+    "building": "hq",
+    "code_type": "hq",
+    "part": "base",
+    "state": "construct",
+    "outline": "silhouette2",
+    "scale": 0.13529,
+    "footprint": [
+     3,
+     3
+    ],
+    "anchor": [
+     48.0,
+     116
+    ],
+    "footprint_origin": [
+     0.0,
+     20
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 92,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
+    "rect": [
+     2,
+     2,
+     96,
+     116
+    ]
+   },
+   {
+    "name": "hq-damaged",
+    "building": "hq",
+    "code_type": "hq",
+    "part": "base",
+    "state": "damaged",
+    "outline": "silhouette2",
+    "scale": 0.13529,
+    "footprint": [
+     3,
+     3
+    ],
+    "anchor": [
+     48.0,
+     116
+    ],
+    "footprint_origin": [
+     0.0,
+     20
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 92,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     100,
+     2,
+     96,
+     116
+    ]
+   },
+   {
+    "name": "hq-idle",
+    "building": "hq",
+    "code_type": "hq",
+    "part": "base",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.13529,
+    "footprint": [
+     3,
+     3
+    ],
+    "anchor": [
+     48.0,
+     116
+    ],
+    "footprint_origin": [
+     0.0,
+     20
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 92,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     198,
+     2,
+     96,
+     116
+    ]
+   },
+   {
+    "name": "nuke_silo-closed",
+    "building": "nuke_silo",
+    "code_type": "silo",
+    "part": "base",
+    "state": "closed",
+    "outline": "silhouette2",
+    "scale": 0.08798,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     73
+    ],
+    "footprint_origin": [
+     0.0,
+     9
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     950,
+     2,
+     64,
+     73
+    ]
+   },
+   {
+    "name": "nuke_silo-construct",
+    "building": "nuke_silo",
+    "code_type": "silo",
+    "part": "base",
+    "state": "construct",
+    "outline": "silhouette2",
+    "scale": 0.08798,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     73
+    ],
+    "footprint_origin": [
+     0.0,
+     9
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
+    "rect": [
+     2,
+     120,
+     64,
+     73
+    ]
+   },
+   {
+    "name": "nuke_silo-damaged",
+    "building": "nuke_silo",
+    "code_type": "silo",
+    "part": "base",
+    "state": "damaged",
+    "outline": "silhouette2",
+    "scale": 0.08798,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     73
+    ],
+    "footprint_origin": [
+     0.0,
+     9
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     68,
+     120,
+     64,
+     73
+    ]
+   },
+   {
+    "name": "nuke_silo-open",
+    "building": "nuke_silo",
+    "code_type": "silo",
+    "part": "base",
+    "state": "open",
+    "outline": "silhouette2",
+    "scale": 0.08798,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     78
+    ],
+    "footprint_origin": [
+     0.0,
+     14
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     884,
+     2,
+     64,
+     78
+    ]
+   },
+   {
+    "name": "power_plant-construct",
+    "building": "power_plant",
+    "code_type": "power",
+    "part": "base",
+    "state": "construct",
+    "outline": "silhouette2",
+    "scale": 0.08535,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     65
+    ],
+    "footprint_origin": [
+     0.0,
+     1
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
+    "rect": [
+     332,
+     120,
+     64,
+     65
+    ]
+   },
+   {
+    "name": "power_plant-damaged",
+    "building": "power_plant",
+    "code_type": "power",
+    "part": "base",
+    "state": "damaged",
+    "outline": "silhouette2",
+    "scale": 0.08535,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     65
+    ],
+    "footprint_origin": [
+     0.0,
+     1
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     398,
+     120,
+     64,
+     65
+    ]
+   },
+   {
+    "name": "power_plant-idle",
+    "building": "power_plant",
+    "code_type": "power",
+    "part": "base",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.08535,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     65
+    ],
+    "footprint_origin": [
+     0.0,
+     1
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     464,
+     120,
+     64,
+     65
+    ]
+   },
+   {
+    "name": "scrap_yard-construct",
+    "building": "scrap_yard",
+    "code_type": "refinery",
+    "part": "base",
+    "state": "construct",
+    "outline": "silhouette2",
+    "scale": 0.11795,
+    "footprint": [
+     3,
+     2
+    ],
+    "anchor": [
+     48.0,
+     94
+    ],
+    "footprint_origin": [
+     0.0,
+     30
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "dock_pad": {
+     "tile": [
+      1,
+      2
+     ],
+     "frame": "scrap_yard_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
+    "rect": [
+     296,
+     2,
+     96,
+     94
+    ]
+   },
+   {
+    "name": "scrap_yard-damaged",
+    "building": "scrap_yard",
+    "code_type": "refinery",
+    "part": "base",
+    "state": "damaged",
+    "outline": "silhouette2",
+    "scale": 0.11795,
+    "footprint": [
+     3,
+     2
+    ],
+    "anchor": [
+     48.0,
+     94
+    ],
+    "footprint_origin": [
+     0.0,
+     30
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "dock_pad": {
+     "tile": [
+      1,
+      2
+     ],
+     "frame": "scrap_yard_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "rect": [
+     394,
+     2,
+     96,
+     94
+    ]
+   },
+   {
+    "name": "scrap_yard-idle",
+    "building": "scrap_yard",
+    "code_type": "refinery",
+    "part": "base",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.11795,
+    "footprint": [
+     3,
+     2
+    ],
+    "anchor": [
+     48.0,
+     94
+    ],
+    "footprint_origin": [
+     0.0,
+     30
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "dock_pad": {
+     "tile": [
+      1,
+      2
+     ],
+     "frame": "scrap_yard_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "rect": [
+     492,
+     2,
+     96,
+     94
+    ]
+   },
+   {
+    "name": "scrap_yard_pad-idle",
+    "building": "scrap_yard_pad",
+    "code_type": "refinery",
+    "part": "pad",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03513,
+    "anchor": [
+     16.0,
+     16.0
+    ],
+    "shadow": null,
+    "footprint": [
+     1,
+     1
+    ],
+    "rect": [
+     830,
+     120,
+     32,
+     32
+    ]
+   },
+   {
+    "name": "turret-construct",
+    "building": "turret",
+    "code_type": "turret",
+    "part": "base",
+    "state": "construct",
+    "outline": "silhouette2",
+    "scale": 0.04575,
+    "footprint": [
+     1,
+     1
+    ],
+    "anchor": [
+     16.0,
+     38
+    ],
+    "footprint_origin": [
+     0.0,
+     6
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 28,
+     "h": 28,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "turret_mount": [
+     15.82,
+     9.55
+    ],
+    "top": "turret_top",
+    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
+    "rect": [
+     728,
+     120,
+     32,
+     38
+    ]
+   },
+   {
+    "name": "turret-damaged",
+    "building": "turret",
+    "code_type": "turret",
+    "part": "base",
+    "state": "damaged",
+    "outline": "silhouette2",
+    "scale": 0.04575,
+    "footprint": [
+     1,
+     1
+    ],
+    "anchor": [
+     16.0,
+     38
+    ],
+    "footprint_origin": [
+     0.0,
+     6
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 28,
+     "h": 28,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "turret_mount": [
+     15.82,
+     9.55
+    ],
+    "top": "turret_top",
+    "rect": [
+     762,
+     120,
+     32,
+     38
+    ]
+   },
+   {
+    "name": "turret-idle",
+    "building": "turret",
+    "code_type": "turret",
+    "part": "base",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.04575,
+    "footprint": [
+     1,
+     1
+    ],
+    "anchor": [
+     16.0,
+     38
+    ],
+    "footprint_origin": [
+     0.0,
+     6
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 28,
+     "h": 28,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "turret_mount": [
+     15.82,
+     9.55
+    ],
+    "top": "turret_top",
+    "rect": [
+     796,
+     120,
+     32,
+     38
+    ]
+   },
+   {
+    "name": "turret_top-idle-r0000",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 0.0,
+    "anchor": [
+     9.0,
+     7.98
+    ],
+    "shadow": null,
+    "rect": [
+     196,
+     195,
+     27,
+     16
+    ]
+   },
+   {
+    "name": "turret_top-idle-r0225",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 22.5,
+    "anchor": [
+     9.47,
+     8.71
+    ],
+    "shadow": null,
+    "rect": [
+     80,
+     195,
+     27,
+     18
+    ]
+   },
+   {
+    "name": "turret_top-idle-r0450",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 45.0,
+    "anchor": [
+     9.68,
+     9.59
+    ],
+    "shadow": null,
+    "rect": [
+     980,
+     120,
+     24,
+     24
+    ]
+   },
+   {
+    "name": "turret_top-idle-r0675",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 67.5,
+    "anchor": [
+     8.8,
+     9.42
+    ],
+    "shadow": null,
+    "rect": [
+     864,
+     120,
+     18,
+     27
+    ]
+   },
+   {
+    "name": "turret_top-idle-r0900",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 90.0,
+    "anchor": [
+     8.02,
+     9.0
+    ],
+    "shadow": null,
+    "rect": [
+     944,
+     120,
+     16,
+     27
+    ]
+   },
+   {
+    "name": "turret_top-idle-r1125",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 112.5,
+    "anchor": [
+     9.29,
+     9.47
+    ],
+    "shadow": null,
+    "rect": [
+     884,
+     120,
+     18,
+     27
+    ]
+   },
+   {
+    "name": "turret_top-idle-r1350",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 135.0,
+    "anchor": [
+     14.41,
+     9.68
+    ],
+    "shadow": null,
+    "rect": [
+     2,
+     195,
+     24,
+     24
+    ]
+   },
+   {
+    "name": "turret_top-idle-r1575",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 157.5,
+    "anchor": [
+     17.58,
+     8.8
+    ],
+    "shadow": null,
+    "rect": [
+     109,
+     195,
+     27,
+     18
+    ]
+   },
+   {
+    "name": "turret_top-idle-r1800",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 180.0,
+    "anchor": [
+     18.0,
+     8.02
+    ],
+    "shadow": null,
+    "rect": [
+     225,
+     195,
+     27,
+     16
+    ]
+   },
+   {
+    "name": "turret_top-idle-r2025",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 202.5,
+    "anchor": [
+     17.53,
+     9.29
+    ],
+    "shadow": null,
+    "rect": [
+     138,
+     195,
+     27,
+     18
+    ]
+   },
+   {
+    "name": "turret_top-idle-r2250",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 225.0,
+    "anchor": [
+     14.32,
+     14.41
+    ],
+    "shadow": null,
+    "rect": [
+     28,
+     195,
+     24,
+     24
+    ]
+   },
+   {
+    "name": "turret_top-idle-r2475",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 247.5,
+    "anchor": [
+     9.2,
+     17.58
+    ],
+    "shadow": null,
+    "rect": [
+     904,
+     120,
+     18,
+     27
+    ]
+   },
+   {
+    "name": "turret_top-idle-r2700",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 270.0,
+    "anchor": [
+     7.98,
+     18.0
+    ],
+    "shadow": null,
+    "rect": [
+     962,
+     120,
+     16,
+     27
+    ]
+   },
+   {
+    "name": "turret_top-idle-r2925",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 292.5,
+    "anchor": [
+     8.71,
+     17.53
+    ],
+    "shadow": null,
+    "rect": [
+     924,
+     120,
+     18,
+     27
+    ]
+   },
+   {
+    "name": "turret_top-idle-r3150",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 315.0,
+    "anchor": [
+     9.59,
+     14.32
+    ],
+    "shadow": null,
+    "rect": [
+     54,
+     195,
+     24,
+     24
+    ]
+   },
+   {
+    "name": "turret_top-idle-r3375",
+    "building": "turret_top",
+    "code_type": "turret",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03053,
+    "facing": 337.5,
+    "anchor": [
+     9.42,
+     9.2
+    ],
+    "shadow": null,
+    "rect": [
+     167,
+     195,
+     27,
+     18
+    ]
+   }
+  ]
+ }
+}

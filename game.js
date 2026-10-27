@@ -57,6 +57,8 @@ for (const k in BDEF) BDEF[k].armor = 'structure';
 const BORDER = ['refinery', 'barracks', 'turret', 'factory', 'silo', 'power', 'depot'];
 const UORDER = [['gleaner', 'survivor', 'seraph', 'ark'], ['reaper', 'zombie', 'imp', 'brute']];
 const NUKE_CHARGE = 200, NUKE_R = 4.5;
+// visual only: newly placed buildings play the art's scaffold + bottom-up reveal over this many seconds (fully functional at once)
+const BUILD_REVEAL_S = 2;
 const DIFF = {
   easy: { name: 'Easy', inc: 0.75, prod: 0.85, firstWave: 300, waveGap: 150, minWave: 5, siloTime: 600 },
   normal: { name: 'Normal', inc: 1.0, prod: 1.0, firstWave: 220, waveGap: 120, minWave: 6, siloTime: 420 },
@@ -331,7 +333,7 @@ function makeUnit(type, side, x, y) {
 function makeBld(type, side, tx, ty) {
   const d = BDEF[type];
   const b = { id: ++idc, kind: 'b', type, side, d, tx, ty, w: d.w, h: d.h, x: (tx + d.w / 2) * TILE, y: (ty + d.h / 2) * TILE, r: Math.max(d.w, d.h) * TILE / 2,
-    hp: d.hp, maxhp: d.hp, cd: 0, target: null, weapon: type === 'turret' ? Combat.TOWERS.turret.dmgType[side] : null, armed: type === 'turret', charge: 0, rally: null, anim: Math.random() * 10, tang: 0, hitT: 0, dead: false, smokeT: 0 };
+    hp: d.hp, maxhp: d.hp, cd: 0, target: null, weapon: type === 'turret' ? Combat.TOWERS.turret.dmgType[side] : null, armed: type === 'turret', charge: 0, rally: null, anim: Math.random() * 10, tang: 0, hitT: 0, dead: false, smokeT: 0, bornT: G.started ? G.time : -1e9 };
   for (let y = ty; y < ty + d.h; y++) for (let x = tx; x < tx + d.w; x++) bgrid[y * MW + x] = b.id;
   bById.set(b.id, b);
   G.blds.push(b);
@@ -994,6 +996,22 @@ function drawUnit(c, u) {
   }
   c.restore();
 }
+// building art options for this frame: build progress (visual reveal), silo charge/launch, the game's actual dock pad tile
+function bldArtOpts(b) {
+  const o = { p: (G.time - (b.bornT !== undefined ? b.bornT : -1e9)) / BUILD_REVEAL_S, nukeCharge: NUKE_CHARGE };
+  if (b.type === 'silo') o.launching = UnitArt.launching(b, G.missiles);
+  if (b.pad !== undefined) o.padTile = [b.pad % MW, (b.pad / MW) | 0];
+  return o;
+}
+// procedural extras kept on top of the art: silo charge ring while charging, Scrap Yard stack smoke while unloading
+function bldArtOverlay(c, b, P) {
+  if (b.type === 'silo' && P.sel.p >= 1 && b.charge < NUKE_CHARGE) {
+    const f = b.charge / NUKE_CHARGE, cx = b.x, cy = b.y;
+    c.save(); c.globalAlpha *= 0.85; c.strokeStyle = b.side ? '#ff5a1a' : '#3A7BFF'; c.lineWidth = 2; c.beginPath(); c.arc(cx, cy + 4, 22, -Math.PI / 2, -Math.PI / 2 + f * Math.PI * 2); c.stroke(); c.restore();
+  }
+  if (b.type === 'refinery' && b.side === 0 && b.dockQ && b.dockQ[0] && b.dockQ[0].hs === 'unload' && !b.dockQ[0].blocked && Math.random() < 0.3)
+    G.fx.push({ k: 'smoke', x: b.tx * TILE + b.w * TILE - 12, y: P.oy + 6, t: 0, dur: 1.6 });
+}
 function drawBld(c, b) {
   const x = b.tx * TILE, y = b.ty * TILE, w = b.w * TILE, h = b.h * TILE, A = b.anim, ev = b.side === 1, t = b.type;
   c.save();
@@ -1200,19 +1218,33 @@ function render() {
   }
   // rally point of selected building
   for (const e of G.sel) if (e.kind === 'b' && e.rally) { ctx.strokeStyle = 'rgba(125,255,125,0.6)'; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(e.x, e.y); ctx.lineTo(e.rally.x, e.rally.y); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = '#7dff7d'; ctx.fillRect(e.rally.x - 1, e.rally.y - 12, 2, 12); ctx.fillRect(e.rally.x, e.rally.y - 12, 8, 5); }
-  // buildings
-  for (const b of G.blds) { if (b.dead || !onScreen(b.x, b.y, 120)) continue; if (b.side === 1 && !isVisible(b)) continue; drawBld(ctx, b); }
+  // buildings + ground units, y-sorted (buildings by footprint bottom); art buildings put shadows/pads on the ground first
+  const vb = G.blds.filter(b => !b.dead && onScreen(b.x, b.y, 140) && (b.side === 0 || isVisible(b)));
+  const plans = new Map();
+  if (typeof UnitArt !== 'undefined') for (const b of vb) { const P = UnitArt.planBuilding(b, bldArtOpts(b)); if (P) plans.set(b, P); }
+  for (const P of plans.values()) UnitArt.drawBuildingGround(ctx, P);
   // selection circles under units
   for (const e of G.sel) {
-    if (e.dead) continue;
+    if (e.dead || e.kind !== 'u') continue;
     ctx.strokeStyle = e.side === 0 ? '#6CFF6C' : '#FF5A5A'; ctx.lineWidth = 1.5;
-    if (e.kind === 'u') { ctx.beginPath(); ctx.ellipse(e.x, e.y + 2, e.r + 3, (e.r + 3) * 0.7, 0, 0, 7); ctx.stroke(); }
-    else { ctx.strokeRect(e.tx * TILE - 1, e.ty * TILE - 1, e.w * TILE + 2, e.h * TILE + 2); }
+    ctx.beginPath(); ctx.ellipse(e.x, e.y + 2, e.r + 3, (e.r + 3) * 0.7, 0, 0, 7); ctx.stroke();
   }
-  // units, ground then air
   const vu = G.units.filter(u => !u.dead && onScreen(u.x, u.y, 40) && (u.side === 0 || vis[tileOf(u.y) * MW + tileOf(u.x)]));
-  vu.sort((a, b) => (a.d.fly - b.d.fly) || (a.y - b.y));
-  for (const u of vu) drawUnit(ctx, u);
+  const ysort = [];
+  for (const b of vb) { const k = (b.ty + b.h) * TILE; ysort.push({ k, b, o: 0 }); const P = plans.get(b); if (P && P.sel.top) ysort.push({ k, b, o: 1 }); }
+  for (const u of vu) if (!u.d.fly) ysort.push({ k: u.y, u, o: 0 });
+  ysort.sort((a, b) => (a.k - b.k) || (a.o - b.o));   // tops after every base on the same row
+  for (const e of ysort) {
+    if (e.u) { drawUnit(ctx, e.u); continue; }
+    const b = e.b, P = plans.get(b);
+    if (!P) { drawBld(ctx, b); continue; }
+    if (e.o) { UnitArt.drawBuildingTop(ctx, P, { hit: b.hitT > 0 }); continue; }
+    UnitArt.drawBuildingBody(ctx, P, { hit: b.hitT > 0 });
+    bldArtOverlay(ctx, b, P);
+  }
+  for (const u of vu.filter(u => u.d.fly).sort((a, b) => a.y - b.y)) drawUnit(ctx, u);
+  // building selection boxes on top of the sprites
+  for (const e of G.sel) if (!e.dead && e.kind === 'b') { ctx.strokeStyle = e.side === 0 ? '#6CFF6C' : '#FF5A5A'; ctx.lineWidth = 1.5; ctx.strokeRect(e.tx * TILE - 1, e.ty * TILE - 1, e.w * TILE + 2, e.h * TILE + 2); }
   for (const p of G.proj) {
     if (!onScreen(p.x, p.y, 20)) continue;
     // projectiles aimed at air arc up toward the lifted sprite
@@ -1242,7 +1274,9 @@ function render() {
   // placement ghost
   if (G.placing) {
     const d = BDEF[G.placing], tx = tileOf(mouse.wx) - (d.w >> 1), ty = tileOf(mouse.wy) - (d.h >> 1), ok = canPlace(0, G.placing, tx, ty, 0);
-    ctx.globalAlpha = 0.5; drawBld(ctx, { tx, ty, w: d.w, h: d.h, x: (tx + d.w / 2) * TILE, y: (ty + d.h / 2) * TILE, anim: G.time, side: 0, type: G.placing, charge: 0, tang: 0, hitT: 0 }); ctx.globalAlpha = 1;
+    const gb = { tx, ty, w: d.w, h: d.h, x: (tx + d.w / 2) * TILE, y: (ty + d.h / 2) * TILE, anim: G.time, side: 0, type: G.placing, charge: 0, tang: 0, hitT: 0, hp: 1, maxhp: 1 };
+    const GP = typeof UnitArt !== 'undefined' ? UnitArt.planBuilding(gb, { ghost: true }) : null;   // HANDOFF-buildings §6: construct frame at 55%, red when invalid
+    ctx.globalAlpha = GP ? 0.55 : 0.5; if (GP) { UnitArt.drawBuildingGround(ctx, GP); UnitArt.drawBuildingBody(ctx, GP, { invalid: !ok }); } else drawBld(ctx, gb); ctx.globalAlpha = 1;
     for (let y = ty; y < ty + d.h; y++) for (let x = tx; x < tx + d.w; x++) { const i = y * MW + x, good = x >= 0 && y >= 0 && x < MW && y < MH && !BLOCK[terr[i]] && !bgrid[i] && !res[i]; ctx.fillStyle = ok && good ? 'rgba(80,255,80,0.3)' : 'rgba(255,60,60,0.4)'; ctx.fillRect(x * TILE, y * TILE, TILE, TILE); }
   }
   if (G.mode === 'nuke') { ctx.strokeStyle = '#fff3b0'; ctx.lineWidth = 2; ctx.setLineDash([8, 6]); ctx.beginPath(); ctx.arc(mouse.wx, mouse.wy, NUKE_R * TILE, 0, 7); ctx.stroke(); ctx.setLineDash([]); }

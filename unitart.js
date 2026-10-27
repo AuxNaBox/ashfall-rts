@@ -1,11 +1,35 @@
-// unitart.js: Artie's unit art v2 (rts-loops/art/units/HANDOFF.md) for the Canvas 2D renderer.
+// unitart.js: Artie's unit art (rts-loops/art/units/HANDOFF.md) and building art v1 (rts-loops/art/buildings/HANDOFF-buildings.md)
+// for the Canvas 2D renderer. One loader / recolour / baked-fallback machinery shared by every atlas set.
 // Pure helpers (manifest parsing, facing/heading selection, turret mount math, fallback selection) are DOM-free and
 // require()-able in node for tests; the loader/recolour/draw part only runs in the browser.
 // Any load failure or missing frame -> the caller keeps drawing that unit with its procedural sprite (one console warning max).
 (function (root) {
   'use strict';
-  const BASE = 'assets/units/';                     // relative to index.html (works on GitHub Pages / raw.githack)
+  const ROOT = 'assets/';                          // relative to index.html (works on GitHub Pages / raw.githack)
+  const BASE = ROOT + 'units/';
   const FACTIONS = ['survivors', 'horde'];
+  // atlas sets: id -> manifest path (relative to ROOT) + parser. Unit sets keep their v2 ids ('survivors'/'horde').
+  const SETS = {
+    survivors: { dir: 'units/', json: 'survivors-atlas.json', kind: 'units' },
+    horde: { dir: 'units/', json: 'horde-atlas.json', kind: 'units' },
+    'bld:survivors': { dir: 'buildings/', json: 'survivors-buildings-atlas.json', kind: 'buildings' },
+    'bld:horde': { dir: 'buildings/', json: 'horde-buildings-atlas.json', kind: 'buildings' },
+  };
+  // game building type (BDEF) -> building id per faction (HANDOFF-buildings §3). Frames are looked up by code_type.
+  const BLD_MAP = {
+    hq: { survivors: 'hq', horde: 'hive' },
+    power: { survivors: 'power_plant', horde: 'power_plant' },
+    refinery: { survivors: 'scrap_yard', horde: 'grinder_pit', pad: true },
+    depot: { survivors: 'depot', horde: 'depot' },
+    barracks: { survivors: 'barracks', horde: 'spawning_pit' },
+    factory: { survivors: 'factory', horde: 'factory' },
+    turret: { survivors: 'turret', horde: 'bone_spire', top: true },
+    silo: { survivors: 'nuke_silo', horde: 'hell_silo' },
+  };
+  const SIDE_FACTION = { 0: 'survivors', 1: 'horde' };
+  const DAMAGED_BELOW = 0.5;      // HANDOFF-buildings §5 "Suggested use: hp < 50%" (same line as game.js smoke)
+  const IDLE_TOP_HEADING = 90;    // turret / bone spire head before it has ever aimed: face south (towards the camera)
+  const LAUNCH_OPEN_S = 1.5;      // silo stays 'open' for the first 1.5 s of a launch (HANDOFF §5 "or during launch")
   // game unit type -> atlas unit (HANDOFF §7). Types not listed stay procedural.
   const UNIT_MAP = {
     survivor: { faction: 'survivors', unit: 'rifleman', kind: 'creature' },
@@ -122,32 +146,105 @@
     return px;
   }
 
-  // ---------- browser: load, recolour, draw ----------
-  const A = { ready: {}, man: {}, img: {}, trim: {}, cache: {}, baked: {}, bakedImg: {}, forceBaked: false, failed: {}, warned: false, team: Object.assign({}, DEFAULT_TEAM), base: BASE, stats: { drawn: 0, fallback: 0 } };
+  // ---------- buildings (pure) ----------
+  const bkey = (code, part, state, heading) => code + '|' + part + '|' + state + (part === 'top' ? '|' + snap16(heading || 0).toFixed(1) : '');
+  const okRect = f => f && Array.isArray(f.rect) && f.rect.length === 4 && Array.isArray(f.anchor);
+  function okBld(f) {
+    if (!okRect(f) || !f.code_type || !f.part || !f.state) return false;
+    if (f.part === 'base') return Array.isArray(f.footprint) && Array.isArray(f.footprint_origin);
+    if (f.part === 'top') return typeof f.facing === 'number';
+    return f.part === 'pad';
+  }
+  // never merge the two faction manifests by name (ids are shared): one parsed manifest per faction
+  function parseBuildingManifest(json) {
+    if (!json || !json.neutral || !Array.isArray(json.neutral.frames)) throw new Error('building art manifest: no neutral.frames');
+    const index = new Map(), baked = new Map();
+    for (const f of json.neutral.frames) if (okBld(f)) index.set(bkey(f.code_type, f.part, f.state, f.facing), f);
+    for (const f of Array.isArray(json.frames) ? json.frames : []) {
+      if (!f || !f.team || !okBld(f)) continue;
+      if (!baked.has(f.team)) baked.set(f.team, new Map());
+      baked.get(f.team).set(bkey(f.code_type, f.part, f.state, f.facing), f);
+    }
+    if (!index.size) throw new Error('building art manifest: no usable frames');
+    return { kind: 'buildings', index, baked, bakedImage: json.image, image: json.neutral.image, trim: json.neutral.trim_image, size: json.neutral.size, ramps: json.team_ramps || {}, defaultTeam: json.default_team, tile: json.tile || 32 };
+  }
+  const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
+  // is a nuke from this silo in its first LAUNCH_OPEN_S seconds? (game.js launchNuke: sx = s.x, sy = s.y - 20)
+  function launching(b, missiles) {
+    for (const m of missiles || []) if (m.side === b.side && m.sx === b.x && m.sy === b.y - 20 && m.t < LAUNCH_OPEN_S) return true;
+    return false;
+  }
+  // base state of a finished building: silo open (ready or launching) > damaged (hp < 50%) > idle/closed
+  function buildingState(b, o) {
+    o = o || {};
+    const silo = b.type === 'silo', intact = silo ? 'closed' : 'idle';
+    if (silo && ((o.nukeCharge && b.charge >= o.nukeCharge) || o.launching)) return 'open';
+    if (b.maxhp && b.hp < b.maxhp * DAMAGED_BELOW) return 'damaged';
+    return intact;
+  }
+  function topHeading(b) { return (!b.target && !b.tang) ? IDLE_TOP_HEADING : snap16(radToDeg(b.tang)); }
+  // frames for one building, or null -> procedural. o: { p: build progress 0..1 (undefined = built), nukeCharge, launching, ghost }
+  function selectBuilding(man, b, o, idx) {
+    o = o || {}; const index = idx || (man && man.index), t = b.type;
+    if (!index || !BLD_MAP[t]) return null;
+    const p = o.ghost ? 0 : o.p == null ? 1 : clamp01(o.p), building = p < 1;
+    const intact = t === 'silo' ? 'closed' : 'idle', state = building ? intact : buildingState(b, o);
+    const base = index.get(bkey(t, 'base', state)) || (state === 'idle' || state === 'closed' ? null : index.get(bkey(t, 'base', intact)));
+    if (!base) return null;
+    const construct = building ? index.get(bkey(t, 'base', 'construct')) || null : null;
+    if (o.ghost && !construct) return null;
+    let top = null, heading;
+    if (base.top) { heading = topHeading(b); top = index.get(bkey(t, 'top', 'idle', heading)); if (!top || !base.turret_mount) return null; }
+    let pad = null;
+    if (base.dock_pad) { pad = index.get(bkey(t, 'pad', 'idle')); if (!pad) return null; }
+    return { base, construct, top, pad, heading, p, state: o.ghost ? 'ghost' : building ? 'construct' : state };
+  }
+  // geometry (HANDOFF-buildings §4), all integer positions
+  const T32 = 32;
+  function bodyPos(f, tx, ty) { return [Math.round(tx * T32 - f.footprint_origin[0]), Math.round(ty * T32 - f.footprint_origin[1])]; }
+  function anchorPos(f, tx, ty) { const [ox, oy] = bodyPos(f, tx, ty); return [ox + f.anchor[0], oy + f.anchor[1]]; }   // = footprint bottom-centre
+  function topPos(base, top, ox, oy) { return [Math.round(ox + base.turret_mount[0] - top.anchor[0]), Math.round(oy + base.turret_mount[1] - top.anchor[1])]; }
+  function padPos(pad, ptx, pty) { return [Math.round(ptx * T32 + 16 - pad.anchor[0]), Math.round(pty * T32 + 16 - pad.anchor[1])]; }
+  function padTileOf(base, tx, ty) { const t = base.dock_pad.tile; return [tx + t[0], ty + t[1]]; }
+  function shadowGeom(f, tx, ty) {
+    const s = f.shadow; if (!s) return null;
+    return { shape: s.shape, cx: tx * T32 + f.footprint[0] * 16 + s.dx, cy: ty * T32 + f.footprint[1] * 16 + s.dy, w: s.w, h: s.h, alpha: s.alpha != null ? s.alpha : 0.3 };
+  }
+  const revealRows = (rh, p) => Math.round(rh * clamp01(p));
+  const sortKey = b => (b.ty + b.h) * T32;     // y-sort by footprint bottom
+
+  // ---------- browser: load, recolour, draw (shared by every atlas set) ----------
+  const A = { ready: {}, man: {}, img: {}, trim: {}, cache: {}, baked: {}, bakedImg: {}, tint: {}, forceBaked: false, failed: {}, warned: false, team: Object.assign({}, DEFAULT_TEAM), root: ROOT,
+    stats: { drawn: 0, fallback: 0, bDrawn: 0, bFallback: 0 } };
+  const url = (set, file) => A.root + SETS[set].dir + file;
   function warnOnce(msg) { if (A.warned) return; A.warned = true; if (typeof console !== 'undefined') console.warn('[unit art] ' + msg + ' - using procedural sprites'); }
   function loadImg(src) { return new Promise((res, rej) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => res(im); im.onerror = () => rej(new Error('failed to load ' + src)); im.src = src; }); }
+  function loadSet(set) {
+    const S = SETS[set], parse = S.kind === 'buildings' ? parseBuildingManifest : parseManifest, j0 = url(set, S.json);
+    return fetch(j0).catch(e => { throw new Error('failed to load ' + j0 + ' (' + e.message + ')'); }).then(r => { if (!r.ok) throw new Error(S.json + ' HTTP ' + r.status); return r.json(); })
+      .then(j => { const m = parse(j); return Promise.all([loadImg(url(set, m.image)), loadImg(url(set, m.trim))]).then(([im, tr]) => { A.man[set] = m; A.img[set] = im; A.trim[set] = tr; A.ready[set] = true; }); })
+      .catch(e => { A.failed[set] = true; warnOnce(e.message); });
+  }
   function load(opts) {
     opts = opts || {};
-    if (opts.base) A.base = opts.base;
+    if (opts.base) A.root = opts.base;
     if (opts.team) Object.assign(A.team, opts.team);
     if (opts.baked) A.forceBaked = true;
-    return Promise.all(FACTIONS.map(fac => fetch(A.base + fac + '-atlas.json').catch(e => { throw new Error('failed to load ' + A.base + fac + '-atlas.json (' + e.message + ')'); }).then(r => { if (!r.ok) throw new Error(fac + '-atlas.json HTTP ' + r.status); return r.json(); })
-      .then(j => { const m = parseManifest(j); return Promise.all([loadImg(A.base + m.image), loadImg(A.base + m.trim)]).then(([im, tr]) => { A.man[fac] = m; A.img[fac] = im; A.trim[fac] = tr; A.ready[fac] = true; }); })
-      .catch(e => { A.failed[fac] = true; warnOnce(e.message); })));
+    return Promise.all(Object.keys(SETS).filter(k => !opts.sets || opts.sets.includes(k)).map(loadSet));
   }
-  // one offscreen canvas per faction x team, built once (never per draw call)
+  // one offscreen canvas per set x team, built once (never per draw call)
   // recolour impossible -> load the baked colour atlas (drawImage of a cross-origin image is fine; only readback taints)
-  function useBaked(fac, why) {
-    if (A.baked[fac]) return; A.baked[fac] = 'loading';
+  function useBaked(set, why) {
+    if (A.baked[set]) return; A.baked[set] = 'loading';
     if (why) warnOnce('recolour unavailable (' + why + '), using baked team atlas');
-    loadImg(A.base + A.man[fac].bakedImage).then(im => { A.bakedImg[fac] = im; A.baked[fac] = 'ready'; }, e => { A.baked[fac] = 'failed'; A.failed[fac] = true; warnOnce(e.message); });
+    loadImg(url(set, A.man[set].bakedImage)).then(im => { A.bakedImg[set] = im; A.baked[set] = 'ready'; }, e => { A.baked[set] = 'failed'; A.failed[set] = true; warnOnce(e.message); });
   }
-  function atlasFor(fac, team) {
-    const k = fac + ':' + team; if (A.cache[k] !== undefined) return A.cache[k];
-    if (A.forceBaked) { useBaked(fac); return null; }
+  function atlasFor(set, team) {
+    const k = set + ':' + team; if (A.cache[k] !== undefined) return A.cache[k];
+    if (A.forceBaked) { useBaked(set); return null; }
     let c = null;
     try {
-      const img = A.img[fac], trim = A.trim[fac], ramp = A.man[fac].ramps[team] || RAMPS[team];   // manifest team_ramps first, code table for teams not baked (e.g. blue Horde)
+      const img = A.img[set], trim = A.trim[set], ramp = A.man[set].ramps[team] || RAMPS[team];   // manifest team_ramps first, code table for teams not baked (e.g. blue Horde)
       if (!ramp) throw new Error('no ramp for team ' + team);
       const w = img.width, h = img.height;
       c = document.createElement('canvas'); c.width = w; c.height = h;
@@ -157,8 +254,17 @@
       const px = g.getImageData(0, 0, w, h);                 // throws SecurityError if the canvas is tainted (cross-origin)
       recolourPixels(px.data, mg.getImageData(0, 0, w, h).data, ramp);
       g.putImageData(px, 0, 0);
-    } catch (e) { c = null; useBaked(fac, e.name === 'SecurityError' ? 'canvas tainted by cross-origin image' : e.message); }
+    } catch (e) { c = null; useBaked(set, e.name === 'SecurityError' ? 'canvas tainted by cross-origin image' : e.message); }
     return (A.cache[k] = c);
+  }
+  // atlas image + frame index for (set, team), or null (not ready / failed / baked still loading)
+  function atlasIndex(set, team) {
+    if (!A.ready[set] || A.failed[set]) return null;
+    const man = A.man[set];
+    const atlas = A.baked[set] ? null : atlasFor(set, team);
+    if (atlas) return { atlas, idx: man.index, man };
+    if (A.baked[set] === 'ready') { const idx = man.baked.get(team) || man.baked.get(man.defaultTeam); return idx ? { atlas: A.bakedImg[set], idx, man } : null; }
+    return null;
   }
   function shadow(c, cx, cy, s, rot) {
     c.save(); c.fillStyle = 'rgba(0,0,0,' + (s.alpha != null ? s.alpha : 0.3) + ')';
@@ -172,14 +278,11 @@
   // draws u at (u.x, u.y) [+ lift for air]; returns false -> caller draws the procedural sprite
   function draw(c, u, opts) {
     const map = UNIT_MAP[u.type]; if (!map || (u.side !== 0 && u.side !== 1)) return false;
-    const fac = map.faction; if (!A.ready[fac] || A.failed[fac]) { A.stats.fallback++; return false; }
-    const man = A.man[fac], team = A.team[u.side] || DEFAULT_TEAM[u.side];
-    let atlas = A.baked[fac] ? null : atlasFor(fac, team), idx;
-    if (!atlas && A.baked[fac] === 'ready') { atlas = A.bakedImg[fac]; idx = man.baked.get(team) || man.baked.get(man.defaultTeam); }
-    if (!atlas || (A.baked[fac] && !idx)) { A.stats.fallback++; return false; }
-    const sel = selectFrame(man, u.type, u, idx);
+    const fac = map.faction, team = A.team[u.side] || DEFAULT_TEAM[u.side];
+    const at = atlasIndex(fac, team); if (!at) { A.stats.fallback++; return false; }
+    const sel = selectFrame(at.man, u.type, u, at.idx);
     if (!sel) { warnOnce('no frame for ' + u.type); A.stats.fallback++; return false; }
-    const lift = (opts && opts.lift) || 0, bob = (opts && opts.bob) || 0;
+    const atlas = at.atlas, lift = (opts && opts.lift) || 0, bob = (opts && opts.bob) || 0;
     const px = u.x, py = u.y, f = sel.frame, s = f.shadow;
     const prev = c.imageSmoothingEnabled; c.imageSmoothingEnabled = false;
     if (sel.heading !== undefined) {
@@ -193,7 +296,66 @@
     c.imageSmoothingEnabled = prev; A.stats.drawn++;
     return true;
   }
-  const UnitArt = { BASE, UNIT_MAP, RAMPS, DEFAULT_TEAM, salvage, snap16, facing4, fkey, parseManifest, selectFrame, stateFor, topLeft, turretPos, recolourPixels, hexToRgb, load, draw, atlasFor, state: A };
+
+  // ---------- buildings (browser) ----------
+  // plan = everything needed to draw b this frame, or null -> procedural drawBld. o as selectBuilding (+ padTile [x,y] from the game)
+  function planBuilding(b, o) {
+    if (!BLD_MAP[b.type] || (b.side !== 0 && b.side !== 1)) return null;
+    const set = 'bld:' + SIDE_FACTION[b.side], team = A.team[b.side] || DEFAULT_TEAM[b.side];
+    const at = atlasIndex(set, team); if (!at) { A.stats.bFallback++; return null; }
+    const sel = selectBuilding(at.man, b, o, at.idx);
+    if (!sel) { warnOnce('no building frame for ' + b.type); A.stats.bFallback++; return null; }
+    const [ox, oy] = bodyPos(sel.base, b.tx, b.ty);
+    return { b, set, team, atlas: at.atlas, sel, ox, oy, padTile: (o && o.padTile) || (sel.pad ? padTileOf(sel.base, b.tx, b.ty) : null) };
+  }
+  function blitAt(c, atlas, f, x, y) { const [sx, sy, w, h] = f.rect; c.drawImage(atlas, sx, sy, w, h, x, y, w, h); }
+  // ground layer (before every body): footprint shadow (rect Survivors / ellipse Horde, 30% black, +3,+3) and the dock pad decal
+  function drawBuildingGround(c, P) {
+    const { b, sel } = P, g = shadowGeom(sel.base, b.tx, b.ty), prev = c.imageSmoothingEnabled; c.imageSmoothingEnabled = false;
+    const a = g ? g.alpha * (sel.state === 'ghost' ? 0 : sel.p) : 0;      // no shadow for the scaffold; 0.3*p during the reveal
+    if (a > 0) {
+      c.save(); c.fillStyle = 'rgba(0,0,0,' + a + ')';
+      if (g.shape === 'ellipse') { c.beginPath(); c.ellipse(g.cx, g.cy, g.w / 2, g.h / 2, 0, 0, Math.PI * 2); c.fill(); }
+      else c.fillRect(Math.round(g.cx - g.w / 2), Math.round(g.cy - g.h / 2), g.w, g.h);
+      c.restore();
+    }
+    if (sel.pad && P.padTile) { const [x, y] = padPos(sel.pad, P.padTile[0], P.padTile[1]); blitAt(c, P.atlas, sel.pad, x, y); }
+    c.imageSmoothingEnabled = prev; A.stats.bDrawn++;
+  }
+  // red-tinted copy of one frame (invalid placement ghost), cached
+  function tinted(P, f) {
+    const k = P.set + ':' + P.team + ':' + f.rect.join(','); if (A.tint[k]) return A.tint[k];
+    const [sx, sy, w, h] = f.rect, cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+    const g = cv.getContext('2d'); g.drawImage(P.atlas, sx, sy, w, h, 0, 0, w, h);
+    g.globalCompositeOperation = 'source-atop'; g.fillStyle = 'rgba(255,50,40,0.75)'; g.fillRect(0, 0, w, h);
+    return (A.tint[k] = cv);
+  }
+  // body: scaffold + bottom-up reveal while building, else the state frame; hit flash = additive redraw
+  function drawBuildingBody(c, P, o) {
+    const { sel, atlas, ox, oy } = P, prev = c.imageSmoothingEnabled; c.imageSmoothingEnabled = false;
+    if (sel.state === 'ghost') {
+      if (o && o.invalid) c.drawImage(tinted(P, sel.construct), ox, oy); else blitAt(c, atlas, sel.construct, ox, oy);
+    } else if (sel.p < 1) {
+      if (sel.construct) blitAt(c, atlas, sel.construct, ox, oy);
+      const [rx, ry, rw, rh] = sel.base.rect, k = revealRows(rh, sel.p);
+      if (k > 0) c.drawImage(atlas, rx, ry + rh - k, rw, k, ox, oy + rh - k, rw, k);
+    } else {
+      blitAt(c, atlas, sel.base, ox, oy);
+      if (o && o.hit) { c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha *= 0.35; blitAt(c, atlas, sel.base, ox, oy); c.restore(); }
+    }
+    c.imageSmoothingEnabled = prev;
+  }
+  // turret / bone spire head (drawn after neighbouring bases); never clipped
+  function drawBuildingTop(c, P, o) {
+    const { sel, atlas, ox, oy } = P; if (!sel.top || sel.p < 1) return;
+    const prev = c.imageSmoothingEnabled; c.imageSmoothingEnabled = false;
+    const [x, y] = topPos(sel.base, sel.top, ox, oy); blitAt(c, atlas, sel.top, x, y);
+    if (o && o.hit) { c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha *= 0.35; blitAt(c, atlas, sel.top, x, y); c.restore(); }
+    c.imageSmoothingEnabled = prev;
+  }
+  const UnitArt = { ROOT, BASE, SETS, UNIT_MAP, BLD_MAP, RAMPS, DEFAULT_TEAM, DAMAGED_BELOW, IDLE_TOP_HEADING, LAUNCH_OPEN_S, salvage, snap16, facing4, fkey, parseManifest, selectFrame, stateFor, topLeft, turretPos, recolourPixels, hexToRgb,
+    bkey, parseBuildingManifest, buildingState, launching, topHeading, selectBuilding, bodyPos, anchorPos, topPos, padPos, padTileOf, shadowGeom, revealRows, sortKey,
+    load, draw, atlasFor, atlasIndex, url, planBuilding, drawBuildingGround, drawBuildingBody, drawBuildingTop, state: A };
   if (typeof module !== 'undefined' && module.exports) module.exports = UnitArt;
   root.UnitArt = UnitArt;
 })(typeof window !== 'undefined' ? window : globalThis);
