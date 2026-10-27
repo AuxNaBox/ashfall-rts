@@ -1611,11 +1611,11 @@ $('bResume').onclick = () => togglePause();
 $('bMute').onclick = () => toggleMute();
 resize();
 showPanel('startPanel');
-// unit art v2: ?unitart=off forces procedural sprites; ?team0=red / ?team1=red pick the alternate team colour
+// unit art v2: ?unitart=off forces procedural sprites; ?unitart=baked skips the recolour (baked colour atlases); ?team0=red / ?team1=red pick the alternate team colour
 if (typeof UnitArt !== 'undefined') {
   const q = new URLSearchParams(location.search), team = {};
   if (q.get('team0')) team[0] = q.get('team0'); if (q.get('team1')) team[1] = q.get('team1');
-  if (q.get('unitart') !== 'off') UnitArt.load({ team });
+  if (q.get('unitart') !== 'off') UnitArt.load({ team, baked: q.get('unitart') === 'baked' });
 }
 requestAnimationFrame(frame);
 // test hook

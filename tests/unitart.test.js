@@ -103,3 +103,10 @@ test('recolourPixels rebuilds the trim ramp exactly and leaves non-trim pixels a
   const j = J('survivors-atlas.json').team_ramps; assert.deepEqual(j.blue, UA.RAMPS.blue); assert.deepEqual(j.red, UA.RAMPS.red);
   assert.deepEqual(J('horde-atlas.json').team_ramps.violet, UA.RAMPS.violet);
 });
+test('baked colour frames are indexed per team (used only when the recolour readback is impossible)', () => {
+  assert.deepEqual([...SUR.baked.keys()].sort(), ['blue', 'red']); assert.deepEqual([...HOR.baked.keys()].sort(), ['red', 'violet']);
+  assert.equal(SUR.bakedImage, 'survivors-atlas.png');
+  const s = UA.selectFrame(SUR, 'ark', { ang: 0, tang: Math.PI }, SUR.baked.get('red'));
+  assert.equal(s.frame.team, 'red'); assert.equal(s.turret.team, 'red'); assert.equal(s.turret.facing, 180);
+  const w = UA.selectFrame(HOR, 'zombie', { ang: Math.PI }, HOR.baked.get('violet')); assert.equal(w.frame.team, 'violet'); assert.equal(w.mirror, true);
+});

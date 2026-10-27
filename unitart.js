@@ -43,7 +43,14 @@
       if (!f || !f.unit || !f.state || f.facing === undefined || !Array.isArray(f.rect) || f.rect.length !== 4 || !Array.isArray(f.anchor)) continue;
       index.set(fkey(f.unit, f.state, f.facing), f);
     }
-    return { index, image: json.neutral.image, trim: json.neutral.trim_image, size: json.neutral.size, ramps: json.team_ramps || {}, defaultTeam: json.default_team };
+    // baked colour frames (team-specific) - used only if the runtime recolour is impossible (tainted canvas)
+    const baked = new Map();
+    for (const f of Array.isArray(json.frames) ? json.frames : []) {
+      if (!f || !f.team || !f.unit || !f.state || f.facing === undefined || !Array.isArray(f.rect) || f.rect.length !== 4 || !Array.isArray(f.anchor)) continue;
+      if (!baked.has(f.team)) baked.set(f.team, new Map());
+      baked.get(f.team).set(fkey(f.unit, f.state, f.facing), f);
+    }
+    return { index, baked, bakedImage: json.image, image: json.neutral.image, trim: json.neutral.trim_image, size: json.neutral.size, ramps: json.team_ramps || {}, defaultTeam: json.default_team };
   }
   function stateFor(map, u) {
     if (!map.cargo) return 'idle';
@@ -52,28 +59,29 @@
   }
   // which frame(s) to draw for a unit, or null -> procedural fallback
   // returns { frame, mirror, heading?, turret? } ; W = E mirrored (mirror_of_E)
-  function selectFrame(man, type, u) {
+  function selectFrame(man, type, u, idx) {
     const map = UNIT_MAP[type]; if (!man || !map) return null;
+    const index = idx || man.index;
     const state = stateFor(map, u);
     if (map.kind === 'vehicle') {
-      const heading = snap16(radToDeg(u.ang || 0)), frame = man.index.get(fkey(map.unit, state, heading));
+      const heading = snap16(radToDeg(u.ang || 0)), frame = index.get(fkey(map.unit, state, heading));
       if (!frame) return null;
       let turret = null;
       if (map.turret) {
         const aim = snap16(radToDeg(u.tang !== undefined ? u.tang : u.ang || 0));
-        turret = man.index.get(fkey(map.turret, 'idle', aim));
+        turret = index.get(fkey(map.turret, 'idle', aim));
         if (!turret || !frame.turret_mount) return null;  // never draw a tank without its turret
       }
       return { frame, mirror: false, heading, turret, state };
     }
     const f4 = facing4(u.ang);
     if (f4 === 'W') {
-      const e = man.index.get(fkey(map.unit, state, 'E'));
+      const e = index.get(fkey(map.unit, state, 'E'));
       if (e) return { frame: e, mirror: true, state };
-      const w = man.index.get(fkey(map.unit, state, 'W'));
+      const w = index.get(fkey(map.unit, state, 'W'));
       return w ? { frame: w, mirror: false, state } : null;
     }
-    const frame = man.index.get(fkey(map.unit, state, f4));
+    const frame = index.get(fkey(map.unit, state, f4));
     return frame ? { frame, mirror: false, state } : null;
   }
   // top-left (integer) for a frame whose anchor goes on (px, py). Mirrored: anchorW.x = w - anchorE.x
@@ -99,20 +107,28 @@
   }
 
   // ---------- browser: load, recolour, draw ----------
-  const A = { ready: {}, man: {}, img: {}, trim: {}, cache: {}, failed: {}, warned: false, team: Object.assign({}, DEFAULT_TEAM), base: BASE, stats: { drawn: 0, fallback: 0 } };
+  const A = { ready: {}, man: {}, img: {}, trim: {}, cache: {}, baked: {}, bakedImg: {}, forceBaked: false, failed: {}, warned: false, team: Object.assign({}, DEFAULT_TEAM), base: BASE, stats: { drawn: 0, fallback: 0 } };
   function warnOnce(msg) { if (A.warned) return; A.warned = true; if (typeof console !== 'undefined') console.warn('[unit art] ' + msg + ' - using procedural sprites'); }
-  function loadImg(src) { return new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => rej(new Error('failed to load ' + src)); im.src = src; }); }
+  function loadImg(src) { return new Promise((res, rej) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => res(im); im.onerror = () => rej(new Error('failed to load ' + src)); im.src = src; }); }
   function load(opts) {
     opts = opts || {};
     if (opts.base) A.base = opts.base;
     if (opts.team) Object.assign(A.team, opts.team);
+    if (opts.baked) A.forceBaked = true;
     return Promise.all(FACTIONS.map(fac => fetch(A.base + fac + '-atlas.json').catch(e => { throw new Error('failed to load ' + A.base + fac + '-atlas.json (' + e.message + ')'); }).then(r => { if (!r.ok) throw new Error(fac + '-atlas.json HTTP ' + r.status); return r.json(); })
       .then(j => { const m = parseManifest(j); return Promise.all([loadImg(A.base + m.image), loadImg(A.base + m.trim)]).then(([im, tr]) => { A.man[fac] = m; A.img[fac] = im; A.trim[fac] = tr; A.ready[fac] = true; }); })
       .catch(e => { A.failed[fac] = true; warnOnce(e.message); })));
   }
   // one offscreen canvas per faction x team, built once (never per draw call)
+  // recolour impossible -> load the baked colour atlas (drawImage of a cross-origin image is fine; only readback taints)
+  function useBaked(fac, why) {
+    if (A.baked[fac]) return; A.baked[fac] = 'loading';
+    if (why) warnOnce('recolour unavailable (' + why + '), using baked team atlas');
+    loadImg(A.base + A.man[fac].bakedImage).then(im => { A.bakedImg[fac] = im; A.baked[fac] = 'ready'; }, e => { A.baked[fac] = 'failed'; A.failed[fac] = true; warnOnce(e.message); });
+  }
   function atlasFor(fac, team) {
     const k = fac + ':' + team; if (A.cache[k] !== undefined) return A.cache[k];
+    if (A.forceBaked) { useBaked(fac); return null; }
     let c = null;
     try {
       const img = A.img[fac], trim = A.trim[fac], ramp = RAMPS[team] || A.man[fac].ramps[team];
@@ -125,7 +141,7 @@
       const px = g.getImageData(0, 0, w, h);                 // throws SecurityError if the canvas is tainted (cross-origin)
       recolourPixels(px.data, mg.getImageData(0, 0, w, h).data, ramp);
       g.putImageData(px, 0, 0);
-    } catch (e) { c = null; A.failed[fac] = true; warnOnce('recolour failed (' + e.message + ')'); }
+    } catch (e) { c = null; useBaked(fac, e.name === 'SecurityError' ? 'canvas tainted by cross-origin image' : e.message); }
     return (A.cache[k] = c);
   }
   function shadow(c, cx, cy, s, rot) {
@@ -141,9 +157,12 @@
   function draw(c, u, opts) {
     const map = UNIT_MAP[u.type]; if (!map || (u.side !== 0 && u.side !== 1)) return false;
     const fac = map.faction; if (!A.ready[fac] || A.failed[fac]) { A.stats.fallback++; return false; }
-    const sel = selectFrame(A.man[fac], u.type, u);
+    const man = A.man[fac], team = A.team[u.side] || DEFAULT_TEAM[u.side];
+    let atlas = A.baked[fac] ? null : atlasFor(fac, team), idx;
+    if (!atlas && A.baked[fac] === 'ready') { atlas = A.bakedImg[fac]; idx = man.baked.get(team) || man.baked.get(man.defaultTeam); }
+    if (!atlas || (A.baked[fac] && !idx)) { A.stats.fallback++; return false; }
+    const sel = selectFrame(man, u.type, u, idx);
     if (!sel) { warnOnce('no frame for ' + u.type); A.stats.fallback++; return false; }
-    const atlas = atlasFor(fac, A.team[u.side] || DEFAULT_TEAM[u.side]); if (!atlas) { A.stats.fallback++; return false; }
     const lift = (opts && opts.lift) || 0, bob = (opts && opts.bob) || 0;
     const px = u.x, py = u.y, f = sel.frame, s = f.shadow;
     const prev = c.imageSmoothingEnabled; c.imageSmoothingEnabled = false;
