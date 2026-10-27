@@ -6,6 +6,8 @@ const $ = id => document.getElementById(id);
 const view = $('view'), ctx = view.getContext('2d');
 const mini = $('mini'), mctx = mini.getContext('2d');
 let VW = 800, VH = 600;
+// mouse-over edge-scroll zone of the game view, in px (all four edges; was 14, x1.2 = 16.8 -> 17)
+const EDGE_SCROLL_PX = 17;
 function resize() { const g = $('game'); VW = view.width = g.clientWidth; VH = view.height = g.clientHeight; }
 window.addEventListener('resize', resize);
 
@@ -1496,7 +1498,7 @@ function updCamera(dt) {
   const sp = 800 * dt; let dx = 0, dy = 0;
   if (keys.ArrowLeft || keys.KeyA) dx -= sp;
   if (keys.ArrowRight || keys.KeyD) dx += sp; if (keys.ArrowUp || keys.KeyW) dy -= sp; if (keys.ArrowDown || keys.KeyS) dy += sp;
-  if (mouse.in && !mouse.down && document.hasFocus()) { const m = 14; if (mouse.x < m) dx -= sp; if (mouse.x > VW - m) dx += sp; if (mouse.y < m) dy -= sp; if (mouse.y > VH - m) dy += sp; }
+  if (mouse.in && !mouse.down && document.hasFocus()) { const m = EDGE_SCROLL_PX; if (mouse.x < m) dx -= sp; if (mouse.x > VW - m) dx += sp; if (mouse.y < m) dy -= sp; if (mouse.y > VH - m) dy += sp; }
   if (dx || dy) { cam.x += dx; cam.y += dy; clampCam(); updMouseWorld(); }
 }
 
@@ -1602,4 +1604,4 @@ resize();
 showPanel('startPanel');
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, dockPoint, command, step, newGame, UDEF, BDEF, queueItem, placeBld, canPlace, launchNuke, cam, centerOn };
+window.RTS = { get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, dockPoint, command, step, newGame, UDEF, BDEF, queueItem, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
