@@ -27,24 +27,30 @@ const SIDES = [
 const SD = Salvage.D; // balance table (salvage.js)
 const UDEF = {
   gleaner: { side: 0, name: 'Scrap Truck', desc: 'Salvage harvester. Unarmed', cost: SD.haulerCost, time: SD.haulerBuildTime, hp: SD.haulerHp, speed: SD.haulerSpeedTiles * 32, r: 12, sight: 5, harv: true, cap: SD.haulerCapacity, cat: 'vehicle', from: ['hq', 'factory'], heavy: true },
-  survivor: { side: 0, name: 'Rifleman', desc: 'Rifle infantry', cost: 100, time: 4, hp: 100, speed: 58, r: 7, sight: 6, dmg: 11, rof: 0.75, range: 4.5, inf: true, cat: 'infantry', from: ['barracks'], weapon: 'bullet' },
-  seraph: { side: 0, name: 'Angel', desc: 'Flying angel. Holy beam. Plague-immune', cost: 450, time: 9, hp: 240, speed: 88, r: 10, sight: 8, dmg: 30, rof: 1.3, range: 5, fly: true, cat: 'infantry', from: ['barracks'], weapon: 'beam' },
-  ark: { side: 0, name: 'Tank', desc: 'Heavy tank, splash shells', cost: 800, time: 13, hp: 700, speed: 40, r: 14, sight: 7, dmg: 75, rof: 2.2, range: 6, splash: 1.0, heavy: true, cat: 'vehicle', from: ['factory'], weapon: 'shell' },
+  survivor: { side: 0, name: 'Rifleman', desc: 'Rifle infantry. Hits air', cost: 100, time: 4, hp: 100, speed: 58, r: 7, sight: 6, dmg: 11, rof: 0.75, range: 4.5, inf: true, cat: 'infantry', from: ['barracks'], weapon: 'bullet' },
+  seraph: { side: 0, name: 'Angel', desc: 'Flying angel. Holy beam. Plague-immune. Purifies the dead within 4 tiles', cost: 450, time: 9, hp: 240, speed: 88, r: 10, sight: 8, dmg: 30, rof: 1.3, range: 5, fly: true, cat: 'infantry', from: ['barracks'], weapon: 'beam' },
+  ark: { side: 0, name: 'Tank', desc: 'Heavy tank, splash shells. Cannot hit air', cost: 800, time: 13, hp: 700, speed: 40, r: 14, sight: 7, dmg: 75, rof: 2.2, range: 6, splash: 1.0, heavy: true, cat: 'vehicle', from: ['factory'], weapon: 'shell' },
   reaper: { side: 1, name: 'Scrap Eater', desc: 'Salvage harvester. Unarmed', cost: SD.haulerCost, time: SD.haulerBuildTime, hp: SD.haulerHp, speed: SD.haulerSpeedTiles * 32, r: 12, sight: 5, harv: true, cap: SD.haulerCapacity, cat: 'vehicle', from: ['hq', 'factory'], heavy: true },
-  zombie: { side: 1, name: 'Zombie', desc: 'Cheap melee swarm', cost: 60, time: 2.5, hp: 120, speed: 36, r: 7, sight: 5, dmg: 13, rof: 1, range: 0.8, inf: true, melee: true, cat: 'infantry', from: ['barracks'], weapon: 'claw' },
-  imp: { side: 1, name: 'Imp', desc: 'Ranged fireball demon', cost: 200, time: 6, hp: 110, speed: 70, r: 8, sight: 6, dmg: 20, rof: 1.3, range: 4.5, inf: true, cat: 'infantry', from: ['barracks'], weapon: 'fireball' },
-  brute: { side: 1, name: 'Hellbrute', desc: 'Huge demon, cleaving melee', cost: 900, time: 14, hp: 1000, speed: 36, r: 15, sight: 6, dmg: 70, rof: 1.6, range: 1.1, splash: 0.9, melee: true, heavy: true, cat: 'vehicle', from: ['factory'], weapon: 'cleave' },
+  zombie: { side: 1, name: 'Zombie', desc: 'Cheap melee swarm. Cannot hit air. Heals in plague', cost: 60, time: 2.5, hp: 120, speed: 36, r: 7, sight: 5, dmg: 13, rof: 1, range: 0.8, inf: true, melee: true, cat: 'infantry', from: ['barracks'], weapon: 'claw' },
+  imp: { side: 1, name: 'Imp', desc: 'Ranged fire demon. Hits air', cost: 200, time: 6, hp: 110, speed: 70, r: 8, sight: 6, dmg: 20, rof: 1.3, range: 4.5, inf: true, cat: 'infantry', from: ['barracks'], weapon: 'fireball' },
+  brute: { side: 1, name: 'Hellbrute', desc: 'Huge demon, cleaving melee. Cannot hit air', cost: 900, time: 14, hp: 1000, speed: 36, r: 15, sight: 6, dmg: 70, rof: 1.6, range: 1.1, splash: 0.9, melee: true, heavy: true, cat: 'vehicle', from: ['factory'], weapon: 'cleave' },
 };
+// Loop 3: armor / damage type / hitsAir and spec stats come from combat.js (CS balance table)
+for (const k in UDEF) {
+  const c = Combat.UNITS[k], u = UDEF[k]; u.armor = c.armor; u.weapon = c.dmgType || undefined; u.hitsAir = !!c.dmgType && Combat.hitsAir(c.dmgType);
+  if (c.dmgType) Object.assign(u, { cost: c.cost, time: c.time, hp: c.hp, dmg: c.dmg, rof: c.rof, range: c.range, speed: c.speed * 32, sight: c.sight, splash: c.splash || 0 });
+}
 const BDEF = {
   hq: { name: ['HQ', 'Hive'], desc: 'Headquarters. Trains Scrap Trucks. Stores 2,000 Credits', w: 3, h: 3, hp: 2200, cost: 0, time: 0, sight: 8 },
   power: { name: ['Power Plant', 'Power Plant'], desc: 'Makes +100 power', w: 2, h: 2, hp: SD.powerPlantHp, cost: SD.powerPlantCost, time: SD.powerPlantBuildTime, req: ['hq'], sight: 4 },
   refinery: { name: ['Scrap Yard', 'Grinder Pit'], desc: 'Salvage drop-off with one dock pad. Stores 2,000 Credits. Comes with a free truck. Uses 30 power', w: 3, h: 2, hp: SD.plantHp, cost: SD.plantCost, time: SD.plantBuildTime, req: ['power'], sight: 5 },
   depot: { name: ['Depot', 'Depot'], desc: 'Stores 1,500 more Credits. Uses 10 power', w: 2, h: 1, hp: SD.depotHp, cost: SD.depotCost, time: SD.depotBuildTime, req: ['refinery'], sight: 4 },
   barracks: { name: ['Barracks', 'Spawning Pit'], desc: 'Trains infantry. Uses 20 power', w: 2, h: 2, hp: 800, cost: 500, time: 8, req: ['hq'], sight: 5 },
-  turret: { name: ['Turret', 'Bone Spire'], desc: 'Defense tower. Uses 20 power', w: 1, h: 1, hp: 650, cost: 600, time: 9, req: ['barracks'], sight: 7, dmg: 28, rof: 0.9, range: 6.5 },
+  turret: { name: ['Turret', 'Bone Spire'], desc: 'Defense tower. Hits air. Uses 20 power', w: 1, h: 1, hp: 650, cost: 600, time: 9, req: ['barracks'], sight: 7, dmg: 28, rof: 0.9, range: 6.5 },
   factory: { name: ['Factory', 'Factory'], desc: 'Builds heavy units. Uses 40 power', w: 3, h: 3, hp: 1200, cost: 2000, time: 15, req: ['refinery'], sight: 5 },
   silo: { name: ['Nuke Silo', 'Hell Silo'], desc: 'Superweapon. Charges a nuke. Uses 50 power', w: 2, h: 2, hp: 1000, cost: 2500, time: 22, req: ['factory'], sight: 5 },
 };
+for (const k in BDEF) BDEF[k].armor = 'structure';
 const BORDER = ['refinery', 'barracks', 'turret', 'factory', 'silo', 'power', 'depot'];
 const UORDER = [['gleaner', 'survivor', 'seraph', 'ark'], ['reaper', 'zombie', 'imp', 'brute']];
 const NUKE_CHARGE = 200, NUKE_R = 4.5;
@@ -322,7 +328,7 @@ function makeUnit(type, side, x, y) {
 function makeBld(type, side, tx, ty) {
   const d = BDEF[type];
   const b = { id: ++idc, kind: 'b', type, side, d, tx, ty, w: d.w, h: d.h, x: (tx + d.w / 2) * TILE, y: (ty + d.h / 2) * TILE, r: Math.max(d.w, d.h) * TILE / 2,
-    hp: d.hp, maxhp: d.hp, cd: 0, target: null, charge: 0, rally: null, anim: Math.random() * 10, tang: 0, hitT: 0, dead: false, smokeT: 0 };
+    hp: d.hp, maxhp: d.hp, cd: 0, target: null, weapon: type === 'turret' ? Combat.TOWERS.turret.dmgType[side] : null, armed: type === 'turret', charge: 0, rally: null, anim: Math.random() * 10, tang: 0, hitT: 0, dead: false, smokeT: 0 };
   for (let y = ty; y < ty + d.h; y++) for (let x = tx; x < tx + d.w; x++) bgrid[y * MW + x] = b.id;
   bById.set(b.id, b);
   G.blds.push(b);
@@ -388,6 +394,7 @@ function separate() {
     for (let j = i + 1; j < n; j++) {
       const b = us[j]; if (b.d.fly || b.dead) continue;
       if (a.d.harv && b.d.harv) continue; // trucks pass each other: avoids head-on jams at the dock
+      if (a.side !== b.side && ((a.d.harv && b.d.armor === 'light') || (b.d.harv && a.d.armor === 'light'))) continue; // trucks drive over enemy infantry (crush)
       const dx = b.x - a.x, dy = b.y - a.y, md = (a.r + b.r) * 0.85;
       if (Math.abs(dx) > md || Math.abs(dy) > md) continue;
       let d = Math.hypot(dx, dy); if (d >= md) continue;
@@ -416,18 +423,24 @@ function orderMove(u, x, y, am) {
   u.order = am ? 'attackmove' : 'move'; moveTo(u, x, y);
 }
 function orderAttack(list, t) {
-  for (const u of list) { if (u.d.harv) continue; u.target = t; u.tmode = 'forced'; u.order = 'attack'; u.repath = 0; u.path = null; }
+  for (const u of list) { if (u.d.harv || !canAttack(u, t)) continue; u.target = t; u.tmode = 'forced'; u.order = 'attack'; u.repath = 0; u.path = null; }
 }
 function orderHarvest(u, tileIdx) { u.lastTile = tileIdx; SAL.orderPile(u, tileIdx); }
 function orderDock(u, b) { SAL.orderPlant(u, b); }
 function stopUnits(list) { for (const u of list) { u.path = null; u.target = null; u.order = 'idle'; if (u.d.harv) SAL.park(u); } }
 
 // ---------------- targeting / combat ----------------
+const armorOf = e => e.kind === 'b' ? 'structure' : e.d.armor;
+const weaponOf = e => e.kind === 'b' ? e.weapon : e.d.weapon;
+const canAttack = (a, t) => { const w = weaponOf(a); return !!w && Combat.canHit(w, armorOf(t)); };
 function findEnemy(e, range, side) {
-  let best = null, bd = 1e9;
-  for (const o of G.units) { if (o.side === side || o.dead) continue; const d = edgeDist(e.x, e.y, o) - (o.d.harv ? 0 : -0.01); if (d < range && d < bd) { bd = d; best = o; } }
-  if (best) return best;
-  if (e.kind === 'u') for (const o of G.blds) { if (o.side === side || o.dead) continue; const d = edgeDist(e.x, e.y, o); if (d < range && d < bd) { bd = d; best = o; } }
+  // tiers (combat.js targetTier): armed enemies first, then trucks (units only), then unarmed buildings; nearest within a tier
+  const w = weaponOf(e); if (!w) return null;
+  const isB = e.kind === 'b';
+  let best = null, bt = 9, bd = 1e9;
+  const consider = (o, tier) => { if (tier > bt) return; const d = edgeDist(e.x, e.y, o); if (d >= range) return; if (tier < bt || d < bd) { bt = tier; bd = d; best = o; } };
+  for (const o of G.units) { if (o.side === side || o.dead || !Combat.canHit(w, o.d.armor)) continue; consider(o, Combat.targetTier(isB, { kind: 'u', harv: !!o.d.harv })); }
+  if (!isB) for (const o of G.blds) { if (o.side === side || o.dead || !Combat.canHit(w, 'structure')) continue; consider(o, Combat.targetTier(false, o)); }
   return best;
 }
 function updUnit(u, dt) {
@@ -451,6 +464,7 @@ function updUnit(u, dt) {
 }
 function engage(u, dt) {
   const t = u.target, rng = u.d.range * TILE;
+  if (!canAttack(u, t)) { u.target = null; if (u.order === 'attack') u.order = 'idle'; return; }
   const ed = edgeDist(u.x, u.y, t) - u.r * 0.5;
   if (ed <= rng) {
     u.moving = false; u.path = null;
@@ -470,30 +484,31 @@ function engage(u, dt) {
 }
 function fire(s, t) {
   const side = s.side;
-  const w = s.kind === 'b' ? (side ? 'spine' : 'beam') : s.d.weapon;
+  const w = weaponOf(s), air = t.kind === 'u' && t.d.fly ? Combat.D.projArcPx : 0;
   const dmg = s.d.dmg;
   const ox = s.x + Math.cos(s.tang) * (s.r * 0.8), oy = s.y + Math.sin(s.tang) * (s.r * 0.8) - (s.d.fly ? 9 : s.kind === 'b' ? 14 : 0);
-  if (w === 'bullet') { G.fx.push({ k: 'line', x1: ox, y1: oy, x2: t.x + (Math.random() - 0.5) * 6, y2: t.y + (Math.random() - 0.5) * 6, c: '#ffe9a0', w: 1.5, t: 0, dur: 0.07 }); damage(t, dmg, s, w); sfx('shot', s.x, s.y); }
-  else if (w === 'beam') { G.fx.push({ k: 'beam', x1: ox, y1: oy, x2: t.x, y2: t.y, c: side ? '#ff5030' : '#9FE8FF', t: 0, dur: 0.18 }); G.fx.push({ k: 'spark', x: t.x, y: t.y, c: '#fff6c0', t: 0, dur: 0.3 }); damage(t, dmg, s, w); sfx('beam', s.x, s.y); }
+  if (w === 'bullet') { const hx = t.x + (Math.random() - 0.5) * 6, hy = t.y - air + (Math.random() - 0.5) * 6; G.fx.push({ k: 'line', x1: ox, y1: oy, x2: hx, y2: hy, c: s.kind === 'b' ? '#DDF6FF' : '#ffe9a0', w: s.kind === 'b' ? 2 : 1.5, t: 0, dur: 0.07 }); G.fx.push({ k: 'spark', x: hx, y: hy, c: '#ffe9a0', t: 0, dur: 0.15 }); damage(t, dmg, s, w); sfx('shot', s.x, s.y); }
+  else if (w === 'beam') { G.fx.push({ k: 'beam', x1: ox, y1: oy, x2: t.x, y2: t.y - air, c: side ? '#ff5030' : '#9FE8FF', t: 0, dur: 0.18 }); G.fx.push({ k: 'spark', x: t.x, y: t.y, c: '#fff6c0', t: 0, dur: 0.3 }); damage(t, dmg, s, w); sfx('beam', s.x, s.y); }
   else if (w === 'claw' || w === 'cleave') {
     G.fx.push({ k: 'slash', x: t.x, y: t.y, a: s.ang, r: w === 'cleave' ? 18 : 9, t: 0, dur: 0.2 });
     if (w === 'cleave') areaDamage(t.x, t.y, s.d.splash * TILE, dmg, s, w); else damage(t, dmg, s, w);
     sfx('claw', s.x, s.y);
   } else {
-    G.proj.push({ x: ox, y: oy, t, tx: t.x, ty: t.y, sp: w === 'shell' ? 320 : w === 'spine' ? 380 : 220, w, dmg, s, side, splash: s.d.splash || (w === 'fireball' ? 0.35 : 0) });
-    sfx(w === 'fireball' ? 'fire' : 'shot', s.x, s.y);
+    const bolt = w === 'fire' && s.kind === 'b'; // Bone Spire fire bolt (Imp throws a fireball)
+    G.proj.push({ x: ox, y: oy, sx: ox, sy: oy, t, tx: t.x, ty: t.y - air, air, sp: w === 'shell' ? 320 : bolt ? 380 : 220, w, bolt, dmg, s, side, splash: s.kind === 'b' ? 0 : (s.d.splash || 0) });
+    sfx(w === 'fire' ? 'fire' : 'shot', s.x, s.y);
   }
 }
 function updProj(dt) {
   for (const p of G.proj) {
-    if (p.t && !p.t.dead) { p.tx = p.t.x; p.ty = p.t.y; }
+    if (p.t && !p.t.dead) { p.tx = p.t.x; p.ty = p.t.y - (p.air || 0); }
     const dx = p.tx - p.x, dy = p.ty - p.y, d = Math.hypot(dx, dy), st = p.sp * dt;
-    if (p.w === 'fireball' && Math.random() < 0.6) G.fx.push({ k: 'ember', x: p.x, y: p.y, vx: (Math.random() - 0.5) * 20, vy: (Math.random() - 0.5) * 20, c: '#ff9a30', t: 0, dur: 0.35 });
+    if (p.w === 'fire' && Math.random() < 0.6) G.fx.push({ k: 'ember', x: p.x, y: p.y, vx: (Math.random() - 0.5) * 20, vy: (Math.random() - 0.5) * 20, c: '#ff9a30', t: 0, dur: 0.35 });
     if (d <= st) {
       p.done = true;
-      if (p.splash) areaDamage(p.tx, p.ty, p.splash * TILE, p.dmg, p.s, p.w);
+      if (p.splash) areaDamage(p.tx, p.ty + (p.air || 0), p.splash * TILE, p.dmg, p.s, p.w);
       else if (p.t && !p.t.dead) damage(p.t, p.dmg, p.s, p.w);
-      G.fx.push({ k: 'boom', x: p.tx, y: p.ty, r: p.w === 'shell' ? 16 : 9, c: p.w === 'spine' ? '#e8dcc0' : '#ff8a30', t: 0, dur: 0.35 });
+      G.fx.push({ k: 'boom', x: p.tx, y: p.ty, r: p.w === 'shell' ? 16 : 9, c: p.bolt ? '#ffb040' : '#ff8a30', t: 0, dur: 0.35 });
       if (p.w === 'shell') sfx('boom', p.tx, p.ty);
     } else { p.x += dx / d * st; p.y += dy / d * st; p.a = Math.atan2(dy, dx); }
   }
@@ -501,19 +516,25 @@ function updProj(dt) {
 }
 function areaDamage(x, y, r, dmg, src, w) {
   const side = src && src.side;
-  for (const u of G.units) if (!u.dead && u.side !== side) { const d = edgeDist(x, y, u); if (d < r) damage(u, dmg * (1 - 0.5 * Math.max(0, d) / r), src, w); }
+  for (const u of G.units) if (!u.dead && u.side !== side && Combat.canHit(w, u.d.armor)) { const d = edgeDist(x, y, u); if (d < r) damage(u, dmg * (1 - 0.5 * Math.max(0, d) / r), src, w); }
   for (const b of G.blds) if (!b.dead && b.side !== side) { const d = edgeDist(x, y, b); if (d < r) damage(b, dmg * (1 - 0.5 * d / r), src, w); }
 }
 function damage(t, amt, src, w) {
   if (t.dead) return;
-  if (t.kind === 'u' && t.d.heavy && (w === 'bullet' || w === 'claw')) amt *= 0.6;
-  if (t.kind === 'b' && (w === 'bullet' || w === 'claw' || w === 'fireball')) amt *= 0.6;
-  if (t.kind === 'u' && t.d.inf && w === 'shell') amt *= 0.8;
+  amt *= Combat.mult(w, armorOf(t)); // CS damage matrix (unknown types such as plague or nuke: x1)
   t.hp -= amt; t.hitT = 0.12;
   if (t.side === 0 && w !== 'plague') alertAttack(t);
   if (t.hp <= 0) kill(t, src, w);
-  else if (t.kind === 'u' && t.side === 1 && src && src.kind === 'u' && !t.target && !t.d.harv && t.order !== 'move') { t.target = src; t.tmode = 'auto'; }
-  else if (t.kind === 'u' && t.side === 0 && src && src.kind === 'u' && !t.target && !t.d.harv && t.order === 'idle') { t.target = src; t.tmode = 'auto'; }
+  else if (t.kind === 'u' && t.d.harv) truckHurt(t);
+  else if (t.kind === 'u' && t.side === 1 && src && src.kind === 'u' && !t.target && t.order !== 'move' && canAttack(t, src)) { t.target = src; t.tmode = 'auto'; }
+  else if (t.kind === 'u' && t.side === 0 && src && src.kind === 'u' && !t.target && t.order === 'idle' && canAttack(t, src)) { t.target = src; t.tmode = 'auto'; }
+}
+// Loop 1 rule kept by CS: a truck below 50% HP goes home to unload (once per life: there is no repair yet), and never fights back
+function truckHurt(t) {
+  if (t.retreated || t.hp >= t.maxhp * Combat.D.truckRetreatPct) return;
+  t.retreated = true;
+  const p = SAL.nearestPlant(t); if (p && t.load > 0 && t.hs !== 'unload' && t.hs !== 'queue') SAL.orderPlant(t, p);
+  if (t.side === 0) msg('Scrap Truck damaged: returning to the Scrap Yard.', '#ffb060', t.x, t.y);
 }
 function alertAttack(t) {
   const now = G.time;
@@ -529,8 +550,11 @@ function kill(t, src, w) {
     if (t.d.inf) { G.fx.push({ k: 'blood', x: t.x, y: t.y, c: t.side ? (t.type === 'zombie' ? '#4a5a2a' : '#8a1a10') : '#7a1010', t: 0, dur: 0.6 }); G.decals.push({ k: 'blood', x: t.x, y: t.y, c: t.side ? '#3a3a1a' : '#4a0a08', a: Math.random() * 6, t: 0 }); }
     else { G.fx.push({ k: 'boom', x: t.x, y: t.y, r: 26, c: '#ffa040', t: 0, dur: 0.6 }); G.decals.push({ k: 'scorch', x: t.x, y: t.y, r: 18, t: 0 }); sfx('boom', t.x, t.y); }
     // the dead rise
-    if (t.side === 0 && t.type === 'survivor' && (w === 'plague' || (src && src.type === 'zombie'))) {
-      G.rises.push({ x: t.x, y: t.y, t: 1.6 });
+    if (t.d.harv && t.load > 0) dropCargo(t);
+    if (Combat.riseEligible(t.type, t.side, w) && Combat.purified(t.x, t.y, G.units.filter(a => a.side === 0 && a.type === 'seraph'), TILE)) {
+      G.stats.purified = (G.stats.purified || 0) + 1; G.fx.push({ k: 'purify', x: t.x, y: t.y, t: 0, dur: 0.7 });
+    } else if (Combat.riseEligible(t.type, t.side, w)) {
+      G.rises.push({ x: t.x, y: t.y, t: Combat.D.riseDelay });
       if (!G.riseMsg) { G.riseMsg = true; msg('The dead rise! Fallen infantry return as zombies.', '#9fe07a', t.x, t.y); }
     }
   } else {
@@ -543,6 +567,27 @@ function kill(t, src, w) {
     sfx('boom', t.x, t.y); shake(6);
     if (t.side === 0) msg(`${ename(t)} destroyed!`, '#ff6a3d', t.x, t.y);
     else msg(`Enemy ${ename(t)} destroyed.`, '#DDF6FF');
+  }
+}
+
+// half the cargo drops as a Scrap Pile on the nearest Salvage Field tile (Loop 1 spec)
+function dropCargo(t) {
+  const amt = Math.floor(t.load * Combat.D.truckDropPct), cx = tileOf(t.x), cy = tileOf(t.y), R = Combat.D.truckDropSearchTiles;
+  let bi = -1, bd = 1e9;
+  for (let dy = -R; dy <= R; dy++) for (let dx = -R; dx <= R; dx++) { const x = cx + dx, y = cy + dy; if (x < 0 || y < 0 || x >= MW || y >= MH) continue; const i = y * MW + x; if (SAL.field[i] < 0 || bgrid[i]) continue; const d = dx * dx + dy * dy; if (d < bd) { bd = d; bi = i; } }
+  if (bi < 0 || amt <= 0) return;
+  res[bi] = Math.min(65535, res[bi] + amt); G.fx.push({ k: 'dust', x: (bi % MW) * TILE + 16, y: ((bi / MW) | 0) * TILE + 16, t: 0, dur: 0.6 });
+}
+// a moving truck crushes enemy Light infantry under its centre (CS); crushed bodies never rise
+function updCrush() {
+  for (const u of G.units) {
+    if (u.dead || !u.d.harv) continue;
+    const moved = u.cx0 !== undefined && Math.hypot(u.x - u.cx0, u.y - u.cy0) > 0.01; u.cx0 = u.x; u.cy0 = u.y;
+    if (!moved) continue;
+    for (const o of G.units) if (!o.dead && !o.d.fly && Combat.canCrush(u, { side: o.side, dead: o.dead, armor: o.d.armor, x: o.x, y: o.y })) {
+      kill(o, u, 'crush'); G.stats.crushed = (G.stats.crushed || 0) + 1;
+      G.fx.push({ k: 'blood', x: o.x, y: o.y, c: o.side ? '#4a5a2a' : '#7a1010', t: 0, dur: 0.6 }); G.decals.push({ k: 'blood', x: o.x, y: o.y, c: o.side ? '#3a3a1a' : '#4a0a08', a: Math.random() * 6, t: 0 });
+    }
   }
 }
 
@@ -699,15 +744,15 @@ function updEnv(dt) {
       if (u.dead) continue;
       const i = tileOf(u.y) * MW + tileOf(u.x);
       if (plague[i] && !u.d.fly) {
-        if (u.side === 0) { damage(u, u.d.inf ? 4 : 3, null, 'plague'); if (!G.plagueMsg) { G.plagueMsg = true; msg('Plague zone! It eats our ground units and heals the Horde.', '#9fe07a', u.x, u.y); } }
-        else u.hp = Math.min(u.maxhp, u.hp + 3);
+        if (u.side === 0) { damage(u, -Combat.plagueTick(0, u.d.armor, 0.5), null, 'plague'); if (!G.plagueMsg) { G.plagueMsg = true; msg('Plague zone! It eats our ground units and heals the Horde.', '#9fe07a', u.x, u.y); } }
+        else { if (u.hp < u.maxhp && Math.random() < 0.5) G.fx.push({ k: 'mote', x: u.x, y: u.y, t: 0, dur: 0.9, a: Math.random() * 6.28 }); u.hp = Math.min(u.maxhp, u.hp + Combat.plagueTick(1, u.d.armor, 0.5)); }
       }
       for (const r of G.rad) if (dist(u.x, u.y, r.x, r.y) < r.r) damage(u, 8 * (r.t / r.max) + 2, null, 'plague');
     }
   }
   for (const r of G.rad) r.t -= dt;
   G.rad = G.rad.filter(r => r.t > 0);
-  for (const r of G.rises) { r.t -= dt; if (r.t <= 0) { r.done = true; const z = makeUnit('zombie', 1, r.x, r.y); z.order = 'idle'; G.fx.push({ k: 'rise', x: r.x, y: r.y, t: 0, dur: 0.8 }); sfx('rise', r.x, r.y); } }
+  for (const r of G.rises) { r.t -= dt; if (r.t <= 0) { r.done = true; const z = makeUnit('zombie', 1, r.x, r.y); z.order = 'idle'; z.risen = true; G.stats.risen = (G.stats.risen || 0) + 1; G.fx.push({ k: 'rise', x: r.x, y: r.y, t: 0, dur: 0.8 }); sfx('rise', r.x, r.y); } }
   G.rises = G.rises.filter(r => !r.done);
 }
 function updBld(b, dt) {
@@ -1083,6 +1128,8 @@ function drawFx(c, f) {
     case 'ember': c.globalAlpha = 1 - p; c.fillStyle = f.c; circ(c, f.x + f.vx * f.t, f.y + f.vy * f.t, 2); break;
     case 'smoke': c.globalAlpha = 0.35 * (1 - p); c.fillStyle = '#222'; circ(c, f.x + p * 10, f.y - p * 40, 6 + p * 12); break;
     case 'blood': c.globalAlpha = 1 - p; c.fillStyle = f.c; for (let k = 0; k < 6; k++) circ(c, f.x + Math.cos(k) * p * 12, f.y + Math.sin(k * 1.3) * p * 12, 2); break;
+    case 'purify': c.globalAlpha = 1 - p; c.strokeStyle = '#ffffff'; c.lineWidth = 3 * (1 - p) + 1; c.beginPath(); c.arc(f.x, f.y, 4 + p * 26, 0, 7); c.stroke(); c.fillStyle = `rgba(255,255,255,${0.7 * (1 - p)})`; circ(c, f.x, f.y, 10 * (1 - p) + 2); c.fillRect(f.x - 1, f.y - 30 * (1 - p) - 4, 2, 30 * (1 - p)); break;
+    case 'mote': { c.globalAlpha = p < 0.2 ? p * 5 : 1 - p; c.fillStyle = '#9fe07a'; const rr = 16 * (1 - p); for (let k = 0; k < 3; k++) circ(c, f.x + Math.cos(f.a + k * 2.1) * rr, f.y + Math.sin(f.a + k * 2.1) * rr * 0.6 - p * 6, 1.6); break; }
     case 'rise': c.globalAlpha = 1 - p; c.fillStyle = '#7aff4a'; c.globalCompositeOperation = 'lighter'; circ(c, f.x, f.y, 6 + p * 18); break;
     case 'dust': c.globalAlpha = 0.5 * (1 - p); c.fillStyle = '#8a8276'; for (let k = 0; k < 4; k++) circ(c, f.x + Math.cos(k * 1.7) * p * 10, f.y - p * 8 + Math.sin(k * 1.7) * p * 4, 2 + p * 4); break;
     case 'pop': { const txt = f.txt || '+' + f.n; c.globalAlpha = p < 0.7 ? 1 : (1 - p) / 0.3; c.font = 'bold 14px monospace'; c.textAlign = 'center'; c.lineWidth = 3; c.strokeStyle = '#000'; c.strokeText(txt, f.x, f.y - p * 26); c.fillStyle = f.side ? '#ff8a6a' : PAL.gold; c.fillText(txt, f.x, f.y - p * 26); break; }
@@ -1147,9 +1194,11 @@ function render() {
   for (const u of vu) drawUnit(ctx, u);
   for (const p of G.proj) {
     if (!onScreen(p.x, p.y, 20)) continue;
-    if (p.w === 'fireball') { ctx.fillStyle = '#ff7a20'; circ(ctx, p.x, p.y, 4); ctx.fillStyle = '#ffe080'; circ(ctx, p.x, p.y, 2); }
-    else if (p.w === 'spine') { ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a || 0); ctx.fillStyle = '#e8dcc0'; ctx.fillRect(-6, -1, 12, 2); ctx.restore(); }
-    else { ctx.fillStyle = '#fff3b0'; circ(ctx, p.x, p.y, 2.5); }
+    // projectiles aimed at air arc up toward the lifted sprite
+    let py = p.y; if (p.air) { const tot = Math.hypot(p.tx - p.sx, p.ty - p.sy) || 1, left = Math.hypot(p.tx - p.x, p.ty - p.y); py -= Math.sin(Math.PI * clamp(1 - left / tot, 0, 1)) * 14; }
+    if (p.bolt) { ctx.save(); ctx.translate(p.x, py); ctx.rotate(p.a || 0); ctx.fillStyle = '#e8dcc0'; ctx.fillRect(-7, -1.5, 9, 3); ctx.fillStyle = '#ff7a20'; ctx.beginPath(); ctx.moveTo(2, -3); ctx.lineTo(9, 0); ctx.lineTo(2, 3); ctx.fill(); ctx.fillStyle = 'rgba(255,90,20,0.5)'; ctx.fillRect(-14, -1, 7, 2); ctx.restore(); }
+    else if (p.w === 'fire') { ctx.fillStyle = '#ff7a20'; circ(ctx, p.x, py, 4); ctx.fillStyle = '#ffe080'; circ(ctx, p.x, py, 2); }
+    else { ctx.fillStyle = '#8E959C'; circ(ctx, p.x, py, 2.5); }
   }
   for (const f of G.fx) if (onScreen(f.x !== undefined ? f.x : f.x1, f.y !== undefined ? f.y : f.y1, 300)) drawFx(ctx, f);
   // missiles + target markers
@@ -1473,12 +1522,25 @@ function newGame(diffKey) {
   msg('Gather Salvage, build up, and destroy every Horde structure.', '#DDF6FF');
   msg('Tip: your Scrap Truck hauls Salvage to the Scrap Yard for Credits. Right-click a Scrap Pile or Yard to direct it.', '#d8c8a8');
 }
+// headless combat arena (CS automated matchups): open ground, no plague, no buildings, no AI
+function newArena(seed) {
+  rng = mulberry32(seed | 0); idc = 0; bById.clear();
+  G = { seed, time: 0, diff: DIFF.normal, diffKey: 'normal', units: [], blds: [], proj: [], fx: [], decals: [], rad: [], missiles: [], rises: [], sel: [], groups: {},
+    credits: [0, 0], queues: [mkQ(), mkQ()], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0, risen: 0, purified: 0, crushed: 0 },
+    over: false, paused: false, started: true, mode: null, placing: null, ai: { t: 1e9, nextWave: 1e9, waveN: 0 }, fogT: 0, winT: 0, shakeA: 0, arena: true,
+    baseP: { x: 2, y: 2 }, baseE: { x: MW - 3, y: MH - 3 } };
+  terr = new Uint8Array(N); res = new Uint16Array(N); plague = new Uint8Array(N);
+  bgrid = new Int32Array(N); vis = new Uint8Array(N); expl = new Uint8Array(N);
+  plagueZones = []; craters = []; decos = [];
+  SAL = makeSalvage();
+  return G;
+}
 function step(dt) {
   G.time += dt;
-  updProduction(dt);
-  updAI(dt);
+  if (!G.arena) { updProduction(dt); updAI(dt); }
   SAL.update(dt); // fixed-step salvage sim (accumulator)
   for (const u of G.units) if (!u.dead) updUnit(u, dt);
+  updCrush();
   separate();
   for (const b of G.blds) if (!b.dead) updBld(b, dt);
   updProj(dt); updMissiles(dt); updEnv(dt);
@@ -1492,7 +1554,7 @@ function step(dt) {
   if (G.flash) { G.flash.t += dt; if (G.flash.t > 1.2) G.flash = null; }
   G.shakeA *= Math.pow(0.02, dt);
   G.fogT -= dt; if (G.fogT <= 0) { G.fogT = 0.2; updFog(); }
-  G.winT -= dt; if (G.winT <= 0) { G.winT = 0.5; checkEnd(); const low = powerOf(0).net < 0; if (low && !G.lowPower) { msg('Low power: production at half speed. Build a Power Plant.', '#ff5a4a'); sfx('alert'); } G.lowPower = low; }
+  G.winT -= dt; if (G.winT <= 0 && !G.arena) { G.winT = 0.5; checkEnd(); const low = powerOf(0).net < 0; if (low && !G.lowPower) { msg('Low power: production at half speed. Build a Power Plant.', '#ff5a4a'); sfx('alert'); } G.lowPower = low; }
 }
 function checkEnd() {
   const p = G.blds.some(b => b.side === 0), e = G.blds.some(b => b.side === 1);
@@ -1530,4 +1592,4 @@ resize();
 showPanel('startPanel');
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, dockPoint, command, step, newGame, UDEF, BDEF, queueItem, placeBld, canPlace, launchNuke, issueMove, cam, centerOn };
+window.RTS = { get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, dockPoint, command, step, newGame, UDEF, BDEF, queueItem, placeBld, canPlace, launchNuke, cam, centerOn };
