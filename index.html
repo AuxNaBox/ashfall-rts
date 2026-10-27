@@ -16,7 +16,8 @@
 </div>
 <div id="sidebar">
   <div id="title">ASHFALL <span>LAST LIGHT</span></div>
-  <div id="credits"><span class="lbl">SALVAGE</span><span id="cr">0</span></div>
+  <div id="credits"><span class="lbl"><span class="coin"></span>CREDITS</span><span><span id="cr">0</span><small id="cap"></small></span></div>
+  <div id="power"></div>
   <canvas id="mini" width="236" height="236"></canvas>
   <div id="super"></div>
   <div class="sect">Structures <small>(left: build · right: cancel)</small></div>
@@ -35,7 +36,7 @@
   <div class="panel" id="startPanel">
     <h1>ASHFALL <span>LAST LIGHT</span></h1>
     <p class="lore">The bombs fell. The plague followed. Then the sky cracked open and Hell walked out.<br>
-    Lead the <b class="gold">Seraphim Remnant</b>, survivors and fallen angels, against the <b class="red">Infernal Horde</b> of zombies and demons.<br>Gather salvage, build your base, and raise the Judgment Spire before Hellfire falls on you.</p>
+    Lead the <b class="gold">Survivors</b>, riflemen and fallen angels, against <b class="red">The Horde</b> of zombies and demons.<br>Haul Salvage for Credits, build your base, and raise a Nuke Silo before the Hell Silo fires on you.</p>
     <div class="diff">
       <label><input type="radio" name="diff" value="easy"> Easy</label>
       <label><input type="radio" name="diff" value="normal" checked> Normal</label>
@@ -44,11 +45,12 @@
     <button id="bStart" class="big">BEGIN</button>
     <div class="help">
       <div><b>Left-click / drag</b> select units · <b>Shift</b> add to selection · <b>Double-click</b> select all of that type on screen</div>
-      <div><b>Right-click</b> move / attack / harvest · <b>F</b> + click attack-move · <b>X</b> stop</div>
+      <div><b>Right-click</b> move / attack · Scrap Truck: right-click a Scrap Pile to gather or a Scrap Yard to unload · <b>F</b> + click attack-move · <b>X</b> stop</div>
       <div><b>WASD / arrows / screen edge</b> scroll · <b>Minimap</b> click to jump, right-click to send units</div>
       <div><b>Ctrl or Shift + 1-9</b> make a group · <b>1-9</b> select group · <b>H</b> go to base · <b>Space</b> jump to last alert</div>
       <div><b>N</b> fire superweapon when charged · <b>P / Esc</b> pause · <b>M</b> mute</div>
-      <div class="tip">Plague zones (green fog) hurt your ground units and heal the Horde. Infantry killed by zombies or plague rise again as zombies. Flying Seraphs are immune to plague.</div>
+      <div class="tip">Plague zones (green fog) hurt your ground units and heal the Horde. Infantry killed by zombies or plague rise again as zombies. Flying Angels are immune to plague.</div>
+      <div class="tip">Scrap Yards unload one truck at a time; the rest queue. When storage is full, trucks wait at the dock: build a Depot. Yards need a Power Plant.</div>
     </div>
   </div>
   <div class="panel" id="endPanel">
@@ -63,6 +65,7 @@
     <button id="bResume" class="big">RESUME</button>
   </div>
 </div>
+<script src="salvage.js"></script>
 <script src="game.js"></script>
 </body>
 </html>

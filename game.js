@@ -19,30 +19,33 @@ const T = { GROUND: 0, RUBBLE: 1, SLUDGE: 2, CRATER: 3, ROAD: 4 };
 const BLOCK = [false, true, true, true, false];
 
 const SIDES = [
-  { name: 'Seraphim Remnant', color: '#f2d06b', mm: '#ffe680' },
-  { name: 'Infernal Horde', color: '#d23a2a', mm: '#ff3020' },
+  { name: 'Survivors', color: '#f2d06b', mm: '#ffe680' },
+  { name: 'The Horde', color: '#d23a2a', mm: '#ff3020' },
 ];
 
 // ranges & sight in tiles; speed in px/s; rof in seconds
+const SD = Salvage.D; // balance table (salvage.js)
 const UDEF = {
-  gleaner: { side: 0, name: 'Gleaner', desc: 'Salvage harvester', cost: 700, time: 12, hp: 520, speed: 50, r: 12, sight: 5, harv: true, cap: 300, cat: 'vehicle', from: ['hq', 'factory'], heavy: true },
-  survivor: { side: 0, name: 'Survivor', desc: 'Rifle infantry', cost: 100, time: 4, hp: 100, speed: 58, r: 7, sight: 6, dmg: 11, rof: 0.75, range: 4.5, inf: true, cat: 'infantry', from: ['barracks'], weapon: 'bullet' },
-  seraph: { side: 0, name: 'Seraph', desc: 'Flying angel. Holy beam. Plague-immune', cost: 450, time: 9, hp: 240, speed: 88, r: 10, sight: 8, dmg: 30, rof: 1.3, range: 5, fly: true, cat: 'infantry', from: ['barracks'], weapon: 'beam' },
-  ark: { side: 0, name: 'Ark Tank', desc: 'Heavy tank, splash shells', cost: 800, time: 13, hp: 700, speed: 40, r: 14, sight: 7, dmg: 75, rof: 2.2, range: 6, splash: 1.0, heavy: true, cat: 'vehicle', from: ['factory'], weapon: 'shell' },
-  reaper: { side: 1, name: 'Soul Reaper', desc: 'Salvage harvester', cost: 700, time: 12, hp: 520, speed: 50, r: 12, sight: 5, harv: true, cap: 300, cat: 'vehicle', from: ['hq', 'factory'], heavy: true },
+  gleaner: { side: 0, name: 'Scrap Truck', desc: 'Salvage harvester. Unarmed', cost: SD.haulerCost, time: SD.haulerBuildTime, hp: SD.haulerHp, speed: SD.haulerSpeedTiles * 32, r: 12, sight: 5, harv: true, cap: SD.haulerCapacity, cat: 'vehicle', from: ['hq', 'factory'], heavy: true },
+  survivor: { side: 0, name: 'Rifleman', desc: 'Rifle infantry', cost: 100, time: 4, hp: 100, speed: 58, r: 7, sight: 6, dmg: 11, rof: 0.75, range: 4.5, inf: true, cat: 'infantry', from: ['barracks'], weapon: 'bullet' },
+  seraph: { side: 0, name: 'Angel', desc: 'Flying angel. Holy beam. Plague-immune', cost: 450, time: 9, hp: 240, speed: 88, r: 10, sight: 8, dmg: 30, rof: 1.3, range: 5, fly: true, cat: 'infantry', from: ['barracks'], weapon: 'beam' },
+  ark: { side: 0, name: 'Tank', desc: 'Heavy tank, splash shells', cost: 800, time: 13, hp: 700, speed: 40, r: 14, sight: 7, dmg: 75, rof: 2.2, range: 6, splash: 1.0, heavy: true, cat: 'vehicle', from: ['factory'], weapon: 'shell' },
+  reaper: { side: 1, name: 'Scrap Eater', desc: 'Salvage harvester. Unarmed', cost: SD.haulerCost, time: SD.haulerBuildTime, hp: SD.haulerHp, speed: SD.haulerSpeedTiles * 32, r: 12, sight: 5, harv: true, cap: SD.haulerCapacity, cat: 'vehicle', from: ['hq', 'factory'], heavy: true },
   zombie: { side: 1, name: 'Zombie', desc: 'Cheap melee swarm', cost: 60, time: 2.5, hp: 120, speed: 36, r: 7, sight: 5, dmg: 13, rof: 1, range: 0.8, inf: true, melee: true, cat: 'infantry', from: ['barracks'], weapon: 'claw' },
   imp: { side: 1, name: 'Imp', desc: 'Ranged fireball demon', cost: 200, time: 6, hp: 110, speed: 70, r: 8, sight: 6, dmg: 20, rof: 1.3, range: 4.5, inf: true, cat: 'infantry', from: ['barracks'], weapon: 'fireball' },
   brute: { side: 1, name: 'Hellbrute', desc: 'Huge demon, cleaving melee', cost: 900, time: 14, hp: 1000, speed: 36, r: 15, sight: 6, dmg: 70, rof: 1.6, range: 1.1, splash: 0.9, melee: true, heavy: true, cat: 'vehicle', from: ['factory'], weapon: 'cleave' },
 };
 const BDEF = {
-  hq: { name: ['Sanctum', 'Hell Gate'], desc: 'Headquarters. Trains harvesters', w: 3, h: 3, hp: 2200, cost: 0, time: 0, sight: 8 },
-  refinery: { name: ['Reliquary', 'Soul Pit'], desc: 'Salvage drop-off. Comes with a free harvester', w: 3, h: 2, hp: 1000, cost: 1400, time: 12, req: ['hq'], sight: 5 },
+  hq: { name: ['Sanctum', 'Hell Gate'], desc: 'Headquarters. Trains Scrap Trucks. Stores 1,000 Credits', w: 3, h: 3, hp: 2200, cost: 0, time: 0, sight: 8 },
+  power: { name: ['Power Plant', 'Power Plant'], desc: 'Makes +100 power', w: 2, h: 2, hp: SD.powerPlantHp, cost: SD.powerPlantCost, time: SD.powerPlantBuildTime, req: ['hq'], sight: 4 },
+  refinery: { name: ['Scrap Yard', 'Grinder Pit'], desc: 'Salvage drop-off with one dock pad. Stores 2,000 Credits. Comes with a free truck. Uses 30 power', w: 3, h: 2, hp: SD.plantHp, cost: SD.plantCost, time: SD.plantBuildTime, req: ['power'], sight: 5 },
+  depot: { name: ['Depot', 'Depot'], desc: 'Stores 1,500 more Credits', w: 2, h: 1, hp: SD.depotHp, cost: SD.depotCost, time: SD.depotBuildTime, req: ['refinery'], sight: 4 },
   barracks: { name: ['Chapel', 'Spawning Pit'], desc: 'Trains infantry', w: 2, h: 2, hp: 800, cost: 500, time: 8, req: ['hq'], sight: 5 },
   turret: { name: ['Bastion', 'Spine Tower'], desc: 'Defense tower', w: 1, h: 1, hp: 650, cost: 600, time: 9, req: ['barracks'], sight: 7, dmg: 28, rof: 0.9, range: 6.5 },
-  factory: { name: ['Foundry', 'Hellforge'], desc: 'Builds heavy units', w: 3, h: 3, hp: 1200, cost: 2000, time: 15, req: ['refinery'], sight: 5 },
-  silo: { name: ['Judgment Spire', 'Hellfire Maw'], desc: 'Superweapon. Charges a nuke', w: 2, h: 2, hp: 1000, cost: 2500, time: 22, req: ['factory'], sight: 5 },
+  factory: { name: ['Factory', 'Factory'], desc: 'Builds heavy units. Uses 40 power', w: 3, h: 3, hp: 1200, cost: 2000, time: 15, req: ['refinery'], sight: 5 },
+  silo: { name: ['Nuke Silo', 'Hell Silo'], desc: 'Superweapon. Charges a nuke', w: 2, h: 2, hp: 1000, cost: 2500, time: 22, req: ['factory'], sight: 5 },
 };
-const BORDER = ['refinery', 'barracks', 'turret', 'factory', 'silo'];
+const BORDER = ['refinery', 'barracks', 'turret', 'factory', 'silo', 'power', 'depot'];
 const UORDER = [['gleaner', 'survivor', 'seraph', 'ark'], ['reaper', 'zombie', 'imp', 'brute']];
 const NUKE_CHARGE = 200, NUKE_R = 4.5;
 const DIFF = {
@@ -55,7 +58,7 @@ const ename = e => e.kind === 'u' ? e.d.name : bname(e.type, e.side);
 
 // ---------------- map state ----------------
 let terr, res, plague, bgrid, vis, expl, plagueZones, craters, decos, terrCanvas, miniBase, resTiles;
-let G = null;
+let G = null, SAL = null; // SAL: salvage sim instance (salvage.js)
 let idc = 0;
 const bById = new Map();
 
@@ -187,17 +190,23 @@ function genMap() {
   const clearCircle = (c, r) => { for (let y = c.y - r; y <= c.y + r; y++) for (let x = c.x - r; x <= c.x + r; x++) if (dist(x, y, c.x, c.y) <= r) set(x, y, T.GROUND); };
   clearCircle(P, 9); clearCircle(E, 9);
   // salvage fields (symmetric)
-  const fieldsP = [{ x: 18, y: 66, r: 2.8, a: 380 }, { x: 8, y: 56, r: 2.4, a: 320 }, { x: 15, y: 30, r: 2.6, a: 420 }, { x: 31, y: 61, r: 2.4, a: 420 }];
-  const fields = [];
-  for (const f of fieldsP) { fields.push(f); const m = mirrorPt(f.x, f.y); fields.push({ x: m.x, y: m.y, r: f.r, a: f.a }); }
-  fields.push({ x: 40, y: 40, r: 3.4, a: 600 });
-  for (const f of fields) {
-    for (let y = Math.floor(f.y - f.r - 1); y <= f.y + f.r + 1; y++) for (let x = Math.floor(f.x - f.r - 1); x <= f.x + f.r + 1; x++) {
-      if (x < 0 || y < 0 || x >= MW || y >= MH) continue;
-      if (dist(x, y, f.x, f.y) < f.r * (0.75 + 0.35 * rng())) { terr[y * MW + x] = T.GROUND; res[y * MW + x] = f.a + ri(150); }
-      else if (dist(x, y, f.x, f.y) < f.r + 1.2 && terr[y * MW + x] !== T.ROAD) terr[y * MW + x] = T.GROUND;
+  // Loop 1 spec: 24-tile home field, two 16-tile mid fields per side, one 10-tile centre field; every pile starts full
+  const fieldsP = [{ x: 18, y: 66, n: SD.homeFieldTiles }, { x: 31, y: 61, n: SD.midFieldTiles }, { x: 15, y: 30, n: SD.midFieldTiles }];
+  const growField = f => { // contiguous blob of exactly n tiles, grown outward from the centre
+    const got = [f.y * MW + f.x], inSet = new Set(got);
+    while (got.length < f.n) {
+      let best = -1, bd = 1e9;
+      for (const t of got) for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        const x = t % MW + dx, y = ((t / MW) | 0) + dy, i = y * MW + x; if (x < 1 || y < 1 || x >= MW - 1 || y >= MH - 1 || inSet.has(i)) continue;
+        const d = dist(x, y, f.x, f.y) + hash(i * 31 + f.n) * 0.9; if (d < bd) { bd = d; best = i; }
+      }
+      got.push(best); inSet.add(best);
     }
-  }
+    return got;
+  };
+  const paintField = tiles => { for (const i of tiles) { const x = i % MW, y = (i / MW) | 0; for (let yy = y - 1; yy <= y + 1; yy++) for (let xx = x - 1; xx <= x + 1; xx++) if (xx >= 0 && yy >= 0 && xx < MW && yy < MH && terr[yy * MW + xx] !== T.ROAD) terr[yy * MW + xx] = T.GROUND; } for (const i of tiles) { terr[i] = T.GROUND; res[i] = SD.tileMax; } };
+  for (const f of fieldsP) { const tl = growField(f); paintField(tl); paintField(tl.map(i => { const m = mirrorPt(i % MW, (i / MW) | 0); return m.y * MW + m.x; })); }
+  paintField(growField({ x: 40, y: 40, n: SD.centreFieldTiles }));
   // plague zones
   const pz = [{ x: 40, y: 40, r: 5 }, { x: 24, y: 44, r: 3.5 }, { x: 55, y: 35, r: 3.5 }, { x: 22, y: 16, r: 4.5 }, { x: 57, y: 63, r: 4.5 }];
   for (const z of pz) {
@@ -321,10 +330,13 @@ function makeBld(type, side, tx, ty) {
   for (const u of G.units) if (!u.d.fly && tileOf(u.x) >= tx && tileOf(u.x) < tx + d.w && tileOf(u.y) >= ty && tileOf(u.y) < ty + d.h) {
     const n = nearestWalkable(tileOf(u.x), tileOf(u.y)); if (n) { u.x = n[0] * TILE + 16; u.y = n[1] * TILE + 16; u.path = null; }
   }
-  if (type === 'refinery') { const s = spawnPoint(b); const h = makeUnit(side ? 'reaper' : 'gleaner', side, s.x, s.y); h.hs = 'seek'; }
-  if (type === 'silo' && side === 1 && G.started) msg('WARNING: The Horde has raised a Hellfire Maw!', '#ff6a3d', b.x, b.y);
+  if (type === 'refinery') { b.pad = padTile(b); b.dockQ = []; const s = dockPoint(b); const h = makeUnit(side ? 'reaper' : 'gleaner', side, s.x, s.y + 20); h.hs = 'seek'; if (G.started && SAL) salvageEvent('haulerSpawned', { u: h, plant: b }); }
+  if (type === 'silo' && side === 1 && G.started) msg('WARNING: The Horde has raised a Hell Silo!', '#ff6a3d', b.x, b.y);
   return b;
 }
+// one-pad dock directly under the bottom-centre of a Scrap Yard / Grinder Pit
+function padTile(b) { const n = nearestWalkable(b.tx + 1, b.ty + b.h, b.tx + 1, b.ty + b.h) || [b.tx + 1, b.ty + b.h]; return n[1] * MW + n[0]; }
+function dockPoint(b) { if (b.pad === undefined) b.pad = padTile(b); return { x: (b.pad % MW) * TILE + 16, y: ((b.pad / MW) | 0) * TILE + 16 }; }
 function removeBld(b) { for (let y = b.ty; y < b.ty + b.h; y++) for (let x = b.tx; x < b.tx + b.w; x++) if (bgrid[y * MW + x] === b.id) bgrid[y * MW + x] = 0; bById.delete(b.id); }
 function edgeDist(ax, ay, e) {
   if (e.kind === 'u') return Math.hypot(e.x - ax, e.y - ay) - e.r;
@@ -399,15 +411,15 @@ function issueMove(list, px, py, attackMove) {
 }
 function orderMove(u, x, y, am) {
   u.target = null; u.tmode = null;
-  if (u.d.harv) { u.hs = 'parked'; moveTo(u, x, y); u.order = 'move'; return; }
+  if (u.d.harv) { SAL.park(u); moveTo(u, x, y); u.order = 'move'; return; }
   u.order = am ? 'attackmove' : 'move'; moveTo(u, x, y);
 }
 function orderAttack(list, t) {
   for (const u of list) { if (u.d.harv) continue; u.target = t; u.tmode = 'forced'; u.order = 'attack'; u.repath = 0; u.path = null; }
 }
-function orderHarvest(u, tileIdx) { u.hs = 'go'; u.htile = tileIdx; moveTo(u, (tileIdx % MW) * TILE + 16, ((tileIdx / MW) | 0) * TILE + 16); }
-function orderDock(u, b) { u.hs = 'toDock'; u.dock = b; moveTo(u, b.x, b.y); }
-function stopUnits(list) { for (const u of list) { u.path = null; u.target = null; u.order = 'idle'; if (u.d.harv) u.hs = 'parked'; } }
+function orderHarvest(u, tileIdx) { u.lastTile = tileIdx; SAL.orderPile(u, tileIdx); }
+function orderDock(u, b) { SAL.orderPlant(u, b); }
+function stopUnits(list) { for (const u of list) { u.path = null; u.target = null; u.order = 'idle'; if (u.d.harv) SAL.park(u); } }
 
 // ---------------- targeting / combat ----------------
 function findEnemy(e, range, side) {
@@ -419,7 +431,7 @@ function findEnemy(e, range, side) {
 }
 function updUnit(u, dt) {
   u.cd -= dt; u.anim += dt; u.hitT -= dt;
-  if (u.d.harv) { updHarv(u, dt); return; }
+  if (u.d.harv) return; // Scrap Trucks run on the salvage fixed step (SAL.update)
   if (u.target && u.target.dead) {
     u.target = null;
     if (u.order === 'attack') u.order = 'idle';
@@ -512,6 +524,7 @@ function kill(t, src, w) {
   const st = G.stats;
   if (t.side === 1) st.kills++; else st.lost++;
   if (t.kind === 'u') {
+    if (t.d.harv && t.side === 0) { G.lastAlert = { x: t.x, y: t.y }; msg('Scrap Truck lost!', '#ff6a3d', t.x, t.y); }
     if (t.d.inf) { G.fx.push({ k: 'blood', x: t.x, y: t.y, c: t.side ? (t.type === 'zombie' ? '#4a5a2a' : '#8a1a10') : '#7a1010', t: 0, dur: 0.6 }); G.decals.push({ k: 'blood', x: t.x, y: t.y, c: t.side ? '#3a3a1a' : '#4a0a08', a: Math.random() * 6, t: 0 }); }
     else { G.fx.push({ k: 'boom', x: t.x, y: t.y, r: 26, c: '#ffa040', t: 0, dur: 0.6 }); G.decals.push({ k: 'scorch', x: t.x, y: t.y, r: 18, t: 0 }); sfx('boom', t.x, t.y); }
     // the dead rise
@@ -522,6 +535,7 @@ function kill(t, src, w) {
   } else {
     removeBld(t);
     if (t.side === 1) st.bKills++; else st.bLost++;
+    if (t.type === 'refinery' || t.type === 'depot' || t.type === 'hq') { const cap = storageCapOf(t.side); if (G.credits[t.side] > cap) { const lost = Math.floor(G.credits[t.side] - cap); G.credits[t.side] = cap; if (t.side === 0) msg(`Storage lost: ${lost} Credits destroyed.`, '#ff6a3d', t.x, t.y); } }
     for (let k = 0; k < 6; k++) G.fx.push({ k: 'boom', x: t.tx * TILE + Math.random() * t.w * TILE, y: t.ty * TILE + Math.random() * t.h * TILE, r: 22 + Math.random() * 18, c: '#ffa040', t: -k * 0.08, dur: 0.7 });
     G.decals.push({ k: 'scorch', x: t.x, y: t.y, r: t.w * 20, t: 0 });
     G.decals.push({ k: 'ruin', x: t.tx * TILE, y: t.ty * TILE, w: t.w, h: t.h, t: 0 });
@@ -531,67 +545,38 @@ function kill(t, src, w) {
   }
 }
 
-// ---------------- harvesting ----------------
-function findRes(u) {
-  let best = -1, bd = 1e9; const ox = u.lastField !== undefined ? u.lastField % MW : tileOf(u.x), oy = u.lastField !== undefined ? (u.lastField / MW) | 0 : tileOf(u.y);
-  const ux = tileOf(u.x), uy = tileOf(u.y);
-  for (const i of resTiles) {
-    if (res[i] <= 0) continue;
-    const x = i % MW, y = (i / MW) | 0;
-    let d = dist(x, y, ux, uy) * 0.5 + dist(x, y, ox, oy) * 0.5;
-    if (plague[i] && u.side === 0) d += 12; // survivors avoid plague fields
-    for (const o of G.units) if (o !== u && o.d.harv && o.htile === i && (o.hs === 'go' || o.hs === 'mine')) d += 4;
-    if (d < bd) { bd = d; best = i; }
-  }
-  return best;
+// ---------------- salvage economy (salvage.js) ----------------
+function sideCounts(side) { const c = {}; for (const b of G.blds) if (b.side === side && !b.dead) c[b.type] = (c[b.type] || 0) + 1; return c; }
+function storageCapOf(side) { return Salvage.storageCap(sideCounts(side)); }
+function powerOf(side) { return Salvage.powerBalance(G.blds.filter(b => b.side === side && !b.dead).map(b => b.type)); }
+function makeSalvage() {
+  const S = Salvage.create({
+    MW, MH, TILE, res,
+    units: () => G.units,
+    plants: side => G.blds.filter(b => b.side === side && b.type === 'refinery' && !b.dead),
+    dockPoint, moveTo, followPath,
+    getCredits: side => G.credits[side],
+    addCredits: (side, n) => { G.credits[side] += n; if (side === 0) G.stats.salvage += n; },
+    storageCap: storageCapOf,
+    incomeMult: side => side === 1 ? G.diff.inc : 1,
+    tilePenalty: (u, i) => plague[i] && u.side === 0 ? 12 : 0, // Survivors avoid plague fields
+    emit: salvageEvent,
+  });
+  S.initFields();
+  return S;
 }
-function findDock(u) {
-  let best = null, bd = 1e9;
-  for (const b of G.blds) if (b.side === u.side && !b.dead && (b.type === 'refinery' || b.type === 'hq')) { const d = dist(b.x, b.y, u.x, u.y) * (b.type === 'hq' ? 1.6 : 1); if (d < bd) { bd = d; best = b; } }
-  return best;
-}
-function updHarv(u, dt) {
-  switch (u.hs) {
-    case 'seek': {
-      if (u.load >= u.d.cap) { u.hs = 'ret'; break; }
-      const t = findRes(u); if (t < 0) { u.hs = u.load > 0 ? 'ret' : 'idle'; u.ht = 0; break; }
-      orderHarvest(u, t); break;
-    }
-    case 'go': {
-      if (res[u.htile] <= 0) { u.hs = 'seek'; break; }
-      const tx = (u.htile % MW) * TILE + 16, ty = ((u.htile / MW) | 0) * TILE + 16;
-      if (followPath(u, dt) || dist(u.x, u.y, tx, ty) < 14) { if (dist(u.x, u.y, tx, ty) < TILE * 1.3) { u.hs = 'mine'; u.ht = 0; u.path = null; u.moving = false; } else u.hs = 'seek'; }
-      break;
-    }
-    case 'mine': {
-      u.moving = false; u.ht += dt; u.anim += dt;
-      if (u.ht >= 0.5) {
-        u.ht = 0; const take = Math.min(25, res[u.htile], u.d.cap - u.load); res[u.htile] -= take; u.load += take; u.lastField = u.htile;
-        if (Math.random() < 0.5) G.fx.push({ k: 'spark', x: u.x + Math.cos(u.ang) * 12, y: u.y + Math.sin(u.ang) * 12, c: u.side ? '#c080ff' : '#9fe8ff', t: 0, dur: 0.3 });
-      }
-      if (u.load >= u.d.cap) u.hs = 'ret'; else if (res[u.htile] <= 0) u.hs = 'seek';
-      break;
-    }
-    case 'ret': {
-      const b = findDock(u); if (!b) { u.hs = 'idle'; break; } orderDock(u, b); break;
-    }
-    case 'toDock': {
-      if (!u.dock || u.dock.dead) { u.hs = 'ret'; break; }
-      const arrived = followPath(u, dt);
-      if (edgeDist(u.x, u.y, u.dock) < TILE * 0.9) { u.hs = 'unload'; u.ht = 0; u.path = null; u.moving = false; }
-      else if (arrived) { u.retry = (u.retry || 0) + 1; if (u.retry > 4) { u.retry = 0; u.hs = 'ret'; } else moveTo(u, u.dock.x, u.dock.y); }
-      break;
-    }
-    case 'unload': {
-      u.ht += dt; u.moving = false;
-      if (u.ht >= 0.2) { u.ht = 0; const a = Math.min(50, u.load); u.load -= a; const gain = a * (u.side === 1 ? G.diff.inc : 1); G.credits[u.side] += gain; if (u.side === 0) G.stats.salvage += gain; }
-      if (u.load <= 0) { u.load = 0; u.hs = 'seek'; u.retry = 0; }
-      break;
-    }
-    case 'idle': u.ht += dt; u.moving = false; if (u.ht > 3) { u.ht = 0; u.hs = 'seek'; } break;
-    case 'parked': if (followPath(u, dt)) { u.path = null; u.order = 'idle'; } break;
+function salvageEvent(ev, e) {
+  const u = e && e.u;
+  switch (ev) {
+    case 'harvestStart': G.fx.push({ k: 'dust', x: u.x + Math.cos(u.ang) * 14, y: u.y + Math.sin(u.ang) * 14, t: 0, dur: 0.6 }); break;
+    case 'tileStageChanged': { const x = (e.tile % MW) * TILE + 16, y = ((e.tile / MW) | 0) * TILE + 18; G.fx.push({ k: 'dust', x, y, t: 0, dur: 0.6 }); if (e.by) sfx('clank', x, y); break; }
+    case 'fieldDepleted': { const x = (e.tile % MW) * TILE + 16, y = ((e.tile / MW) | 0) * TILE + 16; if (ownsNearby(0, x, y)) msg('Salvage Field depleted. Regrowth is slow: expand to a new field.', '#ffc93a', x, y); break; }
+    case 'unload': if (e.amount > 0) { G.fx.push({ k: 'pop', x: e.plant.x, y: e.plant.ty * TILE - 4, n: Math.round(e.amount), side: e.side, t: 0, dur: 1.4 }); if (e.side === 0) sfx('chime', e.plant.x, e.plant.y); } break;
+    case 'storageBlocked': if (e.side === 0 && G.time - (G.storageAlertT ?? -99) >= SD.storageAlertCooldown) { G.storageAlertT = G.time; G.lastAlert = { x: u.x, y: u.y }; msg('Storage full. Build a Depot. Trucks are waiting at the dock.', '#ffb347', u.x, u.y); sfx('alert'); } break;
+    case 'haulerSpawned': if (u.side === 0) G.fx.push({ k: 'pop', x: u.x, y: u.y - 20, txt: 'Free Scrap Truck', side: 0, t: 0, dur: 1.6 }); break;
   }
 }
+const ownsNearby = (side, x, y) => G.units.some(u => u.side === side && u.d.harv && !u.dead && dist(u.x, u.y, x, y) < 6 * TILE);
 
 // ---------------- production ----------------
 const mkQ = () => ({ structure: { list: [], prog: 0, ready: null }, infantry: { list: [], prog: 0 }, vehicle: { list: [], prog: 0 } });
@@ -612,7 +597,7 @@ function queueItem(side, type) {
   if (q.ready && side === 0) { msg('Place the finished structure first.', '#ffb060'); return false; }
   if (q.list.length >= 5) return false;
   const c = costOf(type);
-  if (G.credits[side] < c) { if (side === 0) { msg('Insufficient salvage.', '#ff6a5a'); sfx('err'); } return false; }
+  if (G.credits[side] < c) { if (side === 0) { msg('Insufficient Credits.', '#ff6a5a'); sfx('err'); } return false; }
   G.credits[side] -= c; q.list.push(type); if (side === 0) sfx('click');
   return true;
 }
@@ -624,7 +609,7 @@ function cancelItem(side, type) {
 }
 function updProduction(dt) {
   for (let side = 0; side < 2; side++) {
-    const Q = G.queues[side], mult = side === 1 ? G.diff.prod : 1;
+    const Q = G.queues[side], mult = (side === 1 ? G.diff.prod : 1) * (powerOf(side).net < 0 ? SD.lowPowerMult : 1);
     for (const cat of ['structure', 'infantry', 'vehicle']) {
       const q = Q[cat]; if (!q.list.length || q.ready) continue;
       const type = q.list[0];
@@ -652,9 +637,10 @@ function canPlace(side, type, tx, ty, margin) {
     const inside = x >= tx && x < tx + d.w && y >= ty && y < ty + d.h;
     if (x < 0 || y < 0 || x >= MW || y >= MH) { if (inside) return false; continue; }
     const i = y * MW + x;
-    if (inside) { if (BLOCK[terr[i]] || bgrid[i] || res[i] > 0) return false; }
+    if (inside) { if (BLOCK[terr[i]] || bgrid[i] || res[i] > 0 || (SAL && SAL.field[i] >= 0) || isPad(i)) return false; }
     else if (bgrid[i]) return false;
   }
+  if (type === 'refinery') { const px = tx + 1, py = ty + d.h; if (px >= MW || py >= MH) return false; const pi = py * MW + px; if (BLOCK[terr[pi]] || bgrid[pi] || (SAL && SAL.field[pi] >= 0)) return false; }
   // must be near own buildings
   for (const b of G.blds) {
     if (b.side !== side || b.dead) continue;
@@ -663,6 +649,7 @@ function canPlace(side, type, tx, ty, margin) {
   }
   return false;
 }
+const isPad = i => G.blds.some(b => b.type === 'refinery' && !b.dead && b.pad === i);
 function placeBld(side, type, tx, ty) {
   const q = G.queues[side].structure; if (q.ready !== type) return false;
   if (!canPlace(side, type, tx, ty, 0)) return false;
@@ -677,8 +664,8 @@ function launchNuke(side, x, y) {
   const s = readySilo(side); if (!s) return false;
   s.charge = 0;
   G.missiles.push({ side, sx: s.x, sy: s.y - 20, x: s.x, y: s.y, tx: x, ty: y, t: 0, dur: 4 });
-  if (side === 0) msg('JUDGMENT unleashed! Impact in 4 seconds.', '#fff3b0', x, y);
-  else { msg('HELLFIRE INBOUND! Move your units away from the marker!', '#ff3a1a', x, y); G.lastAlert = { x, y }; }
+  if (side === 0) msg('Nuke launched! Impact in 4 seconds.', '#fff3b0', x, y);
+  else { msg('HELL SILO LAUNCH! Move your units away from the marker!', '#ff3a1a', x, y); G.lastAlert = { x, y }; }
   sfx('launch');
   return true;
 }
@@ -724,7 +711,7 @@ function updEnv(dt) {
 }
 function updBld(b, dt) {
   b.anim += dt; b.hitT -= dt;
-  if (b.type === 'silo' && b.charge < NUKE_CHARGE) { b.charge += dt; if (b.charge >= NUKE_CHARGE && b.side === 0) { msg('Judgment Spire charged! Press N or click LAUNCH.', '#fff3b0'); sfx('ready'); } }
+  if (b.type === 'silo' && b.charge < NUKE_CHARGE) { b.charge += dt; if (b.charge >= NUKE_CHARGE && b.side === 0) { msg('Nuke Silo charged! Press N or click LAUNCH.', '#fff3b0'); sfx('ready'); } }
   if (b.type === 'turret') {
     b.cd -= dt;
     if (!b.target || b.target.dead || edgeDist(b.x, b.y, b.target) > b.d.range * TILE) { b.target = null; b.scanT = (b.scanT || 0) - dt; if (b.scanT <= 0) { b.scanT = 0.3; b.target = findEnemy(b, b.d.range * TILE, b.side); } }
@@ -746,11 +733,11 @@ function updFog() {
 }
 const isVisible = e => { if (e.kind === 'b') { for (let y = e.ty; y < e.ty + e.h; y++) for (let x = e.tx; x < e.tx + e.w; x++) if (expl[y * MW + x]) return true; return false; } return !!vis[tileOf(e.y) * MW + tileOf(e.x)]; };
 // ---------------- enemy AI (the Horde) ----------------
-const AI_ORDER = ['barracks', 'turret', 'refinery', 'factory', 'turret', 'barracks', 'refinery', 'silo', 'turret', 'turret', 'turret'];
+const AI_ORDER = ['power', 'refinery', 'barracks', 'turret', 'factory', 'turret', 'barracks', 'depot', 'power', 'refinery', 'silo', 'turret', 'turret', 'turret'];
 function aiNextBuild() {
   const cnt = {}; for (const b of G.blds) if (b.side === 1 && !b.dead) cnt[b.type] = (cnt[b.type] || 0) + 1;
   const q = G.queues[1].structure; for (const t of q.list) cnt[t] = (cnt[t] || 0) + 1; if (q.ready) cnt[q.ready] = (cnt[q.ready] || 0) + 1;
-  const need = { refinery: 1 };
+  const need = {};
   for (const t of AI_ORDER) {
     need[t] = (need[t] || 0) + 1;
     if ((cnt[t] || 0) < need[t]) { if (t === 'silo' && G.time < G.diff.siloTime) continue; return t; }
@@ -788,15 +775,17 @@ function updAI(dt) {
   if (!G.blds.some(b => b.side === 1 && !b.dead)) return;
   // structures
   const next = aiNextBuild();
+  // harvesters: once the first Grinder Pit stands, hold back the cost of the 2nd Scrap Eater before spending on anything else
+  const harv = G.units.filter(u => u.side === 1 && u.d.harv && !u.dead).length + Q.vehicle.list.filter(t => t === 'reaper').length;
+  const eaterReserve = hasBld(1, 'refinery') && harv < 2 ? SD.aiGorgerReserve : 0;
+  const econBuild = next === 'power' || next === 'refinery';
   if (Q.structure.ready) {
     const spot = aiFindSpot(Q.structure.ready);
     if (spot) placeBld(1, Q.structure.ready, spot[0], spot[1]); else cancelItem(1, Q.structure.ready);
-  } else if (next && !Q.structure.list.length && prereqOk(1, next) && cr() >= BDEF[next].cost) queueItem(1, next);
-  const reserve = next && !Q.structure.list.length && !Q.structure.ready ? BDEF[next].cost : 0;
-  // harvesters
-  const harv = G.units.filter(u => u.side === 1 && u.d.harv && !u.dead).length + Q.vehicle.list.filter(t => t === 'reaper').length;
+  } else if (next && !Q.structure.list.length && prereqOk(1, next) && cr() - (econBuild ? 0 : eaterReserve) >= BDEF[next].cost) queueItem(1, next);
+  const reserve = (next && !Q.structure.list.length && !Q.structure.ready ? BDEF[next].cost : 0) + eaterReserve;
   const want = Math.min(5, Math.max(1, countBld(1, 'refinery')) * 2);
-  if (harv < want && Q.vehicle.list.length === 0 && cr() >= 700 && prereqOk(1, 'reaper')) queueItem(1, 'reaper');
+  if (hasBld(1, 'refinery') && harv < want && Q.vehicle.list.length === 0 && cr() >= costOf('reaper') && prereqOk(1, 'reaper')) { if (queueItem(1, 'reaper') && harv === 1) G.ai.eater2At = G.time; }
   // army (capped so waves stay beatable; the cap grows with every wave)
   const armyN = G.units.filter(u => u.side === 1 && !u.d.harv && !u.dead).length;
   const cap = Math.min(45, Math.round((10 + 5 * A.waveN) * G.diff.inc) + (G.credits[1] > 3000 ? 8 : 0));
@@ -885,17 +874,27 @@ function drawUnit(c, u) {
     c.fillStyle = '#c8bea6'; circ(c, 0, 0, 6.5);
     c.fillStyle = '#9a9078'; c.fillRect(4, -2, 14, 4);
     c.fillStyle = '#f2d06b'; c.fillRect(-1, -4.5, 2, 9); c.fillRect(-3.5, -1, 7, 2);
-  } else if (t === 'gleaner' || t === 'reaper') {
-    const ev = t === 'reaper';
+  } else if (t === 'gleaner') { // Scrap Truck: khaki hull, open bin that fills in pip steps, scoop dips while gathering
+    const pips = Salvage.pipsOf(u.load, u.d.cap), dip = u.hs === 'gather' ? Math.sin(A * 8) * 2 : 0;
     c.rotate(u.ang);
-    c.fillStyle = 'rgba(0,0,0,0.35)'; c.fillRect(-11, -7, 26, 19);
-    c.fillStyle = ev ? '#1a1416' : '#3a3428'; c.fillRect(-13, -10, 26, 4); c.fillRect(-13, 6, 26, 4);
-    c.fillStyle = ev ? '#3a2a30' : '#a89870'; c.fillRect(-13, -8, 26, 16);
-    c.fillStyle = ev ? '#5a1a20' : '#6a8aa0'; c.fillRect(6, -6, 6, 12);
-    c.fillStyle = '#111'; c.fillRect(-11, -6, 15, 12);
-    const f = u.load / u.d.cap; c.fillStyle = ev ? '#b060ff' : '#9fe8ff'; c.globalAlpha = 0.5 + 0.5 * f; c.fillRect(-11, -6 + 12 * (1 - f), 15, 12 * f); c.globalAlpha = 1;
-    if (ev) { c.fillStyle = '#d8ccb0'; for (const s of [-1, 1]) { c.beginPath(); c.moveTo(-6, s * 10); c.lineTo(-3, s * 15); c.lineTo(0, s * 10); c.fill(); c.beginPath(); c.moveTo(4, s * 10); c.lineTo(7, s * 15); c.lineTo(10, s * 10); c.fill(); } c.fillStyle = '#c8bca0'; c.beginPath(); c.moveTo(13, -9); c.lineTo(18, 0); c.lineTo(13, 9); c.fill(); }
-    else { c.strokeStyle = '#ccc'; c.lineWidth = 2; const sw = u.hs === 'mine' ? Math.sin(A * 10) * 3 : 0; c.beginPath(); c.moveTo(13, -6); c.lineTo(17 + sw, -3); c.moveTo(13, 6); c.lineTo(17 - sw, 3); c.stroke(); c.fillStyle = '#f2d06b'; c.fillRect(-4, -1, 6, 2); }
+    c.fillStyle = 'rgba(0,0,0,0.35)'; c.fillRect(-13, -9, 30, 22);
+    c.fillStyle = '#5A564C'; c.fillRect(-15, -11, 28, 4); c.fillRect(-15, 7, 28, 4);
+    c.fillStyle = '#B8B2A2'; c.fillRect(-15, -8, 28, 16);
+    c.fillStyle = '#3A7BFF'; c.fillRect(-15, -8, 28, 2); // team trim
+    c.fillStyle = '#5A564C'; c.fillRect(-13, -6, 15, 12); // bin
+    if (pips) { const f = pips / 5; c.fillStyle = PAL.rust; c.fillRect(-13, -6 + 12 * (1 - f), 15, 12 * f); c.fillStyle = PAL.steel; for (let k = 0; k < pips; k++) c.fillRect(-12 + (k * 3) % 13, -5 + 12 * (1 - f) + (k % 2), 2, 2); }
+    c.fillStyle = '#8a8476'; c.fillRect(4, -6, 7, 12); c.fillStyle = '#9FE8FF'; c.fillRect(7, -4, 3, 8); // cab + halo glass
+    c.fillStyle = '#6A6458'; c.beginPath(); c.moveTo(13, -8 + dip); c.lineTo(19, -6 + dip); c.lineTo(19, 6 + dip); c.lineTo(13, 8 + dip); c.fill(); // scoop
+  } else if (t === 'reaper') { // Scrap Eater: flesh oval, bone ridges, belly swells with load
+    const sc = 1 + 0.15 * (u.load / u.d.cap), chew = u.hs === 'gather' ? Math.abs(Math.sin(A * 8)) * 3 : 0;
+    c.rotate(u.ang);
+    c.fillStyle = 'rgba(0,0,0,0.35)'; ell(c, 2, 3, 15 * sc, 11 * sc);
+    c.fillStyle = '#4A1A30'; ell(c, 0, 0, 15 * sc, 11 * sc);
+    c.fillStyle = '#8C3A5A'; ell(c, -1, 0, 13 * sc, 9 * sc);
+    c.fillStyle = '#E3D6B8'; for (let k = -2; k <= 2; k++) { c.beginPath(); c.moveTo(-8 + k * 3, -3); c.lineTo(-6 + k * 3, 0); c.lineTo(-8 + k * 3, 3); c.fill(); }
+    c.fillStyle = '#2a0a14'; c.beginPath(); c.moveTo(11, -4 - chew); c.lineTo(17, 0); c.lineTo(11, 4 + chew); c.fill();
+    c.fillStyle = '#E3D6B8'; c.fillRect(11, -5 - chew, 4, 1.5); c.fillRect(11, 3.5 + chew, 4, 1.5);
+    c.fillStyle = '#FF3A2A'; circ(c, 7, -4, 1.6); circ(c, 7, 4, 1.6);
   } else if (t === 'zombie') {
     c.fillStyle = 'rgba(0,0,0,0.35)'; ell(c, 1, 4, 7, 3.5);
     c.rotate(u.ang + Math.sin(A * 4) * 0.2);
@@ -932,17 +931,43 @@ function drawBld(c, b) {
   c.fillStyle = ev ? '#1c1012' : '#8c867a'; c.fillRect(x + 1, y + 1, w - 2, h - 2);
   c.strokeStyle = ev ? '#7a1a10' : '#f2d06b'; c.lineWidth = 2; c.strokeRect(x + 2, y + 2, w - 4, h - 4);
   const cx = x + w / 2, cy = y + h / 2;
-  if (!ev) {
+  const busy = t === 'refinery' && b.dockQ && b.dockQ[0] && b.dockQ[0].hs === 'unload' && !b.dockQ[0].blocked;
+  if (t === 'refinery') { // dock pad (one truck at a time)
+    const pi = b.pad !== undefined ? b.pad : (b.ty + b.h) * MW + b.tx + 1, px = (pi % MW) * TILE, py = ((pi / MW) | 0) * TILE;
+    c.save(); c.beginPath(); c.rect(px + 1, py + 1, 30, 30); c.clip();
+    if (!ev) { c.fillStyle = '#2A2A2A'; c.fillRect(px, py, 32, 32); c.fillStyle = '#E8D23A'; for (let k = -4; k < 8; k++) { c.beginPath(); c.moveTo(px + k * 8, py + 32); c.lineTo(px + k * 8 + 4, py + 32); c.lineTo(px + k * 8 + 36, py); c.lineTo(px + k * 8 + 32, py); c.fill(); } c.fillStyle = '#3a3a36'; c.fillRect(px + 5, py + 5, 22, 22); }
+    else { c.fillStyle = '#4A1A30'; ell(c, px + 16, py + 14, 14, 16); c.fillStyle = '#8C3A5A'; ell(c, px + 16, py + 16, 10, 13); c.fillStyle = '#5a1a2a'; c.fillRect(px + 15, py + 6, 2, 20); }
+    c.restore();
+  }
+  if (t === 'power' || t === 'depot') {
+    if (!ev && t === 'power') { // Power Plant: two cooling drums + halo coil
+      c.fillStyle = '#B8B2A2'; c.fillRect(x + 6, y + 6, w - 12, h - 12);
+      for (const ox of [-12, 12]) { c.fillStyle = '#8E959C'; circ(c, cx + ox, cy - 6, 10); c.fillStyle = '#5A564C'; circ(c, cx + ox, cy - 6, 6); }
+      c.globalAlpha = 0.5 + 0.3 * Math.sin(A * 5); c.fillStyle = '#9FE8FF'; c.fillRect(cx - 14, cy + 12, 28, 3); c.globalAlpha = 1;
+    } else if (t === 'power') { // Horde: brimstone furnace
+      c.fillStyle = '#2a1a18'; ell(c, cx, cy, w / 2 - 6, h / 2 - 6);
+      c.fillStyle = '#E3D6B8'; for (let k = 0; k < 6; k++) { const an = k * 1.05; c.fillRect(cx + Math.cos(an) * 20 - 2, cy + Math.sin(an) * 20 - 2, 4, 4); }
+      c.fillStyle = `rgba(255,${110 + 60 * Math.sin(A * 4)},20,0.9)`; circ(c, cx, cy, 10);
+    } else { // Depot: stacked bins of sorted scrap
+      c.fillStyle = ev ? '#3a1a22' : '#6E6A60'; c.fillRect(x + 4, y + 4, w - 8, h - 8);
+      for (let k = 0; k < 3; k++) { c.fillStyle = ev ? '#8C3A5A' : '#5E6B34'; c.fillRect(x + 8 + k * 18, y + 8, 14, h - 16); c.fillStyle = ev ? '#E3D6B8' : '#E8D23A'; c.fillRect(x + 9 + k * 18, cy - 0.5, 12, 1); }
+    }
+  } else if (!ev) {
     if (t === 'hq') {
       c.fillStyle = '#d9d4c7'; c.fillRect(x + 8, y + 8, w - 16, h - 16);
       c.fillStyle = '#b0a890'; for (const [px, py] of [[x + 10, y + 10], [x + w - 10, y + 10], [x + 10, y + h - 10], [x + w - 10, y + h - 10]]) circ(c, px, py, 5);
       const g = c.createRadialGradient(cx - 6, cy - 6, 2, cx, cy, 26); g.addColorStop(0, '#fff'); g.addColorStop(1, '#c8a050'); c.fillStyle = g; circ(c, cx, cy, 22);
       c.fillStyle = '#f2d06b'; c.fillRect(cx - 2, cy - 14, 4, 28); c.fillRect(cx - 10, cy - 6, 20, 4);
       c.globalAlpha = 0.25 + 0.15 * Math.sin(A * 2); c.fillStyle = '#fff6c0'; circ(c, cx, cy, 34); c.globalAlpha = 1;
-    } else if (t === 'refinery') {
-      c.fillStyle = '#c8c2b2'; c.fillRect(x + 6, y + 6, w - 12, h - 24);
-      for (const ox of [-28, 0, 28]) { c.fillStyle = '#a8a08c'; circ(c, cx + ox, cy - 8, 10); c.fillStyle = '#f2d06b'; c.fillRect(cx + ox - 10, cy - 9, 20, 2); c.fillStyle = 'rgba(160,232,255,' + (0.4 + 0.3 * Math.sin(A * 3 + ox)) + ')'; circ(c, cx + ox, cy - 8, 4); }
-      for (let k = 0; k < 8; k++) { c.fillStyle = k % 2 ? '#222' : '#e8c040'; c.fillRect(x + 8 + k * ((w - 16) / 8), y + h - 14, (w - 16) / 8, 8); }
+    } else if (t === 'refinery') { // Scrap Yard
+      c.fillStyle = '#6E6A60'; c.fillRect(x + 4, y + 4, w - 8, h - 8);
+      c.fillStyle = '#5A564C'; c.fillRect(x + 8, y + 8, 40, h - 24); // crusher housing
+      for (const oy of [y + 16, y + 30]) { c.fillStyle = '#8E959C'; c.fillRect(x + 10, oy - 5, 36, 10); c.fillStyle = '#DDE3E8'; const ph = busy ? (A * 40) % 8 : 0; for (let k = 0; k < 5; k++) c.fillRect(x + 11 + ((k * 8 + ph) % 34), oy - 4, 2, 8); }
+      c.fillStyle = '#C2622D'; c.fillRect(x + 54, y + 10, 30, 14); c.fillStyle = '#7A3A1C'; c.fillRect(x + 54, y + 22, 30, 3); // rust bins
+      c.fillStyle = '#5E6B34'; c.fillRect(x + 54, y + 30, 14, 12); c.fillStyle = '#E8D23A'; c.fillRect(x + 55, y + 35, 12, 1);
+      c.fillStyle = '#3a3a36'; c.fillRect(x + w - 16, y + 26, 8, 28); c.fillStyle = '#2a2a2a'; c.fillRect(x + w - 17, y + 24, 10, 3); // stack
+      if (busy && Math.random() < 0.3) G.fx.push({ k: 'smoke', x: x + w - 12, y: y + 20, t: 0, dur: 1.6 });
+      c.fillStyle = '#E8D23A'; c.fillRect(cx - 1, y + h - 8, 2, 6); // feed chute to the pad
     } else if (t === 'barracks') {
       c.fillStyle = '#d4cdbc'; c.fillRect(x + 6, y + 10, w - 12, h - 16);
       c.fillStyle = '#7a5a3a'; c.beginPath(); c.moveTo(x + 4, y + 14); c.lineTo(cx, y + 4); c.lineTo(x + w - 4, y + 14); c.fill();
@@ -976,7 +1001,7 @@ function drawBld(c, b) {
     } else if (t === 'refinery') {
       c.fillStyle = '#c8bca0'; ell(c, cx, cy - 4, w / 2 - 6, h / 2 - 8);
       c.fillStyle = '#0a0608'; ell(c, cx, cy - 4, w / 2 - 12, h / 2 - 13);
-      for (let k = 0; k < 5; k++) { const a = A * 0.8 + k * 1.26, rx = Math.cos(a) * (w / 2 - 20), ry = Math.sin(a) * 8; c.fillStyle = k % 2 ? 'rgba(176,96,255,0.7)' : 'rgba(120,255,140,0.6)'; circ(c, cx + rx, cy - 4 + ry, 4); }
+      for (let k = 0; k < 10; k++) { const a = A * (busy ? 2.4 : 0.6) + k * 0.63, rx = Math.cos(a) * (w / 2 - 16), ry = Math.sin(a) * 9; c.fillStyle = '#E3D6B8'; c.beginPath(); c.moveTo(cx + rx - 3, cy - 4 + ry); c.lineTo(cx + rx * 0.8, cy - 4 + ry * 0.8); c.lineTo(cx + rx + 3, cy - 4 + ry); c.fill(); }
       for (let k = 0; k < 8; k++) { c.fillStyle = k % 2 ? '#111' : '#8a1a10'; c.fillRect(x + 8 + k * ((w - 16) / 8), y + h - 10, (w - 16) / 8, 6); }
     } else if (t === 'barracks') {
       c.fillStyle = '#5a2a2a'; ell(c, cx, cy, w / 2 - 5, h / 2 - 5);
@@ -1006,17 +1031,40 @@ function hpBar(c, x, y, w, f) {
   c.fillStyle = 'rgba(0,0,0,0.7)'; c.fillRect(x - w / 2 - 1, y - 1, w + 2, 5);
   c.fillStyle = f > 0.6 ? '#5f5' : f > 0.3 ? '#fd4' : '#f44'; c.fillRect(x - w / 2, y, w * f, 3);
 }
+const PAL = { rust: '#C2622D', rustD: '#7A3A1C', steel: '#8E959C', steelHi: '#DDE3E8', olive: '#5E6B34', oliveD: '#3A4220', stencil: '#E8D23A', rubble: '#57524A', cleared: '#3C3933', bolt: '#6A6A6A', oil: '#2A2824', gold: '#FFC93A' };
+const PILE_N = [0, 2, 5, 7, 9], PILE_H = [0, 3, 7, 13, 18];
+function drawGear(c, x, y, r, a) {
+  c.fillStyle = PAL.rust; c.beginPath();
+  for (let k = 0; k < 16; k++) { const rr = k % 2 ? r * 0.72 : r, an = a + k * Math.PI / 8; c.lineTo(x + Math.cos(an) * rr, y + Math.sin(an) * rr * 0.8); }
+  c.fill(); c.fillStyle = PAL.rustD; ell(c, x, y, r * 0.35, r * 0.28);
+}
+function drawPile(c, i, X, Y, a) {
+  const st = Salvage.stageOf(a), n = PILE_N[st], H = PILE_H[st];
+  c.fillStyle = 'rgba(0,0,0,0.3)'; ell(c, X + 16, Y + 22, 6 + st * 2.2, 3 + st * 1.1);
+  c.fillStyle = PAL.rubble; ell(c, X + 16, Y + 21, 4 + st * 2.4, 2 + st * 1.2);
+  const pcs = [];
+  for (let k = 0; k < n; k++) {
+    const h1 = hash(i * 17 + k), h2 = hash(i * 29 + k * 7), h3 = hash(i * 43 + k * 13), lift = n > 1 ? (k / (n - 1)) * H : 0;
+    pcs.push({ x: X + 16 + (h1 - 0.5) * (8 + st * 4) * (1 - lift / 30), y: Y + 22 + (h2 - 0.5) * (2 + st * 1.5) - lift, t: (h3 * 3) | 0, a: h2 * 6.28, s: 0.75 + h1 * 0.5, k });
+  }
+  // pieces are generated bottom-of-stack first (lift grows with k), which draws them back to front
+  for (const p of pcs) {
+    if (p.t === 0) drawGear(c, p.x, p.y, 3 + p.s * 2.5, p.a);
+    else if (p.t === 1) { c.save(); c.translate(p.x, p.y); c.rotate(p.a); c.fillStyle = PAL.steel; c.fillRect(-6 * p.s, -1.5, 12 * p.s, 3); c.fillStyle = PAL.steelHi; c.fillRect(-6 * p.s, -1.5, 12 * p.s, 1); c.restore(); }
+    else { const w = 5 + p.s * 2; c.fillStyle = PAL.oliveD; c.fillRect(p.x - w / 2, p.y - w / 2 + 1, w, w); c.fillStyle = PAL.olive; c.fillRect(p.x - w / 2, p.y - w / 2, w, w - 1); c.fillStyle = PAL.stencil; c.fillRect(p.x - w / 2 + 1, p.y - 0.5, w - 2, 1); }
+  }
+  if (st >= 2) { const top = pcs[pcs.length - 1], gl = Math.sin(G.time * 2 + i) > 0.6; if (gl) { c.fillStyle = PAL.steelHi; c.fillRect(top.x, top.y - 2, 1, 1); } }
+}
 function drawResources(c, x0, y0, x1, y1) {
   for (let ty = y0; ty <= y1; ty++) for (let tx = x0; tx <= x1; tx++) {
-    const i = ty * MW + tx, a = res[i]; if (!a) continue;
-    const X = tx * TILE, Y = ty * TILE, n = Math.min(5, 1 + Math.ceil(a / 130));
-    for (let k = 0; k < n; k++) {
-      const px = X + 6 + hash(i * 3 + k) * 20, py = Y + 6 + hash(i * 5 + k) * 20, s = 3 + hash(i * 7 + k) * 4;
-      c.fillStyle = k % 2 ? '#7a7062' : '#5a5a60'; c.fillRect(px - s, py - s * 0.6, s * 2, s * 1.2);
-      const gl = 0.5 + 0.5 * Math.sin(G.time * 2 + i + k);
-      c.fillStyle = k % 3 === 0 ? `rgba(255,210,100,${0.5 + gl * 0.5})` : `rgba(140,230,255,${0.4 + gl * 0.5})`;
-      c.beginPath(); c.moveTo(px, py - s - 2); c.lineTo(px + s * 0.6, py); c.lineTo(px, py + s * 0.5); c.lineTo(px - s * 0.6, py); c.fill();
+    const i = ty * MW + tx; if (SAL.field[i] < 0) continue;
+    const X = tx * TILE, Y = ty * TILE, a = res[i];
+    if (!a) { // cleared: bare ground with bolts and an oil stain
+      c.fillStyle = PAL.oil; ell(c, X + 10 + hash(i) * 12, Y + 12 + hash(i + 7) * 10, 4 + hash(i + 3) * 3, 2 + hash(i + 5) * 2);
+      c.fillStyle = PAL.bolt; for (let k = 0; k < 3; k++) c.fillRect(X + 4 + hash(i * 3 + k) * 24, Y + 4 + hash(i * 5 + k) * 24, 1, 1);
+      continue;
     }
+    drawPile(c, i, X, Y, a);
   }
 }
 function drawFx(c, f) {
@@ -1032,6 +1080,9 @@ function drawFx(c, f) {
     case 'smoke': c.globalAlpha = 0.35 * (1 - p); c.fillStyle = '#222'; circ(c, f.x + p * 10, f.y - p * 40, 6 + p * 12); break;
     case 'blood': c.globalAlpha = 1 - p; c.fillStyle = f.c; for (let k = 0; k < 6; k++) circ(c, f.x + Math.cos(k) * p * 12, f.y + Math.sin(k * 1.3) * p * 12, 2); break;
     case 'rise': c.globalAlpha = 1 - p; c.fillStyle = '#7aff4a'; c.globalCompositeOperation = 'lighter'; circ(c, f.x, f.y, 6 + p * 18); break;
+    case 'dust': c.globalAlpha = 0.5 * (1 - p); c.fillStyle = '#8a8276'; for (let k = 0; k < 4; k++) circ(c, f.x + Math.cos(k * 1.7) * p * 10, f.y - p * 8 + Math.sin(k * 1.7) * p * 4, 2 + p * 4); break;
+    case 'pop': { const txt = f.txt || '+' + f.n; c.globalAlpha = p < 0.7 ? 1 : (1 - p) / 0.3; c.font = 'bold 14px monospace'; c.textAlign = 'center'; c.lineWidth = 3; c.strokeStyle = '#000'; c.strokeText(txt, f.x, f.y - p * 26); c.fillStyle = f.side ? '#ff8a6a' : PAL.gold; c.fillText(txt, f.x, f.y - p * 26); break; }
+    case 'arrow': { c.globalAlpha = 1 - p; c.fillStyle = PAL.gold; const yy = f.y - 18 - Math.sin(p * Math.PI) * 6; c.beginPath(); c.moveTo(f.x - 7, yy - 8); c.lineTo(f.x + 7, yy - 8); c.lineTo(f.x, yy); c.fill(); c.strokeStyle = PAL.gold; c.lineWidth = 2; c.beginPath(); c.ellipse(f.x, f.y, 12 * (1 - p * 0.4), 6 * (1 - p * 0.4), 0, 0, 7); c.stroke(); break; }
     case 'nuke': {
       c.globalCompositeOperation = 'lighter';
       const r = f.r * (0.3 + p * 1.1);
@@ -1107,7 +1158,7 @@ function render() {
   // health bars
   for (const u of vu) if ((u.hp < u.maxhp || G.sel.includes(u))) hpBar(ctx, u.x, u.y - u.r - (u.d.fly ? 18 : 7), Math.max(16, u.r * 2), u.hp / u.maxhp);
   for (const b of G.blds) if (!b.dead && (b.hp < b.maxhp || G.sel.includes(b)) && onScreen(b.x, b.y, 100) && (b.side === 0 || isVisible(b))) hpBar(ctx, b.x, b.ty * TILE - 6, b.w * TILE - 8, b.hp / b.maxhp);
-  for (const u of vu) if (u.d.harv && u.side === 0 && G.sel.includes(u)) { ctx.fillStyle = '#9fe8ff'; ctx.fillRect(u.x - 10, u.y - u.r - 2, 20 * u.load / u.d.cap, 2); }
+  for (const u of vu) if (u.d.harv && u.side === 0 && (G.sel.includes(u) || u.blocked)) { const n = Salvage.pipsOf(u.load, u.d.cap); for (let k = 0; k < 5; k++) { ctx.fillStyle = '#000'; ctx.fillRect(u.x - 17 + k * 7, u.y - u.r - 4, 6, 4); ctx.fillStyle = k < n ? (u.blocked ? '#ffb347' : PAL.steel) : '#333333'; ctx.fillRect(u.x - 16.5 + k * 7, u.y - u.r - 3.5, 5, 3); } }
   // fog
   for (let ty = y0; ty <= y1; ty++) for (let tx = x0; tx <= x1; tx++) {
     const i = ty * MW + tx;
@@ -1135,7 +1186,7 @@ function updAsh(dt) { for (const a of ash) { a.y += (a.e ? -a.v : a.v) * dt; a.x
 function drawMini() {
   const s = mini.width / MW;
   mctx.drawImage(miniBase, 0, 0, mini.width, mini.height);
-  for (const i of resTiles) if (res[i] && expl[i]) { mctx.fillStyle = '#7fd8ff'; mctx.fillRect((i % MW) * s, ((i / MW) | 0) * s, s, s); }
+  for (const i of resTiles) if (res[i] && expl[i]) { mctx.fillStyle = '#E8B830'; mctx.fillRect((i % MW) * s, ((i / MW) | 0) * s, s, s); }
   mctx.fillStyle = 'rgba(120,230,40,0.35)'; for (const z of plagueZones) { mctx.beginPath(); mctx.arc(z.x / TILE * s, z.y / TILE * s, z.r / TILE * s, 0, 7); mctx.fill(); }
   for (const b of G.blds) if (!b.dead && (b.side === 0 || isVisible(b))) { mctx.fillStyle = SIDES[b.side].mm; mctx.fillRect(b.tx * s, b.ty * s, b.w * s, b.h * s); }
   for (const u of G.units) if (!u.dead && (u.side === 0 || vis[tileOf(u.y) * MW + tileOf(u.x)])) { mctx.fillStyle = u.side ? '#ff5040' : '#fff6b0'; mctx.fillRect(u.x / TILE * s - 1, u.y / TILE * s - 1, 2.5, 2.5); }
@@ -1171,6 +1222,8 @@ function sfx(k, x, y) {
     case 'place': noise(0.2, 500, 'lowpass', 0.15); break;
     case 'alert': tone(880, 440, 0.25, 'square', 0.05); tone(880, 440, 0.25, 'square', 0.05, 0.3); break;
     case 'rise': tone(90, 50, 0.6, 'sawtooth', 0.08); break;
+    case 'clank': noise(0.08, 1800, 'bandpass', 0.06); tone(320, 260, 0.08, 'square', 0.02); break;
+    case 'chime': tone(1320, 1320, 0.08, 'triangle', 0.06); tone(1760, 1760, 0.14, 'triangle', 0.06, 0.08); break;
   }
 }
 
@@ -1219,7 +1272,12 @@ function onBuildBtn(type) {
 }
 function updSidebar() {
   if (!G) return;
-  $('cr').textContent = Math.floor(G.credits[0]);
+  const cap = storageCapOf(0), crd = G.credits[0], pw = powerOf(0);
+  $('cr').textContent = Math.floor(crd); $('cap').textContent = '/' + cap;
+  $('credits').classList.toggle('amber', crd >= cap * SD.storageAmberAt && crd < cap); $('credits').classList.toggle('full', crd >= cap);
+  $('power').className = pw.net < 0 ? 'low' : '';
+  const ph = `<span>POWER</span><div class="meter"><div style="width:${pw.made ? Math.min(100, 100 * pw.used / pw.made) : 100}%"></div></div><span>${pw.used}/${pw.made}${pw.net < 0 ? ' LOW' : ''}</span>`;
+  if ($('power').innerHTML !== ph) $('power').innerHTML = ph;
   const Q = G.queues[0];
   for (const type in btns) {
     const b = btns[type], cat = catOf(type), q = Q[cat];
@@ -1236,10 +1294,10 @@ function updSidebar() {
   // superweapons
   let h = '';
   const ps = G.blds.filter(b => b.side === 0 && b.type === 'silo' && !b.dead).sort((a, b) => b.charge - a.charge)[0];
-  if (ps) { const f = Math.min(1, ps.charge / NUKE_CHARGE); h += `<div class="row"><span class="gold">Judgment</span><div class="meter"><div style="width:${f * 100}%"></div></div>${f >= 1 ? '<button id="bNuke">LAUNCH (N)</button>' : fmtT(NUKE_CHARGE - ps.charge)}</div>`; }
+  if (ps) { const f = Math.min(1, ps.charge / NUKE_CHARGE); h += `<div class="row"><span class="gold">Nuke</span><div class="meter"><div style="width:${f * 100}%"></div></div>${f >= 1 ? '<button id="bNuke">LAUNCH (N)</button>' : fmtT(NUKE_CHARGE - ps.charge)}</div>`; }
   const es = G.blds.filter(b => b.side === 1 && b.type === 'silo' && !b.dead).sort((a, b) => b.charge - a.charge)[0];
-  if (es) { const f = Math.min(1, es.charge / NUKE_CHARGE); h += `<div class="row"><span class="red">Hellfire</span><div class="meter enemy"><div style="width:${f * 100}%"></div></div>${fmtT(NUKE_CHARGE - es.charge)}</div>`; }
-  if (!h) h = '<span style="color:#7a6048">Superweapon: build a Judgment Spire (needs Foundry).</span>';
+  if (es) { const f = Math.min(1, es.charge / NUKE_CHARGE); h += `<div class="row"><span class="red">Hell Silo</span><div class="meter enemy"><div style="width:${f * 100}%"></div></div>${fmtT(NUKE_CHARGE - es.charge)}</div>`; }
+  if (!h) h = '<span style="color:#7a6048">Superweapon: build a Nuke Silo (needs Factory).</span>';
   if ($('super').innerHTML !== h) { $('super').innerHTML = h; const bn = $('bNuke'); if (bn) bn.onclick = () => startNuke(); }
   // selection info
   let s = '';
@@ -1247,7 +1305,8 @@ function updSidebar() {
   if (sel.length === 1) {
     const e = sel[0];
     s = `<b style="color:${e.side ? '#ff6a4a' : '#f2d06b'}">${ename(e)}</b> <small>${e.side ? '(enemy)' : ''}</small><div class="hp"><div style="width:${100 * e.hp / e.maxhp}%"></div></div>HP ${Math.ceil(e.hp)}/${e.maxhp}<br><small>${e.kind === 'u' ? e.d.desc : e.d.desc}</small>`;
-    if (e.kind === 'u' && e.d.harv) s += `<br>Cargo: ${e.load}/${e.d.cap} · ${({ seek: 'seeking', go: 'heading to salvage', mine: 'harvesting', ret: 'returning', toDock: 'returning', unload: 'unloading', idle: 'no salvage found', parked: 'parked (right-click salvage to resume)' })[e.hs] || ''}`;
+    if (e.kind === 'u' && e.d.harv) s += `<br>Load: ${e.load}/${e.d.cap} · ${e.blocked ? 'storage full, waiting at dock' : ({ seek: 'looking for Salvage', toField: 'heading to a Scrap Pile', gather: 'gathering', toPlant: 'returning to ' + bname('refinery', e.side), queue: 'waiting for the dock', unload: 'unloading', idle: 'no Salvage found', noPlant: 'no ' + bname('refinery', e.side) + ' to unload at', parked: 'parked (right-click a Scrap Pile to resume)' })[e.hs] || ''}`;
+    if (e.kind === 'b' && e.type === 'refinery' && e.dockQ) s += `<br>Dock: ${e.dockQ.length ? e.dockQ.length + ' truck(s), 1 unloading at a time' : 'free'}`;
     if (e.kind === 'b' && e.side === 0 && ['hq', 'barracks', 'factory'].includes(e.type)) s += '<br><small>Right-click the ground to set a rally point.</small>';
   } else if (sel.length > 1) {
     const c = {}; for (const e of sel) c[ename(e)] = (c[ename(e)] || 0) + 1;
@@ -1258,7 +1317,7 @@ function updSidebar() {
 }
 const fmtT = t => { t = Math.max(0, Math.ceil(t)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); };
 function hint(t) { const h = $('modeHint'); if (t) { h.textContent = t; h.style.display = 'block'; } else h.style.display = 'none'; }
-function startNuke() { if (!G || !readySilo(0)) return; G.mode = 'nuke'; G.placing = null; hint('Click a target for JUDGMENT · Right-click / Esc to cancel'); }
+function startNuke() { if (!G || !readySilo(0)) return; G.mode = 'nuke'; G.placing = null; hint('Click a target for the nuke · Right-click / Esc to cancel'); }
 
 // ---------------- input ----------------
 const mouse = { x: 0, y: 0, wx: 0, wy: 0, in: false, down: false, drag: false, dx: 0, dy: 0, sx: 0, sy: 0 };
@@ -1327,8 +1386,13 @@ function command(wx, wy) {
   const harv = units.filter(u => u.d.harv), rest = units.filter(u => !u.d.harv);
   for (const h of harv) {
     if (ti >= 0 && ti < N && res[ti] > 0) orderHarvest(h, ti);
-    else if (t && t.kind === 'b' && t.side === 0 && (t.type === 'refinery' || t.type === 'hq')) orderDock(h, t);
+    else if (t && t.kind === 'b' && t.side === 0 && t.type === 'refinery') orderDock(h, t);
     else orderMove(h, wx, wy);
+  }
+  if (harv.length && ((ti >= 0 && ti < N && res[ti] > 0) || (t && t.kind === 'b' && t.side === 0 && t.type === 'refinery'))) {
+    const dp = t && t.type === 'refinery' ? dockPoint(t) : { x: (ti % MW) * TILE + 16, y: ((ti / MW) | 0) * TILE + 16 };
+    G.fx.push({ k: 'arrow', x: dp.x, y: dp.y, t: 0, dur: 0.8 });
+    if (!rest.length) { sfx('click'); return; }
   }
   if (rest.length) issueMove(rest, wx, wy, false);
   G.fx.push({ k: 'spark', x: wx, y: wy, c: '#7dff7d', t: 0, dur: 0.4 });
@@ -1381,16 +1445,18 @@ function newGame(diffKey) {
   const seed = (Math.random() * 1e9) | 0; rng = mulberry32(seed);
   idc = 0; bById.clear();
   G = { seed, time: 0, diff: DIFF[diffKey] || DIFF.normal, diffKey, units: [], blds: [], proj: [], fx: [], decals: [], rad: [], missiles: [], rises: [], sel: [], groups: {},
-    credits: [2500, 2500], queues: [mkQ(), mkQ()], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0 },
+    credits: [SD.startScripPlayer, SD.startScripAI], queues: [mkQ(), mkQ()], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0 },
     over: false, paused: false, started: false, mode: null, placing: null, ai: { t: 1, nextWave: 0, waveN: 0 }, fogT: 0, winT: 0, shakeA: 0,
     baseP: { x: 9, y: MH - 10 }, baseE: { x: MW - 10, y: 9 } };
   G.ai.nextWave = G.diff.firstWave;
   genMap();
+  SAL = makeSalvage();
   const P = G.baseP;
   for (const side of [0, 1]) {
     const place = (type, tx, ty) => { const d = BDEF[type]; if (side === 1) { tx = MW - tx - d.w; ty = MH - ty - d.h; } return makeBld(type, side, tx, ty); };
     const hq = place('hq', P.x - 1, P.y - 1);
-    place('refinery', P.x + 3, P.y + 1);
+    // Survivors start with a Power Plant + Scrap Yard (2,500 cannot buy both); the AI builds its own from 3,000 (ADD §2)
+    if (side === 0) { place('power', P.x + 3, P.y - 2); place('refinery', P.x + 3, P.y + 1); }
     const types = side ? ['zombie', 'zombie', 'zombie', 'zombie', 'imp'] : ['survivor', 'survivor', 'survivor', 'survivor', 'seraph'];
     types.forEach((t, k) => { const tx = side ? MW - 1 - (P.x + 3 + (k % 3)) : P.x + 3 + (k % 3), ty = side ? MH - 1 - (P.y - 4 - Math.floor(k / 3)) : P.y - 4 - Math.floor(k / 3); const n = nearestWalkable(tx, ty); makeUnit(t, side, n[0] * TILE + 16, n[1] * TILE + 16); });
   }
@@ -1399,13 +1465,14 @@ function newGame(diffKey) {
   centerOn(P.x * TILE, P.y * TILE - 100);
   buildSidebar();
   hint();
-  msg('Gather salvage, build up, and destroy every Horde structure.', '#f2d06b');
-  msg('Tip: build a Chapel to train troops. Your Gleaner harvests automatically.', '#d8c8a8');
+  msg('Gather Salvage, build up, and destroy every Horde structure.', '#f2d06b');
+  msg('Tip: your Scrap Truck hauls Salvage to the Scrap Yard for Credits. Right-click a Scrap Pile or Yard to direct it.', '#d8c8a8');
 }
 function step(dt) {
   G.time += dt;
   updProduction(dt);
   updAI(dt);
+  SAL.update(dt); // fixed-step salvage sim (accumulator)
   for (const u of G.units) if (!u.dead) updUnit(u, dt);
   separate();
   for (const b of G.blds) if (!b.dead) updBld(b, dt);
@@ -1431,7 +1498,7 @@ function checkEnd() {
   $('endTitle').style.color = win ? '#f2d06b' : '#ff4a2a';
   $('endText').textContent = win ? 'The Horde is banished. Dawn breaks over the ashes.' : 'Your last light is extinguished. The Horde inherits the earth.';
   const s = G.stats;
-  $('endStats').textContent = `Time played      ${fmtT(G.time)}\nDifficulty       ${G.diff.name}\nEnemies slain    ${s.kills}\nEnemy structures ${s.bKills}\nUnits lost       ${s.lost - s.bLost}\nStructures lost  ${s.bLost}\nUnits trained    ${s.built}\nSalvage gathered ${Math.floor(s.salvage)}\nJudgments fired  ${s.nukes}`;
+  $('endStats').textContent = `Time played      ${fmtT(G.time)}\nDifficulty       ${G.diff.name}\nEnemies slain    ${s.kills}\nEnemy structures ${s.bKills}\nUnits lost       ${s.lost - s.bLost}\nStructures lost  ${s.bLost}\nUnits trained    ${s.built}\nCredits earned   ${Math.floor(s.salvage)}\nNukes fired      ${s.nukes}`;
   setTimeout(() => showPanel('endPanel'), 1200);
 }
 let lastTs = 0, uiT = 0, miniT = 0;
@@ -1458,4 +1525,4 @@ resize();
 showPanel('startPanel');
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { get G() { return G; }, step, newGame, UDEF, BDEF, queueItem, placeBld, canPlace, launchNuke, issueMove, cam, centerOn };
+window.RTS = { get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, dockPoint, command, step, newGame, UDEF, BDEF, queueItem, placeBld, canPlace, launchNuke, issueMove, cam, centerOn };

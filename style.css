@@ -7,7 +7,17 @@ body{display:flex}
 #title{font-weight:bold;letter-spacing:3px;color:#f2d06b;text-align:center;font-size:18px;text-shadow:0 0 8px #b5651d}
 #title span,h1 span{color:#ff6a3d;font-size:.7em;letter-spacing:2px}
 #credits{display:flex;justify-content:space-between;background:#000;border:1px solid #5a3a20;padding:4px 8px;font-family:monospace;font-size:18px;color:#ffd36b}
-#credits .lbl{color:#a08060;font-size:13px;align-self:center}
+#credits .lbl{color:#a08060;font-size:13px;align-self:center;display:flex;align-items:center;gap:5px}
+#credits #cr{color:#FFC93A}
+#credits.amber #cr{color:#FFB347}
+#credits.full #cr{color:#FF8A3A;animation:pulse 1s infinite}
+#credits small{color:#7a6048;font-size:11px;margin-left:4px}
+#credits .coin{display:inline-block;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 50% 50%,#8a6a10 0 3px,#FFC93A 3px 6px,#c89a20 6px 7px,#FFC93A 7px);box-shadow:0 0 0 1px #6a4a08}
+#power{display:flex;justify-content:space-between;align-items:center;gap:6px;background:#000;border:1px solid #5a3a20;border-top:none;padding:2px 8px;font-family:monospace;font-size:12px;color:#9FE8FF}
+#power .meter{flex:1;height:6px;background:#222;border:1px solid #444}
+#power .meter div{height:100%;background:#9FE8FF}
+#power.low{color:#ff5a4a;animation:pulse 0.8s infinite}
+#power.low .meter div{background:#ff5a4a}
 #mini{width:236px;height:236px;border:1px solid #5a3a20;background:#000;cursor:pointer;image-rendering:pixelated}
 .sect{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#c9a36b;border-bottom:1px solid #3a2818;padding-bottom:2px}
 .sect small{text-transform:none;color:#7a6048;letter-spacing:0}
