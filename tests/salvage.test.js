@@ -37,7 +37,7 @@ test('balance table: Loop 1 spec + Director ruling 1 + addendum values', () => {
   assert.equal(D.startScripAI, 3000); assert.equal(D.aiGorgerReserve, 1200);
   for (const k in Salvage.TABLE) assert.ok(Salvage.TABLE[k].src, k + ' has a source');
   const ph = Object.keys(Salvage.TABLE).filter(k => /PLACEHOLDER/.test(Salvage.TABLE[k].src));
-  assert.ok(ph.includes('tickRate') && ph.includes('otherPower'), 'placeholders are marked');
+  assert.ok(ph.includes('tickRate') && ph.includes('siloPower'), 'placeholders are marked');
 });
 
 test('stages: ceil(amount/125), 4 stages; pips: 5', () => {
@@ -51,8 +51,8 @@ test('storage cap and power balance (addendum §1, §3)', () => {
   assert.equal(Salvage.storageCap({ hq: 1, refinery: 1, depot: 2 }), 7000);
   assert.deepEqual(Salvage.powerBalance(['hq', 'power', 'refinery']), { made: 100, used: 30, net: 70 }, 'player start runs at full speed');
   assert.deepEqual(Salvage.powerBalance(['hq', 'power', 'refinery', 'factory']), { made: 100, used: 70, net: 30 });
-  assert.deepEqual(['hq', 'turret', 'depot', 'barracks', 'silo'].map(Salvage.powerOfType), [0, -20, -10, -20, 0]);
-  for (const k of ['hqPower', 'turretPower', 'depotPower', 'barracksPower']) assert.match(Salvage.TABLE[k].src, /PLACEHOLDER/);
+  assert.deepEqual(['hq', 'turret', 'depot', 'barracks', 'silo'].map(Salvage.powerOfType), [0, -20, -10, -20, -50]);
+  for (const k of ['hqPower', 'turretPower', 'depotPower', 'barracksPower', 'siloPower']) assert.match(Salvage.TABLE[k].src, /PLACEHOLDER/);
   assert.equal(Salvage.powerBalance(['refinery']).net, -30);
 });
 

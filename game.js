@@ -43,7 +43,7 @@ const BDEF = {
   barracks: { name: ['Barracks', 'Spawning Pit'], desc: 'Trains infantry. Uses 20 power', w: 2, h: 2, hp: 800, cost: 500, time: 8, req: ['hq'], sight: 5 },
   turret: { name: ['Turret', 'Bone Spire'], desc: 'Defense tower. Uses 20 power', w: 1, h: 1, hp: 650, cost: 600, time: 9, req: ['barracks'], sight: 7, dmg: 28, rof: 0.9, range: 6.5 },
   factory: { name: ['Factory', 'Factory'], desc: 'Builds heavy units. Uses 40 power', w: 3, h: 3, hp: 1200, cost: 2000, time: 15, req: ['refinery'], sight: 5 },
-  silo: { name: ['Nuke Silo', 'Hell Silo'], desc: 'Superweapon. Charges a nuke', w: 2, h: 2, hp: 1000, cost: 2500, time: 22, req: ['factory'], sight: 5 },
+  silo: { name: ['Nuke Silo', 'Hell Silo'], desc: 'Superweapon. Charges a nuke. Uses 50 power', w: 2, h: 2, hp: 1000, cost: 2500, time: 22, req: ['factory'], sight: 5 },
 };
 const BORDER = ['refinery', 'barracks', 'turret', 'factory', 'silo', 'power', 'depot'];
 const UORDER = [['gleaner', 'survivor', 'seraph', 'ark'], ['reaper', 'zombie', 'imp', 'brute']];
@@ -1233,7 +1233,7 @@ function sfx(k, x, y) {
 
 // ---------------- messages ----------------
 function msg(text, color, x, y) {
-  const box = $('msgs'); const d = document.createElement('div'); d.textContent = text; d.style.color = color || '#e8dcc8';
+  const box = $('msgs'); const d = document.createElement('div'); d.textContent = text; d.style.color = color || '#D8DCDF';
   box.appendChild(d); while (box.children.length > 5) box.removeChild(box.firstChild);
   setTimeout(() => { d.style.opacity = 0; }, 5000); setTimeout(() => d.remove(), 6000);
   if (x !== undefined) G.lastAlert = { x, y };
@@ -1301,7 +1301,7 @@ function updSidebar() {
   if (ps) { const f = Math.min(1, ps.charge / NUKE_CHARGE); h += `<div class="row"><span class="gold">Nuke</span><div class="meter"><div style="width:${f * 100}%"></div></div>${f >= 1 ? '<button id="bNuke">LAUNCH (N)</button>' : fmtT(NUKE_CHARGE - ps.charge)}</div>`; }
   const es = G.blds.filter(b => b.side === 1 && b.type === 'silo' && !b.dead).sort((a, b) => b.charge - a.charge)[0];
   if (es) { const f = Math.min(1, es.charge / NUKE_CHARGE); h += `<div class="row"><span class="red">Hell Silo</span><div class="meter enemy"><div style="width:${f * 100}%"></div></div>${fmtT(NUKE_CHARGE - es.charge)}</div>`; }
-  if (!h) h = '<span style="color:#7a6048">Superweapon: build a Nuke Silo (needs Factory).</span>';
+  if (!h) h = '<span style="color:#6E7378">Superweapon: build a Nuke Silo (needs Factory).</span>';
   if ($('super').innerHTML !== h) { $('super').innerHTML = h; const bn = $('bNuke'); if (bn) bn.onclick = () => startNuke(); }
   // selection info
   let s = '';
@@ -1315,8 +1315,8 @@ function updSidebar() {
   } else if (sel.length > 1) {
     const c = {}; for (const e of sel) c[ename(e)] = (c[ename(e)] || 0) + 1;
     s = `<b>${sel.length} selected</b><br>` + Object.entries(c).map(([k, v]) => `${v} × ${k}`).join('<br>');
-  } else s = '<span style="color:#7a6048">Nothing selected.<br>Drag to select units. Right-click to command.</span>';
-  s += `<br><small style="color:#7a6048">Time ${fmtT(G.time)} · ${G.diff.name} · Horde waves sent: ${G.ai.waveN}</small>`;
+  } else s = '<span style="color:#6E7378">Nothing selected.<br>Drag to select units. Right-click to command.</span>';
+  s += `<br><small style="color:#6E7378">Time ${fmtT(G.time)} · ${G.diff.name} · Horde waves sent: ${G.ai.waveN}</small>`;
   $('sel').innerHTML = s;
 }
 const fmtT = t => { t = Math.max(0, Math.ceil(t)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); };
