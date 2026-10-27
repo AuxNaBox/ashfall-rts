@@ -8,7 +8,7 @@ const TILE = 32, CX = 30 * TILE, CY = 40 * TILE, GAP = 8 * TILE, LIMIT = 240;
 const MATCHUPS = [
   { id: '1', name: '6 Riflemen (600) vs 10 Zombies (600)', a: { survivor: 6 }, b: { zombie: 10 }, expect: 'b', target: 'Zombies win with 3-6 left (risen counted separately)', check: r => r.bLeftOrig >= 3 && r.bLeftOrig <= 6 },
   { id: '2', name: '1 Tank (800) vs 13 Zombies (780)', a: { ark: 1 }, b: { zombie: 13 }, expect: 'a', target: 'Tank wins with >= 20% HP', check: r => r.aHpPct >= 20 },
-  { id: '3', name: '4 Angels (1,800) vs 9 Imps (1,800)', a: { seraph: 4 }, b: { imp: 9 }, expect: 'b', target: 'Imps win with >= 3 left', check: r => r.bLeft >= 3 },
+  { id: '3', name: '4 Angels (1,800) vs 9 Imps (1,800)', a: { seraph: 4 }, b: { imp: 9 }, expect: 'b', target: 'Imps win with >= 2 left (Dezi, Loop 3; was >= 3)', check: r => r.bLeft >= 2 },
   { id: '4', name: '9 Riflemen (900) vs 4 Imps (800)', a: { survivor: 9 }, b: { imp: 4 }, expect: 'a', target: 'Riflemen win with >= 5 left', check: r => r.aLeft >= 5 },
   { id: '5a', name: '1 Hellbrute (900) vs 1 Tank (800)', a: { ark: 1 }, b: { brute: 1 }, expect: 'b', target: 'Hellbrute wins with 15-40% HP', check: r => r.bHpPct >= 15 && r.bHpPct <= 40 },
   { id: '5b', name: '2 Angels vs 1 Hellbrute', a: { seraph: 2 }, b: { brute: 1 }, expect: 'a', target: 'Angels win with 0 losses', check: r => r.aLost === 0, strictWin: r => r.aLost === 0 },

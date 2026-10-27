@@ -2,7 +2,6 @@
 // Loaded before game.js in the browser; require()-able in node for tests.
 (function (root) {
   'use strict';
-  const PH = 'PLACEHOLDER';
   // damage multiplier matrix: weapon -> armor. null = cannot target (CS "Armor and damage types")
   const MATRIX = {
     bullet: { light: 1.0, heavy: 0.6, air: 1.0, structure: 0.6 },
@@ -12,7 +11,8 @@
     cleave: { light: 1.0, heavy: 1.25, air: null, structure: 1.25 },
     beam: { light: 1.25, heavy: 1.0, air: 1.0, structure: 0.6 },
   };
-  // CS balance table + live values. speed in tiles/s, range/sight in tiles, rof = s between shots
+  // CS balance table + live values. speed in tiles/s, range/sight in tiles, rof = s between shots.
+  // Speeds come from the spec table (x32 px; e.g. Zombie 35.2 vs live 36): approved by Dezi, Loop 3. Imp splash 0.35 tiles: approved by Dezi, Loop 3.
   const UNITS = {
     survivor: { armor: 'light', dmgType: 'bullet', cost: 100, time: 4, hp: 100, dmg: 11, rof: 0.75, range: 4.5, speed: 1.8, sight: 6 },
     ark: { armor: 'heavy', dmgType: 'shell', splash: 1.0, cost: 800, time: 13, hp: 700, dmg: 75, rof: 2.2, range: 6, speed: 1.25, sight: 7 },
@@ -31,12 +31,12 @@
     plagueHealDps: { v: 4, src: 'CS plague (was 6)' },
     riseDelay: { v: 1.6, src: 'CS the dead rise (existing)' },
     purifyTiles: { v: 4, src: 'CS open call default A' },
-    impSplash: { v: 0.35, src: 'live value kept (CS lists no splash for Fire; "every unit keeps live stats")' },
+    impSplash: { v: 0.35, src: 'approved by Dezi, Loop 3: live value kept (0.35 tiles)' },
     projArcPx: { v: 9, src: 'CS Artie: air lift 9 px (projectiles aim at the lifted sprite)' },
-    crushRadiusPx: { v: 12, src: PH + ': "drives over the center" = enemy centre within the truck radius (12 px)' },
-    truckRetreatPct: { v: 0.5, src: 'Loop 1 spec (retreat < 50% HP, once per life: no repair yet)' },
+    crushRadiusPx: { v: 12, src: 'approved by Dezi, Loop 3: "drives over the center" = enemy centre within the truck radius (12 px)' },
+    truckRetreatPct: { v: 0.5, src: 'approved by Dezi, Loop 3: retreat below 50% HP, once per life (a future repair should reset it)' },
     truckDropPct: { v: 0.5, src: 'Loop 1 spec (50% of cargo drops on death)' },
-    truckDropSearchTiles: { v: 2, src: PH + ': drop lands on the nearest Salvage Field tile within 2 tiles, else is lost' },
+    truckDropSearchTiles: { v: 2, src: 'approved by Dezi, Loop 3: nearest Scrap Pile within 2 tiles, up to its 500 cap; overflow or no pile in range is lost' },
   };
   const D = {}; for (const k in TABLE) D[k] = TABLE[k].v;
   const RISE_WEAPONS = ['claw', 'plague'];          // crush, shell, fire, cleave never rise

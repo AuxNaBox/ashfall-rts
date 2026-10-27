@@ -530,6 +530,7 @@ function damage(t, amt, src, w) {
   else if (t.kind === 'u' && t.side === 0 && src && src.kind === 'u' && !t.target && t.order === 'idle' && canAttack(t, src)) { t.target = src; t.tmode = 'auto'; }
 }
 // Loop 1 rule kept by CS: a truck below 50% HP goes home to unload (once per life: there is no repair yet), and never fights back
+// Truck retreat below 50% HP, once per life (approved by Dezi, Loop 3). TODO: a future repair should reset t.retreated.
 function truckHurt(t) {
   if (t.retreated || t.hp >= t.maxhp * Combat.D.truckRetreatPct) return;
   t.retreated = true;
@@ -570,13 +571,20 @@ function kill(t, src, w) {
   }
 }
 
-// half the cargo drops as a Scrap Pile on the nearest Salvage Field tile (Loop 1 spec)
+// Cargo drop on truck death (approved by Dezi, Loop 3): half the load goes to the nearest Scrap Pile (a Salvage Field
+// tile with Salvage on it) within 2 tiles, up to that tile's 500 cap; anything over the cap, or with no pile in range, is lost.
 function dropCargo(t) {
-  const amt = Math.floor(t.load * Combat.D.truckDropPct), cx = tileOf(t.x), cy = tileOf(t.y), R = Combat.D.truckDropSearchTiles;
+  const amt = Math.floor(t.load * Combat.D.truckDropPct), cx = tileOf(t.x), cy = tileOf(t.y), R = Combat.D.truckDropSearchTiles, cap = Salvage.D.tileMax;
   let bi = -1, bd = 1e9;
-  for (let dy = -R; dy <= R; dy++) for (let dx = -R; dx <= R; dx++) { const x = cx + dx, y = cy + dy; if (x < 0 || y < 0 || x >= MW || y >= MH) continue; const i = y * MW + x; if (SAL.field[i] < 0 || bgrid[i]) continue; const d = dx * dx + dy * dy; if (d < bd) { bd = d; bi = i; } }
-  if (bi < 0 || amt <= 0) return;
-  res[bi] = Math.min(65535, res[bi] + amt); G.fx.push({ k: 'dust', x: (bi % MW) * TILE + 16, y: ((bi / MW) | 0) * TILE + 16, t: 0, dur: 0.6 });
+  for (let dy = -R; dy <= R; dy++) for (let dx = -R; dx <= R; dx++) {
+    const x = cx + dx, y = cy + dy; if (x < 0 || y < 0 || x >= MW || y >= MH) continue;
+    const i = y * MW + x; if (SAL.field[i] < 0 || res[i] <= 0 || bgrid[i]) continue;
+    const d = dx * dx + dy * dy; if (d < bd) { bd = d; bi = i; }
+  }
+  if (bi < 0 || amt <= 0) return 0;
+  const add = Math.max(0, Math.min(amt, cap - res[bi])); // over the cap is lost
+  res[bi] += add; if (add > 0) G.fx.push({ k: 'dust', x: (bi % MW) * TILE + 16, y: ((bi / MW) | 0) * TILE + 16, t: 0, dur: 0.6 });
+  return add;
 }
 // a moving truck crushes enemy Light infantry under its centre (CS); crushed bodies never rise
 function updCrush() {

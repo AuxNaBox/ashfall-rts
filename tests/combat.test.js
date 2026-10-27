@@ -101,13 +101,36 @@ test('plague: Survivor infantry -6/s, vehicles and trucks -4/s, Horde heals 4/s,
   assert.deepEqual([Combat.D.plagueInfDps, Combat.D.plagueVehDps, Combat.D.plagueHealDps], [6, 4, 4]);
 });
 
-test('truck below 50% HP heads home with its load; on death half its cargo drops on the field', () => {
+test('truck below 50% HP heads home with its load, once per life', () => {
   const G = arena();
   for (let i = 0; i < 4; i++) R.res[30 * 80 + 30 + i] = 300; R.SAL.initFields();
-  const yard = R.makeBld('refinery', 0, 10, 10); const truck = G.units.find(u => u.d.harv);
+  R.makeBld('refinery', 0, 10, 10); const truck = G.units.find(u => u.d.harv);
   truck.x = 31 * T + 16; truck.y = 30 * T + 16; truck.load = 300; truck.hs = 'gather'; truck.htile = 30 * 80 + 31;
   R.damage(truck, 350, null, 'nuke'); assert.equal(truck.hs, 'toPlant'); assert.ok(truck.retreated);
-  const before = R.res[30 * 80 + 31]; R.damage(truck, 500, null, 'nuke'); assert.ok(truck.dead); assert.equal(R.res[30 * 80 + 31], before + 150);
+  truck.hs = 'gather'; R.damage(truck, 10, null, 'nuke'); assert.equal(truck.hs, 'gather', 'only once per life');
+});
+
+// cargo drop (approved by Dezi, Loop 3): half the load to the nearest Scrap Pile within 2 tiles, up to its 500 cap
+const dropSetup = (piles, load) => {
+  const G = arena();
+  for (const [x, v] of piles) R.res[30 * 80 + x] = v; R.SAL.initFields();
+  for (const [x, v] of piles) R.res[30 * 80 + x] = v;
+  const truck = R.makeUnit('gleaner', 0, 30 * T + 16, 30 * T + 16); truck.load = load; truck.retreated = true;
+  R.damage(truck, 1e6, null, 'nuke'); assert.ok(truck.dead);
+  return G;
+};
+test('cargo drop: half the load lands on the nearest Scrap Pile', () => {
+  dropSetup([[31, 100], [32, 100]], 400);
+  assert.equal(R.res[30 * 80 + 31], 300); assert.equal(R.res[30 * 80 + 32], 100);
+});
+test('cargo drop overflow: capped at 500 on the pile, the rest is lost', () => {
+  dropSetup([[31, 400], [32, 0 + 50]], 500);
+  assert.equal(R.res[30 * 80 + 31], 500, '400 + 250 capped to 500; 150 lost'); assert.equal(R.res[30 * 80 + 32], 50, 'overflow does not spill to other piles');
+});
+test('cargo drop: no Scrap Pile within 2 tiles means the cargo is lost', () => {
+  dropSetup([[33, 100], [34, 100]], 400);
+  assert.equal(R.res[30 * 80 + 33], 100); assert.equal(R.res[30 * 80 + 34], 100);
+  let total = 0; for (let i = 0; i < R.res.length; i++) total += R.res[i]; assert.equal(total, 200);
 });
 
 for (const m of MATCHUPS) test(`matchup ${m.id}: ${m.name} (expected winner >= 80% of 20 seeded runs)`, () => {
