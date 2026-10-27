@@ -20,7 +20,7 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    530,
+    662,
     273,
     32,
     33
@@ -63,7 +63,7 @@
    "state": "construct",
    "team": "violet",
    "rect": [
-    564,
+    696,
     273,
     32,
     33
@@ -106,7 +106,7 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    598,
+    730,
     273,
     32,
     33
@@ -138,7 +138,8 @@
     15.91,
     4.28
    ],
-   "top": "bone_spire_top"
+   "top": "bone_spire_top",
+   "damaged_of": "idle"
   },
   {
    "name": "bone_spire-damaged-violet",
@@ -148,7 +149,7 @@
    "state": "damaged",
    "team": "violet",
    "rect": [
-    632,
+    764,
     273,
     32,
     33
@@ -180,7 +181,8 @@
     15.91,
     4.28
    ],
-   "top": "bone_spire_top"
+   "top": "bone_spire_top",
+   "damaged_of": "idle"
   },
   {
    "name": "bone_spire-idle-red",
@@ -190,7 +192,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    666,
+    798,
     273,
     32,
     33
@@ -232,7 +234,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    700,
+    832,
     273,
     32,
     33
@@ -274,7 +276,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    582,
+    722,
     335,
     33,
     21
@@ -296,7 +298,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    617,
+    757,
     335,
     33,
     21
@@ -318,7 +320,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    314,
+    454,
     335,
     32,
     22
@@ -340,7 +342,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    348,
+    488,
     335,
     32,
     22
@@ -362,7 +364,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    74,
+    214,
     335,
     28,
     28
@@ -384,7 +386,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    104,
+    244,
     335,
     28,
     28
@@ -406,8 +408,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    990,
-    273,
+    118,
+    335,
     22,
     31
    ],
@@ -428,7 +430,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    2,
+    142,
     335,
     22,
     31
@@ -450,7 +452,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    734,
+    866,
     273,
     21,
     33
@@ -472,7 +474,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    757,
+    889,
     273,
     21,
     33
@@ -494,7 +496,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    826,
+    958,
     273,
     22,
     32
@@ -516,7 +518,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    850,
+    982,
     273,
     22,
     32
@@ -538,7 +540,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    134,
+    274,
     335,
     28,
     28
@@ -560,7 +562,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    164,
+    304,
     335,
     28,
     28
@@ -582,7 +584,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    450,
+    590,
     335,
     31,
     22
@@ -604,7 +606,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    483,
+    623,
     335,
     31,
     22
@@ -626,7 +628,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    652,
+    792,
     335,
     33,
     21
@@ -648,7 +650,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    687,
+    827,
     335,
     33,
     21
@@ -670,7 +672,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    382,
+    522,
     335,
     32,
     22
@@ -692,7 +694,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    416,
+    556,
     335,
     32,
     22
@@ -714,7 +716,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    194,
+    334,
     335,
     28,
     28
@@ -736,7 +738,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    224,
+    364,
     335,
     28,
     28
@@ -758,7 +760,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    26,
+    166,
     335,
     22,
     31
@@ -780,7 +782,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    50,
+    190,
     335,
     22,
     31
@@ -802,7 +804,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    780,
+    912,
     273,
     21,
     33
@@ -824,7 +826,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    803,
+    935,
     273,
     21,
     33
@@ -846,8 +848,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    874,
-    273,
+    2,
+    335,
     22,
     32
    ],
@@ -868,8 +870,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    898,
-    273,
+    26,
+    335,
     22,
     32
    ],
@@ -890,7 +892,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    254,
+    394,
     335,
     28,
     28
@@ -912,7 +914,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    284,
+    424,
     335,
     28,
     28
@@ -934,7 +936,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    516,
+    656,
     335,
     31,
     22
@@ -956,7 +958,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    549,
+    689,
     335,
     31,
     22
@@ -978,7 +980,7 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    134,
+    266,
     273,
     64,
     35
@@ -1016,7 +1018,7 @@
    "state": "construct",
    "team": "violet",
    "rect": [
-    200,
+    332,
     273,
     64,
     35
@@ -1054,7 +1056,7 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    266,
+    398,
     273,
     64,
     35
@@ -1081,7 +1083,8 @@
     "h": 28,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "depot-damaged-violet",
@@ -1091,7 +1094,7 @@
    "state": "damaged",
    "team": "violet",
    "rect": [
-    332,
+    464,
     273,
     64,
     35
@@ -1118,7 +1121,8 @@
     "h": 28,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "depot-idle-red",
@@ -1128,7 +1132,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    398,
+    530,
     273,
     64,
     35
@@ -1165,7 +1169,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    464,
+    596,
     273,
     64,
     35
@@ -1305,7 +1309,8 @@
     "h": 92,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "factory-damaged-violet",
@@ -1342,7 +1347,8 @@
     "h": 92,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "factory-idle-red",
@@ -1553,7 +1559,8 @@
     ],
     "frame": "grinder_pit_pad-idle-red",
     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "grinder_pit-damaged-violet",
@@ -1598,7 +1605,8 @@
     ],
     "frame": "grinder_pit_pad-idle-violet",
     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "grinder_pit-idle-red",
@@ -1698,8 +1706,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    922,
-    273,
+    50,
+    335,
     32,
     31
    ],
@@ -1723,8 +1731,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    956,
-    273,
+    84,
+    335,
     32,
     31
    ],
@@ -1925,7 +1933,8 @@
     "h": 60,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "closed"
   },
   {
    "name": "hell_silo-damaged-violet",
@@ -1962,7 +1971,84 @@
     "h": 60,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "closed"
+  },
+  {
+   "name": "hell_silo-damaged_open-red",
+   "building": "hell_silo",
+   "code_type": "silo",
+   "part": "base",
+   "state": "damaged_open",
+   "team": "red",
+   "rect": [
+    596,
+    198,
+    64,
+    60
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08032,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    60
+   ],
+   "footprint_origin": [
+    0.0,
+    -4
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "damaged_of": "open"
+  },
+  {
+   "name": "hell_silo-damaged_open-violet",
+   "building": "hell_silo",
+   "code_type": "silo",
+   "part": "base",
+   "state": "damaged_open",
+   "team": "violet",
+   "rect": [
+    662,
+    198,
+    64,
+    60
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08032,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    60
+   ],
+   "footprint_origin": [
+    0.0,
+    -4
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "damaged_of": "open"
   },
   {
    "name": "hell_silo-open-red",
@@ -1972,7 +2058,7 @@
    "state": "open",
    "team": "red",
    "rect": [
-    596,
+    728,
     198,
     64,
     60
@@ -2009,7 +2095,7 @@
    "state": "open",
    "team": "violet",
    "rect": [
-    662,
+    794,
     198,
     64,
     60
@@ -2149,7 +2235,8 @@
     "h": 92,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "hive-damaged-violet",
@@ -2186,7 +2273,8 @@
     "h": 92,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "hive-idle-red",
@@ -2373,7 +2461,8 @@
     "h": 60,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "power_plant-damaged-violet",
@@ -2410,7 +2499,8 @@
     "h": 60,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "power_plant-idle-red",
@@ -2494,7 +2584,7 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    728,
+    860,
     198,
     64,
     60
@@ -2532,7 +2622,7 @@
    "state": "construct",
    "team": "violet",
    "rect": [
-    794,
+    926,
     198,
     64,
     60
@@ -2570,8 +2660,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    860,
-    198,
+    2,
+    273,
     64,
     60
    ],
@@ -2597,7 +2687,8 @@
     "h": 60,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "spawning_pit-damaged-violet",
@@ -2607,8 +2698,8 @@
    "state": "damaged",
    "team": "violet",
    "rect": [
-    926,
-    198,
+    68,
+    273,
     64,
     60
    ],
@@ -2634,7 +2725,8 @@
     "h": 60,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "spawning_pit-idle-red",
@@ -2644,7 +2736,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    2,
+    134,
     273,
     64,
     60
@@ -2681,7 +2773,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    68,
+    200,
     273,
     64,
     60
@@ -2781,7 +2873,7 @@
     "top": "bone_spire_top",
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     728,
+     794,
      102,
      32,
      33
@@ -2821,8 +2913,9 @@
      4.28
     ],
     "top": "bone_spire_top",
+    "damaged_of": "idle",
     "rect": [
-     762,
+     828,
      102,
      32,
      33
@@ -2863,7 +2956,7 @@
     ],
     "top": "bone_spire_top",
     "rect": [
-     796,
+     862,
      102,
      32,
      33
@@ -2884,7 +2977,7 @@
     ],
     "shadow": null,
     "rect": [
-     256,
+     304,
      177,
      33,
      21
@@ -2905,7 +2998,7 @@
     ],
     "shadow": null,
     "rect": [
-     122,
+     170,
      177,
      32,
      22
@@ -2926,7 +3019,7 @@
     ],
     "shadow": null,
     "rect": [
-     2,
+     50,
      177,
      28,
      28
@@ -2947,8 +3040,8 @@
     ],
     "shadow": null,
     "rect": [
-     958,
-     102,
+     2,
+     177,
      22,
      31
     ]
@@ -2968,7 +3061,7 @@
     ],
     "shadow": null,
     "rect": [
-     830,
+     896,
      102,
      21,
      33
@@ -2989,7 +3082,7 @@
     ],
     "shadow": null,
     "rect": [
-     876,
+     942,
      102,
      22,
      32
@@ -3010,7 +3103,7 @@
     ],
     "shadow": null,
     "rect": [
-     32,
+     80,
      177,
      28,
      28
@@ -3031,7 +3124,7 @@
     ],
     "shadow": null,
     "rect": [
-     190,
+     238,
      177,
      31,
      22
@@ -3052,7 +3145,7 @@
     ],
     "shadow": null,
     "rect": [
-     291,
+     339,
      177,
      33,
      21
@@ -3073,7 +3166,7 @@
     ],
     "shadow": null,
     "rect": [
-     156,
+     204,
      177,
      32,
      22
@@ -3094,7 +3187,7 @@
     ],
     "shadow": null,
     "rect": [
-     62,
+     110,
      177,
      28,
      28
@@ -3115,8 +3208,8 @@
     ],
     "shadow": null,
     "rect": [
-     982,
-     102,
+     26,
+     177,
      22,
      31
     ]
@@ -3136,7 +3229,7 @@
     ],
     "shadow": null,
     "rect": [
-     853,
+     919,
      102,
      21,
      33
@@ -3157,7 +3250,7 @@
     ],
     "shadow": null,
     "rect": [
-     900,
+     966,
      102,
      22,
      32
@@ -3178,7 +3271,7 @@
     ],
     "shadow": null,
     "rect": [
-     92,
+     140,
      177,
      28,
      28
@@ -3199,7 +3292,7 @@
     ],
     "shadow": null,
     "rect": [
-     223,
+     271,
      177,
      31,
      22
@@ -3236,7 +3329,7 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     530,
+     596,
      102,
      64,
      35
@@ -3271,8 +3364,9 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "damaged_of": "idle",
     "rect": [
-     596,
+     662,
      102,
      64,
      35
@@ -3308,7 +3402,7 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     662,
+     728,
      102,
      64,
      35
@@ -3380,6 +3474,7 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "damaged_of": "idle",
     "rect": [
      100,
      2,
@@ -3505,6 +3600,7 @@
      "frame": "grinder_pit_pad-idle",
      "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
     },
+    "damaged_of": "idle",
     "rect": [
      688,
      2,
@@ -3574,7 +3670,7 @@
      1
     ],
     "rect": [
-     924,
+     990,
      102,
      32,
      31
@@ -3682,8 +3778,46 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "damaged_of": "closed",
     "rect": [
      200,
+     102,
+     64,
+     60
+    ]
+   },
+   {
+    "name": "hell_silo-damaged_open",
+    "building": "hell_silo",
+    "code_type": "silo",
+    "part": "base",
+    "state": "damaged_open",
+    "outline": "silhouette2",
+    "scale": 0.08032,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     60
+    ],
+    "footprint_origin": [
+     0.0,
+     -4
+    ],
+    "shadow": {
+     "shape": "ellipse",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "damaged_of": "open",
+    "rect": [
+     266,
      102,
      64,
      60
@@ -3719,7 +3853,7 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     266,
+     332,
      102,
      64,
      60
@@ -3791,6 +3925,7 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "damaged_of": "idle",
     "rect": [
      394,
      2,
@@ -3900,6 +4035,7 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "damaged_of": "idle",
     "rect": [
      950,
      2,
@@ -3974,7 +4110,7 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     332,
+     398,
      102,
      64,
      60
@@ -4009,8 +4145,9 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "damaged_of": "idle",
     "rect": [
-     398,
+     464,
      102,
      64,
      60
@@ -4046,7 +4183,7 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     464,
+     530,
      102,
      64,
      60

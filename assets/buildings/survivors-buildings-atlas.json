@@ -20,7 +20,7 @@
    "state": "construct",
    "team": "blue",
    "rect": [
-    332,
+    464,
     216,
     64,
     68
@@ -58,7 +58,7 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    398,
+    530,
     216,
     64,
     68
@@ -96,7 +96,7 @@
    "state": "damaged",
    "team": "blue",
    "rect": [
-    464,
+    596,
     216,
     64,
     68
@@ -123,7 +123,8 @@
     "h": 60,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "barracks-damaged-red",
@@ -133,7 +134,7 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    530,
+    662,
     216,
     64,
     68
@@ -160,7 +161,8 @@
     "h": 60,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "barracks-idle-blue",
@@ -170,7 +172,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    596,
+    728,
     216,
     64,
     68
@@ -207,7 +209,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    662,
+    794,
     216,
     64,
     68
@@ -244,8 +246,8 @@
    "state": "construct",
    "team": "blue",
    "rect": [
-    134,
-    291,
+    266,
+    296,
     64,
     53
    ],
@@ -282,8 +284,8 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    200,
-    291,
+    332,
+    296,
     64,
     53
    ],
@@ -320,8 +322,8 @@
    "state": "damaged",
    "team": "blue",
    "rect": [
-    266,
-    291,
+    398,
+    296,
     64,
     53
    ],
@@ -347,7 +349,8 @@
     "h": 28,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "depot-damaged-red",
@@ -357,8 +360,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    332,
-    291,
+    464,
+    296,
     64,
     53
    ],
@@ -384,7 +387,8 @@
     "h": 28,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "depot-idle-blue",
@@ -394,8 +398,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    398,
-    291,
+    530,
+    296,
     64,
     53
    ],
@@ -431,8 +435,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    464,
-    291,
+    596,
+    296,
     64,
     53
    ],
@@ -571,7 +575,8 @@
     "h": 92,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "factory-damaged-red",
@@ -608,7 +613,8 @@
     "h": 92,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "factory-idle-blue",
@@ -795,7 +801,8 @@
     "h": 92,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "hq-damaged-red",
@@ -832,7 +839,8 @@
     "h": 92,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "hq-idle-blue",
@@ -916,8 +924,8 @@
    "state": "closed",
    "team": "blue",
    "rect": [
-    918,
-    120,
+    68,
+    216,
     64,
     73
    ],
@@ -953,7 +961,7 @@
    "state": "closed",
    "team": "red",
    "rect": [
-    2,
+    134,
     216,
     64,
     73
@@ -990,7 +998,7 @@
    "state": "construct",
    "team": "blue",
    "rect": [
-    68,
+    200,
     216,
     64,
     73
@@ -1028,7 +1036,7 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    134,
+    266,
     216,
     64,
     73
@@ -1066,7 +1074,7 @@
    "state": "damaged",
    "team": "blue",
    "rect": [
-    200,
+    332,
     216,
     64,
     73
@@ -1093,7 +1101,8 @@
     "h": 60,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "closed"
   },
   {
    "name": "nuke_silo-damaged-red",
@@ -1103,7 +1112,7 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    266,
+    398,
     216,
     64,
     73
@@ -1130,7 +1139,84 @@
     "h": 60,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "closed"
+  },
+  {
+   "name": "nuke_silo-damaged_open-blue",
+   "building": "nuke_silo",
+   "code_type": "silo",
+   "part": "base",
+   "state": "damaged_open",
+   "team": "blue",
+   "rect": [
+    786,
+    120,
+    64,
+    78
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08798,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    78
+   ],
+   "footprint_origin": [
+    0.0,
+    14
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "damaged_of": "open"
+  },
+  {
+   "name": "nuke_silo-damaged_open-red",
+   "building": "nuke_silo",
+   "code_type": "silo",
+   "part": "base",
+   "state": "damaged_open",
+   "team": "red",
+   "rect": [
+    852,
+    120,
+    64,
+    78
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08798,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    78
+   ],
+   "footprint_origin": [
+    0.0,
+    14
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "damaged_of": "open"
   },
   {
    "name": "nuke_silo-open-blue",
@@ -1140,7 +1226,7 @@
    "state": "open",
    "team": "blue",
    "rect": [
-    786,
+    918,
     120,
     64,
     78
@@ -1177,8 +1263,8 @@
    "state": "open",
    "team": "red",
    "rect": [
-    852,
-    120,
+    2,
+    216,
     64,
     78
    ],
@@ -1214,7 +1300,7 @@
    "state": "construct",
    "team": "blue",
    "rect": [
-    728,
+    860,
     216,
     64,
     65
@@ -1252,7 +1338,7 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    794,
+    926,
     216,
     64,
     65
@@ -1290,8 +1376,8 @@
    "state": "damaged",
    "team": "blue",
    "rect": [
-    860,
-    216,
+    2,
+    296,
     64,
     65
    ],
@@ -1317,7 +1403,8 @@
     "h": 60,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "power_plant-damaged-red",
@@ -1327,8 +1414,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    926,
-    216,
+    68,
+    296,
     64,
     65
    ],
@@ -1354,7 +1441,8 @@
     "h": 60,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "power_plant-idle-blue",
@@ -1364,8 +1452,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    2,
-    291,
+    134,
+    296,
     64,
     65
    ],
@@ -1401,8 +1489,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    68,
-    291,
+    200,
+    296,
     64,
     65
    ],
@@ -1565,7 +1653,8 @@
     ],
     "frame": "scrap_yard_pad-idle-blue",
     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "scrap_yard-damaged-red",
@@ -1610,7 +1699,8 @@
     ],
     "frame": "scrap_yard_pad-idle-red",
     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
-   }
+   },
+   "damaged_of": "idle"
   },
   {
    "name": "scrap_yard-idle-blue",
@@ -1710,8 +1800,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    734,
-    291,
+    866,
+    296,
     32,
     32
    ],
@@ -1735,8 +1825,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    768,
-    291,
+    900,
+    296,
     32,
     32
    ],
@@ -1760,8 +1850,8 @@
    "state": "construct",
    "team": "blue",
    "rect": [
-    530,
-    291,
+    662,
+    296,
     32,
     38
    ],
@@ -1803,8 +1893,8 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    564,
-    291,
+    696,
+    296,
     32,
     38
    ],
@@ -1846,8 +1936,8 @@
    "state": "damaged",
    "team": "blue",
    "rect": [
-    598,
-    291,
+    730,
+    296,
     32,
     38
    ],
@@ -1878,7 +1968,8 @@
     15.82,
     9.55
    ],
-   "top": "turret_top"
+   "top": "turret_top",
+   "damaged_of": "idle"
   },
   {
    "name": "turret-damaged-red",
@@ -1888,8 +1979,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    632,
-    291,
+    764,
+    296,
     32,
     38
    ],
@@ -1920,7 +2011,8 @@
     15.82,
     9.55
    ],
-   "top": "turret_top"
+   "top": "turret_top",
+   "damaged_of": "idle"
   },
   {
    "name": "turret-idle-blue",
@@ -1930,8 +2022,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    666,
-    291,
+    798,
+    296,
     32,
     38
    ],
@@ -1972,8 +2064,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    700,
-    291,
+    832,
+    296,
     32,
     38
    ],
@@ -2014,8 +2106,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    460,
-    358,
+    594,
+    363,
     27,
     16
    ],
@@ -2036,8 +2128,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    489,
-    358,
+    623,
+    363,
     27,
     16
    ],
@@ -2058,8 +2150,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    228,
-    358,
+    362,
+    363,
     27,
     18
    ],
@@ -2080,8 +2172,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    257,
-    358,
+    391,
+    363,
     27,
     18
    ],
@@ -2102,8 +2194,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    20,
-    358,
+    154,
+    363,
     24,
     24
    ],
@@ -2124,8 +2216,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    46,
-    358,
+    180,
+    363,
     24,
     24
    ],
@@ -2146,8 +2238,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    802,
-    291,
+    934,
+    296,
     18,
     27
    ],
@@ -2168,8 +2260,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    822,
-    291,
+    954,
+    296,
     18,
     27
    ],
@@ -2190,8 +2282,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    962,
-    291,
+    82,
+    363,
     16,
     27
    ],
@@ -2212,8 +2304,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    980,
-    291,
+    100,
+    363,
     16,
     27
    ],
@@ -2234,8 +2326,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    842,
-    291,
+    974,
+    296,
     18,
     27
    ],
@@ -2256,8 +2348,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    862,
-    291,
+    994,
+    296,
     18,
     27
    ],
@@ -2278,8 +2370,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    72,
-    358,
+    206,
+    363,
     24,
     24
    ],
@@ -2300,8 +2392,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    98,
-    358,
+    232,
+    363,
     24,
     24
    ],
@@ -2322,8 +2414,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    286,
-    358,
+    420,
+    363,
     27,
     18
    ],
@@ -2344,8 +2436,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    315,
-    358,
+    449,
+    363,
     27,
     18
    ],
@@ -2366,8 +2458,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    518,
-    358,
+    652,
+    363,
     27,
     16
    ],
@@ -2388,8 +2480,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    547,
-    358,
+    681,
+    363,
     27,
     16
    ],
@@ -2410,8 +2502,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    344,
-    358,
+    478,
+    363,
     27,
     18
    ],
@@ -2432,8 +2524,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    373,
-    358,
+    507,
+    363,
     27,
     18
    ],
@@ -2454,8 +2546,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    124,
-    358,
+    258,
+    363,
     24,
     24
    ],
@@ -2476,8 +2568,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    150,
-    358,
+    284,
+    363,
     24,
     24
    ],
@@ -2498,8 +2590,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    882,
-    291,
+    2,
+    363,
     18,
     27
    ],
@@ -2520,8 +2612,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    902,
-    291,
+    22,
+    363,
     18,
     27
    ],
@@ -2542,8 +2634,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    998,
-    291,
+    118,
+    363,
     16,
     27
    ],
@@ -2564,8 +2656,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    2,
-    358,
+    136,
+    363,
     16,
     27
    ],
@@ -2586,8 +2678,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    922,
-    291,
+    42,
+    363,
     18,
     27
    ],
@@ -2608,8 +2700,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    942,
-    291,
+    62,
+    363,
     18,
     27
    ],
@@ -2630,8 +2722,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    176,
-    358,
+    310,
+    363,
     24,
     24
    ],
@@ -2652,8 +2744,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    202,
-    358,
+    336,
+    363,
     24,
     24
    ],
@@ -2674,8 +2766,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    402,
-    358,
+    536,
+    363,
     27,
     18
    ],
@@ -2696,8 +2788,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    431,
-    358,
+    565,
+    363,
     27,
     18
    ],
@@ -2776,7 +2868,7 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     134,
+     200,
      120,
      64,
      68
@@ -2811,8 +2903,9 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "damaged_of": "idle",
     "rect": [
-     200,
+     266,
      120,
      64,
      68
@@ -2848,7 +2941,7 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     266,
+     332,
      120,
      64,
      68
@@ -2885,7 +2978,7 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     530,
+     596,
      120,
      64,
      53
@@ -2920,8 +3013,9 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "damaged_of": "idle",
     "rect": [
-     596,
+     662,
      120,
      64,
      53
@@ -2957,7 +3051,7 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     662,
+     728,
      120,
      64,
      53
@@ -3029,6 +3123,7 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "damaged_of": "idle",
     "rect": [
      688,
      2,
@@ -3138,6 +3233,7 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "damaged_of": "idle",
     "rect": [
      100,
      2,
@@ -3211,8 +3307,8 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     950,
      2,
+     120,
      64,
      73
     ]
@@ -3248,7 +3344,7 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     2,
+     68,
      120,
      64,
      73
@@ -3283,11 +3379,49 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "damaged_of": "closed",
     "rect": [
-     68,
+     134,
      120,
      64,
      73
+    ]
+   },
+   {
+    "name": "nuke_silo-damaged_open",
+    "building": "nuke_silo",
+    "code_type": "silo",
+    "part": "base",
+    "state": "damaged_open",
+    "outline": "silhouette2",
+    "scale": 0.08798,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     78
+    ],
+    "footprint_origin": [
+     0.0,
+     14
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "damaged_of": "open",
+    "rect": [
+     884,
+     2,
+     64,
+     78
     ]
    },
    {
@@ -3320,7 +3454,7 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     884,
+     950,
      2,
      64,
      78
@@ -3357,7 +3491,7 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     332,
+     398,
      120,
      64,
      65
@@ -3392,8 +3526,9 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "damaged_of": "idle",
     "rect": [
-     398,
+     464,
      120,
      64,
      65
@@ -3429,7 +3564,7 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     464,
+     530,
      120,
      64,
      65
@@ -3517,6 +3652,7 @@
      "frame": "scrap_yard_pad-idle",
      "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
     },
+    "damaged_of": "idle",
     "rect": [
      394,
      2,
@@ -3586,7 +3722,7 @@
      1
     ],
     "rect": [
-     830,
+     896,
      120,
      32,
      32
@@ -3628,7 +3764,7 @@
     "top": "turret_top",
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     728,
+     794,
      120,
      32,
      38
@@ -3668,8 +3804,9 @@
      9.55
     ],
     "top": "turret_top",
+    "damaged_of": "idle",
     "rect": [
-     762,
+     828,
      120,
      32,
      38
@@ -3710,7 +3847,7 @@
     ],
     "top": "turret_top",
     "rect": [
-     796,
+     862,
      120,
      32,
      38
@@ -3731,7 +3868,7 @@
     ],
     "shadow": null,
     "rect": [
-     196,
+     258,
      195,
      27,
      16
@@ -3752,7 +3889,7 @@
     ],
     "shadow": null,
     "rect": [
-     80,
+     142,
      195,
      27,
      18
@@ -3773,8 +3910,8 @@
     ],
     "shadow": null,
     "rect": [
-     980,
-     120,
+     38,
+     195,
      24,
      24
     ]
@@ -3794,7 +3931,7 @@
     ],
     "shadow": null,
     "rect": [
-     864,
+     930,
      120,
      18,
      27
@@ -3815,8 +3952,8 @@
     ],
     "shadow": null,
     "rect": [
-     944,
-     120,
+     2,
+     195,
      16,
      27
     ]
@@ -3836,7 +3973,7 @@
     ],
     "shadow": null,
     "rect": [
-     884,
+     950,
      120,
      18,
      27
@@ -3857,7 +3994,7 @@
     ],
     "shadow": null,
     "rect": [
-     2,
+     64,
      195,
      24,
      24
@@ -3878,7 +4015,7 @@
     ],
     "shadow": null,
     "rect": [
-     109,
+     171,
      195,
      27,
      18
@@ -3899,7 +4036,7 @@
     ],
     "shadow": null,
     "rect": [
-     225,
+     287,
      195,
      27,
      16
@@ -3920,7 +4057,7 @@
     ],
     "shadow": null,
     "rect": [
-     138,
+     200,
      195,
      27,
      18
@@ -3941,7 +4078,7 @@
     ],
     "shadow": null,
     "rect": [
-     28,
+     90,
      195,
      24,
      24
@@ -3962,7 +4099,7 @@
     ],
     "shadow": null,
     "rect": [
-     904,
+     970,
      120,
      18,
      27
@@ -3983,8 +4120,8 @@
     ],
     "shadow": null,
     "rect": [
-     962,
-     120,
+     20,
+     195,
      16,
      27
     ]
@@ -4004,7 +4141,7 @@
     ],
     "shadow": null,
     "rect": [
-     924,
+     990,
      120,
      18,
      27
@@ -4025,7 +4162,7 @@
     ],
     "shadow": null,
     "rect": [
-     54,
+     116,
      195,
      24,
      24
@@ -4046,7 +4183,7 @@
     ],
     "shadow": null,
     "rect": [
-     167,
+     229,
      195,
      27,
      18

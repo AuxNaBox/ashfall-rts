@@ -174,14 +174,17 @@
     for (const m of missiles || []) if (m.side === b.side && m.sx === b.x && m.sy === b.y - 20 && m.t < LAUNCH_OPEN_S) return true;
     return false;
   }
-  // base state of a finished building: silo open (ready or launching) > damaged (hp < 50%) > idle/closed
+  // base state of a finished building (HANDOFF-buildings §5, §9):
+  //   silo: open (charged, or launching) + hp < 50% -> damaged_open; open -> open; hp < 50% -> damaged; else closed
+  //   others: hp < 50% -> damaged; else idle
   function buildingState(b, o) {
     o = o || {};
-    const silo = b.type === 'silo', intact = silo ? 'closed' : 'idle';
-    if (silo && ((o.nukeCharge && b.charge >= o.nukeCharge) || o.launching)) return 'open';
-    if (b.maxhp && b.hp < b.maxhp * DAMAGED_BELOW) return 'damaged';
-    return intact;
+    const silo = b.type === 'silo', dmg = !!(b.maxhp && b.hp < b.maxhp * DAMAGED_BELOW);
+    if (silo && ((o.nukeCharge && b.charge >= o.nukeCharge) || o.launching)) return dmg ? 'damaged_open' : 'open';
+    return dmg ? 'damaged' : silo ? 'closed' : 'idle';
   }
+  // missing state frame -> next frame to try (damaged_open -> open -> closed; damaged -> intact)
+  const STATE_FALLBACK = { damaged_open: 'open', open: 'closed' };
   function topHeading(b) { return (!b.target && !b.tang) ? IDLE_TOP_HEADING : snap16(radToDeg(b.tang)); }
   // frames for one building, or null -> procedural. o: { p: build progress 0..1 (undefined = built), nukeCharge, launching, ghost }
   function selectBuilding(man, b, o, idx) {
@@ -189,7 +192,8 @@
     if (!index || !BLD_MAP[t]) return null;
     const p = o.ghost ? 0 : o.p == null ? 1 : clamp01(o.p), building = p < 1;
     const intact = t === 'silo' ? 'closed' : 'idle', state = building ? intact : buildingState(b, o);
-    const base = index.get(bkey(t, 'base', state)) || (state === 'idle' || state === 'closed' ? null : index.get(bkey(t, 'base', intact)));
+    let base = null;
+    for (let st = state; st && !base; st = st === intact ? null : STATE_FALLBACK[st] || intact) base = index.get(bkey(t, 'base', st));
     if (!base) return null;
     const construct = building ? index.get(bkey(t, 'base', 'construct')) || null : null;
     if (o.ghost && !construct) return null;

@@ -17,15 +17,19 @@ const TYPES = ['hq', 'power', 'refinery', 'depot', 'barracks', 'turret', 'factor
 const B = (type, extra) => Object.assign({ type, side: 0, tx: 10, ty: 20, w: BDEF[type] ? BDEF[type].w : 1, h: BDEF[type] ? BDEF[type].h : 1, hp: 100, maxhp: 100, charge: 0, tang: 0, target: null }, extra || {});
 const D = Math.PI / 180;
 
-test('building atlases: 84 frames (42 neutral), 1024x512 PNGs, every file present, no -v1 backups shipped', () => {
+// expected frame set, derived from the HANDOFF structure (not hard-coded totals): per faction every BDEF type has idle/damaged/construct,
+// silos closed/open/damaged/damaged_open/construct instead of idle/damaged, + 16 turret-top headings + 1 dock pad; one baked copy per team
+const STATES = t => t === 'silo' ? ['closed', 'open', 'damaged', 'damaged_open', 'construct'] : ['idle', 'damaged', 'construct'];
+const NEUTRAL = Object.keys(BDEF).reduce((n, t) => n + STATES(t).length, 0) + 16 + 1;
+test('building atlases: frame counts derived from the manifests (neutral x teams), 1024x512 PNGs, every file present, no backups shipped', () => {
   for (const [fac, m] of Object.entries(RAW)) {
-    assert.equal(m.frames.length, 84, fac); assert.equal(m.neutral.frames.length, 42, fac);
+    assert.equal(m.neutral.frames.length, NEUTRAL, fac); assert.equal(m.frames.length, m.neutral.frames.length * m.teams.length, fac);
     assert.deepEqual(m.size, [1024, 512]);
     assert.deepEqual(pngSize(m.image), m.size); assert.deepEqual(pngSize(m.trim_mask.image), m.trim_mask.size);
     assert.deepEqual(pngSize(m.neutral.image), m.neutral.size); assert.deepEqual(pngSize(m.neutral.trim_image), m.neutral.size);
     for (const f of m.neutral.frames.concat(m.frames)) { const [x, y, w, h] = f.rect; assert.ok(x + w <= 1024 && y + h <= 512, f.name); }
   }
-  assert.deepEqual(fs.readdirSync(DIR).filter(f => /-v1\./.test(f)), []);
+  assert.deepEqual(fs.readdirSync(DIR).filter(f => /-v1b?\./.test(f)), []);
   assert.deepEqual(MAN.horde.ramps.violet, { light: '#D2B0FF', base: '#B07CFF', dark: '#7A48D0' });
   assert.equal(MAN.survivors.defaultTeam, 'blue'); assert.equal(MAN.horde.defaultTeam, 'violet');
   assert.deepEqual([...MAN.survivors.baked.keys()].sort(), ['blue', 'red']); assert.deepEqual([...MAN.horde.baked.keys()].sort(), ['red', 'violet']);
@@ -33,8 +37,8 @@ test('building atlases: 84 frames (42 neutral), 1024x512 PNGs, every file presen
 
 test('parseBuildingManifest: indexes base/top/pad by code type; rejects bad manifests; skips malformed frames', () => {
   for (const m of Object.values(MAN)) {
-    assert.equal(m.index.size, 42);
-    for (const t of TYPES) for (const s of t === 'silo' ? ['closed', 'open', 'damaged', 'construct'] : ['idle', 'damaged', 'construct']) assert.ok(m.index.get(UA.bkey(t, 'base', s)), t + ' ' + s);
+    assert.equal(m.index.size, NEUTRAL);
+    for (const t of TYPES) for (const s of STATES(t)) assert.ok(m.index.get(UA.bkey(t, 'base', s)), t + ' ' + s);
     for (let k = 0; k < 16; k++) assert.ok(m.index.get(UA.bkey('turret', 'top', 'idle', k * 22.5)), 'top ' + k);
     assert.ok(m.index.get(UA.bkey('refinery', 'pad', 'idle')));
   }
@@ -51,11 +55,12 @@ test('BDEF type -> building id per faction (HANDOFF §3), and every manifest foo
     assert.equal(UA.BLD_MAP[t].survivors, s); assert.equal(UA.BLD_MAP[t].horde, h);
     assert.equal(UA.selectBuilding(MAN.survivors, B(t)).base.building, s); assert.equal(UA.selectBuilding(MAN.horde, B(t, { side: 1 })).base.building, h);
   }
-  let checked = 0;
+  let checked = 0, bases = 0;
   for (const [fac, m] of Object.entries(RAW)) for (const f of m.neutral.frames.concat(m.frames)) if (f.part === 'base') {
     assert.deepEqual(f.footprint, [BDEF[f.code_type].w, BDEF[f.code_type].h], fac + ' ' + f.name); checked++;
   }
-  assert.equal(checked, 2 * 3 * 25);   // per faction 25 neutral base frames + 2 baked teams
+  for (const m of Object.values(RAW)) bases += m.neutral.frames.concat(m.frames).filter(f => f.part === 'base').length;
+  assert.equal(checked, bases); assert.ok(checked > 0);
 });
 
 test('anchor maths: anchor = footprint bottom-centre, body drawn at tx*32 - footprint_origin, building rises above the footprint', () => {
@@ -121,7 +126,25 @@ test('state selection: damaged below 50% hp (HANDOFF suggestion), silo closed/op
     assert.equal(UA.selectBuilding(m, B('silo', { charge: 200 }), o).state, 'open');
     assert.equal(UA.selectBuilding(m, B('silo', { charge: 0 }), Object.assign({ launching: true }, o)).state, 'open');
     assert.equal(UA.selectBuilding(m, B('silo', { charge: 10, hp: 10 }), o).state, 'damaged');
-    assert.equal(UA.selectBuilding(m, B('silo', { charge: 200, hp: 10 }), o).state, 'open');
+  }
+});
+
+test('silo: the four states (closed / open / damaged / damaged_open), launch window, damaged_of links, damaged_open -> open fallback', () => {
+  const o = { nukeCharge: 200 };
+  for (const [fac, m] of Object.entries(MAN)) {
+    const S = (extra, oo) => UA.selectBuilding(m, B('silo', extra), Object.assign({}, o, oo));
+    const cases = [[{ charge: 10, hp: 100 }, {}, 'closed'], [{ charge: 200, hp: 100 }, {}, 'open'], [{ charge: 10, hp: 49 }, {}, 'damaged'], [{ charge: 200, hp: 49 }, {}, 'damaged_open'],
+      [{ charge: 0, hp: 49 }, { launching: true }, 'damaged_open'], [{ charge: 0, hp: 100 }, { launching: true }, 'open'], [{ charge: 200, hp: 50 }, {}, 'open']];
+    for (const [b, oo, want] of cases) { const s = S(b, oo); assert.equal(s.state, want, fac + ' ' + JSON.stringify(b)); assert.equal(s.base.state, want, fac + ' frame ' + want); }
+    assert.equal(S({ charge: 200, hp: 49 }).base.damaged_of, 'open'); assert.equal(S({ charge: 10, hp: 49 }).base.damaged_of, 'closed');
+    for (const team of m.baked.keys()) assert.equal(UA.selectBuilding(m, B('silo', { charge: 200, hp: 1 }), o, m.baked.get(team)).base.team, team);
+    // damaged_open missing -> open frame; open missing too -> closed
+    const drop = re => Object.assign({}, m, { index: new Map([...m.index].filter(([k]) => !re.test(k))) });
+    assert.equal(UA.selectBuilding(drop(/^silo\|base\|damaged_open$/), B('silo', { charge: 200, hp: 1 }), o).base.state, 'open');
+    assert.equal(UA.selectBuilding(drop(/^silo\|base\|(damaged_open|open)$/), B('silo', { charge: 200, hp: 1 }), o).base.state, 'closed');
+    assert.equal(UA.selectBuilding(drop(/^silo\|base\|damaged$/), B('silo', { charge: 10, hp: 1 }), o).base.state, 'closed');
+    // every damaged frame names the intact frame it was cracked from, and that frame exists
+    for (const f of m.index.values()) if (/damaged/.test(f.state)) assert.ok(m.index.get(UA.bkey(f.code_type, 'base', f.damaged_of)), f.name + ' damaged_of ' + f.damaged_of);
   }
   const s = B('silo', { x: 100, y: 200, side: 1 });
   assert.equal(UA.launching(s, [{ side: 1, sx: 100, sy: 180, t: 0.5 }]), true);
