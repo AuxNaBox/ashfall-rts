@@ -6,8 +6,9 @@ const $ = id => document.getElementById(id);
 const view = $('view'), ctx = view.getContext('2d');
 const mini = $('mini'), mctx = mini.getContext('2d');
 let VW = 800, VH = 600;
-// mouse-over edge-scroll zone of the game view, in px (all four edges; was 14, x1.2 = 16.8 -> 17)
-const EDGE_SCROLL_PX = 17;
+// mouse-over edge-scroll zone of the game view, in px, all four edges.
+// History: 14 (original) -> 17 (x1.2 = 16.8, rounded) -> 20 (ruling Oct 27, 2026).
+const EDGE_SCROLL_PX = 20;
 function resize() { const g = $('game'); VW = view.width = g.clientWidth; VH = view.height = g.clientHeight; }
 window.addEventListener('resize', resize);
 
