@@ -897,6 +897,14 @@ function ell(c, x, y, rx, ry) { c.beginPath(); c.ellipse(x, y, rx, ry, 0, 0, Mat
 
 function drawUnit(c, u) {
   const t = u.type, A = u.anim;
+  // unit art v2 (unitart.js): atlas sprite if loaded and the frame exists, else the procedural sprite below
+  if (typeof UnitArt !== 'undefined' && (u.side === 0 || u.side === 1)) {
+    const lift = t === 'seraph' ? 9 + Math.sin(A * 3) * 2 : t === 'imp' ? 4 + Math.sin(A * 6) * 1.5 : 0;
+    const bob = u.moving && !u.d.fly && t !== 'imp' && !u.d.harv && t !== 'ark' ? -Math.round(Math.abs(Math.sin(A * 10))) : 0;
+    c.save(); if (u.hitT > 0) c.globalAlpha = 0.75;
+    const ok = UnitArt.draw(c, u, { lift, bob });
+    c.restore(); if (ok) return;
+  }
   c.save(); c.translate(u.x, u.y);
   if (u.hitT > 0) c.globalAlpha = 0.75;
   if (t === 'survivor') {
@@ -1603,6 +1611,12 @@ $('bResume').onclick = () => togglePause();
 $('bMute').onclick = () => toggleMute();
 resize();
 showPanel('startPanel');
+// unit art v2: ?unitart=off forces procedural sprites; ?team0=red / ?team1=red pick the alternate team colour
+if (typeof UnitArt !== 'undefined') {
+  const q = new URLSearchParams(location.search), team = {};
+  if (q.get('team0')) team[0] = q.get('team0'); if (q.get('team1')) team[1] = q.get('team1');
+  if (q.get('unitart') !== 'off') UnitArt.load({ team });
+}
 requestAnimationFrame(frame);
 // test hook
 window.RTS = { get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, dockPoint, command, step, newGame, UDEF, BDEF, queueItem, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };

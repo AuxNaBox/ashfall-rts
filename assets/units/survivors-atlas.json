@@ -1,0 +1,5859 @@
+{
+ "_doc": "Ashfall survivors unit atlas v2 (polish pass; v1 kept as *-atlas-v1.*). rect = [x,y,w,h] in the atlas. anchor = draw origin inside the rect: ground point (bottom-centre of the body) for infantry/creatures, rotation pivot (body centre) for vehicles and the turret. Draw the sprite at (unitX - anchor[0], unitY - anchor[1]). facing: E/S/N/W for infantry+creatures (W = E mirrored), heading in degrees for vehicles (0 = east, +90 = south, i.e. clockwise on screen). turret_mount (hull frames) = where the turret pivot goes, relative to the rect. shadow: ellipse the engine draws first, centre relative to the anchor, 30% black; vehicle shadows should be rotated to the heading. Frames carry no baked shadow.",
+ "image": "survivors-atlas.png",
+ "size": [
+  512,
+  1024
+ ],
+ "default_team": "blue",
+ "teams": [
+  "blue",
+  "red"
+ ],
+ "frames": [
+  {
+   "name": "angel-idle-e-blue",
+   "unit": "angel",
+   "state": "idle",
+   "facing": "E",
+   "team": "blue",
+   "rect": [
+    262,
+    495,
+    22,
+    22
+   ],
+   "anchor": [
+    11.0,
+    20
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02411,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "angel-idle-e-red",
+   "unit": "angel",
+   "state": "idle",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    286,
+    495,
+    22,
+    22
+   ],
+   "anchor": [
+    11.0,
+    20
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02411,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "angel-idle-n-blue",
+   "unit": "angel",
+   "state": "idle",
+   "facing": "N",
+   "team": "blue",
+   "rect": [
+    314,
+    466,
+    15,
+    23
+   ],
+   "anchor": [
+    7.5,
+    21
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02485,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "angel-idle-n-red",
+   "unit": "angel",
+   "state": "idle",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    331,
+    466,
+    15,
+    23
+   ],
+   "anchor": [
+    7.5,
+    21
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02485,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "angel-idle-s-blue",
+   "unit": "angel",
+   "state": "idle",
+   "facing": "S",
+   "team": "blue",
+   "rect": [
+    274,
+    466,
+    18,
+    23
+   ],
+   "anchor": [
+    9.0,
+    21
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02489,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "angel-idle-s-red",
+   "unit": "angel",
+   "state": "idle",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    294,
+    466,
+    18,
+    23
+   ],
+   "anchor": [
+    9.0,
+    21
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02489,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "angel-idle-w-blue",
+   "unit": "angel",
+   "state": "idle",
+   "facing": "W",
+   "team": "blue",
+   "rect": [
+    310,
+    495,
+    22,
+    22
+   ],
+   "anchor": [
+    11.0,
+    20
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.02411,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "angel-idle-w-red",
+   "unit": "angel",
+   "state": "idle",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    334,
+    495,
+    22,
+    22
+   ],
+   "anchor": [
+    11.0,
+    20
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.02411,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rifleman-idle-e-blue",
+   "unit": "rifleman",
+   "state": "idle",
+   "facing": "E",
+   "team": "blue",
+   "rect": [
+    358,
+    495,
+    17,
+    18
+   ],
+   "anchor": [
+    8.5,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02083,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rifleman-idle-e-red",
+   "unit": "rifleman",
+   "state": "idle",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    377,
+    495,
+    17,
+    18
+   ],
+   "anchor": [
+    8.5,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02083,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rifleman-idle-n-blue",
+   "unit": "rifleman",
+   "state": "idle",
+   "facing": "N",
+   "team": "blue",
+   "rect": [
+    434,
+    495,
+    12,
+    18
+   ],
+   "anchor": [
+    6.0,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02083,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rifleman-idle-n-red",
+   "unit": "rifleman",
+   "state": "idle",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    448,
+    495,
+    12,
+    18
+   ],
+   "anchor": [
+    6.0,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02083,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rifleman-idle-s-blue",
+   "unit": "rifleman",
+   "state": "idle",
+   "facing": "S",
+   "team": "blue",
+   "rect": [
+    462,
+    495,
+    11,
+    18
+   ],
+   "anchor": [
+    5.5,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02062,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.05,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rifleman-idle-s-red",
+   "unit": "rifleman",
+   "state": "idle",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    475,
+    495,
+    11,
+    18
+   ],
+   "anchor": [
+    5.5,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02062,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.05,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rifleman-idle-w-blue",
+   "unit": "rifleman",
+   "state": "idle",
+   "facing": "W",
+   "team": "blue",
+   "rect": [
+    396,
+    495,
+    17,
+    18
+   ],
+   "anchor": [
+    8.5,
+    16
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.02083,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rifleman-idle-w-red",
+   "unit": "rifleman",
+   "state": "idle",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    415,
+    495,
+    17,
+    18
+   ],
+   "anchor": [
+    8.5,
+    16
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.02083,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r0000-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 0.0,
+   "team": "blue",
+   "rect": [
+    348,
+    466,
+    50,
+    22
+   ],
+   "anchor": [
+    25.0,
+    11.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r0000-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 0.0,
+   "team": "red",
+   "rect": [
+    400,
+    466,
+    50,
+    22
+   ],
+   "anchor": [
+    25.0,
+    11.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r0225-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 22.5,
+   "team": "blue",
+   "rect": [
+    338,
+    313,
+    51,
+    37
+   ],
+   "anchor": [
+    25.3,
+    17.86
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r0225-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 22.5,
+   "team": "red",
+   "rect": [
+    391,
+    313,
+    51,
+    37
+   ],
+   "anchor": [
+    25.3,
+    17.86
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r0450-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 45.0,
+   "team": "blue",
+   "rect": [
+    258,
+    164,
+    46,
+    47
+   ],
+   "anchor": [
+    22.8,
+    22.72
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r0450-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 45.0,
+   "team": "red",
+   "rect": [
+    306,
+    164,
+    46,
+    47
+   ],
+   "anchor": [
+    22.8,
+    22.72
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r0675-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 67.5,
+   "team": "blue",
+   "rect": [
+    346,
+    2,
+    36,
+    52
+   ],
+   "anchor": [
+    17.67,
+    25.47
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r0675-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 67.5,
+   "team": "red",
+   "rect": [
+    384,
+    2,
+    36,
+    52
+   ],
+   "anchor": [
+    17.67,
+    25.47
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r0900-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 90.0,
+   "team": "blue",
+   "rect": [
+    66,
+    164,
+    22,
+    50
+   ],
+   "anchor": [
+    11.0,
+    25.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r0900-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 90.0,
+   "team": "red",
+   "rect": [
+    90,
+    164,
+    22,
+    50
+   ],
+   "anchor": [
+    11.0,
+    25.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r1125-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 112.5,
+   "team": "blue",
+   "rect": [
+    154,
+    58,
+    37,
+    51
+   ],
+   "anchor": [
+    19.14,
+    25.3
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r1125-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 112.5,
+   "team": "red",
+   "rect": [
+    193,
+    58,
+    37,
+    51
+   ],
+   "anchor": [
+    19.14,
+    25.3
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r1350-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 135.0,
+   "team": "blue",
+   "rect": [
+    146,
+    216,
+    47,
+    46
+   ],
+   "anchor": [
+    24.28,
+    22.8
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r1350-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 135.0,
+   "team": "red",
+   "rect": [
+    195,
+    216,
+    47,
+    46
+   ],
+   "anchor": [
+    24.28,
+    22.8
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r1575-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 157.5,
+   "team": "blue",
+   "rect": [
+    80,
+    395,
+    52,
+    36
+   ],
+   "anchor": [
+    26.53,
+    17.67
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r1575-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 157.5,
+   "team": "red",
+   "rect": [
+    134,
+    395,
+    52,
+    36
+   ],
+   "anchor": [
+    26.53,
+    17.67
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r1800-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 180.0,
+   "team": "blue",
+   "rect": [
+    452,
+    466,
+    50,
+    22
+   ],
+   "anchor": [
+    25.0,
+    11.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r1800-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 180.0,
+   "team": "red",
+   "rect": [
+    2,
+    495,
+    50,
+    22
+   ],
+   "anchor": [
+    25.0,
+    11.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r2025-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 202.5,
+   "team": "blue",
+   "rect": [
+    444,
+    313,
+    51,
+    37
+   ],
+   "anchor": [
+    25.7,
+    19.14
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r2025-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 202.5,
+   "team": "red",
+   "rect": [
+    2,
+    356,
+    51,
+    37
+   ],
+   "anchor": [
+    25.7,
+    19.14
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r2250-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 225.0,
+   "team": "blue",
+   "rect": [
+    354,
+    164,
+    46,
+    47
+   ],
+   "anchor": [
+    23.2,
+    24.28
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r2250-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 225.0,
+   "team": "red",
+   "rect": [
+    402,
+    164,
+    46,
+    47
+   ],
+   "anchor": [
+    23.2,
+    24.28
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r2475-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 247.5,
+   "team": "blue",
+   "rect": [
+    422,
+    2,
+    36,
+    52
+   ],
+   "anchor": [
+    18.33,
+    26.53
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r2475-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 247.5,
+   "team": "red",
+   "rect": [
+    460,
+    2,
+    36,
+    52
+   ],
+   "anchor": [
+    18.33,
+    26.53
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r2700-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 270.0,
+   "team": "blue",
+   "rect": [
+    114,
+    164,
+    22,
+    50
+   ],
+   "anchor": [
+    11.0,
+    25.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r2700-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 270.0,
+   "team": "red",
+   "rect": [
+    138,
+    164,
+    22,
+    50
+   ],
+   "anchor": [
+    11.0,
+    25.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r2925-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 292.5,
+   "team": "blue",
+   "rect": [
+    232,
+    58,
+    37,
+    51
+   ],
+   "anchor": [
+    17.86,
+    25.7
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r2925-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 292.5,
+   "team": "red",
+   "rect": [
+    271,
+    58,
+    37,
+    51
+   ],
+   "anchor": [
+    17.86,
+    25.7
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r3150-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 315.0,
+   "team": "blue",
+   "rect": [
+    244,
+    216,
+    47,
+    46
+   ],
+   "anchor": [
+    22.72,
+    23.2
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r3150-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 315.0,
+   "team": "red",
+   "rect": [
+    293,
+    216,
+    47,
+    46
+   ],
+   "anchor": [
+    22.72,
+    23.2
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r3375-blue",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 337.5,
+   "team": "blue",
+   "rect": [
+    188,
+    395,
+    52,
+    36
+   ],
+   "anchor": [
+    25.47,
+    18.33
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-empty-r3375-red",
+   "unit": "scrap_truck",
+   "state": "empty",
+   "facing": 337.5,
+   "team": "red",
+   "rect": [
+    242,
+    395,
+    52,
+    36
+   ],
+   "anchor": [
+    25.47,
+    18.33
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r0000-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 0.0,
+   "team": "blue",
+   "rect": [
+    54,
+    495,
+    50,
+    22
+   ],
+   "anchor": [
+    25.0,
+    11.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r0000-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 0.0,
+   "team": "red",
+   "rect": [
+    106,
+    495,
+    50,
+    22
+   ],
+   "anchor": [
+    25.0,
+    11.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r0225-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 22.5,
+   "team": "blue",
+   "rect": [
+    55,
+    356,
+    51,
+    37
+   ],
+   "anchor": [
+    25.3,
+    17.86
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r0225-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 22.5,
+   "team": "red",
+   "rect": [
+    108,
+    356,
+    51,
+    37
+   ],
+   "anchor": [
+    25.3,
+    17.86
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r0450-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 45.0,
+   "team": "blue",
+   "rect": [
+    450,
+    164,
+    46,
+    47
+   ],
+   "anchor": [
+    22.8,
+    22.74
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r0450-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 45.0,
+   "team": "red",
+   "rect": [
+    2,
+    216,
+    46,
+    47
+   ],
+   "anchor": [
+    22.8,
+    22.74
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r0675-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 67.5,
+   "team": "blue",
+   "rect": [
+    2,
+    58,
+    36,
+    52
+   ],
+   "anchor": [
+    17.67,
+    25.44
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r0675-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 67.5,
+   "team": "red",
+   "rect": [
+    40,
+    58,
+    36,
+    52
+   ],
+   "anchor": [
+    17.67,
+    25.44
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r0900-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 90.0,
+   "team": "blue",
+   "rect": [
+    162,
+    164,
+    22,
+    50
+   ],
+   "anchor": [
+    11.0,
+    25.03
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r0900-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 90.0,
+   "team": "red",
+   "rect": [
+    186,
+    164,
+    22,
+    50
+   ],
+   "anchor": [
+    11.0,
+    25.03
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r1125-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 112.5,
+   "team": "blue",
+   "rect": [
+    310,
+    58,
+    37,
+    51
+   ],
+   "anchor": [
+    19.12,
+    25.32
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r1125-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 112.5,
+   "team": "red",
+   "rect": [
+    349,
+    58,
+    37,
+    51
+   ],
+   "anchor": [
+    19.12,
+    25.32
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r1350-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 135.0,
+   "team": "blue",
+   "rect": [
+    342,
+    216,
+    47,
+    46
+   ],
+   "anchor": [
+    24.26,
+    22.8
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r1350-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 135.0,
+   "team": "red",
+   "rect": [
+    391,
+    216,
+    47,
+    46
+   ],
+   "anchor": [
+    24.26,
+    22.8
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r1575-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 157.5,
+   "team": "blue",
+   "rect": [
+    296,
+    395,
+    52,
+    36
+   ],
+   "anchor": [
+    26.53,
+    17.67
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r1575-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 157.5,
+   "team": "red",
+   "rect": [
+    350,
+    395,
+    52,
+    36
+   ],
+   "anchor": [
+    26.53,
+    17.67
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r1800-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 180.0,
+   "team": "blue",
+   "rect": [
+    158,
+    495,
+    50,
+    22
+   ],
+   "anchor": [
+    25.0,
+    11.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r1800-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 180.0,
+   "team": "red",
+   "rect": [
+    210,
+    495,
+    50,
+    22
+   ],
+   "anchor": [
+    25.0,
+    11.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r2025-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 202.5,
+   "team": "blue",
+   "rect": [
+    161,
+    356,
+    51,
+    37
+   ],
+   "anchor": [
+    25.7,
+    19.14
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r2025-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 202.5,
+   "team": "red",
+   "rect": [
+    214,
+    356,
+    51,
+    37
+   ],
+   "anchor": [
+    25.7,
+    19.14
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r2250-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 225.0,
+   "team": "blue",
+   "rect": [
+    50,
+    216,
+    46,
+    47
+   ],
+   "anchor": [
+    23.2,
+    24.26
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r2250-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 225.0,
+   "team": "red",
+   "rect": [
+    98,
+    216,
+    46,
+    47
+   ],
+   "anchor": [
+    23.2,
+    24.26
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r2475-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 247.5,
+   "team": "blue",
+   "rect": [
+    78,
+    58,
+    36,
+    52
+   ],
+   "anchor": [
+    18.33,
+    26.56
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r2475-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 247.5,
+   "team": "red",
+   "rect": [
+    116,
+    58,
+    36,
+    52
+   ],
+   "anchor": [
+    18.33,
+    26.56
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r2700-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 270.0,
+   "team": "blue",
+   "rect": [
+    210,
+    164,
+    22,
+    50
+   ],
+   "anchor": [
+    11.0,
+    24.97
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r2700-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 270.0,
+   "team": "red",
+   "rect": [
+    234,
+    164,
+    22,
+    50
+   ],
+   "anchor": [
+    11.0,
+    24.97
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r2925-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 292.5,
+   "team": "blue",
+   "rect": [
+    388,
+    58,
+    37,
+    51
+   ],
+   "anchor": [
+    17.88,
+    25.68
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r2925-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 292.5,
+   "team": "red",
+   "rect": [
+    427,
+    58,
+    37,
+    51
+   ],
+   "anchor": [
+    17.88,
+    25.68
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r3150-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 315.0,
+   "team": "blue",
+   "rect": [
+    440,
+    216,
+    47,
+    46
+   ],
+   "anchor": [
+    22.74,
+    23.2
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r3150-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 315.0,
+   "team": "red",
+   "rect": [
+    2,
+    265,
+    47,
+    46
+   ],
+   "anchor": [
+    22.74,
+    23.2
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r3375-blue",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 337.5,
+   "team": "blue",
+   "rect": [
+    404,
+    395,
+    52,
+    36
+   ],
+   "anchor": [
+    25.47,
+    18.33
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_truck-full-r3375-red",
+   "unit": "scrap_truck",
+   "state": "full",
+   "facing": 337.5,
+   "team": "red",
+   "rect": [
+    458,
+    395,
+    52,
+    36
+   ],
+   "anchor": [
+    25.47,
+    18.33
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05088,
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 10,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r0000-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "blue",
+   "rect": [
+    2,
+    434,
+    50,
+    30
+   ],
+   "anchor": [
+    24.97,
+    14.97
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    24.91,
+    15.09
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r0000-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "red",
+   "rect": [
+    54,
+    434,
+    50,
+    30
+   ],
+   "anchor": [
+    24.97,
+    14.97
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    24.91,
+    15.09
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r0225-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "blue",
+   "rect": [
+    383,
+    265,
+    54,
+    41
+   ],
+   "anchor": [
+    26.75,
+    20.34
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    26.64,
+    20.44
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r0225-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "red",
+   "rect": [
+    439,
+    265,
+    54,
+    41
+   ],
+   "anchor": [
+    26.75,
+    20.34
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    26.64,
+    20.44
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r0450-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "blue",
+   "rect": [
+    2,
+    112,
+    50,
+    50
+   ],
+   "anchor": [
+    24.78,
+    24.59
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    24.65,
+    24.64
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r0450-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "red",
+   "rect": [
+    54,
+    112,
+    50,
+    50
+   ],
+   "anchor": [
+    24.78,
+    24.59
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    24.65,
+    24.64
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r0675-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "blue",
+   "rect": [
+    2,
+    2,
+    41,
+    54
+   ],
+   "anchor": [
+    20.53,
+    26.65
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    20.39,
+    26.64
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r0675-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "red",
+   "rect": [
+    45,
+    2,
+    41,
+    54
+   ],
+   "anchor": [
+    20.53,
+    26.65
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    20.39,
+    26.64
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r0900-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "blue",
+   "rect": [
+    418,
+    112,
+    30,
+    50
+   ],
+   "anchor": [
+    15.03,
+    24.97
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    14.91,
+    24.91
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r0900-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "red",
+   "rect": [
+    450,
+    112,
+    30,
+    50
+   ],
+   "anchor": [
+    15.03,
+    24.97
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    14.91,
+    24.91
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r1125-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "blue",
+   "rect": [
+    88,
+    2,
+    41,
+    54
+   ],
+   "anchor": [
+    20.66,
+    26.75
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    20.56,
+    26.64
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r1125-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "red",
+   "rect": [
+    131,
+    2,
+    41,
+    54
+   ],
+   "anchor": [
+    20.66,
+    26.75
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    20.56,
+    26.64
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r1350-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "blue",
+   "rect": [
+    106,
+    112,
+    50,
+    50
+   ],
+   "anchor": [
+    25.41,
+    24.78
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    25.36,
+    24.65
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r1350-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "red",
+   "rect": [
+    158,
+    112,
+    50,
+    50
+   ],
+   "anchor": [
+    25.41,
+    24.78
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    25.36,
+    24.65
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r1575-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "blue",
+   "rect": [
+    2,
+    313,
+    54,
+    41
+   ],
+   "anchor": [
+    27.35,
+    20.53
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    27.36,
+    20.39
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r1575-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "red",
+   "rect": [
+    58,
+    313,
+    54,
+    41
+   ],
+   "anchor": [
+    27.35,
+    20.53
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    27.36,
+    20.39
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r1800-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "blue",
+   "rect": [
+    106,
+    434,
+    50,
+    30
+   ],
+   "anchor": [
+    25.03,
+    15.03
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    25.09,
+    14.91
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r1800-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "red",
+   "rect": [
+    158,
+    434,
+    50,
+    30
+   ],
+   "anchor": [
+    25.03,
+    15.03
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    25.09,
+    14.91
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r2025-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "blue",
+   "rect": [
+    114,
+    313,
+    54,
+    41
+   ],
+   "anchor": [
+    27.25,
+    20.66
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    27.36,
+    20.56
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r2025-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "red",
+   "rect": [
+    170,
+    313,
+    54,
+    41
+   ],
+   "anchor": [
+    27.25,
+    20.66
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    27.36,
+    20.56
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r2250-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "blue",
+   "rect": [
+    210,
+    112,
+    50,
+    50
+   ],
+   "anchor": [
+    25.22,
+    25.41
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    25.35,
+    25.36
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r2250-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "red",
+   "rect": [
+    262,
+    112,
+    50,
+    50
+   ],
+   "anchor": [
+    25.22,
+    25.41
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    25.35,
+    25.36
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r2475-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "blue",
+   "rect": [
+    174,
+    2,
+    41,
+    54
+   ],
+   "anchor": [
+    20.47,
+    27.35
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    20.61,
+    27.36
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r2475-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "red",
+   "rect": [
+    217,
+    2,
+    41,
+    54
+   ],
+   "anchor": [
+    20.47,
+    27.35
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    20.61,
+    27.36
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r2700-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "blue",
+   "rect": [
+    2,
+    164,
+    30,
+    50
+   ],
+   "anchor": [
+    14.97,
+    25.03
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    15.09,
+    25.09
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r2700-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "red",
+   "rect": [
+    34,
+    164,
+    30,
+    50
+   ],
+   "anchor": [
+    14.97,
+    25.03
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    15.09,
+    25.09
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r2925-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "blue",
+   "rect": [
+    260,
+    2,
+    41,
+    54
+   ],
+   "anchor": [
+    20.34,
+    27.25
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    20.44,
+    27.36
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r2925-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "red",
+   "rect": [
+    303,
+    2,
+    41,
+    54
+   ],
+   "anchor": [
+    20.34,
+    27.25
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    20.44,
+    27.36
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r3150-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "blue",
+   "rect": [
+    314,
+    112,
+    50,
+    50
+   ],
+   "anchor": [
+    24.59,
+    25.22
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    24.64,
+    25.35
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r3150-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "red",
+   "rect": [
+    366,
+    112,
+    50,
+    50
+   ],
+   "anchor": [
+    24.59,
+    25.22
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    24.64,
+    25.35
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r3375-blue",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "blue",
+   "rect": [
+    226,
+    313,
+    54,
+    41
+   ],
+   "anchor": [
+    26.65,
+    20.47
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    26.64,
+    20.61
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_hull-idle-r3375-red",
+   "unit": "tank_hull",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "red",
+   "rect": [
+    282,
+    313,
+    54,
+    41
+   ],
+   "anchor": [
+    26.65,
+    20.47
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.06293,
+   "turret_mount": [
+    26.64,
+    20.61
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "tank_turret-idle-r0000-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "blue",
+   "rect": [
+    90,
+    466,
+    44,
+    23
+   ],
+   "anchor": [
+    13.96,
+    11.47
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r0000-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "red",
+   "rect": [
+    136,
+    466,
+    44,
+    23
+   ],
+   "anchor": [
+    13.96,
+    11.47
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r0225-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "blue",
+   "rect": [
+    390,
+    434,
+    42,
+    27
+   ],
+   "anchor": [
+    14.06,
+    12.7
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r0225-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "red",
+   "rect": [
+    434,
+    434,
+    42,
+    27
+   ],
+   "anchor": [
+    14.06,
+    12.7
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r0450-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "blue",
+   "rect": [
+    267,
+    356,
+    37,
+    37
+   ],
+   "anchor": [
+    14.38,
+    14.2
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r0450-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "red",
+   "rect": [
+    306,
+    356,
+    37,
+    37
+   ],
+   "anchor": [
+    14.38,
+    14.2
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r0675-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "blue",
+   "rect": [
+    151,
+    265,
+    27,
+    43
+   ],
+   "anchor": [
+    12.94,
+    14.29
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r0675-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "red",
+   "rect": [
+    180,
+    265,
+    27,
+    43
+   ],
+   "anchor": [
+    12.94,
+    14.29
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r0900-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "blue",
+   "rect": [
+    51,
+    265,
+    23,
+    44
+   ],
+   "anchor": [
+    11.53,
+    13.96
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r0900-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "red",
+   "rect": [
+    76,
+    265,
+    23,
+    44
+   ],
+   "anchor": [
+    11.53,
+    13.96
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r1125-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "blue",
+   "rect": [
+    267,
+    265,
+    27,
+    42
+   ],
+   "anchor": [
+    14.3,
+    14.06
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r1125-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "red",
+   "rect": [
+    296,
+    265,
+    27,
+    42
+   ],
+   "anchor": [
+    14.3,
+    14.06
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r1350-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "blue",
+   "rect": [
+    345,
+    356,
+    37,
+    37
+   ],
+   "anchor": [
+    22.8,
+    14.38
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r1350-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "red",
+   "rect": [
+    384,
+    356,
+    37,
+    37
+   ],
+   "anchor": [
+    22.8,
+    14.38
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r1575-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "blue",
+   "rect": [
+    210,
+    434,
+    43,
+    27
+   ],
+   "anchor": [
+    28.71,
+    12.94
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r1575-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "red",
+   "rect": [
+    255,
+    434,
+    43,
+    27
+   ],
+   "anchor": [
+    28.71,
+    12.94
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r1800-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "blue",
+   "rect": [
+    182,
+    466,
+    44,
+    23
+   ],
+   "anchor": [
+    30.04,
+    11.53
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r1800-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "red",
+   "rect": [
+    228,
+    466,
+    44,
+    23
+   ],
+   "anchor": [
+    30.04,
+    11.53
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r2025-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "blue",
+   "rect": [
+    2,
+    466,
+    42,
+    27
+   ],
+   "anchor": [
+    27.94,
+    14.3
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r2025-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "red",
+   "rect": [
+    46,
+    466,
+    42,
+    27
+   ],
+   "anchor": [
+    27.94,
+    14.3
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r2250-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "blue",
+   "rect": [
+    423,
+    356,
+    37,
+    37
+   ],
+   "anchor": [
+    22.62,
+    22.8
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r2250-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "red",
+   "rect": [
+    462,
+    356,
+    37,
+    37
+   ],
+   "anchor": [
+    22.62,
+    22.8
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r2475-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "blue",
+   "rect": [
+    209,
+    265,
+    27,
+    43
+   ],
+   "anchor": [
+    14.06,
+    28.71
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r2475-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "red",
+   "rect": [
+    238,
+    265,
+    27,
+    43
+   ],
+   "anchor": [
+    14.06,
+    28.71
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r2700-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "blue",
+   "rect": [
+    101,
+    265,
+    23,
+    44
+   ],
+   "anchor": [
+    11.47,
+    30.04
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r2700-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "red",
+   "rect": [
+    126,
+    265,
+    23,
+    44
+   ],
+   "anchor": [
+    11.47,
+    30.04
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r2925-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "blue",
+   "rect": [
+    325,
+    265,
+    27,
+    42
+   ],
+   "anchor": [
+    12.7,
+    27.94
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r2925-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "red",
+   "rect": [
+    354,
+    265,
+    27,
+    42
+   ],
+   "anchor": [
+    12.7,
+    27.94
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r3150-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "blue",
+   "rect": [
+    2,
+    395,
+    37,
+    37
+   ],
+   "anchor": [
+    14.2,
+    22.62
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r3150-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "red",
+   "rect": [
+    41,
+    395,
+    37,
+    37
+   ],
+   "anchor": [
+    14.2,
+    22.62
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r3375-blue",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "blue",
+   "rect": [
+    300,
+    434,
+    43,
+    27
+   ],
+   "anchor": [
+    14.29,
+    14.06
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  },
+  {
+   "name": "tank_turret-idle-r3375-red",
+   "unit": "tank_turret",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "red",
+   "rect": [
+    345,
+    434,
+    43,
+    27
+   ],
+   "anchor": [
+    14.29,
+    14.06
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05572,
+   "shadow": null
+  }
+ ],
+ "team_ramps": {
+  "blue": {
+   "light": "#7FAEFF",
+   "base": "#3A7BFF",
+   "dark": "#1F4BB0"
+  },
+  "red": {
+   "light": "#FF7E66",
+   "base": "#E8432F",
+   "dark": "#8E2418"
+  }
+ },
+ "trim_mask": {
+  "image": "survivors-atlas-trim.png",
+  "size": [
+   512,
+   1024
+  ],
+  "rects": "same as frames[].rect",
+  "encoding": "alpha 255 = team trim; R=G=B: 255 light, 170 base, 85 dark"
+ },
+ "neutral": {
+  "image": "survivors-atlas-neutral.png",
+  "trim_image": "survivors-atlas-neutral-trim.png",
+  "size": [
+   512,
+   512
+  ],
+  "trim_neutral_rgb": {
+   "light": "#FFFFFF",
+   "base": "#FFFFFF",
+   "dark": "#949494"
+  },
+  "frames": [
+   {
+    "name": "angel-idle-e",
+    "unit": "angel",
+    "state": "idle",
+    "facing": "E",
+    "anchor": [
+     11.0,
+     20
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02411,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     472,
+     241,
+     22,
+     22
+    ]
+   },
+   {
+    "name": "angel-idle-n",
+    "unit": "angel",
+    "state": "idle",
+    "facing": "N",
+    "anchor": [
+     7.5,
+     21
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02485,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     247,
+     241,
+     15,
+     23
+    ]
+   },
+   {
+    "name": "angel-idle-s",
+    "unit": "angel",
+    "state": "idle",
+    "facing": "S",
+    "anchor": [
+     9.0,
+     21
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02489,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     227,
+     241,
+     18,
+     23
+    ]
+   },
+   {
+    "name": "angel-idle-w",
+    "unit": "angel",
+    "state": "idle",
+    "facing": "W",
+    "anchor": [
+     11.0,
+     20
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette1",
+    "scale": 0.02411,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     270,
+     22,
+     22
+    ]
+   },
+   {
+    "name": "rifleman-idle-e",
+    "unit": "rifleman",
+    "state": "idle",
+    "facing": "E",
+    "anchor": [
+     8.5,
+     16
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02083,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     26,
+     270,
+     17,
+     18
+    ]
+   },
+   {
+    "name": "rifleman-idle-n",
+    "unit": "rifleman",
+    "state": "idle",
+    "facing": "N",
+    "anchor": [
+     6.0,
+     16
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02083,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     64,
+     270,
+     12,
+     18
+    ]
+   },
+   {
+    "name": "rifleman-idle-s",
+    "unit": "rifleman",
+    "state": "idle",
+    "facing": "S",
+    "anchor": [
+     5.5,
+     16
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02062,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.05,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     78,
+     270,
+     11,
+     18
+    ]
+   },
+   {
+    "name": "rifleman-idle-w",
+    "unit": "rifleman",
+    "state": "idle",
+    "facing": "W",
+    "anchor": [
+     8.5,
+     16
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette1",
+    "scale": 0.02083,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     45,
+     270,
+     17,
+     18
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r0000",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 0.0,
+    "anchor": [
+     25.0,
+     11.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     264,
+     241,
+     50,
+     22
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r0225",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 22.5,
+    "anchor": [
+     25.3,
+     17.86
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     226,
+     159,
+     51,
+     37
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r0450",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 45.0,
+    "anchor": [
+     22.8,
+     22.72
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     370,
+     58,
+     46,
+     47
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r0675",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 67.5,
+    "anchor": [
+     17.67,
+     25.47
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     174,
+     2,
+     36,
+     52
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r0900",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 90.0,
+    "anchor": [
+     11.0,
+     25.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     274,
+     58,
+     22,
+     50
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r1125",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 112.5,
+    "anchor": [
+     19.14,
+     25.3
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     326,
+     2,
+     37,
+     51
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r1350",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 135.0,
+    "anchor": [
+     24.28,
+     22.8
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     98,
+     110,
+     47,
+     46
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r1575",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 157.5,
+    "anchor": [
+     26.53,
+     17.67
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     119,
+     202,
+     52,
+     36
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r1800",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 180.0,
+    "anchor": [
+     25.0,
+     11.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     316,
+     241,
+     50,
+     22
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r2025",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 202.5,
+    "anchor": [
+     25.7,
+     19.14
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     279,
+     159,
+     51,
+     37
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r2250",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 225.0,
+    "anchor": [
+     23.2,
+     24.28
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     418,
+     58,
+     46,
+     47
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r2475",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 247.5,
+    "anchor": [
+     18.33,
+     26.53
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     212,
+     2,
+     36,
+     52
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r2700",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 270.0,
+    "anchor": [
+     11.0,
+     25.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     298,
+     58,
+     22,
+     50
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r2925",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 292.5,
+    "anchor": [
+     17.86,
+     25.7
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     365,
+     2,
+     37,
+     51
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r3150",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 315.0,
+    "anchor": [
+     22.72,
+     23.2
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     147,
+     110,
+     47,
+     46
+    ]
+   },
+   {
+    "name": "scrap_truck-empty-r3375",
+    "unit": "scrap_truck",
+    "state": "empty",
+    "facing": 337.5,
+    "anchor": [
+     25.47,
+     18.33
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     173,
+     202,
+     52,
+     36
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r0000",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 0.0,
+    "anchor": [
+     25.0,
+     11.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     368,
+     241,
+     50,
+     22
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r0225",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 22.5,
+    "anchor": [
+     25.3,
+     17.86
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     332,
+     159,
+     51,
+     37
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r0450",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 45.0,
+    "anchor": [
+     22.8,
+     22.74
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     110,
+     46,
+     47
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r0675",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 67.5,
+    "anchor": [
+     17.67,
+     25.44
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     250,
+     2,
+     36,
+     52
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r0900",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 90.0,
+    "anchor": [
+     11.0,
+     25.03
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     322,
+     58,
+     22,
+     50
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r1125",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 112.5,
+    "anchor": [
+     19.12,
+     25.32
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     404,
+     2,
+     37,
+     51
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r1350",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 135.0,
+    "anchor": [
+     24.26,
+     22.8
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     196,
+     110,
+     47,
+     46
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r1575",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 157.5,
+    "anchor": [
+     26.53,
+     17.67
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     227,
+     202,
+     52,
+     36
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r1800",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 180.0,
+    "anchor": [
+     25.0,
+     11.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     420,
+     241,
+     50,
+     22
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r2025",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 202.5,
+    "anchor": [
+     25.7,
+     19.14
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     385,
+     159,
+     51,
+     37
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r2250",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 225.0,
+    "anchor": [
+     23.2,
+     24.26
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     50,
+     110,
+     46,
+     47
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r2475",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 247.5,
+    "anchor": [
+     18.33,
+     26.56
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     288,
+     2,
+     36,
+     52
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r2700",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 270.0,
+    "anchor": [
+     11.0,
+     24.97
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     346,
+     58,
+     22,
+     50
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r2925",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 292.5,
+    "anchor": [
+     17.88,
+     25.68
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     443,
+     2,
+     37,
+     51
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r3150",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 315.0,
+    "anchor": [
+     22.74,
+     23.2
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     245,
+     110,
+     47,
+     46
+    ]
+   },
+   {
+    "name": "scrap_truck-full-r3375",
+    "unit": "scrap_truck",
+    "state": "full",
+    "facing": 337.5,
+    "anchor": [
+     25.47,
+     18.33
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05088,
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 10,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     281,
+     202,
+     52,
+     36
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r0000",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 0.0,
+    "anchor": [
+     24.97,
+     14.97
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     24.91,
+     15.09
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     335,
+     202,
+     50,
+     30
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r0225",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 22.5,
+    "anchor": [
+     26.75,
+     20.34
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     26.64,
+     20.44
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     159,
+     54,
+     41
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r0450",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 45.0,
+    "anchor": [
+     24.78,
+     24.59
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     24.65,
+     24.64
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     58,
+     50,
+     50
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r0675",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 67.5,
+    "anchor": [
+     20.53,
+     26.65
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     20.39,
+     26.64
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     2,
+     41,
+     54
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r0900",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 90.0,
+    "anchor": [
+     15.03,
+     24.97
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     14.91,
+     24.91
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     210,
+     58,
+     30,
+     50
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r1125",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 112.5,
+    "anchor": [
+     20.66,
+     26.75
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     20.56,
+     26.64
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     45,
+     2,
+     41,
+     54
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r1350",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 135.0,
+    "anchor": [
+     25.41,
+     24.78
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     25.36,
+     24.65
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     54,
+     58,
+     50,
+     50
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r1575",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 157.5,
+    "anchor": [
+     27.35,
+     20.53
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     27.36,
+     20.39
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     58,
+     159,
+     54,
+     41
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r1800",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 180.0,
+    "anchor": [
+     25.03,
+     15.03
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     25.09,
+     14.91
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     387,
+     202,
+     50,
+     30
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r2025",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 202.5,
+    "anchor": [
+     27.25,
+     20.66
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     27.36,
+     20.56
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     114,
+     159,
+     54,
+     41
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r2250",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 225.0,
+    "anchor": [
+     25.22,
+     25.41
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     25.35,
+     25.36
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     106,
+     58,
+     50,
+     50
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r2475",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 247.5,
+    "anchor": [
+     20.47,
+     27.35
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     20.61,
+     27.36
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     88,
+     2,
+     41,
+     54
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r2700",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 270.0,
+    "anchor": [
+     14.97,
+     25.03
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     15.09,
+     25.09
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     242,
+     58,
+     30,
+     50
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r2925",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 292.5,
+    "anchor": [
+     20.34,
+     27.25
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     20.44,
+     27.36
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     131,
+     2,
+     41,
+     54
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r3150",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 315.0,
+    "anchor": [
+     24.59,
+     25.22
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     24.64,
+     25.35
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     158,
+     58,
+     50,
+     50
+    ]
+   },
+   {
+    "name": "tank_hull-idle-r3375",
+    "unit": "tank_hull",
+    "state": "idle",
+    "facing": 337.5,
+    "anchor": [
+     26.65,
+     20.47
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.06293,
+    "turret_mount": [
+     26.64,
+     20.61
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     170,
+     159,
+     54,
+     41
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r0000",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 0.0,
+    "anchor": [
+     13.96,
+     11.47
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     135,
+     241,
+     44,
+     23
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r0225",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 22.5,
+    "anchor": [
+     14.06,
+     12.7
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     47,
+     241,
+     42,
+     27
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r0450",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 45.0,
+    "anchor": [
+     14.38,
+     14.2
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     438,
+     159,
+     37,
+     37
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r0675",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 67.5,
+    "anchor": [
+     12.94,
+     14.29
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     344,
+     110,
+     27,
+     43
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r0900",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 90.0,
+    "anchor": [
+     11.53,
+     13.96
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     294,
+     110,
+     23,
+     44
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r1125",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 112.5,
+    "anchor": [
+     14.3,
+     14.06
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     402,
+     110,
+     27,
+     42
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r1350",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 135.0,
+    "anchor": [
+     22.8,
+     14.38
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     2,
+     202,
+     37,
+     37
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r1575",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 157.5,
+    "anchor": [
+     28.71,
+     12.94
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     439,
+     202,
+     43,
+     27
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r1800",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 180.0,
+    "anchor": [
+     30.04,
+     11.53
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     181,
+     241,
+     44,
+     23
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r2025",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 202.5,
+    "anchor": [
+     27.94,
+     14.3
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     91,
+     241,
+     42,
+     27
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r2250",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 225.0,
+    "anchor": [
+     22.62,
+     22.8
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     41,
+     202,
+     37,
+     37
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r2475",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 247.5,
+    "anchor": [
+     14.06,
+     28.71
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     373,
+     110,
+     27,
+     43
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r2700",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 270.0,
+    "anchor": [
+     11.47,
+     30.04
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     319,
+     110,
+     23,
+     44
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r2925",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 292.5,
+    "anchor": [
+     12.7,
+     27.94
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     431,
+     110,
+     27,
+     42
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r3150",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 315.0,
+    "anchor": [
+     14.2,
+     22.62
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     80,
+     202,
+     37,
+     37
+    ]
+   },
+   {
+    "name": "tank_turret-idle-r3375",
+    "unit": "tank_turret",
+    "state": "idle",
+    "facing": 337.5,
+    "anchor": [
+     14.29,
+     14.06
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05572,
+    "shadow": null,
+    "rect": [
+     2,
+     241,
+     43,
+     27
+    ]
+   }
+  ]
+ }
+}

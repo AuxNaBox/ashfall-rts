@@ -1,0 +1,1651 @@
+{
+ "_doc": "Ashfall horde unit atlas v2 (polish pass; v1 kept as *-atlas-v1.*). rect = [x,y,w,h] in the atlas. anchor = draw origin inside the rect: ground point (bottom-centre of the body) for infantry/creatures, rotation pivot (body centre) for vehicles and the turret. Draw the sprite at (unitX - anchor[0], unitY - anchor[1]). facing: E/S/N/W for infantry+creatures (W = E mirrored), heading in degrees for vehicles (0 = east, +90 = south, i.e. clockwise on screen). turret_mount (hull frames) = where the turret pivot goes, relative to the rect. shadow: ellipse the engine draws first, centre relative to the anchor, 30% black; vehicle shadows should be rotated to the heading. Frames carry no baked shadow.",
+ "image": "horde-atlas.png",
+ "size": [
+  512,
+  128
+ ],
+ "default_team": "violet",
+ "teams": [
+  "red",
+  "violet"
+ ],
+ "frames": [
+  {
+   "name": "hellbrute-idle-e-red",
+   "unit": "hellbrute",
+   "state": "idle",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    141,
+    2,
+    43,
+    44
+   ],
+   "anchor": [
+    21.5,
+    41
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05594,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 16,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "hellbrute-idle-e-violet",
+   "unit": "hellbrute",
+   "state": "idle",
+   "facing": "E",
+   "team": "violet",
+   "rect": [
+    96,
+    2,
+    43,
+    44
+   ],
+   "anchor": [
+    21.5,
+    41
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05594,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 16,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "hellbrute-idle-n-red",
+   "unit": "hellbrute",
+   "state": "idle",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    231,
+    2,
+    43,
+    44
+   ],
+   "anchor": [
+    21.5,
+    41
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05435,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 16,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "hellbrute-idle-n-violet",
+   "unit": "hellbrute",
+   "state": "idle",
+   "facing": "N",
+   "team": "violet",
+   "rect": [
+    186,
+    2,
+    43,
+    44
+   ],
+   "anchor": [
+    21.5,
+    41
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05435,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 16,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "hellbrute-idle-s-red",
+   "unit": "hellbrute",
+   "state": "idle",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    49,
+    2,
+    45,
+    44
+   ],
+   "anchor": [
+    22.5,
+    41
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05457,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 16,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "hellbrute-idle-s-violet",
+   "unit": "hellbrute",
+   "state": "idle",
+   "facing": "S",
+   "team": "violet",
+   "rect": [
+    2,
+    2,
+    45,
+    44
+   ],
+   "anchor": [
+    22.5,
+    41
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05457,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 16,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "hellbrute-idle-w-red",
+   "unit": "hellbrute",
+   "state": "idle",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    321,
+    2,
+    43,
+    44
+   ],
+   "anchor": [
+    21.5,
+    41
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette2",
+   "scale": 0.05594,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 16,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "hellbrute-idle-w-violet",
+   "unit": "hellbrute",
+   "state": "idle",
+   "facing": "W",
+   "team": "violet",
+   "rect": [
+    276,
+    2,
+    43,
+    44
+   ],
+   "anchor": [
+    21.5,
+    41
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette2",
+   "scale": 0.05594,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 16,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "imp-idle-e-red",
+   "unit": "imp",
+   "state": "idle",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    289,
+    84,
+    17,
+    16
+   ],
+   "anchor": [
+    8.0,
+    14
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.01938,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "imp-idle-e-violet",
+   "unit": "imp",
+   "state": "idle",
+   "facing": "E",
+   "team": "violet",
+   "rect": [
+    270,
+    84,
+    17,
+    16
+   ],
+   "anchor": [
+    8.0,
+    14
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.01938,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "imp-idle-n-red",
+   "unit": "imp",
+   "state": "idle",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    250,
+    84,
+    18,
+    16
+   ],
+   "anchor": [
+    9.0,
+    15
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02089,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "imp-idle-n-violet",
+   "unit": "imp",
+   "state": "idle",
+   "facing": "N",
+   "team": "violet",
+   "rect": [
+    230,
+    84,
+    18,
+    16
+   ],
+   "anchor": [
+    9.0,
+    15
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02089,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "imp-idle-s-red",
+   "unit": "imp",
+   "state": "idle",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    210,
+    84,
+    18,
+    17
+   ],
+   "anchor": [
+    9.0,
+    15
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.01974,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "imp-idle-s-violet",
+   "unit": "imp",
+   "state": "idle",
+   "facing": "S",
+   "team": "violet",
+   "rect": [
+    190,
+    84,
+    18,
+    17
+   ],
+   "anchor": [
+    9.0,
+    15
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.01974,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "imp-idle-w-red",
+   "unit": "imp",
+   "state": "idle",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    327,
+    84,
+    17,
+    16
+   ],
+   "anchor": [
+    9.0,
+    14
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.01938,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "imp-idle-w-violet",
+   "unit": "imp",
+   "state": "idle",
+   "facing": "W",
+   "team": "violet",
+   "rect": [
+    308,
+    84,
+    17,
+    16
+   ],
+   "anchor": [
+    9.0,
+    14
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.01938,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-empty-e-red",
+   "unit": "scrap_eater",
+   "state": "empty",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    411,
+    48,
+    48,
+    24
+   ],
+   "anchor": [
+    24.0,
+    21
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 17,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-empty-e-violet",
+   "unit": "scrap_eater",
+   "state": "empty",
+   "facing": "E",
+   "team": "violet",
+   "rect": [
+    361,
+    48,
+    48,
+    24
+   ],
+   "anchor": [
+    24.0,
+    21
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 17,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-empty-n-red",
+   "unit": "scrap_eater",
+   "state": "empty",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    127,
+    48,
+    28,
+    30
+   ],
+   "anchor": [
+    14.0,
+    27
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 10.8,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-empty-n-violet",
+   "unit": "scrap_eater",
+   "state": "empty",
+   "facing": "N",
+   "team": "violet",
+   "rect": [
+    97,
+    48,
+    28,
+    30
+   ],
+   "anchor": [
+    14.0,
+    27
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 10.8,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-empty-s-red",
+   "unit": "scrap_eater",
+   "state": "empty",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    68,
+    48,
+    27,
+    34
+   ],
+   "anchor": [
+    13.5,
+    32
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 10.35,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-empty-s-violet",
+   "unit": "scrap_eater",
+   "state": "empty",
+   "facing": "S",
+   "team": "violet",
+   "rect": [
+    39,
+    48,
+    27,
+    34
+   ],
+   "anchor": [
+    13.5,
+    32
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 10.35,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-empty-w-red",
+   "unit": "scrap_eater",
+   "state": "empty",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    2,
+    84,
+    48,
+    24
+   ],
+   "anchor": [
+    24.0,
+    21
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 17,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-empty-w-violet",
+   "unit": "scrap_eater",
+   "state": "empty",
+   "facing": "W",
+   "team": "violet",
+   "rect": [
+    461,
+    48,
+    48,
+    24
+   ],
+   "anchor": [
+    24.0,
+    21
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 17,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-full-e-red",
+   "unit": "scrap_eater",
+   "state": "full",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    208,
+    48,
+    49,
+    28
+   ],
+   "anchor": [
+    24.5,
+    25
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 17,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-full-e-violet",
+   "unit": "scrap_eater",
+   "state": "full",
+   "facing": "E",
+   "team": "violet",
+   "rect": [
+    157,
+    48,
+    49,
+    28
+   ],
+   "anchor": [
+    24.5,
+    25
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 17,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-full-n-red",
+   "unit": "scrap_eater",
+   "state": "full",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    2,
+    48,
+    35,
+    34
+   ],
+   "anchor": [
+    17.5,
+    31
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 13.95,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-full-n-violet",
+   "unit": "scrap_eater",
+   "state": "full",
+   "facing": "N",
+   "team": "violet",
+   "rect": [
+    440,
+    2,
+    35,
+    34
+   ],
+   "anchor": [
+    17.5,
+    31
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 13.95,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-full-s-red",
+   "unit": "scrap_eater",
+   "state": "full",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    403,
+    2,
+    35,
+    36
+   ],
+   "anchor": [
+    17.5,
+    33
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 13.95,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-full-s-violet",
+   "unit": "scrap_eater",
+   "state": "full",
+   "facing": "S",
+   "team": "violet",
+   "rect": [
+    366,
+    2,
+    35,
+    36
+   ],
+   "anchor": [
+    17.5,
+    33
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 13.95,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-full-w-red",
+   "unit": "scrap_eater",
+   "state": "full",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    310,
+    48,
+    49,
+    28
+   ],
+   "anchor": [
+    24.5,
+    25
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 17,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "scrap_eater-full-w-violet",
+   "unit": "scrap_eater",
+   "state": "full",
+   "facing": "W",
+   "team": "violet",
+   "rect": [
+    259,
+    48,
+    49,
+    28
+   ],
+   "anchor": [
+    24.5,
+    25
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette2",
+   "scale": 0.04564,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 0.5,
+    "rx": 17,
+    "ry": 5,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "zombie-idle-e-red",
+   "unit": "zombie",
+   "state": "idle",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    71,
+    84,
+    17,
+    18
+   ],
+   "anchor": [
+    9.0,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02183,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "zombie-idle-e-violet",
+   "unit": "zombie",
+   "state": "idle",
+   "facing": "E",
+   "team": "violet",
+   "rect": [
+    52,
+    84,
+    17,
+    18
+   ],
+   "anchor": [
+    9.0,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02183,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "zombie-idle-n-red",
+   "unit": "zombie",
+   "state": "idle",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    176,
+    84,
+    12,
+    18
+   ],
+   "anchor": [
+    6.0,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02116,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "zombie-idle-n-violet",
+   "unit": "zombie",
+   "state": "idle",
+   "facing": "N",
+   "team": "violet",
+   "rect": [
+    162,
+    84,
+    12,
+    18
+   ],
+   "anchor": [
+    6.0,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02116,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "zombie-idle-s-red",
+   "unit": "zombie",
+   "state": "idle",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    145,
+    84,
+    15,
+    18
+   ],
+   "anchor": [
+    7.5,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02086,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "zombie-idle-s-violet",
+   "unit": "zombie",
+   "state": "idle",
+   "facing": "S",
+   "team": "violet",
+   "rect": [
+    128,
+    84,
+    15,
+    18
+   ],
+   "anchor": [
+    7.5,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02086,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "zombie-idle-w-red",
+   "unit": "zombie",
+   "state": "idle",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    109,
+    84,
+    17,
+    18
+   ],
+   "anchor": [
+    8.0,
+    16
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.02183,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "zombie-idle-w-violet",
+   "unit": "zombie",
+   "state": "idle",
+   "facing": "W",
+   "team": "violet",
+   "rect": [
+    90,
+    84,
+    17,
+    18
+   ],
+   "anchor": [
+    8.0,
+    16
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.02183,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  }
+ ],
+ "team_ramps": {
+  "red": {
+   "light": "#FF7E66",
+   "base": "#E8432F",
+   "dark": "#8E2418"
+  },
+  "violet": {
+   "light": "#C49BFF",
+   "base": "#9A5CFF",
+   "dark": "#5A2FA0"
+  }
+ },
+ "trim_mask": {
+  "image": "horde-atlas-trim.png",
+  "size": [
+   512,
+   128
+  ],
+  "rects": "same as frames[].rect",
+  "encoding": "alpha 255 = team trim; R=G=B: 255 light, 170 base, 85 dark"
+ },
+ "neutral": {
+  "image": "horde-atlas-neutral.png",
+  "trim_image": "horde-atlas-neutral-trim.png",
+  "size": [
+   512,
+   128
+  ],
+  "trim_neutral_rgb": {
+   "light": "#FFFFFF",
+   "base": "#FFFFFF",
+   "dark": "#949494"
+  },
+  "frames": [
+   {
+    "name": "hellbrute-idle-e",
+    "unit": "hellbrute",
+    "state": "idle",
+    "facing": "E",
+    "anchor": [
+     21.5,
+     41
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05594,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 16,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     49,
+     2,
+     43,
+     44
+    ]
+   },
+   {
+    "name": "hellbrute-idle-n",
+    "unit": "hellbrute",
+    "state": "idle",
+    "facing": "N",
+    "anchor": [
+     21.5,
+     41
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05435,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 16,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     94,
+     2,
+     43,
+     44
+    ]
+   },
+   {
+    "name": "hellbrute-idle-s",
+    "unit": "hellbrute",
+    "state": "idle",
+    "facing": "S",
+    "anchor": [
+     22.5,
+     41
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05457,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 16,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     2,
+     45,
+     44
+    ]
+   },
+   {
+    "name": "hellbrute-idle-w",
+    "unit": "hellbrute",
+    "state": "idle",
+    "facing": "W",
+    "anchor": [
+     21.5,
+     41
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette2",
+    "scale": 0.05594,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 16,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     139,
+     2,
+     43,
+     44
+    ]
+   },
+   {
+    "name": "imp-idle-e",
+    "unit": "imp",
+    "state": "idle",
+    "facing": "E",
+    "anchor": [
+     8.0,
+     14
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.01938,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     161,
+     48,
+     17,
+     16
+    ]
+   },
+   {
+    "name": "imp-idle-n",
+    "unit": "imp",
+    "state": "idle",
+    "facing": "N",
+    "anchor": [
+     9.0,
+     15
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02089,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     141,
+     48,
+     18,
+     16
+    ]
+   },
+   {
+    "name": "imp-idle-s",
+    "unit": "imp",
+    "state": "idle",
+    "facing": "S",
+    "anchor": [
+     9.0,
+     15
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.01974,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     121,
+     48,
+     18,
+     17
+    ]
+   },
+   {
+    "name": "imp-idle-w",
+    "unit": "imp",
+    "state": "idle",
+    "facing": "W",
+    "anchor": [
+     9.0,
+     14
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette1",
+    "scale": 0.01938,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     180,
+     48,
+     17,
+     16
+    ]
+   },
+   {
+    "name": "scrap_eater-empty-e",
+    "unit": "scrap_eater",
+    "state": "empty",
+    "facing": "E",
+    "anchor": [
+     24.0,
+     21
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04564,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 17,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     419,
+     2,
+     48,
+     24
+    ]
+   },
+   {
+    "name": "scrap_eater-empty-n",
+    "unit": "scrap_eater",
+    "state": "empty",
+    "facing": "N",
+    "anchor": [
+     14.0,
+     27
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04564,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 10.8,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     287,
+     2,
+     28,
+     30
+    ]
+   },
+   {
+    "name": "scrap_eater-empty-s",
+    "unit": "scrap_eater",
+    "state": "empty",
+    "facing": "S",
+    "anchor": [
+     13.5,
+     32
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04564,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 10.35,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     258,
+     2,
+     27,
+     34
+    ]
+   },
+   {
+    "name": "scrap_eater-empty-w",
+    "unit": "scrap_eater",
+    "state": "empty",
+    "facing": "W",
+    "anchor": [
+     24.0,
+     21
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette2",
+    "scale": 0.04564,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 17,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     48,
+     48,
+     24
+    ]
+   },
+   {
+    "name": "scrap_eater-full-e",
+    "unit": "scrap_eater",
+    "state": "full",
+    "facing": "E",
+    "anchor": [
+     24.5,
+     25
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04564,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 17,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     317,
+     2,
+     49,
+     28
+    ]
+   },
+   {
+    "name": "scrap_eater-full-n",
+    "unit": "scrap_eater",
+    "state": "full",
+    "facing": "N",
+    "anchor": [
+     17.5,
+     31
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04564,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 13.95,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     221,
+     2,
+     35,
+     34
+    ]
+   },
+   {
+    "name": "scrap_eater-full-s",
+    "unit": "scrap_eater",
+    "state": "full",
+    "facing": "S",
+    "anchor": [
+     17.5,
+     33
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04564,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 13.95,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     184,
+     2,
+     35,
+     36
+    ]
+   },
+   {
+    "name": "scrap_eater-full-w",
+    "unit": "scrap_eater",
+    "state": "full",
+    "facing": "W",
+    "anchor": [
+     24.5,
+     25
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette2",
+    "scale": 0.04564,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 0.5,
+     "rx": 17,
+     "ry": 5,
+     "alpha": 0.3
+    },
+    "rect": [
+     368,
+     2,
+     49,
+     28
+    ]
+   },
+   {
+    "name": "zombie-idle-e",
+    "unit": "zombie",
+    "state": "idle",
+    "facing": "E",
+    "anchor": [
+     9.0,
+     16
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02183,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     52,
+     48,
+     17,
+     18
+    ]
+   },
+   {
+    "name": "zombie-idle-n",
+    "unit": "zombie",
+    "state": "idle",
+    "facing": "N",
+    "anchor": [
+     6.0,
+     16
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02116,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     107,
+     48,
+     12,
+     18
+    ]
+   },
+   {
+    "name": "zombie-idle-s",
+    "unit": "zombie",
+    "state": "idle",
+    "facing": "S",
+    "anchor": [
+     7.5,
+     16
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02086,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     90,
+     48,
+     15,
+     18
+    ]
+   },
+   {
+    "name": "zombie-idle-w",
+    "unit": "zombie",
+    "state": "idle",
+    "facing": "W",
+    "anchor": [
+     8.0,
+     16
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette1",
+    "scale": 0.02183,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     71,
+     48,
+     17,
+     18
+    ]
+   }
+  ]
+ }
+}
