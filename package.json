@@ -1,5 +1,5 @@
 {
   "name": "ashfall-rts",
   "private": true,
-  "scripts": { "test": "node --test tests/" }
+  "scripts": { "test": "node --test tests/", "matchups": "node tests/matchups.js" }
 }
