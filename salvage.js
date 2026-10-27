@@ -43,13 +43,17 @@
     powerPlantHp:        { v: 700,  src: 'ADD §1' },
     powerPlantPower:     { v: 100,  src: 'ADD §1' },
     factoryPower:        { v: -40,  src: 'ADD §1' },
-    otherPower:          { v: 0,    src: 'PLACEHOLDER: addendum gives no power for HQ/barracks/turret/superweapon/depot' },
+    hqPower:             { v: 0,    src: 'PLACEHOLDER (DIR Oct 27, for playtest)' },
+    turretPower:         { v: -20,  src: 'PLACEHOLDER (DIR Oct 27, for playtest)' },
+    depotPower:          { v: -10,  src: 'PLACEHOLDER (DIR Oct 27, for playtest; ADD §3 said no power use)' },
+    barracksPower:       { v: -20,  src: 'PLACEHOLDER (DIR Oct 27, for playtest)' },
+    otherPower:          { v: 0,    src: 'PLACEHOLDER: no value given for the Nuke Silo / Hell Silo' },
     lowPowerMult:        { v: 0.5,  src: 'ADD §1 (production and build speed halved below 0)' },
     depotCost:           { v: 300,  src: 'ADD §3' },
     depotBuildTime:      { v: 6,    src: 'ADD §3' },
     depotHp:             { v: 400,  src: 'ADD §3' },
     // storage
-    hqStorage:           { v: 1000, src: 'ADD §3' },
+    hqStorage:           { v: 2000, src: 'DIR ruling Oct 27 (ADD §3 said 1,000): starting cap 4,000' },
     plantStorage:        { v: 2000, src: 'ADD §3' },
     depotStorage:        { v: 1500, src: 'ADD §3' },
     storageAmberAt:      { v: 0.9,  src: 'ADD §3' },
@@ -71,7 +75,8 @@
   const stageOf = a => a <= 0 ? 0 : Math.min(D.stageCount, Math.ceil(a / STAGE_SIZE));
   const pipsOf = (load, cap) => load <= 0 ? 0 : Math.min(D.loadPips, Math.ceil(load / cap * D.loadPips));
   const storageCap = c => (c.hq || 0) * D.hqStorage + (c.refinery || 0) * D.plantStorage + (c.depot || 0) * D.depotStorage;
-  const powerOfType = t => t === 'power' ? D.powerPlantPower : t === 'refinery' ? D.plantPower : t === 'factory' ? D.factoryPower : D.otherPower;
+  const POWER_KEY = { power: 'powerPlantPower', refinery: 'plantPower', factory: 'factoryPower', hq: 'hqPower', turret: 'turretPower', depot: 'depotPower', barracks: 'barracksPower' };
+  const powerOfType = t => D[POWER_KEY[t] || 'otherPower'];
   const powerBalance = types => { let made = 0, used = 0; for (const t of types) { const p = powerOfType(t); if (p > 0) made += p; else used -= p; } return { made, used, net: made - used }; };
 
   // ---------------- simulation ----------------

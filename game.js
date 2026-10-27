@@ -19,8 +19,8 @@ const T = { GROUND: 0, RUBBLE: 1, SLUDGE: 2, CRATER: 3, ROAD: 4 };
 const BLOCK = [false, true, true, true, false];
 
 const SIDES = [
-  { name: 'Survivors', color: '#f2d06b', mm: '#ffe680' },
-  { name: 'The Horde', color: '#d23a2a', mm: '#ff3020' },
+  { name: 'Survivors', color: '#3A7BFF', mm: '#5A9BFF', dot: '#9FE8FF', ui: '#6FA8FF' },
+  { name: 'The Horde', color: '#d23a2a', mm: '#ff3020', dot: '#ff5040', ui: '#ff6a4a' },
 ];
 
 // ranges & sight in tiles; speed in px/s; rof in seconds
@@ -36,12 +36,12 @@ const UDEF = {
   brute: { side: 1, name: 'Hellbrute', desc: 'Huge demon, cleaving melee', cost: 900, time: 14, hp: 1000, speed: 36, r: 15, sight: 6, dmg: 70, rof: 1.6, range: 1.1, splash: 0.9, melee: true, heavy: true, cat: 'vehicle', from: ['factory'], weapon: 'cleave' },
 };
 const BDEF = {
-  hq: { name: ['Sanctum', 'Hell Gate'], desc: 'Headquarters. Trains Scrap Trucks. Stores 1,000 Credits', w: 3, h: 3, hp: 2200, cost: 0, time: 0, sight: 8 },
+  hq: { name: ['HQ', 'Hive'], desc: 'Headquarters. Trains Scrap Trucks. Stores 2,000 Credits', w: 3, h: 3, hp: 2200, cost: 0, time: 0, sight: 8 },
   power: { name: ['Power Plant', 'Power Plant'], desc: 'Makes +100 power', w: 2, h: 2, hp: SD.powerPlantHp, cost: SD.powerPlantCost, time: SD.powerPlantBuildTime, req: ['hq'], sight: 4 },
   refinery: { name: ['Scrap Yard', 'Grinder Pit'], desc: 'Salvage drop-off with one dock pad. Stores 2,000 Credits. Comes with a free truck. Uses 30 power', w: 3, h: 2, hp: SD.plantHp, cost: SD.plantCost, time: SD.plantBuildTime, req: ['power'], sight: 5 },
-  depot: { name: ['Depot', 'Depot'], desc: 'Stores 1,500 more Credits', w: 2, h: 1, hp: SD.depotHp, cost: SD.depotCost, time: SD.depotBuildTime, req: ['refinery'], sight: 4 },
-  barracks: { name: ['Chapel', 'Spawning Pit'], desc: 'Trains infantry', w: 2, h: 2, hp: 800, cost: 500, time: 8, req: ['hq'], sight: 5 },
-  turret: { name: ['Bastion', 'Spine Tower'], desc: 'Defense tower', w: 1, h: 1, hp: 650, cost: 600, time: 9, req: ['barracks'], sight: 7, dmg: 28, rof: 0.9, range: 6.5 },
+  depot: { name: ['Depot', 'Depot'], desc: 'Stores 1,500 more Credits. Uses 10 power', w: 2, h: 1, hp: SD.depotHp, cost: SD.depotCost, time: SD.depotBuildTime, req: ['refinery'], sight: 4 },
+  barracks: { name: ['Barracks', 'Spawning Pit'], desc: 'Trains infantry. Uses 20 power', w: 2, h: 2, hp: 800, cost: 500, time: 8, req: ['hq'], sight: 5 },
+  turret: { name: ['Turret', 'Bone Spire'], desc: 'Defense tower. Uses 20 power', w: 1, h: 1, hp: 650, cost: 600, time: 9, req: ['barracks'], sight: 7, dmg: 28, rof: 0.9, range: 6.5 },
   factory: { name: ['Factory', 'Factory'], desc: 'Builds heavy units. Uses 40 power', w: 3, h: 3, hp: 1200, cost: 2000, time: 15, req: ['refinery'], sight: 5 },
   silo: { name: ['Nuke Silo', 'Hell Silo'], desc: 'Superweapon. Charges a nuke', w: 2, h: 2, hp: 1000, cost: 2500, time: 22, req: ['factory'], sight: 5 },
 };
@@ -474,7 +474,7 @@ function fire(s, t) {
   const dmg = s.d.dmg;
   const ox = s.x + Math.cos(s.tang) * (s.r * 0.8), oy = s.y + Math.sin(s.tang) * (s.r * 0.8) - (s.d.fly ? 9 : s.kind === 'b' ? 14 : 0);
   if (w === 'bullet') { G.fx.push({ k: 'line', x1: ox, y1: oy, x2: t.x + (Math.random() - 0.5) * 6, y2: t.y + (Math.random() - 0.5) * 6, c: '#ffe9a0', w: 1.5, t: 0, dur: 0.07 }); damage(t, dmg, s, w); sfx('shot', s.x, s.y); }
-  else if (w === 'beam') { G.fx.push({ k: 'beam', x1: ox, y1: oy, x2: t.x, y2: t.y, c: side ? '#ff5030' : '#fff3b0', t: 0, dur: 0.18 }); G.fx.push({ k: 'spark', x: t.x, y: t.y, c: '#fff6c0', t: 0, dur: 0.3 }); damage(t, dmg, s, w); sfx('beam', s.x, s.y); }
+  else if (w === 'beam') { G.fx.push({ k: 'beam', x1: ox, y1: oy, x2: t.x, y2: t.y, c: side ? '#ff5030' : '#9FE8FF', t: 0, dur: 0.18 }); G.fx.push({ k: 'spark', x: t.x, y: t.y, c: '#fff6c0', t: 0, dur: 0.3 }); damage(t, dmg, s, w); sfx('beam', s.x, s.y); }
   else if (w === 'claw' || w === 'cleave') {
     G.fx.push({ k: 'slash', x: t.x, y: t.y, a: s.ang, r: w === 'cleave' ? 18 : 9, t: 0, dur: 0.2 });
     if (w === 'cleave') areaDamage(t.x, t.y, s.d.splash * TILE, dmg, s, w); else damage(t, dmg, s, w);
@@ -542,7 +542,7 @@ function kill(t, src, w) {
     G.decals.push({ k: 'ruin', x: t.tx * TILE, y: t.ty * TILE, w: t.w, h: t.h, t: 0 });
     sfx('boom', t.x, t.y); shake(6);
     if (t.side === 0) msg(`${ename(t)} destroyed!`, '#ff6a3d', t.x, t.y);
-    else msg(`Enemy ${ename(t)} destroyed.`, '#f2d06b');
+    else msg(`Enemy ${ename(t)} destroyed.`, '#DDF6FF');
   }
 }
 
@@ -674,7 +674,7 @@ function updMissiles(dt) {
   for (const m of G.missiles) {
     m.t += dt; const f = Math.min(1, m.t / m.dur);
     m.x = m.sx + (m.tx - m.sx) * f; m.y = m.sy + (m.ty - m.sy) * f - Math.sin(f * Math.PI) * 400;
-    G.fx.push({ k: 'ember', x: m.x, y: m.y, vx: 0, vy: 30, c: m.side ? '#ff5a1a' : '#fff3b0', t: 0, dur: 0.5 });
+    G.fx.push({ k: 'ember', x: m.x, y: m.y, vx: 0, vy: 30, c: m.side ? '#ff5a1a' : '#DDF6FF', t: 0, dur: 0.5 });
     if (f >= 1) { m.done = true; nukeExplode(m.tx, m.ty, m.side); }
   }
   G.missiles = G.missiles.filter(m => !m.done);
@@ -741,10 +741,11 @@ function aiNextBuild() {
   const need = {};
   for (const t of AI_ORDER) {
     need[t] = (need[t] || 0) + 1;
-    if ((cnt[t] || 0) < need[t]) { if (t === 'silo' && G.time < G.diff.siloTime) continue; return t; }
+    if ((cnt[t] || 0) < need[t]) { if (t === 'silo' && G.time < G.diff.siloTime) continue; if (t !== 'power' && aiPowerAfter(cnt, t) < 0) return 'power'; return t; }
   }
   return null;
 }
+function aiPowerAfter(cnt, t) { const list = [t]; for (const k in cnt) for (let i = 0; i < cnt[k]; i++) list.push(k); return Salvage.powerBalance(list).net; }
 function aiFindSpot(type) {
   const hq = G.blds.find(b => b.side === 1 && b.type === 'hq' && !b.dead) || G.blds.find(b => b.side === 1 && !b.dead);
   if (!hq) return null;
@@ -845,36 +846,38 @@ function drawUnit(c, u) {
     c.rotate(u.ang); const bob = u.moving ? Math.sin(A * 12) * 2 : 0;
     c.fillStyle = '#2e281e'; c.fillRect(-3 + bob, -5, 4, 3); c.fillRect(-3 - bob, 2, 4, 3);
     c.fillStyle = '#7d6c4c'; circ(c, 0, 0, 5.5);
-    c.fillStyle = '#f2d06b'; c.fillRect(-1.5, -5.5, 2, 11);
+    c.fillStyle = '#3A7BFF'; c.fillRect(-1.5, -5.5, 2, 11);
     c.strokeStyle = '#151515'; c.lineWidth = 2; c.beginPath(); c.moveTo(2, 2.5); c.lineTo(11, 2.5); c.stroke();
     c.fillStyle = '#d9b38c'; circ(c, 1, 0, 3);
   } else if (t === 'seraph') {
     const h = 9 + Math.sin(A * 3) * 2;
     c.fillStyle = 'rgba(0,0,0,0.25)'; ell(c, 0, 6, 9, 4);
     c.translate(0, -h);
-    const g = c.createRadialGradient(0, 0, 0, 0, 0, 20); g.addColorStop(0, 'rgba(255,245,200,0.5)'); g.addColorStop(1, 'rgba(255,245,200,0)'); c.fillStyle = g; circ(c, 0, 0, 20);
+    const g = c.createRadialGradient(0, 0, 0, 0, 0, 20); g.addColorStop(0, 'rgba(159,232,255,0.45)'); g.addColorStop(1, 'rgba(159,232,255,0)'); c.fillStyle = g; circ(c, 0, 0, 20);
     const f = Math.sin(A * 9) * 0.35;
     for (const s of [-1, 1]) {
       c.save(); c.scale(s, 1); c.rotate(-f);
-      c.fillStyle = 'rgba(250,248,240,0.92)'; c.beginPath(); c.moveTo(2, -1); c.quadraticCurveTo(12, -14, 20, -8); c.quadraticCurveTo(14, -4, 17, 0); c.quadraticCurveTo(10, 0, 12, 4); c.quadraticCurveTo(6, 3, 2, 3); c.fill();
-      c.strokeStyle = 'rgba(200,180,120,0.8)'; c.lineWidth = 0.8; c.stroke(); c.restore();
+      c.fillStyle = 'rgba(214,226,236,0.92)'; c.beginPath(); c.moveTo(2, -1); c.quadraticCurveTo(12, -14, 20, -8); c.quadraticCurveTo(14, -4, 17, 0); c.quadraticCurveTo(10, 0, 12, 4); c.quadraticCurveTo(6, 3, 2, 3); c.fill();
+      c.strokeStyle = 'rgba(58,123,255,0.8)'; c.lineWidth = 0.8; c.stroke(); c.restore();
     }
-    c.fillStyle = '#f4f0e4'; c.beginPath(); c.moveTo(-4, -2); c.lineTo(4, -2); c.lineTo(5, 7); c.lineTo(-5, 7); c.fill();
+    c.fillStyle = '#B8B2A2'; c.beginPath(); c.moveTo(-4, -2); c.lineTo(4, -2); c.lineTo(5, 7); c.lineTo(-5, 7); c.fill();
     c.fillStyle = '#e8c890'; circ(c, 0, -4, 3);
-    c.strokeStyle = '#ffd860'; c.lineWidth = 1.5; c.beginPath(); c.ellipse(0, -9, 4, 1.5, 0, 0, 7); c.stroke();
+    c.strokeStyle = '#9FE8FF'; c.lineWidth = 1.5; c.beginPath(); c.ellipse(0, -9, 4, 1.5, 0, 0, 7); c.stroke();
+    c.fillStyle = '#3A7BFF'; c.fillRect(-4, 1, 8, 2);
     c.strokeStyle = '#9fe8ff'; c.lineWidth = 1.2; c.beginPath(); c.moveTo(5, 0); c.lineTo(5, 9); c.stroke();
   } else if (t === 'ark') {
     c.fillStyle = 'rgba(0,0,0,0.35)'; c.save(); c.rotate(u.ang); c.fillRect(-12, -8, 28, 20); c.restore();
     c.save(); c.rotate(u.ang);
     c.fillStyle = '#2a2620'; c.fillRect(-14, -11, 28, 5); c.fillRect(-14, 6, 28, 5);
     c.fillStyle = '#4a4436'; for (let k = 0; k < 6; k++) { const o = ((k * 5 + (u.moving ? A * 30 : 0)) % 28) - 14; c.fillRect(o, -11, 1.5, 5); c.fillRect(o, 6, 1.5, 5); }
-    c.fillStyle = '#d8d0bc'; c.fillRect(-12, -7, 24, 14);
-    c.fillStyle = '#b8ae96'; c.fillRect(8, -7, 4, 14);
+    c.fillStyle = '#B8B2A2'; c.fillRect(-12, -7, 24, 14);
+    c.fillStyle = '#3A7BFF'; c.fillRect(-12, -7, 24, 2);
+    c.fillStyle = '#5A564C'; c.fillRect(8, -7, 4, 14);
     c.restore();
     c.rotate(u.tang);
-    c.fillStyle = '#c8bea6'; circ(c, 0, 0, 6.5);
-    c.fillStyle = '#9a9078'; c.fillRect(4, -2, 14, 4);
-    c.fillStyle = '#f2d06b'; c.fillRect(-1, -4.5, 2, 9); c.fillRect(-3.5, -1, 7, 2);
+    c.fillStyle = '#9a9488'; circ(c, 0, 0, 6.5);
+    c.fillStyle = '#5A564C'; c.fillRect(4, -2, 14, 4);
+    c.fillStyle = '#3A7BFF'; c.fillRect(-1, -4.5, 2, 9); c.fillRect(-3.5, -1, 7, 2);
   } else if (t === 'gleaner') { // Scrap Truck: khaki hull, open bin that fills in pip steps, scoop dips while gathering
     const pips = Salvage.pipsOf(u.load, u.d.cap), dip = u.hs === 'gather' ? Math.sin(A * 8) * 2 : 0;
     c.rotate(u.ang);
@@ -929,8 +932,8 @@ function drawBld(c, b) {
   const x = b.tx * TILE, y = b.ty * TILE, w = b.w * TILE, h = b.h * TILE, A = b.anim, ev = b.side === 1, t = b.type;
   c.save();
   c.fillStyle = 'rgba(0,0,0,0.4)'; c.fillRect(x + 6, y + 6, w, h);
-  c.fillStyle = ev ? '#1c1012' : '#8c867a'; c.fillRect(x + 1, y + 1, w - 2, h - 2);
-  c.strokeStyle = ev ? '#7a1a10' : '#f2d06b'; c.lineWidth = 2; c.strokeRect(x + 2, y + 2, w - 4, h - 4);
+  c.fillStyle = ev ? '#1c1012' : '#5A564C'; c.fillRect(x + 1, y + 1, w - 2, h - 2);
+  c.strokeStyle = ev ? '#7a1a10' : '#3A7BFF'; c.lineWidth = 2; c.strokeRect(x + 2, y + 2, w - 4, h - 4);
   const cx = x + w / 2, cy = y + h / 2;
   const busy = t === 'refinery' && b.dockQ && b.dockQ[0] && b.dockQ[0].hs === 'unload' && !b.dockQ[0].blocked;
   if (t === 'refinery') { // dock pad (one truck at a time)
@@ -955,11 +958,11 @@ function drawBld(c, b) {
     }
   } else if (!ev) {
     if (t === 'hq') {
-      c.fillStyle = '#d9d4c7'; c.fillRect(x + 8, y + 8, w - 16, h - 16);
-      c.fillStyle = '#b0a890'; for (const [px, py] of [[x + 10, y + 10], [x + w - 10, y + 10], [x + 10, y + h - 10], [x + w - 10, y + h - 10]]) circ(c, px, py, 5);
-      const g = c.createRadialGradient(cx - 6, cy - 6, 2, cx, cy, 26); g.addColorStop(0, '#fff'); g.addColorStop(1, '#c8a050'); c.fillStyle = g; circ(c, cx, cy, 22);
-      c.fillStyle = '#f2d06b'; c.fillRect(cx - 2, cy - 14, 4, 28); c.fillRect(cx - 10, cy - 6, 20, 4);
-      c.globalAlpha = 0.25 + 0.15 * Math.sin(A * 2); c.fillStyle = '#fff6c0'; circ(c, cx, cy, 34); c.globalAlpha = 1;
+      c.fillStyle = '#B8B2A2'; c.fillRect(x + 8, y + 8, w - 16, h - 16);
+      c.fillStyle = '#8E959C'; for (const [px, py] of [[x + 10, y + 10], [x + w - 10, y + 10], [x + 10, y + h - 10], [x + w - 10, y + h - 10]]) circ(c, px, py, 5);
+      const g = c.createRadialGradient(cx - 6, cy - 6, 2, cx, cy, 26); g.addColorStop(0, '#DDF6FF'); g.addColorStop(1, '#5A8ab0'); c.fillStyle = g; circ(c, cx, cy, 22);
+      c.fillStyle = '#3A7BFF'; c.fillRect(cx - 2, cy - 14, 4, 28); c.fillRect(cx - 10, cy - 6, 20, 4);
+      c.globalAlpha = 0.2 + 0.12 * Math.sin(A * 2); c.fillStyle = '#9FE8FF'; circ(c, cx, cy, 34); c.globalAlpha = 1;
     } else if (t === 'refinery') { // Scrap Yard
       c.fillStyle = '#6E6A60'; c.fillRect(x + 4, y + 4, w - 8, h - 8);
       c.fillStyle = '#5A564C'; c.fillRect(x + 8, y + 8, 40, h - 24); // crusher housing
@@ -970,27 +973,27 @@ function drawBld(c, b) {
       if (busy && Math.random() < 0.3) G.fx.push({ k: 'smoke', x: x + w - 12, y: y + 20, t: 0, dur: 1.6 });
       c.fillStyle = '#E8D23A'; c.fillRect(cx - 1, y + h - 8, 2, 6); // feed chute to the pad
     } else if (t === 'barracks') {
-      c.fillStyle = '#d4cdbc'; c.fillRect(x + 6, y + 10, w - 12, h - 16);
+      c.fillStyle = '#B8B2A2'; c.fillRect(x + 6, y + 10, w - 12, h - 16);
       c.fillStyle = '#7a5a3a'; c.beginPath(); c.moveTo(x + 4, y + 14); c.lineTo(cx, y + 4); c.lineTo(x + w - 4, y + 14); c.fill();
       c.fillStyle = '#5a4030'; c.fillRect(cx - 5, y + h - 18, 10, 12);
-      c.fillStyle = '#f2d06b'; c.fillRect(cx - 1.5, y + 16, 3, 14); c.fillRect(cx - 6, y + 20, 12, 3);
+      c.fillStyle = '#3A7BFF'; c.fillRect(cx - 1.5, y + 16, 3, 14); c.fillRect(cx - 6, y + 20, 12, 3);
       c.fillStyle = '#9fd4ff'; c.fillRect(x + 10, y + 22, 6, 8); c.fillRect(x + w - 16, y + 22, 6, 8);
     } else if (t === 'turret') {
-      c.fillStyle = '#a8a294'; circ(c, cx, cy, 13); c.fillStyle = '#d8d2c2'; circ(c, cx, cy - 4, 9);
+      c.fillStyle = '#5A564C'; circ(c, cx, cy, 13); c.fillStyle = '#B8B2A2'; circ(c, cx, cy - 4, 9);
       const g = c.createRadialGradient(cx, cy - 6, 0, cx, cy - 6, 9); g.addColorStop(0, '#fff'); g.addColorStop(0.5, '#9fe8ff'); g.addColorStop(1, 'rgba(159,232,255,0)');
       c.fillStyle = g; circ(c, cx + Math.cos(b.tang) * 2, cy - 6 + Math.sin(b.tang) * 2, 9 + Math.sin(A * 4));
     } else if (t === 'factory') {
-      c.fillStyle = '#b8b2a2'; c.fillRect(x + 6, y + 6, w - 12, h - 12);
-      c.fillStyle = '#a09a8a'; for (let k = 0; k < 5; k++) c.fillRect(x + 8, y + 10 + k * 12, w - 16, 5);
+      c.fillStyle = '#B8B2A2'; c.fillRect(x + 6, y + 6, w - 12, h - 12);
+      c.fillStyle = '#9a9488'; for (let k = 0; k < 5; k++) c.fillRect(x + 8, y + 10 + k * 12, w - 16, 5);
       c.fillStyle = '#3a3a3a'; c.fillRect(cx - 18, y + h - 22, 36, 16);
       for (let k = 0; k < 6; k++) { c.fillStyle = k % 2 ? '#222' : '#e8c040'; c.fillRect(cx - 18 + k * 6, y + h - 8, 6, 3); }
-      c.save(); c.translate(cx, cy - 10); c.rotate(A * 0.5); c.fillStyle = '#f2d06b'; for (let k = 0; k < 8; k++) { c.rotate(Math.PI / 4); c.fillRect(-2, -12, 4, 5); } circ(c, 0, 0, 8); c.fillStyle = '#b8b2a2'; circ(c, 0, 0, 3); c.restore();
+      c.save(); c.translate(cx, cy - 10); c.rotate(A * 0.5); c.fillStyle = '#3A7BFF'; for (let k = 0; k < 8; k++) { c.rotate(Math.PI / 4); c.fillRect(-2, -12, 4, 5); } circ(c, 0, 0, 8); c.fillStyle = '#b8b2a2'; circ(c, 0, 0, 3); c.restore();
     } else if (t === 'silo') {
-      c.fillStyle = '#d0cabc'; c.beginPath(); for (let k = 0; k < 8; k++) { const a = k * Math.PI / 4 + Math.PI / 8; c.lineTo(cx + Math.cos(a) * 26, cy + Math.sin(a) * 26); } c.fill();
+      c.fillStyle = '#B8B2A2'; c.beginPath(); for (let k = 0; k < 8; k++) { const a = k * Math.PI / 4 + Math.PI / 8; c.lineTo(cx + Math.cos(a) * 26, cy + Math.sin(a) * 26); } c.fill();
       c.fillStyle = '#b8b0a0'; c.beginPath(); for (let k = 0; k < 8; k++) { const a = k * Math.PI / 4 + Math.PI / 8; c.lineTo(cx + Math.cos(a) * 16, cy + Math.sin(a) * 16); } c.fill();
       const f = b.charge / NUKE_CHARGE;
-      c.strokeStyle = f >= 1 ? '#fff' : '#f2d06b'; c.lineWidth = 3; c.beginPath(); c.arc(cx, cy, 21, -Math.PI / 2, -Math.PI / 2 + f * Math.PI * 2); c.stroke();
-      const g = c.createRadialGradient(cx, cy, 0, cx, cy, 14); g.addColorStop(0, 'rgba(255,255,230,' + (0.3 + 0.7 * f) + ')'); g.addColorStop(1, 'rgba(255,220,120,0)'); c.fillStyle = g; circ(c, cx, cy, 14 + (f >= 1 ? Math.sin(A * 6) * 3 : 0));
+      c.strokeStyle = f >= 1 ? '#DDF6FF' : '#3A7BFF'; c.lineWidth = 3; c.beginPath(); c.arc(cx, cy, 21, -Math.PI / 2, -Math.PI / 2 + f * Math.PI * 2); c.stroke();
+      const g = c.createRadialGradient(cx, cy, 0, cx, cy, 14); g.addColorStop(0, 'rgba(221,246,255,' + (0.3 + 0.7 * f) + ')'); g.addColorStop(1, 'rgba(159,232,255,0)'); c.fillStyle = g; circ(c, cx, cy, 14 + (f >= 1 ? Math.sin(A * 6) * 3 : 0));
     }
   } else {
     if (t === 'hq') {
@@ -1030,7 +1033,7 @@ function drawBld(c, b) {
 }
 function hpBar(c, x, y, w, f) {
   c.fillStyle = 'rgba(0,0,0,0.7)'; c.fillRect(x - w / 2 - 1, y - 1, w + 2, 5);
-  c.fillStyle = f > 0.6 ? '#5f5' : f > 0.3 ? '#fd4' : '#f44'; c.fillRect(x - w / 2, y, w * f, 3);
+  c.fillStyle = f > 0.6 ? '#4CD94C' : f > 0.3 ? '#E8D23A' : '#E8432F'; c.fillRect(x - w / 2, y, w * f, 3);
 }
 const PAL = { rust: '#C2622D', rustD: '#7A3A1C', steel: '#8E959C', steelHi: '#DDE3E8', olive: '#5E6B34', oliveD: '#3A4220', stencil: '#E8D23A', rubble: '#57524A', cleared: '#3C3933', bolt: '#6A6A6A', oil: '#2A2824', gold: '#FFC93A' };
 const PILE_N = [0, 2, 5, 7, 9], PILE_H = [0, 3, 7, 13, 18];
@@ -1134,7 +1137,7 @@ function render() {
   // selection circles under units
   for (const e of G.sel) {
     if (e.dead) continue;
-    ctx.strokeStyle = e.side === 0 ? '#7dff7d' : '#ff5a4a'; ctx.lineWidth = 1.5;
+    ctx.strokeStyle = e.side === 0 ? '#6CFF6C' : '#FF5A5A'; ctx.lineWidth = 1.5;
     if (e.kind === 'u') { ctx.beginPath(); ctx.ellipse(e.x, e.y + 2, e.r + 3, (e.r + 3) * 0.7, 0, 0, 7); ctx.stroke(); }
     else { ctx.strokeRect(e.tx * TILE - 1, e.ty * TILE - 1, e.w * TILE + 2, e.h * TILE + 2); }
   }
@@ -1190,7 +1193,7 @@ function drawMini() {
   for (const i of resTiles) if (res[i] && expl[i]) { mctx.fillStyle = '#E8B830'; mctx.fillRect((i % MW) * s, ((i / MW) | 0) * s, s, s); }
   mctx.fillStyle = 'rgba(120,230,40,0.35)'; for (const z of plagueZones) { mctx.beginPath(); mctx.arc(z.x / TILE * s, z.y / TILE * s, z.r / TILE * s, 0, 7); mctx.fill(); }
   for (const b of G.blds) if (!b.dead && (b.side === 0 || isVisible(b))) { mctx.fillStyle = SIDES[b.side].mm; mctx.fillRect(b.tx * s, b.ty * s, b.w * s, b.h * s); }
-  for (const u of G.units) if (!u.dead && (u.side === 0 || vis[tileOf(u.y) * MW + tileOf(u.x)])) { mctx.fillStyle = u.side ? '#ff5040' : '#fff6b0'; mctx.fillRect(u.x / TILE * s - 1, u.y / TILE * s - 1, 2.5, 2.5); }
+  for (const u of G.units) if (!u.dead && (u.side === 0 || vis[tileOf(u.y) * MW + tileOf(u.x)])) { mctx.fillStyle = SIDES[u.side].dot; mctx.fillRect(u.x / TILE * s - 1, u.y / TILE * s - 1, 2.5, 2.5); }
   mctx.fillStyle = 'rgba(0,0,0,1)';
   for (let ty = 0; ty < MH; ty++) for (let tx = 0; tx < MW; tx++) { const i = ty * MW + tx; if (!expl[i]) mctx.fillRect(tx * s, ty * s, s + 0.5, s + 0.5); else if (!vis[i]) { mctx.fillStyle = 'rgba(0,0,0,0.4)'; mctx.fillRect(tx * s, ty * s, s, s); mctx.fillStyle = '#000'; } }
   for (const m of G.missiles) { mctx.strokeStyle = m.side ? '#ff3a1a' : '#fff'; mctx.beginPath(); mctx.arc(m.tx / TILE * s, m.ty / TILE * s, 6, 0, 7); mctx.stroke(); }
@@ -1305,7 +1308,7 @@ function updSidebar() {
   const sel = G.sel.filter(e => !e.dead);
   if (sel.length === 1) {
     const e = sel[0];
-    s = `<b style="color:${e.side ? '#ff6a4a' : '#f2d06b'}">${ename(e)}</b> <small>${e.side ? '(enemy)' : ''}</small><div class="hp"><div style="width:${100 * e.hp / e.maxhp}%"></div></div>HP ${Math.ceil(e.hp)}/${e.maxhp}<br><small>${e.kind === 'u' ? e.d.desc : e.d.desc}</small>`;
+    s = `<b style="color:${SIDES[e.side].ui}">${ename(e)}</b> <small>${e.side ? '(enemy)' : ''}</small><div class="hp"><div style="width:${100 * e.hp / e.maxhp}%"></div></div>HP ${Math.ceil(e.hp)}/${e.maxhp}<br><small>${e.kind === 'u' ? e.d.desc : e.d.desc}</small>`;
     if (e.kind === 'u' && e.d.harv) s += `<br>Load: ${e.load}/${e.d.cap} · ${e.blocked ? 'storage full, waiting at dock' : ({ seek: 'looking for Salvage', toField: 'heading to a Scrap Pile', gather: 'gathering', toPlant: 'returning to ' + bname('refinery', e.side), queue: 'waiting for the dock', unload: 'unloading', idle: 'no Salvage found', noPlant: 'no ' + bname('refinery', e.side) + ' to unload at', parked: 'parked (right-click a Scrap Pile to resume)' })[e.hs] || ''}`;
     if (e.kind === 'b' && e.type === 'refinery' && e.dockQ) s += `<br>Dock: ${e.dockQ.length ? e.dockQ.length + ' truck(s), 1 unloading at a time' : 'free'}`;
     if (e.kind === 'b' && e.side === 0 && ['hq', 'barracks', 'factory'].includes(e.type)) s += '<br><small>Right-click the ground to set a rally point.</small>';
@@ -1445,6 +1448,7 @@ function showPanel(id) { for (const p of document.querySelectorAll('.panel')) p.
 function newGame(diffKey) {
   const seed = (Math.random() * 1e9) | 0; rng = mulberry32(seed);
   idc = 0; bById.clear();
+  if ($('msgs')) $('msgs').innerHTML = '';
   G = { seed, time: 0, diff: DIFF[diffKey] || DIFF.normal, diffKey, units: [], blds: [], proj: [], fx: [], decals: [], rad: [], missiles: [], rises: [], sel: [], groups: {},
     credits: [SD.startScripPlayer, SD.startScripAI], queues: [mkQ(), mkQ()], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0 },
     over: false, paused: false, started: false, mode: null, placing: null, ai: { t: 1, nextWave: 0, waveN: 0 }, fogT: 0, winT: 0, shakeA: 0,
@@ -1466,7 +1470,7 @@ function newGame(diffKey) {
   centerOn(P.x * TILE, P.y * TILE - 100);
   buildSidebar();
   hint();
-  msg('Gather Salvage, build up, and destroy every Horde structure.', '#f2d06b');
+  msg('Gather Salvage, build up, and destroy every Horde structure.', '#DDF6FF');
   msg('Tip: your Scrap Truck hauls Salvage to the Scrap Yard for Credits. Right-click a Scrap Pile or Yard to direct it.', '#d8c8a8');
 }
 function step(dt) {
@@ -1488,7 +1492,7 @@ function step(dt) {
   if (G.flash) { G.flash.t += dt; if (G.flash.t > 1.2) G.flash = null; }
   G.shakeA *= Math.pow(0.02, dt);
   G.fogT -= dt; if (G.fogT <= 0) { G.fogT = 0.2; updFog(); }
-  G.winT -= dt; if (G.winT <= 0) { G.winT = 0.5; checkEnd(); }
+  G.winT -= dt; if (G.winT <= 0) { G.winT = 0.5; checkEnd(); const low = powerOf(0).net < 0; if (low && !G.lowPower) { msg('Low power: production at half speed. Build a Power Plant.', '#ff5a4a'); sfx('alert'); } G.lowPower = low; }
 }
 function checkEnd() {
   const p = G.blds.some(b => b.side === 0), e = G.blds.some(b => b.side === 1);
@@ -1496,7 +1500,7 @@ function checkEnd() {
   G.over = true;
   const win = !e;
   $('endTitle').textContent = win ? 'VICTORY' : 'DEFEAT';
-  $('endTitle').style.color = win ? '#f2d06b' : '#ff4a2a';
+  $('endTitle').style.color = win ? '#6FA8FF' : '#ff4a2a';
   $('endText').textContent = win ? 'The Horde is banished. Dawn breaks over the ashes.' : 'Your last light is extinguished. The Horde inherits the earth.';
   const s = G.stats;
   $('endStats').textContent = `Time played      ${fmtT(G.time)}\nDifficulty       ${G.diff.name}\nEnemies slain    ${s.kills}\nEnemy structures ${s.bKills}\nUnits lost       ${s.lost - s.bLost}\nStructures lost  ${s.bLost}\nUnits trained    ${s.built}\nCredits earned   ${Math.floor(s.salvage)}\nNukes fired      ${s.nukes}`;
@@ -1526,4 +1530,4 @@ resize();
 showPanel('startPanel');
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, dockPoint, command, step, newGame, UDEF, BDEF, queueItem, placeBld, canPlace, launchNuke, issueMove, cam, centerOn };
+window.RTS = { makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, dockPoint, command, step, newGame, UDEF, BDEF, queueItem, placeBld, canPlace, launchNuke, issueMove, cam, centerOn };

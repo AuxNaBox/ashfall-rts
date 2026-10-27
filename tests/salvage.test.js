@@ -46,9 +46,13 @@ test('stages: ceil(amount/125), 4 stages; pips: 5', () => {
 });
 
 test('storage cap and power balance (addendum §1, §3)', () => {
-  assert.equal(Salvage.storageCap({ hq: 1 }), 1000);
-  assert.equal(Salvage.storageCap({ hq: 1, refinery: 1, depot: 2 }), 6000);
+  assert.equal(Salvage.storageCap({ hq: 1 }), 2000, 'HQ 2,000 (Director ruling)');
+  assert.equal(Salvage.storageCap({ hq: 1, refinery: 1 }), 4000, 'starting cap 4,000');
+  assert.equal(Salvage.storageCap({ hq: 1, refinery: 1, depot: 2 }), 7000);
+  assert.deepEqual(Salvage.powerBalance(['hq', 'power', 'refinery']), { made: 100, used: 30, net: 70 }, 'player start runs at full speed');
   assert.deepEqual(Salvage.powerBalance(['hq', 'power', 'refinery', 'factory']), { made: 100, used: 70, net: 30 });
+  assert.deepEqual(['hq', 'turret', 'depot', 'barracks', 'silo'].map(Salvage.powerOfType), [0, -20, -10, -20, 0]);
+  for (const k of ['hqPower', 'turretPower', 'depotPower', 'barracksPower']) assert.match(Salvage.TABLE[k].src, /PLACEHOLDER/);
   assert.equal(Salvage.powerBalance(['refinery']).net, -30);
 });
 
@@ -127,11 +131,11 @@ test('dock queue: FIFO, one truck unloads at a time', () => {
 });
 
 test('storage full (USER D1): truck holds its load on the pad, resumes when space frees', () => {
-  const w = world({ credits: [900, 0], cap: [1000, 1000], fieldTiles: [] });
+  const w = world({ credits: [3900, 0], cap: [4000, 4000], fieldTiles: [] });
   const p = w.blds[0], dp = w.host.dockPoint(p), u = w.addTruck(dp.x, dp.y + 40), v = w.addTruck(dp.x, dp.y + 60);
   u.load = 500; v.load = 500; w.S.orderPlant(u, p); w.S.orderPlant(v, p);
   w.run(15);
-  assert.equal(w.credits[0], 1000); assert.equal(u.hs, 'unload'); assert.equal(u.blocked, true); assert.equal(u.load, 400);
+  assert.equal(w.credits[0], 4000); assert.equal(u.hs, 'unload'); assert.equal(u.blocked, true); assert.equal(u.load, 400);
   assert.equal(v.hs, 'queue', 'the next truck waits behind the blocked one');
   assert.equal(count('storageBlocked', w), 1);
   w.credits[0] = 0; w.run(10);
