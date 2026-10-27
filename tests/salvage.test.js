@@ -184,3 +184,39 @@ test('no Scrap Yard: truck waits (noPlant) and goes once one exists', () => {
   w.blds.push({ id: 9, side: 0, type: 'refinery', tx: 3, ty: 3, dead: false, dockQ: [] });
   w.run(20); assert.equal(w.credits[0], 300);
 });
+
+// ---- Loop 3 cargo drop onto a field tile (Dezi option B) ----
+test('cargo drop on a cleared tile: becomes a pile with the dropped amount, gatherable, regrowth never past the limits', () => {
+  const w = world({ fieldTiles: [[5, 5], [6, 5]], amount: 25 });
+  const i = 5 * 20 + 5, j = 5 * 20 + 6;
+  const u = w.addTruck(5 * 32 + 16, 5 * 32 + 16);
+  w.run(6); assert.equal(w.res[i], 0); assert.equal(w.res[j], 0); assert.ok(w.S.isSlow(i)); assert.ok(w.S.fields[0].depleted);
+  u.dead = true;
+  assert.equal(w.S.dropOnTile(i, 150), 150);
+  assert.equal(w.res[i], 150); assert.equal(Salvage.stageOf(w.res[i]), 2, 'visual stage 2'); assert.ok(!w.S.fields[0].depleted, 'field live again');
+  assert.ok(w.events.some(e => e.ev === 'tileStageChanged' && e.data.tile === i && e.data.stage === 2));
+  w.run(1500); assert.equal(w.res[i], 150, 'no regrowth above the dropped amount (cleared cap 100 already exceeded)');
+  w.run(400); assert.ok(w.res[j] <= 100, 'neighbouring cleared tile still capped at 100');
+  const v = w.addTruck(5 * 32 + 16, 5 * 32 + 16); w.run(3);
+  assert.equal(v.htile, i); assert.ok(v.load > 0 && w.res[i] < 150, 'the dropped pile is gatherable');
+});
+test('cargo drop on a cleared tile below 100: regrowth trickles to 100 and stops', () => {
+  const w = world({ fieldTiles: [[5, 5]], amount: 25 });
+  const i = 5 * 20 + 5, u = w.addTruck(5 * 32 + 16, 5 * 32 + 16);
+  w.run(3); assert.equal(w.res[i], 0); u.dead = true;
+  w.S.dropOnTile(i, 40); assert.equal(w.res[i], 40);
+  w.run(3000); assert.equal(w.res[i], 100);
+});
+test('cargo drop never raises the in-place regrowth limit (original value)', () => {
+  const w = world({ fieldTiles: [[5, 5], [6, 5]], amount: 200 });
+  const i = 5 * 20 + 5, j = 5 * 20 + 6;
+  w.S.dropOnTile(i, 250); assert.equal(w.res[i], 450); w.run(300); assert.equal(w.res[i], 450, 'above original: no further regrowth');
+  w.res[j] = 100; w.S.dropOnTile(j, 50); w.run(300); assert.equal(w.res[j], 200, 'regrows only back to the original 200');
+  assert.equal(w.S.orig[i], 200); assert.equal(w.S.orig[j], 200);
+});
+test('cargo drop over the 500 cap: the excess is lost; non-field tiles take nothing', () => {
+  const w = world({ fieldTiles: [[5, 5]], amount: 400 });
+  assert.equal(w.S.dropOnTile(5 * 20 + 5, 250), 100); assert.equal(w.res[5 * 20 + 5], 500);
+  assert.equal(w.S.dropOnTile(5 * 20 + 5, 50), 0);
+  assert.equal(w.S.dropOnTile(9 * 20 + 9, 50), 0); assert.equal(w.res[9 * 20 + 9], 0);
+});

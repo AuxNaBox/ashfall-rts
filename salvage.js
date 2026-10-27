@@ -259,6 +259,20 @@
       if (was <= 0 && res[i] > 0) { const f = field[i]; if (f >= 0) fields[f].depleted = false; emit('rubbleGrow', { tile: i }); }
       const s1 = stageOf(res[i]); if (s1 !== s0) emit('tileStageChanged', { tile: i, stage: s1, by: null });
     }
+    // Cargo drop onto a Salvage Field tile (Dezi option B, Loop 3). Adds up to the 500 tile cap; the rest is lost.
+    // A cleared (empty) tile simply becomes a pile again with the dropped amount. The drop never raises a tile's
+    // regrowth limit: orig[i] (the map's original value) and the cleared flag are left untouched, so a normal tile
+    // still only regrows up to its original value (a drop above it never regrows further) and a cleared tile still
+    // only trickles back to clearedRegrowCap (100), never past it. Returns the amount actually added.
+    function dropOnTile(i, amt) {
+      if (field[i] < 0 || amt <= 0) return 0;
+      const add = Math.max(0, Math.min(Math.floor(amt), D.tileMax - res[i])); if (!add) return 0;
+      const s0 = stageOf(res[i]), was = res[i];
+      res[i] += add;
+      if (was <= 0) { fields[field[i]].depleted = false; emit('rubbleGrow', { tile: i }); }
+      const s1 = stageOf(res[i]); if (s1 !== s0) emit('tileStageChanged', { tile: i, stage: s1, by: null });
+      return add;
+    }
     let fastClock = 0;
     function tickRegrowth(h) {
       fastClock += h;
@@ -285,7 +299,7 @@
       return n;
     }
 
-    return Object.assign(S, { initFields, update, tick, nearestPile, nearestInField, nearestAnywhere, nearestPlant, orderPile, orderPlant, park, seek, queueOf, leaveQueue, fieldTotal, stageOf, isSlow: i => !!slow[i] });
+    return Object.assign(S, { dropOnTile, initFields, update, tick, nearestPile, nearestInField, nearestAnywhere, nearestPlant, orderPile, orderPlant, park, seek, queueOf, leaveQueue, fieldTotal, stageOf, isSlow: i => !!slow[i] });
   }
   const NB = [[0, -1], [1, 0], [0, 1], [-1, 0], [1, -1], [1, 1], [-1, 1], [-1, -1]];
 

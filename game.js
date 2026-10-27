@@ -571,19 +571,21 @@ function kill(t, src, w) {
   }
 }
 
-// Cargo drop on truck death (approved by Dezi, Loop 3): half the load goes to the nearest Scrap Pile (a Salvage Field
-// tile with Salvage on it) within 2 tiles, up to that tile's 500 cap; anything over the cap, or with no pile in range, is lost.
+// Cargo drop on truck death (Dezi option B, Loop 3): half the load drops on the nearest Salvage Field tile within 2 tiles
+// that has room (cleared/empty tiles included), up to 500 on that tile; anything over the cap, or with no field tile in
+// range, is lost (no spreading). Regrowth limits are untouched by a drop: see SAL.dropOnTile.
 function dropCargo(t) {
   const amt = Math.floor(t.load * Combat.D.truckDropPct), cx = tileOf(t.x), cy = tileOf(t.y), R = Combat.D.truckDropSearchTiles, cap = Salvage.D.tileMax;
+  if (amt <= 0) return 0;
   let bi = -1, bd = 1e9;
   for (let dy = -R; dy <= R; dy++) for (let dx = -R; dx <= R; dx++) {
     const x = cx + dx, y = cy + dy; if (x < 0 || y < 0 || x >= MW || y >= MH) continue;
-    const i = y * MW + x; if (SAL.field[i] < 0 || res[i] <= 0 || bgrid[i]) continue;
+    const i = y * MW + x; if (SAL.field[i] < 0 || res[i] >= cap || bgrid[i]) continue;
     const d = dx * dx + dy * dy; if (d < bd) { bd = d; bi = i; }
   }
-  if (bi < 0 || amt <= 0) return 0;
-  const add = Math.max(0, Math.min(amt, cap - res[bi])); // over the cap is lost
-  res[bi] += add; if (add > 0) G.fx.push({ k: 'dust', x: (bi % MW) * TILE + 16, y: ((bi / MW) | 0) * TILE + 16, t: 0, dur: 0.6 });
+  if (bi < 0) return 0;
+  const add = SAL.dropOnTile(bi, amt); // over the cap is lost
+  if (add > 0) G.fx.push({ k: 'dust', x: (bi % MW) * TILE + 16, y: ((bi / MW) | 0) * TILE + 16, t: 0, dur: 0.6 });
   return add;
 }
 // a moving truck crushes enemy Light infantry under its centre (CS); crushed bodies never rise

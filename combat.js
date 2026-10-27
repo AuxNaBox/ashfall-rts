@@ -36,7 +36,7 @@
     crushRadiusPx: { v: 12, src: 'approved by Dezi, Loop 3: "drives over the center" = enemy centre within the truck radius (12 px)' },
     truckRetreatPct: { v: 0.5, src: 'approved by Dezi, Loop 3: retreat below 50% HP, once per life (a future repair should reset it)' },
     truckDropPct: { v: 0.5, src: 'Loop 1 spec (50% of cargo drops on death)' },
-    truckDropSearchTiles: { v: 2, src: 'approved by Dezi, Loop 3: nearest Scrap Pile within 2 tiles, up to its 500 cap; overflow or no pile in range is lost' },
+    truckDropSearchTiles: { v: 2, src: 'approved by Dezi, Loop 3: Dezi option B: nearest Salvage Field tile within 2 tiles with room (cleared tiles included), up to 500; overflow or no field tile in range is lost' },
   };
   const D = {}; for (const k in TABLE) D[k] = TABLE[k].v;
   const RISE_WEAPONS = ['claw', 'plague'];          // crush, shell, fire, cleave never rise

@@ -110,27 +110,40 @@ test('truck below 50% HP heads home with its load, once per life', () => {
   truck.hs = 'gather'; R.damage(truck, 10, null, 'nuke'); assert.equal(truck.hs, 'gather', 'only once per life');
 });
 
-// cargo drop (approved by Dezi, Loop 3): half the load to the nearest Scrap Pile within 2 tiles, up to its 500 cap
-const dropSetup = (piles, load) => {
+// cargo drop (Dezi option B, Loop 3): half the load to the nearest Salvage Field tile within 2 tiles with room
+// (cleared tiles included), up to 500 on that tile; overflow or no field tile in range is lost (no spreading)
+const total = () => { let t = 0; for (let i = 0; i < R.res.length; i++) t += R.res[i]; return t; };
+const dropSetup = (piles, load, after) => {
   const G = arena();
-  for (const [x, v] of piles) R.res[30 * 80 + x] = v; R.SAL.initFields();
+  for (const [x, v] of piles) R.res[30 * 80 + x] = v || 1; R.SAL.initFields();
   for (const [x, v] of piles) R.res[30 * 80 + x] = v;
+  if (after) after();
   const truck = R.makeUnit('gleaner', 0, 30 * T + 16, 30 * T + 16); truck.load = load; truck.retreated = true;
   R.damage(truck, 1e6, null, 'nuke'); assert.ok(truck.dead);
   return G;
 };
-test('cargo drop: half the load lands on the nearest Scrap Pile', () => {
+test('cargo drop: half the load lands on the nearest field tile', () => {
   dropSetup([[31, 100], [32, 100]], 400);
   assert.equal(R.res[30 * 80 + 31], 300); assert.equal(R.res[30 * 80 + 32], 100);
 });
-test('cargo drop overflow: capped at 500 on the pile, the rest is lost', () => {
-  dropSetup([[31, 400], [32, 0 + 50]], 500);
-  assert.equal(R.res[30 * 80 + 31], 500, '400 + 250 capped to 500; 150 lost'); assert.equal(R.res[30 * 80 + 32], 50, 'overflow does not spill to other piles');
+test('cargo drop overflow: capped at 500 on that tile, the rest is lost (no spreading)', () => {
+  dropSetup([[31, 400], [32, 50]], 500);
+  assert.equal(R.res[30 * 80 + 31], 500, '400 + 250 capped to 500; 150 lost'); assert.equal(R.res[30 * 80 + 32], 50);
 });
-test('cargo drop: no Scrap Pile within 2 tiles means the cargo is lost', () => {
+test('cargo drop: a full (500) tile has no room, so the next nearest field tile takes it', () => {
+  dropSetup([[31, 500], [32, 50]], 400);
+  assert.equal(R.res[30 * 80 + 31], 500); assert.equal(R.res[30 * 80 + 32], 250);
+});
+test('cargo drop on a cleared (empty) field tile: it becomes a Scrap Pile and is gatherable', () => {
+  const G = dropSetup([[30, 0], [33, 300]], 300);
+  const i = 30 * 80 + 30; assert.equal(R.res[i], 150); assert.equal(R.Salvage.stageOf(R.res[i]), 2);
+  assert.ok(!R.SAL.fields[R.SAL.field[i]].depleted);
+  const yard = R.makeBld('refinery', 0, 24, 26); const tr = G.units.find(u => u.d.harv && !u.dead); tr.x = 29 * T + 16; tr.y = 30 * T + 16;
+  R.SAL.orderPile(tr, i); steps(4); assert.equal(tr.htile, i); assert.ok(tr.load > 0 && R.res[i] < 150, 'gathered from the dropped pile');
+});
+test('cargo drop: no Salvage Field tile within 2 tiles means the cargo is lost', () => {
   dropSetup([[33, 100], [34, 100]], 400);
-  assert.equal(R.res[30 * 80 + 33], 100); assert.equal(R.res[30 * 80 + 34], 100);
-  let total = 0; for (let i = 0; i < R.res.length; i++) total += R.res[i]; assert.equal(total, 200);
+  assert.equal(R.res[30 * 80 + 33], 100); assert.equal(R.res[30 * 80 + 34], 100); assert.equal(total(), 200);
 });
 
 for (const m of MATCHUPS) test(`matchup ${m.id}: ${m.name} (expected winner >= 80% of 20 seeded runs)`, () => {
