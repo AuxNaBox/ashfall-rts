@@ -69,46 +69,52 @@ test('topLeft rounds px - anchor; turret pivot lands on hull rect top-left + tur
     assert.deepEqual([tx, ty], [Math.round(mx - t.anchor[0]), Math.round(my - t.anchor[1])]);
   }
 });
-test('cargo stages: thresholds come from the balance table (Dezi), no placeholder', () => {
-  const D = require('../salvage.js').D, T = require('../salvage.js').TABLE;
-  assert.equal(D.cargoHalfAt, 0.2); assert.equal(D.cargoFullAt, 0.8);
-  assert.match(T.cargoHalfAt.src, /Dezi/); assert.match(T.cargoFullAt.src, /Dezi/);
-  assert.equal(UA.FULL_AT, undefined);
-  assert.equal(UA.balance(), D);
+const SAL = require('../salvage.js');
+test('cargo stages come from pipsOf + cargoHalfPips/cargoFullPips (Dezi option C); no fraction thresholds', () => {
+  assert.equal(SAL.D.cargoHalfPips, 1); assert.equal(SAL.D.cargoFullPips, 4);
+  assert.match(SAL.TABLE.cargoHalfPips.src, /Dezi/); assert.match(SAL.TABLE.cargoFullPips.src, /Dezi/);
+  assert.equal(SAL.D.cargoHalfAt, undefined); assert.equal(SAL.D.cargoFullAt, undefined); assert.equal(UA.FULL_AT, undefined);
+  assert.equal(UA.salvage(), SAL);
+  // pipsOf still rounds up (Loop 2 rule unchanged)
+  assert.deepEqual([0, 1, 100, 101, 499, 500].map(l => SAL.pipsOf(l, 500)), [0, 1, 1, 2, 5, 5]);
 });
-// boundaries: 0.19 -> empty, 0.2 -> half, 0.79 -> half, 0.8 -> full, 1.0 -> full (cap 500 Scrap Truck / Scrap Eater)
-const BOUNDS = [[0, 'empty'], [0.19, 'empty'], [0.2, 'half'], [0.79, 'half'], [0.8, 'full'], [1.0, 'full']];
-test('cargo stages at the boundaries, current atlases (no half frame): half draws the empty frame', () => {
+// boundary loads (cap 500): 0, tiny, 0.2, 0.6, just over 0.6, 0.8, 1.0 -> pips 0,1,1,3,4,4,5
+const BOUNDS = [[0, 0, 'empty'], [1, 1, 'half'], [100, 1, 'half'], [300, 3, 'half'], [301, 4, 'full'], [400, 4, 'full'], [500, 5, 'full']];
+const stageOfPips = p => p >= 4 ? 'full' : p >= 1 ? 'half' : 'empty';
+const withHalf = (fac, unit) => { const j = J(fac); j.neutral.frames.push(...j.neutral.frames.filter(f => f.unit === unit && f.state === 'empty').map(f => Object.assign({}, f, { state: 'half', name: f.name + '-half' }))); return UA.parseManifest(j); };
+const S2 = withHalf('survivors-atlas.json', 'scrap_truck'), H2 = withHalf('horde-atlas.json', 'scrap_eater');
+const CASES = [[SUR, 'gleaner', false], [HOR, 'reaper', false], [S2, 'gleaner', true], [H2, 'reaper', true]];
+test('cargo stage at boundary loads, without (half -> empty frame) and with a half frame', () => {
   const d = { cap: 500 };
-  for (const [frac, stage] of BOUNDS) for (const [m, t, ang] of [[SUR, 'gleaner', 0], [SUR, 'gleaner', 3], [HOR, 'reaper', 0], [HOR, 'reaper', Math.PI]]) {
-    const s = UA.selectFrame(m, t, { ang, load: frac * 500, d });
-    assert.equal(s.stage, stage, t + ' ' + frac); assert.equal(s.frame.state, stage === 'full' ? 'full' : 'empty', t + ' ' + frac);
+  for (const [load, pips, stage] of BOUNDS) {
+    assert.equal(SAL.pipsOf(load, 500), pips, 'pips ' + load);
+    for (const [m, t, half] of CASES) for (const ang of [0, 2, Math.PI]) {
+      const s = UA.selectFrame(m, t, { ang, load, d });
+      assert.equal(s.stage, stage, t + ' ' + load); assert.equal(s.frame.state, stage === 'half' && !half ? 'empty' : stage, t + ' ' + load + ' half=' + half);
+    }
   }
   assert.equal(UA.selectFrame(SUR, 'survivor', { ang: 0, load: 500 }).frame.state, 'idle');
 });
-test('cargo stages at the boundaries with a half frame in the manifest: used automatically', () => {
-  const add = (fac, unit) => { const j = J(fac); const halves = j.neutral.frames.filter(f => f.unit === unit && f.state === 'empty').map(f => Object.assign({}, f, { state: 'half', name: f.name + '-half' })); j.neutral.frames.push(...halves); return UA.parseManifest(j); };
-  const S2 = add('survivors-atlas.json', 'scrap_truck'), H2 = add('horde-atlas.json', 'scrap_eater'), d = { cap: 500 };
-  for (const [frac, stage] of BOUNDS) for (const [m, t, ang] of [[S2, 'gleaner', 1], [H2, 'reaper', Math.PI]]) {
-    const s = UA.selectFrame(m, t, { ang, load: frac * 500, d });
-    assert.equal(s.stage, stage); assert.equal(s.frame.state, stage, t + ' ' + frac);
+test('sprite stage and pip bar agree at every load 0..1 (step 0.001 of capacity), with and without a half frame', () => {
+  const d = { cap: 500 };
+  for (let k = 0; k <= 1000; k++) {
+    const load = k * 0.5, want = stageOfPips(SAL.pipsOf(load, 500));
+    for (const [m, t, half] of CASES) {
+      const s = UA.selectFrame(m, t, { ang: k % 7, load, d });
+      assert.equal(s.stage, want, t + ' ' + load);
+      assert.equal(s.frame.state, want === 'half' && !half ? 'empty' : want, t + ' ' + load);
+    }
   }
-  // half frame only for some facings -> those facings use it, the rest fall back to empty
-  const j = J('horde-atlas.json'); j.neutral.frames.push(Object.assign({}, j.neutral.frames.find(f => f.unit === 'scrap_eater' && f.state === 'empty' && f.facing === 'S'), { state: 'half' }));
+});
+test('a half frame for only some facings is picked up per facing; others draw empty', () => {
+  const j = J('horde-atlas.json'), d = { cap: 500 };
+  j.neutral.frames.push(Object.assign({}, j.neutral.frames.find(f => f.unit === 'scrap_eater' && f.state === 'empty' && f.facing === 'S'), { state: 'half' }));
   const H3 = UA.parseManifest(j);
   assert.equal(UA.selectFrame(H3, 'reaper', { ang: Math.PI / 2, load: 250, d }).frame.state, 'half');
   assert.equal(UA.selectFrame(H3, 'reaper', { ang: 0, load: 250, d }).frame.state, 'empty');
 });
-test('cargo stages vs the 5-pip bar (Salvage.pipsOf) at the boundaries', () => {
-  const S = require('../salvage.js'), pips = f => S.pipsOf(f * 500, 500);
-  // pipsOf rounds UP (any load shows >= 1 pip; Loop 2 rule, locked by salvage.test.js):
-  assert.deepEqual([0, 0.19, 0.2, 0.79, 0.8, 1.0].map(pips), [0, 1, 1, 4, 4, 5]);
-  // so the stages agree with the bar at 0, 0.2, 0.8 and 1.0 but not inside (0, 0.2) (1 pip, empty sprite) or [0.6, 0.8) (4 pips, half sprite).
-  // With floor(load / cap * 5) the bar would match the ruling exactly: 0.19 -> 0, 0.2 -> 1, 0.79 -> 3, 0.8 -> 4, 1.0 -> 5.
-  assert.deepEqual([0, 0.19, 0.2, 0.79, 0.8, 1.0].map(f => Math.floor(f * 500 / 500 * 5 + 1e-9)), [0, 0, 1, 3, 4, 5]);
-});
-test('cargo unit without thresholds -> procedural fallback (null)', () => {
-  assert.equal(UA.selectFrame(SUR, 'gleaner', { ang: 0, load: 0, d: { cap: 500 } }, null, {}), null);
+test('cargo unit without Salvage table values -> procedural fallback (null)', () => {
+  assert.equal(UA.selectFrame(SUR, 'gleaner', { ang: 0, load: 0, d: { cap: 500 } }, null, { D: {}, pipsOf: SAL.pipsOf }), null);
 });
 test('fallback selection: unmapped types, missing manifest, missing frames -> null (procedural)', () => {
   for (const t of ['hq', 'turret', 'nope', undefined]) assert.equal(UA.selectFrame(SUR, t, { ang: 0 }), null);
