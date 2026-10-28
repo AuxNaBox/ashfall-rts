@@ -1,12 +1,14 @@
 // Loop 4 opening addendum: 12-minute Normal regression with a scripted player following the expected opening
 // (addendum 1d: the free Truck gathers from 0:00; Power Plant at 0:00, Scrap Yard when affordable, Barracks, then Riflemen / Factory ...).
 // Runs in node (tests/opening.js via the vm harness) and in the browser (rts-test/loop4.js injects this file).
-// openingSim(RTS, { minutes, startCredits, dt, diff, map, plan, onStart(G), onTick(G) }) -> { checks, numbers, log }
+// openingSim(RTS, { seed, minutes, startCredits, dt, diff, map, plan, onStart(G), onTick(G) }) -> { checks, numbers, log }
 //  onStart runs once after newGame; onTick every 0.5 s (rush sims, tests/rush.js)
 const WAVE1_TARGET = { easy: 390, normal: 300, hard: 240 };
 function openingSim(RTS, opts) {
   opts = opts || {};
   const minutes = opts.minutes || 12, dt = opts.dt || 1 / 30;
+  // opts.seed: fix the sim RNG (RTS.seed) so the browser run matches headless seed N (the vm harness seeds Math.random instead)
+  if (opts.seed !== undefined && RTS.seed) RTS.seed(opts.seed);
   if (!opts.noNewGame) RTS.newGame(opts.diff || 'normal', opts.map ? { map: opts.map } : undefined);   // opts.map: a design map JSON (env pass 1)
   const G = RTS.G, log = [];
   if (opts.startCredits) G.credits[0] = opts.startCredits;

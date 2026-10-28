@@ -53,6 +53,11 @@ function setZoom(z, ax, ay) {
 function zoomStep(dir, ax, ay) { userZoom = true; return setZoom(ZOOM + Math.sign(dir), ax, ay); }
 
 function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+// Sim RNG (seeding fix): every sim / AI random draw goes through simRand (render-only cosmetics - screen shake, ash, audio noise,
+// building smoke overlays - keep Math.random). By default it delegates to Math.random, so the headless harness (which seeds the
+// vm's Math.random) is unchanged. ?seed=N or RTS.seed(N) gives the browser the same stream as a headless seed N.
+let simRand = () => Math.random();
+function seedSim(s) { simRand = s === null || s === undefined ? () => Math.random() : mulberry32(s | 0); }
 let rng = Math.random;
 const ri = n => Math.floor(rng() * n);
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
@@ -375,9 +380,12 @@ function hash(i) { let x = Math.imul(i ^ 0x9e3779b9, 0x85ebca6b); x ^= x >>> 13;
 
 function renderTerrain() {
   renderMiniBase();
-  if (envPrepare()) return;   // env atlases ready: baked env ground, no procedural ground
+  if (envPrepare()) { for (let k = 0; k < PROC_TERRAIN_DRAWS; k++) rng(); return; }   // env atlases ready: baked env ground, no procedural ground.
+  // The procedural ground takes PROC_TERRAIN_DRAWS from the map rng, which the AI keeps using; burn the same draws so a seed gives the
+  // same game with or without env art (browser = headless)
   renderProcTerrain();
 }
+const PROC_TERRAIN_BLOBS = 500, PROC_TERRAIN_DRAWS = PROC_TERRAIN_BLOBS * 4;   // 3 rng() + 1 ri() per blob
 function renderProcTerrain() {
   const blk = new Set(decos.filter(d => d.block).map(d => d.ty * MW + d.tx));
   terrCanvas = document.createElement('canvas'); terrCanvas.width = MW * TILE; terrCanvas.height = MH * TILE;
@@ -385,7 +393,7 @@ function renderProcTerrain() {
   c.fillStyle = '#3a322a'; c.fillRect(0, 0, MW * TILE, MH * TILE);
   // large color variation blobs (ash, scorched earth, rust)
   const cols = ['rgba(20,15,12,0.25)', 'rgba(90,75,60,0.18)', 'rgba(110,50,30,0.12)', 'rgba(60,60,55,0.2)', 'rgba(15,10,8,0.3)'];
-  for (let k = 0; k < 500; k++) {
+  for (let k = 0; k < PROC_TERRAIN_BLOBS; k++) {
     const x = rng() * MW * TILE, y = rng() * MH * TILE, r = 30 + rng() * 140;
     const g = c.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, cols[ri(cols.length)]); g.addColorStop(1, 'rgba(0,0,0,0)');
     c.fillStyle = g; c.fillRect(x - r, y - r, r * 2, r * 2);
@@ -528,14 +536,14 @@ const aliveOf = (side, type) => G.units.filter(u => u.side === side && u.type ==
 function makeUnit(type, side, x, y) {
   const d = UDEF[type], mhp = maxHpOf(type, side);
   const u = { id: ++idc, kind: 'u', type, side, d, x, y, hp: mhp, maxhp: mhp, r: d.r, ang: side ? 2.4 : -0.8, tang: side ? 2.4 : -0.8,
-    order: 'idle', path: null, pi: 0, dest: null, target: null, tmode: null, cd: Math.random() * 0.5, scan: Math.random() * 0.3,
-    repath: 0, load: 0, hs: 'seek', htile: -1, ht: 0, anim: Math.random() * 10, moving: false, stuckT: 0, sx: x, sy: y, hitT: 0, dead: false };
+    order: 'idle', path: null, pi: 0, dest: null, target: null, tmode: null, cd: simRand() * 0.5, scan: simRand() * 0.3,
+    repath: 0, load: 0, hs: 'seek', htile: -1, ht: 0, anim: simRand() * 10, moving: false, stuckT: 0, sx: x, sy: y, hitT: 0, dead: false };
   G.units.push(u); return u;
 }
 function makeBld(type, side, tx, ty) {
   const d = BDEF[type];
   const b = { id: ++idc, kind: 'b', type, side, d, tx, ty, w: d.w, h: d.h, x: (tx + d.w / 2) * TILE, y: (ty + d.h / 2) * TILE, r: Math.max(d.w, d.h) * TILE / 2,
-    hp: d.hp, maxhp: d.hp, cd: 0, target: null, weapon: Combat.TOWERS[type] ? Combat.TOWERS[type].dmgType[side] : null, armed: !!Combat.TOWERS[type], charge: 0, rally: null, anim: Math.random() * 10, tang: 0, hitT: 0, dead: false, smokeT: 0, bornT: G.started ? G.time : -1e9 };
+    hp: d.hp, maxhp: d.hp, cd: 0, target: null, weapon: Combat.TOWERS[type] ? Combat.TOWERS[type].dmgType[side] : null, armed: !!Combat.TOWERS[type], charge: 0, rally: null, anim: simRand() * 10, tang: 0, hitT: 0, dead: false, smokeT: 0, bornT: G.started ? G.time : -1e9 };
   for (let y = ty; y < ty + d.h; y++) for (let x = tx; x < tx + d.w; x++) bgrid[y * MW + x] = b.id;
   bById.set(b.id, b);
   G.blds.push(b);
@@ -606,7 +614,7 @@ function separate() {
       const dx = b.x - a.x, dy = b.y - a.y, md = (a.r + b.r) * 0.85;
       if (Math.abs(dx) > md || Math.abs(dy) > md) continue;
       let d = Math.hypot(dx, dy); if (d >= md) continue;
-      let nx, ny; if (d < 0.01) { nx = Math.random() - 0.5; ny = Math.random() - 0.5; d = 0.01; const l = Math.hypot(nx, ny); nx /= l; ny /= l; } else { nx = dx / d; ny = dy / d; }
+      let nx, ny; if (d < 0.01) { nx = simRand() - 0.5; ny = simRand() - 0.5; d = 0.01; const l = Math.hypot(nx, ny); nx /= l; ny /= l; } else { nx = dx / d; ny = dy / d; }
       const push = (md - d) * 0.5;
       const wa = a.moving && !b.moving ? 0.3 : (!a.moving && b.moving ? 0.7 : 0.5);
       const ax = a.x - nx * push * 2 * (1 - wa) * 0.5, ay = a.y - ny * push * 2 * (1 - wa) * 0.5;
@@ -664,7 +672,7 @@ function updUnit(u, dt) {
   if (u.order === 'move') { if (followPath(u, dt)) { u.order = 'idle'; u.path = null; } return; }
   u.scan -= dt;
   if (u.scan <= 0) {
-    u.scan = 0.3 + Math.random() * 0.1;
+    u.scan = 0.3 + simRand() * 0.1;
     const t = findEnemy(u, u.d.sight * TILE, u.side);
     if (t) { u.target = t; u.tmode = 'auto'; u.repath = 0; engage(u, dt); return; }
   }
@@ -677,7 +685,7 @@ function updMedic(u, dt) {
   const ok = t => t && !t.dead && t !== u && t.side === u.side && t.kind === 'u' && t.d.inf && t.hp < t.maxhp;
   u.scan -= dt;
   if (!ok(u.heal) || u.scan <= 0) {
-    u.scan = 0.3 + Math.random() * 0.1;
+    u.scan = 0.3 + simRand() * 0.1;
     let best = null, bf = 2, bd = 1e9; const sr = u.d.sight * TILE;
     for (const o of G.units) { if (!ok(o)) continue; const d = dist(u.x, u.y, o.x, o.y); if (d > sr) continue; const f = o.hp / o.maxhp; if (f < bf - 1e-6 || (Math.abs(f - bf) <= 1e-6 && d < bd)) { best = o; bf = f; bd = d; } }
     if (best !== u.heal) { u.heal = best; u.repath = 0; }
@@ -691,7 +699,7 @@ function updMedic(u, dt) {
     u.fxT = (u.fxT || 0) - dt; if (u.fxT <= 0) { u.fxT = 0.25; G.fx.push({ k: 'heal', x1: u.x, y1: u.y - 3, x2: t.x, y2: t.y - 3, t: 0, dur: 0.25 }); }
   } else {
     u.healing = false; u.repath -= dt;
-    if (!u.path || u.repath <= 0 || u.pi >= u.path.length) { u.repath = 0.7 + Math.random() * 0.4; const keep = u.dest; moveTo(u, t.x, t.y); if (u.order === 'attackmove') u.dest = keep; }
+    if (!u.path || u.repath <= 0 || u.pi >= u.path.length) { u.repath = 0.7 + simRand() * 0.4; const keep = u.dest; moveTo(u, t.x, t.y); if (u.order === 'attackmove') u.dest = keep; }
     followPath(u, dt);
   }
 }
@@ -702,13 +710,13 @@ function engage(u, dt) {
   if (ed <= rng) {
     u.moving = false; u.path = null;
     u.tang = Math.atan2(t.y - u.y, t.x - u.x); if (!u.d.weapon || u.d.weapon !== 'shell') u.ang = u.tang;
-    if (u.cd <= 0) { fire(u, t); u.cd = u.d.rof * (0.9 + Math.random() * 0.2); }
+    if (u.cd <= 0) { fire(u, t); u.cd = u.d.rof * (0.9 + simRand() * 0.2); }
   } else {
     if (u.tmode === 'auto' && ed > u.d.sight * TILE * 1.7) { u.target = null; if (u.order === 'attackmove' && u.dest) moveTo(u, u.dest.x, u.dest.y); return; }
     // retarget to something closer if auto
     u.repath -= dt;
     if (!u.path || u.repath <= 0 || u.pi >= u.path.length) {
-      u.repath = 0.7 + Math.random() * 0.4;
+      u.repath = 0.7 + simRand() * 0.4;
       const keep = u.dest; moveTo(u, t.x, t.y); if (u.order === 'attackmove') u.dest = keep;
       if (u.tmode === 'auto') { const c = findEnemy(u, u.d.sight * TILE, u.side); if (c && c !== t) u.target = c; }
     }
@@ -720,7 +728,7 @@ function fire(s, t) {
   const w = weaponOf(s), air = t.kind === 'u' && t.d.fly ? Combat.D.projArcPx : 0;
   const dmg = dmgOf(s);
   const ox = s.x + Math.cos(s.tang) * (s.r * 0.8), oy = s.y + Math.sin(s.tang) * (s.r * 0.8) - (s.d.fly ? 9 : s.kind === 'b' ? 14 : 0);
-  if (w === 'bullet') { const hx = t.x + (Math.random() - 0.5) * 6, hy = t.y - air + (Math.random() - 0.5) * 6; G.fx.push({ k: 'line', x1: ox, y1: oy, x2: hx, y2: hy, c: s.kind === 'b' ? '#DDF6FF' : '#ffe9a0', w: s.kind === 'b' ? 2 : 1.5, t: 0, dur: 0.07 }); G.fx.push({ k: 'spark', x: hx, y: hy, c: '#ffe9a0', t: 0, dur: 0.15 }); damage(t, dmg, s, w); sfx('shot', s.x, s.y); }
+  if (w === 'bullet') { const hx = t.x + (simRand() - 0.5) * 6, hy = t.y - air + (simRand() - 0.5) * 6; G.fx.push({ k: 'line', x1: ox, y1: oy, x2: hx, y2: hy, c: s.kind === 'b' ? '#DDF6FF' : '#ffe9a0', w: s.kind === 'b' ? 2 : 1.5, t: 0, dur: 0.07 }); G.fx.push({ k: 'spark', x: hx, y: hy, c: '#ffe9a0', t: 0, dur: 0.15 }); damage(t, dmg, s, w); sfx('shot', s.x, s.y); }
   else if (w === 'beam') {
     const big = s.kind === 'u' && s.type === 'archangel';
     G.fx.push({ k: 'beam', x1: ox, y1: oy - (big ? 6 : 0), x2: t.x, y2: t.y - air, c: side ? '#ff5030' : '#9FE8FF', t: 0, dur: big ? 0.3 : 0.18, w: big ? 2 : 1 }); G.fx.push({ k: 'spark', x: t.x, y: t.y, c: '#fff6c0', t: 0, dur: 0.3 });
@@ -746,8 +754,8 @@ function updProj(dt) {
   for (const p of G.proj) {
     if (p.t && !p.t.dead) { p.tx = p.t.x; p.ty = p.t.y - (p.air || 0); }
     const dx = p.tx - p.x, dy = p.ty - p.y, d = Math.hypot(dx, dy), st = p.sp * dt;
-    if (p.rocket && Math.random() < 0.7) G.fx.push({ k: 'smoke', x: p.x, y: p.y, t: 0, dur: 0.6, s: 0.4 });
-    if (p.w === 'fire' && Math.random() < (p.big ? 1 : 0.6)) G.fx.push({ k: 'ember', x: p.x, y: p.y, vx: (Math.random() - 0.5) * 20, vy: (Math.random() - 0.5) * 20, c: '#ff9a30', t: 0, dur: 0.35 });
+    if (p.rocket && simRand() < 0.7) G.fx.push({ k: 'smoke', x: p.x, y: p.y, t: 0, dur: 0.6, s: 0.4 });
+    if (p.w === 'fire' && simRand() < (p.big ? 1 : 0.6)) G.fx.push({ k: 'ember', x: p.x, y: p.y, vx: (simRand() - 0.5) * 20, vy: (simRand() - 0.5) * 20, c: '#ff9a30', t: 0, dur: 0.35 });
     if (d <= st) {
       p.done = true;
       if (p.splash) areaDamage(p.tx, p.ty + (p.air || 0), p.splash * TILE, p.dmg, p.s, p.w);
@@ -792,12 +800,12 @@ function kill(t, src, w) {
   if (t.side === 1) st.kills++; else st.lost++;
   if (t.kind === 'u') {
     if (t.d.harv && t.side === 0) { G.lastAlert = { x: t.x, y: t.y }; msg('Scrap Truck lost!', '#ff6a3d', t.x, t.y); }
-    if (t.d.inf) { G.fx.push({ k: 'blood', x: t.x, y: t.y, c: t.side ? (t.type === 'zombie' ? '#4a5a2a' : '#8a1a10') : '#7a1010', t: 0, dur: 0.6 }); G.decals.push({ k: 'blood', x: t.x, y: t.y, c: t.side ? '#3a3a1a' : '#4a0a08', a: Math.random() * 6, t: 0 }); }
+    if (t.d.inf) { G.fx.push({ k: 'blood', x: t.x, y: t.y, c: t.side ? (t.type === 'zombie' ? '#4a5a2a' : '#8a1a10') : '#7a1010', t: 0, dur: 0.6 }); G.decals.push({ k: 'blood', x: t.x, y: t.y, c: t.side ? '#3a3a1a' : '#4a0a08', a: simRand() * 6, t: 0 }); }
     else { G.fx.push({ k: 'boom', x: t.x, y: t.y, r: 26, c: '#ffa040', t: 0, dur: 0.6 }); G.decals.push({ k: 'scorch', x: t.x, y: t.y, r: 18, t: 0 }); sfx('boom', t.x, t.y); }
     // the dead rise
     if (t.d.harv && t.load > 0) dropCargo(t);
     // L4: bodies killed by fire are marked burned (burn decal) and never rise; holy (Templar) kills never rise either
-    if (w === 'fire') { t.burned = true; const bs = burnScaleOf(t); G.decals.push({ k: 'burn', x: t.x, y: t.y, s: bs, r: bs === 2 ? 16 : 7, a: Math.random() * 6, t: 0, born: G.time }); G.stats.burned = (G.stats.burned || 0) + 1; }
+    if (w === 'fire') { t.burned = true; const bs = burnScaleOf(t); G.decals.push({ k: 'burn', x: t.x, y: t.y, s: bs, r: bs === 2 ? 16 : 7, a: simRand() * 6, t: 0, born: G.time }); G.stats.burned = (G.stats.burned || 0) + 1; }
     if (w === 'holy') t.hallowed = true;
     const eligible = Combat.riseEligible(t.type, t.side, w) && !t.burned && !t.hallowed;
     if (eligible && Combat.noRiseBy(doneOf(t.side), t.type)) {
@@ -818,7 +826,7 @@ function kill(t, src, w) {
     if (t.side === 1) st.bKills++; else st.bLost++;
     if (t.d.research) loseResearch(t.side, t.type);
     if (t.type === 'refinery' || t.type === 'depot' || t.type === 'hq') { const cap = storageCapOf(t.side); if (G.credits[t.side] > cap) { const lost = Math.floor(G.credits[t.side] - cap); G.credits[t.side] = cap; if (t.side === 0) msg(`Storage lost: ${lost} Credits destroyed.`, '#ff6a3d', t.x, t.y); } }
-    for (let k = 0; k < 6; k++) G.fx.push({ k: 'boom', x: t.tx * TILE + Math.random() * t.w * TILE, y: t.ty * TILE + Math.random() * t.h * TILE, r: 22 + Math.random() * 18, c: '#ffa040', t: -k * 0.08, dur: 0.7 });
+    for (let k = 0; k < 6; k++) G.fx.push({ k: 'boom', x: t.tx * TILE + simRand() * t.w * TILE, y: t.ty * TILE + simRand() * t.h * TILE, r: 22 + simRand() * 18, c: '#ffa040', t: -k * 0.08, dur: 0.7 });
     G.decals.push({ k: 'scorch', x: t.x, y: t.y, r: t.w * 20, t: 0 });
     G.decals.push({ k: 'ruin', x: t.tx * TILE, y: t.ty * TILE, w: t.w, h: t.h, t: 0, type: t.type, side: t.side, tx: t.tx, ty: t.ty });   // loop 4: art {id}-destroyed while it lives
     sfx('boom', t.x, t.y); shake(6);
@@ -852,7 +860,7 @@ function updCrush() {
     if (!moved) continue;
     for (const o of G.units) if (!o.dead && !o.d.fly && Combat.canCrush(u, { side: o.side, dead: o.dead, armor: o.d.armor, x: o.x, y: o.y })) {
       kill(o, u, 'crush'); G.stats.crushed = (G.stats.crushed || 0) + 1;
-      G.fx.push({ k: 'blood', x: o.x, y: o.y, c: o.side ? '#4a5a2a' : '#7a1010', t: 0, dur: 0.6 }); G.decals.push({ k: 'blood', x: o.x, y: o.y, c: o.side ? '#3a3a1a' : '#4a0a08', a: Math.random() * 6, t: 0 });
+      G.fx.push({ k: 'blood', x: o.x, y: o.y, c: o.side ? '#4a5a2a' : '#7a1010', t: 0, dur: 0.6 }); G.decals.push({ k: 'blood', x: o.x, y: o.y, c: o.side ? '#3a3a1a' : '#4a0a08', a: simRand() * 6, t: 0 });
     }
   }
 }
@@ -963,7 +971,7 @@ function updProduction(dt) {
           if (type === 'demon') { msg(side ? 'A Demon Lord rises!' : 'Our Demon Lord rises.', '#ff8a5a', u.x, u.y); sfx('horn'); if (side === 0) G.lastAlert = { x: u.x, y: u.y }; }
           if (u.d.harv) u.hs = 'seek';
           else if (b.rally) issueMove([u], b.rally.x, b.rally.y, false);
-          else issueMove([u], sp.x + (Math.random() - 0.5) * 60, sp.y + 30 + Math.random() * 30, false);
+          else issueMove([u], sp.x + (simRand() - 0.5) * 60, sp.y + 30 + simRand() * 30, false);
         }
       }
     }
@@ -1174,13 +1182,13 @@ function updEnv(dt) {
       const i = tileOf(u.y) * MW + tileOf(u.x);
       if (!u.d.fly && !u.d.plagueImmune && inPlague(u, i, demons) && !holyGround(u.x, u.y)) {
         if (u.side === 0) { damage(u, -Combat.plagueTick(0, u.d.armor, 0.5), null, 'plague'); if (!G.plagueMsg) { G.plagueMsg = true; msg('Plague zone! It eats our ground units and heals the Horde.', '#9fe07a', u.x, u.y); } }
-        else { if (u.hp < u.maxhp && Math.random() < 0.5) G.fx.push({ k: 'mote', x: u.x, y: u.y, t: 0, dur: 0.9, a: Math.random() * 6.28 }); u.hp = Math.min(u.maxhp, u.hp + Combat.plagueTick(1, u.d.armor, 0.5)); }
+        else { if (u.hp < u.maxhp && simRand() < 0.5) G.fx.push({ k: 'mote', x: u.x, y: u.y, t: 0, dur: 0.9, a: simRand() * 6.28 }); u.hp = Math.min(u.maxhp, u.hp + Combat.plagueTick(1, u.d.armor, 0.5)); }
       }
       for (const r of G.rad) if (dist(u.x, u.y, r.x, r.y) < r.r) damage(u, 8 * (r.t / r.max) + 2, null, 'plague');
     }
     // Archangel aura (L4): allies within 4 tiles (not itself) heal 5 HP/s
     for (const a of arch) for (const u of G.units) if (!u.dead && u !== a && u.side === a.side && u.hp < u.maxhp && dist(u.x, u.y, a.x, a.y) <= Combat.D.archangelHealTiles * TILE) {
-      u.hp = Math.min(u.maxhp, u.hp + Combat.D.archangelHealDps * 0.5); if (Math.random() < 0.3) G.fx.push({ k: 'mote', x: u.x, y: u.y, t: 0, dur: 0.9, a: Math.random() * 6.28, c: '#DDF6FF' });
+      u.hp = Math.min(u.maxhp, u.hp + Combat.D.archangelHealDps * 0.5); if (simRand() < 0.3) G.fx.push({ k: 'mote', x: u.x, y: u.y, t: 0, dur: 0.9, a: simRand() * 6.28, c: '#DDF6FF' });
     }
   }
   for (const r of G.rad) r.t -= dt;
@@ -1214,7 +1222,7 @@ function updBld(b, dt) {
     if (!b.target || b.target.dead || edgeDist(b.x, b.y, b.target) > rr) { b.target = null; b.scanT = (b.scanT || 0) - dt; if (b.scanT <= 0) { b.scanT = 0.3; b.target = findEnemy(b, rr, b.side); } }
     if (b.target) { b.tang = Math.atan2(b.target.y - b.y, b.target.x - b.x); if (b.cd <= 0) { fire(b, b.target); b.cd = b.d.rof; } }
   }
-  if (b.hp < b.maxhp * 0.5) { b.smokeT -= dt; if (b.smokeT <= 0) { b.smokeT = 0.25; G.fx.push({ k: 'smoke', x: b.x + (Math.random() - 0.5) * b.w * 20, y: b.y + (Math.random() - 0.5) * b.h * 20, t: 0, dur: 2 }); } }
+  if (b.hp < b.maxhp * 0.5) { b.smokeT -= dt; if (b.smokeT <= 0) { b.smokeT = 0.25; G.fx.push({ k: 'smoke', x: b.x + (simRand() - 0.5) * b.w * 20, y: b.y + (simRand() - 0.5) * b.h * 20, t: 0, dur: 2 }); } }
 }
 
 // ---------------- fog of war ----------------
@@ -2507,7 +2515,7 @@ function toggleMute() { muted = !muted; $('bMute').textContent = $('bMute2').tex
 function showPanel(id) { for (const p of document.querySelectorAll('.panel')) p.classList.toggle('show', p.id === id); $('overlay').classList.toggle('show', !!id); }
 function newGame(diffKey, opts) {
   opts = opts || {};
-  const seed = (Math.random() * 1e9) | 0; rng = mulberry32(seed);
+  const seed = (simRand() * 1e9) | 0; rng = mulberry32(seed);
   const dm = opts.map || (opts.map === undefined ? designMap : null);
   setMapSize(dm ? dm.w : 80, dm ? dm.h : 80);
   setZoom(ZOOM); // re-clamp the camera to the new map size
@@ -2629,6 +2637,8 @@ if (typeof UnitArt !== 'undefined') {
 // env art pass 1: ?envart=off keeps the procedural ground (nothing fetched); atlas failure -> same fallback, one warning
 if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(location.search).get('envart') === 'off' });
 // design maps: ?map=crossroads | fallen-city | ash-ring (assets/maps/<name>.json). The Start button waits for it; a failed fetch keeps the procedural map.
+// ?seed=N: fixed sim seed (same stream as a headless seed N); RTS.seed(N) does the same from a script
+{ const sq = typeof URLSearchParams !== 'undefined' && typeof location !== 'undefined' ? new URLSearchParams(location.search).get('seed') : null; if (sq !== null && sq !== '' && isFinite(+sq)) seedSim(+sq); }
 { const mq = typeof URLSearchParams !== 'undefined' && typeof location !== 'undefined' ? new URLSearchParams(location.search).get('map') : null;
   if (mq && /^[a-z0-9-]+$/.test(mq) && typeof fetch !== 'undefined') {
     const bs = $('bStart'); bs.disabled = true;
@@ -2638,4 +2648,4 @@ if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(locati
   } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
+window.RTS = { seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
