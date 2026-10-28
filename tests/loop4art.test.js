@@ -109,7 +109,7 @@ test('loop 4 units: SETS + UNIT_MAP, every facing selects a frame (W mirrored); 
     }
   }
   const fx = UA.parseFxManifest(J('units/loop4-fx-atlas.json'));
-  for (const [k, n] of Object.entries({ holy_aura: 4, plague_aura: 4, burn_decal: 3, flame_cone: 3, heal_beam: 2, heal_plus: 3 })) assert.equal(fx.fx.get(k).filter(Boolean).length, n, k);
+  for (const [k, n] of Object.entries({ holy_aura: 4, plague_aura: 4, burn_decal: 3, flame_cone: 3, flame_cone_long: 3, heal_beam: 2, heal_plus: 3 })) assert.equal(fx.fx.get(k).filter(Boolean).length, n, k);
   assert.equal(UA.SETS['fx:l4'].kind, 'fx');
 });
 

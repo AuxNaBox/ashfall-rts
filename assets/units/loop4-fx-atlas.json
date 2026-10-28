@@ -109,6 +109,57 @@
    "doc": "Flamer flame jet, unit layer (above the target). Points east; rotate to the shot angle about anchor = nozzle (unit anchor + the Flamer nozzle offset, about (+8,-7) at E). 3 frames loop @ ~15 fps while firing. Additive blend OK."
   },
   {
+   "name": "flame_cone_long-0",
+   "fx": "flame_cone_long",
+   "frame": 0,
+   "rect": [
+    2,
+    145,
+    82,
+    21
+   ],
+   "anchor": [
+    0,
+    10
+   ],
+   "layer": "unit",
+   "doc": "Flamer flame jet, ~80 px long (2.5-tile range) single sprite: use instead of chaining flame_cone when the target is >= ~56 px from the nozzle (a little overshoot past the target reads as splash). Points east; anchor = nozzle; 3 frames loop @ ~15 fps; additive OK."
+  },
+  {
+   "name": "flame_cone_long-1",
+   "fx": "flame_cone_long",
+   "frame": 1,
+   "rect": [
+    86,
+    145,
+    82,
+    21
+   ],
+   "anchor": [
+    0,
+    10
+   ],
+   "layer": "unit",
+   "doc": "Flamer flame jet, ~80 px long (2.5-tile range) single sprite: use instead of chaining flame_cone when the target is >= ~56 px from the nozzle (a little overshoot past the target reads as splash). Points east; anchor = nozzle; 3 frames loop @ ~15 fps; additive OK."
+  },
+  {
+   "name": "flame_cone_long-2",
+   "fx": "flame_cone_long",
+   "frame": 2,
+   "rect": [
+    170,
+    145,
+    82,
+    21
+   ],
+   "anchor": [
+    0,
+    10
+   ],
+   "layer": "unit",
+   "doc": "Flamer flame jet, ~80 px long (2.5-tile range) single sprite: use instead of chaining flame_cone when the target is >= ~56 px from the nozzle (a little overshoot past the target reads as splash). Points east; anchor = nozzle; 3 frames loop @ ~15 fps; additive OK."
+  },
+  {
    "name": "heal_beam-0",
    "fx": "heal_beam",
    "frame": 0,

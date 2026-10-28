@@ -1851,6 +1851,7 @@ function drawFx(c, f) {
     case 'spark': c.globalAlpha = 1 - p; c.fillStyle = f.c; for (let k = 0; k < 4; k++) circ(c, f.x + Math.cos(k * 1.6 + f.x) * p * 10, f.y + Math.sin(k * 1.6 + f.y) * p * 10, 1.5); break;
     case 'flame': if (f.ux !== undefined && typeof UnitArt !== 'undefined' && UnitArt.fxFrame('flame_cone', 0)) { // art flame_cone (~15 fps) at the nozzle (+8 along the aim, 7 px up), chained to reach the target
         const ny = f.uy - 7, a = Math.atan2(f.y2 - ny, f.x2 - f.ux), x0 = f.ux + Math.cos(a) * 8, y0 = ny + Math.sin(a) * 8, L = Math.hypot(f.x2 - x0, f.y2 - y0), k0 = Math.floor(f.t * 15);
+        if (L >= 56 && UnitArt.fxFrame('flame_cone_long', 0)) { UnitArt.drawFx(c, 'flame_cone_long', k0, x0, y0, a, 1, { add: true, alpha: 1 - p * 0.6 }); break; }   // units HANDOFF §9.4: one ~80 px jet
         const n = Math.max(1, Math.ceil(L / 26)); for (let k = 0; k < n; k++) UnitArt.drawFx(c, 'flame_cone', k0 + k, x0 + Math.cos(a) * k * 26, y0 + Math.sin(a) * k * 26, a, 1, { add: true, alpha: (1 - p * 0.6) * (1 - k / (n + 1) * 0.5) });
         break; }
       { c.globalCompositeOperation = 'lighter'; const a = Math.atan2(f.y2 - f.y1, f.x2 - f.x1), L = Math.hypot(f.x2 - f.x1, f.y2 - f.y1) + 8; c.translate(f.x1, f.y1); c.rotate(a);
