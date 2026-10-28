@@ -211,7 +211,10 @@
   // missing state frame -> next frame to try (damaged_open -> open -> closed; damaged -> intact)
   const STATE_FALLBACK = { damaged_open: 'open', open: 'closed' };
   function topHeading(b) { return (!b.target && !b.tang) ? IDLE_TOP_HEADING : snap16(radToDeg(b.tang)); }
-  // frames for one building, or null -> procedural. o: { p: build progress 0..1 (undefined = built), nukeCharge, launching, ghost }
+  // remote Scrap Yard / Grinder Pit setup (HANDOFF-buildings §12): base deploy_0..3, one per quarter of setup progress, + a looped dust fx
+  const DEPLOY_FRAMES = 4, DEPLOY_FX_FPS = 8;
+  // frames for one building, or null -> procedural. o: { p: build progress 0..1 (undefined = built), nukeCharge, launching, ghost,
+  //   setup: remote setup (o.p = setup progress) -> the deploy_k frame instead of the scaffold reveal when the manifest has one }
   function selectBuilding(man, b, o, idx) {
     o = o || {}; const index = idx || (man && man.index), t = b.type;
     if (!index || !BLD_MAP[t]) return null;
@@ -226,7 +229,15 @@
     if (base.top) { heading = topHeading(b); top = index.get(bkey(t, 'top', 'idle', heading)); if (!top || !base.turret_mount) return null; }
     let pad = null;
     if (base.dock_pad) { pad = index.get(bkey(t, 'pad', 'idle')); if (!pad) return null; }
+    if (o.setup && !o.ghost) {
+      const dep = index.get(bkey(t, 'base', 'deploy_' + Math.min(DEPLOY_FRAMES - 1, Math.floor(p * DEPLOY_FRAMES))));
+      if (dep) return { base: dep, construct: null, top: null, pad, heading, p, state: 'deploy' };   // no frame -> the scaffold reveal (old placeholder)
+    }
     return { base, construct, top, pad, heading, p, state: o.ghost ? 'ghost' : building ? 'construct' : state };
+  }
+  // deploy dust fx frame at time t (s): ~8 fps loop over the type's fx frames; null when there are none
+  function selectDeployFx(man, b, t, xmap) {
+    const fr = topFxFrames(man, b.type, xmap); return fr.length ? fr[Math.floor(Math.max(0, t || 0) * DEPLOY_FX_FPS) % fr.length] : null;
   }
   // loop 4 research/training overlay frame at time t (s), ~4 fps loop over frames 0-3; null when the building type has none
   const OVERLAY_FPS = 4;
@@ -389,6 +400,9 @@
     const { sel, atlas, ox, oy } = P, prev = c.imageSmoothingEnabled; c.imageSmoothingEnabled = false;
     if (sel.state === 'ghost') {
       if (o && o.invalid) c.drawImage(tinted(P, sel.construct), ox, oy); else blitAt(c, atlas, sel.construct, ox, oy);
+    } else if (sel.state === 'deploy') {                                       // §12: the deploy frame is a full body (no reveal)
+      blitAt(c, atlas, sel.base, ox, oy);
+      if (o && o.hit) { c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha *= 0.35; blitAt(c, atlas, sel.base, ox, oy); c.restore(); }
     } else if (sel.p < 1) {
       if (sel.construct) blitAt(c, atlas, sel.construct, ox, oy);
       const [rx, ry, rw, rh] = sel.base.rect, k = revealRows(rh, sel.p);
@@ -423,6 +437,13 @@
     c.save(); c.translate(tx + sel.top.muzzle[0], ty + sel.top.muzzle[1]); c.rotate(sel.heading * Math.PI / 180); c.globalCompositeOperation = 'lighter';
     c.drawImage(atlas, sx, sy, w, h, -f.anchor[0], -f.anchor[1], w, h); c.restore(); c.imageSmoothingEnabled = prev; return true;
   }
+  // §12 remote setup dust over the deploy frame (placed by footprint_origin like a base frame); fades out over the last quarter
+  function drawBuildingDeployFx(c, P, t) {
+    const { b, sel, atlas } = P; if (sel.state !== 'deploy') return false;
+    const f = selectDeployFx(P.man, b, t, P.xmap); if (!f) return false;
+    const [x, y] = bodyPos(f, b.tx, b.ty), prev = c.imageSmoothingEnabled; c.imageSmoothingEnabled = false;
+    c.save(); if (sel.p > 0.75) c.globalAlpha *= Math.max(0, (1 - sel.p) * 4); blitAt(c, atlas, f, x, y); c.restore(); c.imageSmoothingEnabled = prev; return true;
+  }
   // rubble of a dead tech building (d = { type, side, tx, ty }); false -> caller draws the procedural ruin
   function drawBuildingDestroyed(c, d) {
     if (!BLD_MAP[d.type] || (d.side !== 0 && d.side !== 1)) return false;
@@ -452,8 +473,8 @@
   }
   const UnitArt = { ROOT, BASE, SETS, UNIT_MAP, BLD_MAP, RAMPS, DEFAULT_TEAM, DAMAGED_BELOW, IDLE_TOP_HEADING, LAUNCH_OPEN_S, salvage, snap16, facing4, fkey, parseManifest, selectFrame, stateFor, topLeft, turretPos, recolourPixels, hexToRgb,
     bkey, parseBuildingManifest, buildingState, launching, topHeading, selectBuilding, bodyPos, anchorPos, topPos, padPos, padTileOf, shadowGeom, revealRows, sortKey,
-    xkey, OVERLAY_FPS, selectOverlay, selectDestroyed, topFxFrames, parseFxManifest, burnScale, hpBarY,
-    load, draw, atlasFor, atlasIndex, url, planBuilding, drawBuildingGround, drawBuildingBody, drawBuildingTop, drawBuildingOverlay, drawBuildingTopFx, drawBuildingDestroyed, fxFrame, drawFx, unitFrame, state: A };
+    xkey, OVERLAY_FPS, selectOverlay, DEPLOY_FRAMES, DEPLOY_FX_FPS, selectDeployFx, selectDestroyed, topFxFrames, parseFxManifest, burnScale, hpBarY,
+    load, draw, atlasFor, atlasIndex, url, planBuilding, drawBuildingGround, drawBuildingBody, drawBuildingTop, drawBuildingOverlay, drawBuildingTopFx, drawBuildingDeployFx, drawBuildingDestroyed, fxFrame, drawFx, unitFrame, state: A };
   if (typeof module !== 'undefined' && module.exports) module.exports = UnitArt;
   root.UnitArt = UnitArt;
 })(typeof window !== 'undefined' ? window : globalThis);

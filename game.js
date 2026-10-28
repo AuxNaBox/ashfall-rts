@@ -1607,7 +1607,7 @@ function drawUnitL4(c, u, t, A) {
     c.fillStyle = `rgba(255,${120 + 80 * Math.sin(A * 6)},20,0.9)`; circ(c, 21, 0, 2.5 + Math.sin(A * 9));
   } else { c.fillStyle = team; circ(c, 0, 0, u.r); }
 }
-// building art options for this frame: build progress (visual reveal), silo charge/launch, the game's actual dock pad tile
+// building art options for this frame: build progress (visual reveal), remote setup progress + o.setup (deploy frames, §12), silo charge/launch, the game's actual dock pad tile
 function bldArtOpts(b) {
   const o = { p: b.setup ? Math.min(0.99, (G.time - b.setupT0) / REMOTE_SETUP_S) : (G.time - (b.bornT !== undefined ? b.bornT : -1e9)) / BUILD_REVEAL_S, nukeCharge: NUKE_CHARGE };
   if (b.setup) o.setup = true;
@@ -1629,6 +1629,7 @@ function hqShotPhase(b) { return b.type === 'hq' && b.d && b.target && b.cd > b.
 // procedural extras kept on top of the art: silo charge ring while charging, Scrap Yard stack smoke while unloading; loop 4 overlays
 function bldArtOverlay(c, b, P) {
   if (bldOverlayOn(b)) UnitArt.drawBuildingOverlay(c, P, G.time);
+  if (b.setup) UnitArt.drawBuildingDeployFx(c, P, G.time);   // HANDOFF-buildings §12: remote setup dust over the deploy frame
   if (b.type === 'silo' && P.sel.p >= 1 && b.charge < NUKE_CHARGE) {
     const f = b.charge / NUKE_CHARGE, cx = b.x, cy = b.y;
     c.save(); c.globalAlpha *= 0.85; c.strokeStyle = b.side ? '#ff5a1a' : '#3A7BFF'; c.lineWidth = 2; c.beginPath(); c.arc(cx, cy + 4, 22, -Math.PI / 2, -Math.PI / 2 + f * Math.PI * 2); c.stroke(); c.restore();

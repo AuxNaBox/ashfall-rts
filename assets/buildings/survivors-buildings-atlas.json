@@ -1,9 +1,9 @@
 {
- "_doc": "Ashfall survivors buildings atlas v1. See buildings/HANDOFF-buildings.md. rect = [x,y,w,h] in the atlas. Base frames: anchor = bottom-centre of the footprint inside the rect; footprint_origin = top-left corner of the footprint inside the rect, so draw at (tx*32 - footprint_origin[0], ty*32 - footprint_origin[1]). Sprites may rise above the footprint. Top frames (turret/bone spire heads): anchor = rotation pivot; draw the pivot at base rect + turret_mount. Pad frames: 32x32 ground decal for the dock pad tile. shadow: drawn by the engine first, 30% black, offset (+3,+3) from the footprint. No baked shadow.",
+ "_doc": "Ashfall survivors buildings atlas v1. See buildings/HANDOFF-buildings.md. rect = [x,y,w,h] in the atlas. Base frames: anchor = bottom-centre of the footprint inside the rect; footprint_origin = top-left corner of the footprint inside the rect, so draw at (tx*32 - footprint_origin[0], ty*32 - footprint_origin[1]). Sprites may rise above the footprint. Top frames (turret/bone spire heads): anchor = rotation pivot; draw the pivot at base rect + turret_mount. Pad frames: 32x32 ground decal for the dock pad tile. shadow: drawn by the engine first, 30% black, offset (+3,+3) from the footprint. No baked shadow. Remote setup (HANDOFF-buildings \u00a712): refinery base deploy_0..3 + fx deploy_dust 0..3, packed in y >= 512.",
  "image": "survivors-buildings-atlas.png",
  "size": [
   1024,
-  512
+  1024
  ],
  "tile": 32,
  "default_team": "blue",
@@ -3905,6 +3905,374 @@
    "damaged_of": "idle"
   },
   {
+   "name": "scrap_yard-deploy_0-blue",
+   "outline": "silhouette2",
+   "scale": 0.11795,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "scrap_yard_pad-idle-blue",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    64
+   ],
+   "footprint_origin": [
+    0.0,
+    0
+   ],
+   "deploy": "remote setup stage 0: shown while setup progress is in [0.00, 0.25); telescoped idle, seam at idle row 54, collapse 30 px (HANDOFF-buildings \u00a712)",
+   "building": "scrap_yard",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_0",
+   "team": "blue",
+   "rect": [
+    2,
+    514,
+    96,
+    64
+   ]
+  },
+  {
+   "name": "scrap_yard-deploy_0-red",
+   "outline": "silhouette2",
+   "scale": 0.11795,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "scrap_yard_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    64
+   ],
+   "footprint_origin": [
+    0.0,
+    0
+   ],
+   "deploy": "remote setup stage 0: shown while setup progress is in [0.00, 0.25); telescoped idle, seam at idle row 54, collapse 30 px (HANDOFF-buildings \u00a712)",
+   "building": "scrap_yard",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_0",
+   "team": "red",
+   "rect": [
+    100,
+    514,
+    96,
+    64
+   ]
+  },
+  {
+   "name": "scrap_yard-deploy_1-blue",
+   "outline": "silhouette2",
+   "scale": 0.11795,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "scrap_yard_pad-idle-blue",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    74
+   ],
+   "footprint_origin": [
+    0.0,
+    10
+   ],
+   "deploy": "remote setup stage 1: shown while setup progress is in [0.25, 0.50); telescoped idle, seam at idle row 54, collapse 20 px (HANDOFF-buildings \u00a712)",
+   "building": "scrap_yard",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_1",
+   "team": "blue",
+   "rect": [
+    198,
+    514,
+    96,
+    74
+   ]
+  },
+  {
+   "name": "scrap_yard-deploy_1-red",
+   "outline": "silhouette2",
+   "scale": 0.11795,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "scrap_yard_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    74
+   ],
+   "footprint_origin": [
+    0.0,
+    10
+   ],
+   "deploy": "remote setup stage 1: shown while setup progress is in [0.25, 0.50); telescoped idle, seam at idle row 54, collapse 20 px (HANDOFF-buildings \u00a712)",
+   "building": "scrap_yard",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_1",
+   "team": "red",
+   "rect": [
+    296,
+    514,
+    96,
+    74
+   ]
+  },
+  {
+   "name": "scrap_yard-deploy_2-blue",
+   "outline": "silhouette2",
+   "scale": 0.11795,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "scrap_yard_pad-idle-blue",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    84
+   ],
+   "footprint_origin": [
+    0.0,
+    20
+   ],
+   "deploy": "remote setup stage 2: shown while setup progress is in [0.50, 0.75); telescoped idle, seam at idle row 54, collapse 10 px (HANDOFF-buildings \u00a712)",
+   "building": "scrap_yard",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_2",
+   "team": "blue",
+   "rect": [
+    394,
+    514,
+    96,
+    84
+   ]
+  },
+  {
+   "name": "scrap_yard-deploy_2-red",
+   "outline": "silhouette2",
+   "scale": 0.11795,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "scrap_yard_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    84
+   ],
+   "footprint_origin": [
+    0.0,
+    20
+   ],
+   "deploy": "remote setup stage 2: shown while setup progress is in [0.50, 0.75); telescoped idle, seam at idle row 54, collapse 10 px (HANDOFF-buildings \u00a712)",
+   "building": "scrap_yard",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_2",
+   "team": "red",
+   "rect": [
+    492,
+    514,
+    96,
+    84
+   ]
+  },
+  {
+   "name": "scrap_yard-deploy_3-blue",
+   "outline": "silhouette2",
+   "scale": 0.11795,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "scrap_yard_pad-idle-blue",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    94
+   ],
+   "footprint_origin": [
+    0.0,
+    30
+   ],
+   "deploy": "remote setup stage 3: shown while setup progress is in [0.75, 1.00); telescoped idle, seam at idle row 54, collapse 0 px (HANDOFF-buildings \u00a712)",
+   "building": "scrap_yard",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_3",
+   "team": "blue",
+   "rect": [
+    590,
+    514,
+    96,
+    94
+   ]
+  },
+  {
+   "name": "scrap_yard-deploy_3-red",
+   "outline": "silhouette2",
+   "scale": 0.11795,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "scrap_yard_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    94
+   ],
+   "footprint_origin": [
+    0.0,
+    30
+   ],
+   "deploy": "remote setup stage 3: shown while setup progress is in [0.75, 1.00); telescoped idle, seam at idle row 54, collapse 0 px (HANDOFF-buildings \u00a712)",
+   "building": "scrap_yard",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_3",
+   "team": "red",
+   "rect": [
+    688,
+    514,
+    96,
+    94
+   ]
+  },
+  {
    "name": "scrap_yard-idle-blue",
    "building": "scrap_yard",
    "code_type": "refinery",
@@ -3993,6 +4361,254 @@
     "frame": "scrap_yard_pad-idle-red",
     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
    }
+  },
+  {
+   "name": "scrap_yard_deploy_dust-0-blue",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 0,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "scrap_yard_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "blue",
+   "rect": [
+    786,
+    514,
+    112,
+    40
+   ]
+  },
+  {
+   "name": "scrap_yard_deploy_dust-0-red",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 0,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "scrap_yard_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "red",
+   "rect": [
+    900,
+    514,
+    112,
+    40
+   ]
+  },
+  {
+   "name": "scrap_yard_deploy_dust-1-blue",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 1,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "scrap_yard_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "blue",
+   "rect": [
+    2,
+    610,
+    112,
+    40
+   ]
+  },
+  {
+   "name": "scrap_yard_deploy_dust-1-red",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 1,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "scrap_yard_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "red",
+   "rect": [
+    116,
+    610,
+    112,
+    40
+   ]
+  },
+  {
+   "name": "scrap_yard_deploy_dust-2-blue",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 2,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "scrap_yard_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "blue",
+   "rect": [
+    230,
+    610,
+    112,
+    40
+   ]
+  },
+  {
+   "name": "scrap_yard_deploy_dust-2-red",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 2,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "scrap_yard_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "red",
+   "rect": [
+    344,
+    610,
+    112,
+    40
+   ]
+  },
+  {
+   "name": "scrap_yard_deploy_dust-3-blue",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 3,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "scrap_yard_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "blue",
+   "rect": [
+    458,
+    610,
+    112,
+    40
+   ]
+  },
+  {
+   "name": "scrap_yard_deploy_dust-3-red",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 3,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "scrap_yard_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "red",
+   "rect": [
+    572,
+    610,
+    112,
+    40
+   ]
   },
   {
    "name": "scrap_yard_pad-idle-blue",
@@ -5021,7 +5637,7 @@
   "image": "survivors-buildings-atlas-trim.png",
   "size": [
    1024,
-   512
+   1024
   ],
   "rects": "same as frames[].rect",
   "encoding": "alpha 255 = team trim; R=G=B: 255 light, 170 base, 85 dark"
@@ -6928,6 +7544,186 @@
     ]
    },
    {
+    "name": "scrap_yard-deploy_0",
+    "building": "scrap_yard",
+    "code_type": "refinery",
+    "part": "base",
+    "state": "deploy_0",
+    "outline": "silhouette2",
+    "scale": 0.11795,
+    "footprint": [
+     3,
+     2
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "dock_pad": {
+     "tile": [
+      1,
+      2
+     ],
+     "frame": "scrap_yard_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "anchor": [
+     48.0,
+     64
+    ],
+    "footprint_origin": [
+     0.0,
+     0
+    ],
+    "deploy": "remote setup stage 0: shown while setup progress is in [0.00, 0.25); telescoped idle, seam at idle row 54, collapse 30 px (HANDOFF-buildings \u00a712)",
+    "rect": [
+     2,
+     299,
+     96,
+     64
+    ]
+   },
+   {
+    "name": "scrap_yard-deploy_1",
+    "building": "scrap_yard",
+    "code_type": "refinery",
+    "part": "base",
+    "state": "deploy_1",
+    "outline": "silhouette2",
+    "scale": 0.11795,
+    "footprint": [
+     3,
+     2
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "dock_pad": {
+     "tile": [
+      1,
+      2
+     ],
+     "frame": "scrap_yard_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "anchor": [
+     48.0,
+     74
+    ],
+    "footprint_origin": [
+     0.0,
+     10
+    ],
+    "deploy": "remote setup stage 1: shown while setup progress is in [0.25, 0.50); telescoped idle, seam at idle row 54, collapse 20 px (HANDOFF-buildings \u00a712)",
+    "rect": [
+     100,
+     299,
+     96,
+     74
+    ]
+   },
+   {
+    "name": "scrap_yard-deploy_2",
+    "building": "scrap_yard",
+    "code_type": "refinery",
+    "part": "base",
+    "state": "deploy_2",
+    "outline": "silhouette2",
+    "scale": 0.11795,
+    "footprint": [
+     3,
+     2
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "dock_pad": {
+     "tile": [
+      1,
+      2
+     ],
+     "frame": "scrap_yard_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "anchor": [
+     48.0,
+     84
+    ],
+    "footprint_origin": [
+     0.0,
+     20
+    ],
+    "deploy": "remote setup stage 2: shown while setup progress is in [0.50, 0.75); telescoped idle, seam at idle row 54, collapse 10 px (HANDOFF-buildings \u00a712)",
+    "rect": [
+     198,
+     299,
+     96,
+     84
+    ]
+   },
+   {
+    "name": "scrap_yard-deploy_3",
+    "building": "scrap_yard",
+    "code_type": "refinery",
+    "part": "base",
+    "state": "deploy_3",
+    "outline": "silhouette2",
+    "scale": 0.11795,
+    "footprint": [
+     3,
+     2
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "dock_pad": {
+     "tile": [
+      1,
+      2
+     ],
+     "frame": "scrap_yard_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "anchor": [
+     48.0,
+     94
+    ],
+    "footprint_origin": [
+     0.0,
+     30
+    ],
+    "deploy": "remote setup stage 3: shown while setup progress is in [0.75, 1.00); telescoped idle, seam at idle row 54, collapse 0 px (HANDOFF-buildings \u00a712)",
+    "rect": [
+     296,
+     299,
+     96,
+     94
+    ]
+   },
+   {
     "name": "scrap_yard-idle",
     "building": "scrap_yard",
     "code_type": "refinery",
@@ -6969,6 +7765,126 @@
      2,
      96,
      94
+    ]
+   },
+   {
+    "name": "scrap_yard_deploy_dust-0",
+    "building": "scrap_yard_deploy_dust",
+    "code_type": "refinery",
+    "part": "fx",
+    "state": "deploy_dust",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 0,
+    "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+    "anchor": [
+     56.0,
+     36
+    ],
+    "footprint": [
+     3,
+     2
+    ],
+    "footprint_origin": [
+     8.0,
+     -28
+    ],
+    "shadow": null,
+    "rect": [
+     394,
+     299,
+     112,
+     40
+    ]
+   },
+   {
+    "name": "scrap_yard_deploy_dust-1",
+    "building": "scrap_yard_deploy_dust",
+    "code_type": "refinery",
+    "part": "fx",
+    "state": "deploy_dust",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 1,
+    "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+    "anchor": [
+     56.0,
+     36
+    ],
+    "footprint": [
+     3,
+     2
+    ],
+    "footprint_origin": [
+     8.0,
+     -28
+    ],
+    "shadow": null,
+    "rect": [
+     508,
+     299,
+     112,
+     40
+    ]
+   },
+   {
+    "name": "scrap_yard_deploy_dust-2",
+    "building": "scrap_yard_deploy_dust",
+    "code_type": "refinery",
+    "part": "fx",
+    "state": "deploy_dust",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 2,
+    "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+    "anchor": [
+     56.0,
+     36
+    ],
+    "footprint": [
+     3,
+     2
+    ],
+    "footprint_origin": [
+     8.0,
+     -28
+    ],
+    "shadow": null,
+    "rect": [
+     622,
+     299,
+     112,
+     40
+    ]
+   },
+   {
+    "name": "scrap_yard_deploy_dust-3",
+    "building": "scrap_yard_deploy_dust",
+    "code_type": "refinery",
+    "part": "fx",
+    "state": "deploy_dust",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 3,
+    "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+    "anchor": [
+     56.0,
+     36
+    ],
+    "footprint": [
+     3,
+     2
+    ],
+    "footprint_origin": [
+     8.0,
+     -28
+    ],
+    "shadow": null,
+    "rect": [
+     736,
+     299,
+     112,
+     40
     ]
    },
    {

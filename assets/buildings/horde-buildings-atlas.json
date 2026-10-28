@@ -1,9 +1,9 @@
 {
- "_doc": "Ashfall horde buildings atlas v1. See buildings/HANDOFF-buildings.md. rect = [x,y,w,h] in the atlas. Base frames: anchor = bottom-centre of the footprint inside the rect; footprint_origin = top-left corner of the footprint inside the rect, so draw at (tx*32 - footprint_origin[0], ty*32 - footprint_origin[1]). Sprites may rise above the footprint. Top frames (turret/bone spire heads): anchor = rotation pivot; draw the pivot at base rect + turret_mount. Pad frames: 32x32 ground decal for the dock pad tile. shadow: drawn by the engine first, 30% black, offset (+3,+3) from the footprint. No baked shadow.",
+ "_doc": "Ashfall horde buildings atlas v1. See buildings/HANDOFF-buildings.md. rect = [x,y,w,h] in the atlas. Base frames: anchor = bottom-centre of the footprint inside the rect; footprint_origin = top-left corner of the footprint inside the rect, so draw at (tx*32 - footprint_origin[0], ty*32 - footprint_origin[1]). Sprites may rise above the footprint. Top frames (turret/bone spire heads): anchor = rotation pivot; draw the pivot at base rect + turret_mount. Pad frames: 32x32 ground decal for the dock pad tile. shadow: drawn by the engine first, 30% black, offset (+3,+3) from the footprint. No baked shadow. Remote setup (HANDOFF-buildings \u00a712): refinery base deploy_0..3 + fx deploy_dust 0..3, packed in y >= 512.",
  "image": "horde-buildings-atlas.png",
  "size": [
   1024,
-  512
+  1024
  ],
  "tile": 32,
  "default_team": "violet",
@@ -2143,6 +2143,374 @@
    "damaged_of": "idle"
   },
   {
+   "name": "grinder_pit-deploy_0-red",
+   "outline": "silhouette2",
+   "scale": 0.11261,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "grinder_pit_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    63
+   ],
+   "footprint_origin": [
+    0.0,
+    -1
+   ],
+   "deploy": "remote setup stage 0: shown while setup progress is in [0.00, 0.25); telescoped idle, seam at idle row 38, collapse 24 px (HANDOFF-buildings \u00a712)",
+   "building": "grinder_pit",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_0",
+   "team": "red",
+   "rect": [
+    100,
+    514,
+    96,
+    63
+   ]
+  },
+  {
+   "name": "grinder_pit-deploy_0-violet",
+   "outline": "silhouette2",
+   "scale": 0.11261,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "grinder_pit_pad-idle-violet",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    63
+   ],
+   "footprint_origin": [
+    0.0,
+    -1
+   ],
+   "deploy": "remote setup stage 0: shown while setup progress is in [0.00, 0.25); telescoped idle, seam at idle row 38, collapse 24 px (HANDOFF-buildings \u00a712)",
+   "building": "grinder_pit",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_0",
+   "team": "violet",
+   "rect": [
+    2,
+    514,
+    96,
+    63
+   ]
+  },
+  {
+   "name": "grinder_pit-deploy_1-red",
+   "outline": "silhouette2",
+   "scale": 0.11261,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "grinder_pit_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    63
+   ],
+   "footprint_origin": [
+    0.0,
+    -1
+   ],
+   "deploy": "remote setup stage 1: shown while setup progress is in [0.25, 0.50); telescoped idle, seam at idle row 38, collapse 16 px (HANDOFF-buildings \u00a712)",
+   "building": "grinder_pit",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_1",
+   "team": "red",
+   "rect": [
+    296,
+    514,
+    96,
+    63
+   ]
+  },
+  {
+   "name": "grinder_pit-deploy_1-violet",
+   "outline": "silhouette2",
+   "scale": 0.11261,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "grinder_pit_pad-idle-violet",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    63
+   ],
+   "footprint_origin": [
+    0.0,
+    -1
+   ],
+   "deploy": "remote setup stage 1: shown while setup progress is in [0.25, 0.50); telescoped idle, seam at idle row 38, collapse 16 px (HANDOFF-buildings \u00a712)",
+   "building": "grinder_pit",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_1",
+   "team": "violet",
+   "rect": [
+    198,
+    514,
+    96,
+    63
+   ]
+  },
+  {
+   "name": "grinder_pit-deploy_2-red",
+   "outline": "silhouette2",
+   "scale": 0.11261,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "grinder_pit_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    68
+   ],
+   "footprint_origin": [
+    0.0,
+    4
+   ],
+   "deploy": "remote setup stage 2: shown while setup progress is in [0.50, 0.75); telescoped idle, seam at idle row 38, collapse 8 px (HANDOFF-buildings \u00a712)",
+   "building": "grinder_pit",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_2",
+   "team": "red",
+   "rect": [
+    492,
+    514,
+    96,
+    68
+   ]
+  },
+  {
+   "name": "grinder_pit-deploy_2-violet",
+   "outline": "silhouette2",
+   "scale": 0.11261,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "grinder_pit_pad-idle-violet",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    68
+   ],
+   "footprint_origin": [
+    0.0,
+    4
+   ],
+   "deploy": "remote setup stage 2: shown while setup progress is in [0.50, 0.75); telescoped idle, seam at idle row 38, collapse 8 px (HANDOFF-buildings \u00a712)",
+   "building": "grinder_pit",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_2",
+   "team": "violet",
+   "rect": [
+    394,
+    514,
+    96,
+    68
+   ]
+  },
+  {
+   "name": "grinder_pit-deploy_3-red",
+   "outline": "silhouette2",
+   "scale": 0.11261,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "grinder_pit_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    76
+   ],
+   "footprint_origin": [
+    0.0,
+    12
+   ],
+   "deploy": "remote setup stage 3: shown while setup progress is in [0.75, 1.00); telescoped idle, seam at idle row 38, collapse 0 px (HANDOFF-buildings \u00a712)",
+   "building": "grinder_pit",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_3",
+   "team": "red",
+   "rect": [
+    688,
+    514,
+    96,
+    76
+   ]
+  },
+  {
+   "name": "grinder_pit-deploy_3-violet",
+   "outline": "silhouette2",
+   "scale": 0.11261,
+   "footprint": [
+    3,
+    2
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 92,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "dock_pad": {
+    "tile": [
+     1,
+     2
+    ],
+    "frame": "grinder_pit_pad-idle-violet",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "anchor": [
+    48.0,
+    76
+   ],
+   "footprint_origin": [
+    0.0,
+    12
+   ],
+   "deploy": "remote setup stage 3: shown while setup progress is in [0.75, 1.00); telescoped idle, seam at idle row 38, collapse 0 px (HANDOFF-buildings \u00a712)",
+   "building": "grinder_pit",
+   "code_type": "refinery",
+   "part": "base",
+   "state": "deploy_3",
+   "team": "violet",
+   "rect": [
+    590,
+    514,
+    96,
+    76
+   ]
+  },
+  {
    "name": "grinder_pit-idle-red",
    "building": "grinder_pit",
    "code_type": "refinery",
@@ -2231,6 +2599,254 @@
     "frame": "grinder_pit_pad-idle-violet",
     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
    }
+  },
+  {
+   "name": "grinder_pit_deploy_dust-0-red",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 0,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "grinder_pit_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "red",
+   "rect": [
+    900,
+    514,
+    112,
+    40
+   ]
+  },
+  {
+   "name": "grinder_pit_deploy_dust-0-violet",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 0,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "grinder_pit_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "violet",
+   "rect": [
+    786,
+    514,
+    112,
+    40
+   ]
+  },
+  {
+   "name": "grinder_pit_deploy_dust-1-red",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 1,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "grinder_pit_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "red",
+   "rect": [
+    116,
+    592,
+    112,
+    40
+   ]
+  },
+  {
+   "name": "grinder_pit_deploy_dust-1-violet",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 1,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "grinder_pit_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "violet",
+   "rect": [
+    2,
+    592,
+    112,
+    40
+   ]
+  },
+  {
+   "name": "grinder_pit_deploy_dust-2-red",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 2,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "grinder_pit_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "red",
+   "rect": [
+    344,
+    592,
+    112,
+    40
+   ]
+  },
+  {
+   "name": "grinder_pit_deploy_dust-2-violet",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 2,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "grinder_pit_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "violet",
+   "rect": [
+    230,
+    592,
+    112,
+    40
+   ]
+  },
+  {
+   "name": "grinder_pit_deploy_dust-3-red",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 3,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "grinder_pit_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "red",
+   "rect": [
+    572,
+    592,
+    112,
+    40
+   ]
+  },
+  {
+   "name": "grinder_pit_deploy_dust-3-violet",
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 3,
+   "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+   "anchor": [
+    56.0,
+    36
+   ],
+   "footprint": [
+    3,
+    2
+   ],
+   "footprint_origin": [
+    8.0,
+    -28
+   ],
+   "shadow": null,
+   "building": "grinder_pit_deploy_dust",
+   "code_type": "refinery",
+   "part": "fx",
+   "state": "deploy_dust",
+   "team": "violet",
+   "rect": [
+    458,
+    592,
+    112,
+    40
+   ]
   },
   {
    "name": "grinder_pit_pad-idle-red",
@@ -4533,7 +5149,7 @@
   "image": "horde-buildings-atlas-trim.png",
   "size": [
    1024,
-   512
+   1024
   ],
   "rects": "same as frames[].rect",
   "encoding": "alpha 255 = team trim; R=G=B: 255 light, 170 base, 85 dark"
@@ -4543,7 +5159,7 @@
   "trim_image": "horde-buildings-atlas-neutral-trim.png",
   "size": [
    1024,
-   256
+   512
   ],
   "trim_neutral_rgb": {
    "light": "#FFFFFF",
@@ -5582,6 +6198,186 @@
     ]
    },
    {
+    "name": "grinder_pit-deploy_0",
+    "building": "grinder_pit",
+    "code_type": "refinery",
+    "part": "base",
+    "state": "deploy_0",
+    "outline": "silhouette2",
+    "scale": 0.11261,
+    "footprint": [
+     3,
+     2
+    ],
+    "shadow": {
+     "shape": "ellipse",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "dock_pad": {
+     "tile": [
+      1,
+      2
+     ],
+     "frame": "grinder_pit_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "anchor": [
+     48.0,
+     63
+    ],
+    "footprint_origin": [
+     0.0,
+     -1
+    ],
+    "deploy": "remote setup stage 0: shown while setup progress is in [0.00, 0.25); telescoped idle, seam at idle row 38, collapse 24 px (HANDOFF-buildings \u00a712)",
+    "rect": [
+     2,
+     234,
+     96,
+     63
+    ]
+   },
+   {
+    "name": "grinder_pit-deploy_1",
+    "building": "grinder_pit",
+    "code_type": "refinery",
+    "part": "base",
+    "state": "deploy_1",
+    "outline": "silhouette2",
+    "scale": 0.11261,
+    "footprint": [
+     3,
+     2
+    ],
+    "shadow": {
+     "shape": "ellipse",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "dock_pad": {
+     "tile": [
+      1,
+      2
+     ],
+     "frame": "grinder_pit_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "anchor": [
+     48.0,
+     63
+    ],
+    "footprint_origin": [
+     0.0,
+     -1
+    ],
+    "deploy": "remote setup stage 1: shown while setup progress is in [0.25, 0.50); telescoped idle, seam at idle row 38, collapse 16 px (HANDOFF-buildings \u00a712)",
+    "rect": [
+     100,
+     234,
+     96,
+     63
+    ]
+   },
+   {
+    "name": "grinder_pit-deploy_2",
+    "building": "grinder_pit",
+    "code_type": "refinery",
+    "part": "base",
+    "state": "deploy_2",
+    "outline": "silhouette2",
+    "scale": 0.11261,
+    "footprint": [
+     3,
+     2
+    ],
+    "shadow": {
+     "shape": "ellipse",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "dock_pad": {
+     "tile": [
+      1,
+      2
+     ],
+     "frame": "grinder_pit_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "anchor": [
+     48.0,
+     68
+    ],
+    "footprint_origin": [
+     0.0,
+     4
+    ],
+    "deploy": "remote setup stage 2: shown while setup progress is in [0.50, 0.75); telescoped idle, seam at idle row 38, collapse 8 px (HANDOFF-buildings \u00a712)",
+    "rect": [
+     198,
+     234,
+     96,
+     68
+    ]
+   },
+   {
+    "name": "grinder_pit-deploy_3",
+    "building": "grinder_pit",
+    "code_type": "refinery",
+    "part": "base",
+    "state": "deploy_3",
+    "outline": "silhouette2",
+    "scale": 0.11261,
+    "footprint": [
+     3,
+     2
+    ],
+    "shadow": {
+     "shape": "ellipse",
+     "dx": 3,
+     "dy": 3,
+     "w": 92,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "dock_pad": {
+     "tile": [
+      1,
+      2
+     ],
+     "frame": "grinder_pit_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "anchor": [
+     48.0,
+     76
+    ],
+    "footprint_origin": [
+     0.0,
+     12
+    ],
+    "deploy": "remote setup stage 3: shown while setup progress is in [0.75, 1.00); telescoped idle, seam at idle row 38, collapse 0 px (HANDOFF-buildings \u00a712)",
+    "rect": [
+     296,
+     234,
+     96,
+     76
+    ]
+   },
+   {
     "name": "grinder_pit-idle",
     "building": "grinder_pit",
     "code_type": "refinery",
@@ -5623,6 +6419,126 @@
      104,
      96,
      76
+    ]
+   },
+   {
+    "name": "grinder_pit_deploy_dust-0",
+    "building": "grinder_pit_deploy_dust",
+    "code_type": "refinery",
+    "part": "fx",
+    "state": "deploy_dust",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 0,
+    "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+    "anchor": [
+     56.0,
+     36
+    ],
+    "footprint": [
+     3,
+     2
+    ],
+    "footprint_origin": [
+     8.0,
+     -28
+    ],
+    "shadow": null,
+    "rect": [
+     394,
+     234,
+     112,
+     40
+    ]
+   },
+   {
+    "name": "grinder_pit_deploy_dust-1",
+    "building": "grinder_pit_deploy_dust",
+    "code_type": "refinery",
+    "part": "fx",
+    "state": "deploy_dust",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 1,
+    "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+    "anchor": [
+     56.0,
+     36
+    ],
+    "footprint": [
+     3,
+     2
+    ],
+    "footprint_origin": [
+     8.0,
+     -28
+    ],
+    "shadow": null,
+    "rect": [
+     508,
+     234,
+     112,
+     40
+    ]
+   },
+   {
+    "name": "grinder_pit_deploy_dust-2",
+    "building": "grinder_pit_deploy_dust",
+    "code_type": "refinery",
+    "part": "fx",
+    "state": "deploy_dust",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 2,
+    "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+    "anchor": [
+     56.0,
+     36
+    ],
+    "footprint": [
+     3,
+     2
+    ],
+    "footprint_origin": [
+     8.0,
+     -28
+    ],
+    "shadow": null,
+    "rect": [
+     622,
+     234,
+     112,
+     40
+    ]
+   },
+   {
+    "name": "grinder_pit_deploy_dust-3",
+    "building": "grinder_pit_deploy_dust",
+    "code_type": "refinery",
+    "part": "fx",
+    "state": "deploy_dust",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 3,
+    "fx": "remote setup dust, 4 frames looped at ~8 fps over the deploy frame while b.setup; place with footprint_origin like a base frame (bodyPos); no team trim",
+    "anchor": [
+     56.0,
+     36
+    ],
+    "footprint": [
+     3,
+     2
+    ],
+    "footprint_origin": [
+     8.0,
+     -28
+    ],
+    "shadow": null,
+    "rect": [
+     736,
+     234,
+     112,
+     40
     ]
    },
    {

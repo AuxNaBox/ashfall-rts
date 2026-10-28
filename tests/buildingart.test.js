@@ -26,16 +26,19 @@ const D = Math.PI / 180;
 const L4 = ['armory', 'church', 'altar'], ONLY = { armory: 'survivors', church: 'survivors', altar: 'horde' };
 const STATES = t => t === 'silo' ? ['closed', 'open', 'damaged', 'damaged_open', 'construct'] : L4.includes(t) ? ['idle', 'damaged', 'construct', 'destroyed'] : ['idle', 'damaged', 'construct'];
 const FAC_TYPES = fac => ART_TYPES.filter(t => !ONLY[t] || ONLY[t] === fac);
-const INDEXED = fac => FAC_TYPES(fac).reduce((n, t) => n + STATES(t).length, 0) + (16 + 1) * 2;          // turret top + refinery pad, HQ top + HQ pad
-const FX = { survivors: 3, horde: 4 };                                                                     // hq_muzzle_flash 0-2 / hive_fire_puff 0-3
+// remote setup (HANDOFF-buildings §12): Scrap Yard / Grinder Pit deploy_0..3 base frames (indexed) + 4 deploy dust fx frames (not indexed)
+const DEPLOY = ['deploy_0', 'deploy_1', 'deploy_2', 'deploy_3'];
+const INDEXED = fac => FAC_TYPES(fac).reduce((n, t) => n + STATES(t).length, 0) + (16 + 1) * 2 + DEPLOY.length;   // turret top + refinery pad, HQ top + HQ pad, deploy
+const FX = { survivors: 3 + 4, horde: 4 + 4 };                                                             // hq_muzzle_flash 0-2 / hive_fire_puff 0-3, + deploy dust 0-3
 const NEUTRAL = fac => INDEXED(fac) + FAC_TYPES(fac).filter(t => L4.includes(t)).length * 4 + FX[fac];
-test('building atlases: frame counts derived from the manifests (neutral x teams), 1024x512 PNGs, every file present, no backups shipped', () => {
+test('building atlases: frame counts derived from the manifests (neutral x teams), 1024x1024 team PNGs (§12; was 1024x512), every file present, no backups shipped', () => {
   for (const [fac, m] of Object.entries(RAW)) {
     assert.equal(m.neutral.frames.length, NEUTRAL(fac), fac); assert.equal(m.frames.length, m.neutral.frames.length * m.teams.length, fac);
-    assert.deepEqual(m.size, [1024, 512]);
+    assert.deepEqual(m.size, [1024, 1024]); assert.deepEqual(m.neutral.size, [1024, 512]);
     assert.deepEqual(pngSize(m.image), m.size); assert.deepEqual(pngSize(m.trim_mask.image), m.trim_mask.size);
     assert.deepEqual(pngSize(m.neutral.image), m.neutral.size); assert.deepEqual(pngSize(m.neutral.trim_image), m.neutral.size);
-    for (const f of m.neutral.frames.concat(m.frames)) { const [x, y, w, h] = f.rect; assert.ok(x + w <= 1024 && y + h <= 512, f.name); }
+    for (const f of m.neutral.frames) { const [x, y, w, h] = f.rect; assert.ok(x + w <= 1024 && y + h <= 512, f.name); }
+    for (const f of m.frames) { const [x, y, w, h] = f.rect; assert.ok(x + w <= 1024 && y + h <= (DEPLOY.includes(f.state) || f.state === 'deploy_dust' ? 1024 : 512), f.name); }   // v1 frames keep their rects
   }
   assert.deepEqual(fs.readdirSync(DIR).filter(f => /-v1b?\./.test(f)), []);
   assert.deepEqual(MAN.horde.ramps.violet, { light: '#DABCFF', base: '#BE90FF', dark: '#9060E8' });
@@ -182,6 +185,31 @@ test('construction: scaffold + idle/closed frame revealed bottom-up round(rh*p) 
     assert.equal(UA.selectBuilding(m, B(t), { p: 1 }).construct, null); assert.equal(UA.selectBuilding(m, B(t), { p: 7 }).p, 1);
   }
   assert.equal(UA.revealRows(116, 0), 0); assert.equal(UA.revealRows(116, 0.5), 58); assert.equal(UA.revealRows(116, 0.333), 39); assert.equal(UA.revealRows(116, 1), 116); assert.equal(UA.revealRows(116, 2), 116);
+});
+
+test('remote setup (§12): deploy_0..3 by setup progress quarter, full body (no reveal, no scaffold), pad kept; dust fx 4 frames @ 8 fps; no setup -> scaffold', () => {
+  assert.equal(UA.DEPLOY_FRAMES, 4); assert.equal(UA.DEPLOY_FX_FPS, 8);
+  for (const [fac, m] of Object.entries(MAN)) {
+    const side = fac === 'horde' ? 1 : 0, b = B('refinery', { side, hp: 25 }), idle = m.index.get(UA.bkey('refinery', 'base', 'idle'));
+    for (const [p, k] of [[0, 0], [0.24, 0], [0.25, 1], [0.6, 2], [0.75, 3], [0.99, 3]]) {
+      const s = UA.selectBuilding(m, b, { p, setup: true });
+      assert.equal(s.state, 'deploy'); assert.equal(s.base.state, 'deploy_' + k, fac + ' p ' + p); assert.equal(s.construct, null); assert.equal(s.p, p); assert.ok(s.pad, 'dock pad still drawn');
+      assert.equal(s.base.rect[2], idle.rect[2]); assert.ok(s.base.rect[3] <= idle.rect[3]); assert.deepEqual(s.base.dock_pad.tile, [1, 2]);
+    }
+    const h = DEPLOY.map(st => m.index.get(UA.bkey('refinery', 'base', st)).rect[3]);
+    assert.ok(h.every((v, i) => !i || v >= h[i - 1]) && h[0] < idle.rect[3] && h[3] === idle.rect[3], fac + ' stages rise: ' + h);   // folded -> full height
+    assert.equal(UA.selectBuilding(m, b, { p: 0.5 }).state, 'construct');                                 // normal build: scaffold reveal, unchanged
+    assert.equal(UA.selectBuilding(m, b, { p: 0.5, setup: true, ghost: true }).state, 'ghost');
+    assert.equal(UA.selectBuilding(m, b, { setup: true, p: 1 }).base.state, 'deploy_3');                  // clamps; game.js caps setup p at 0.99
+    const drop = Object.assign({}, m, { index: new Map([...m.index].filter(([k]) => !k.includes('deploy'))) });
+    assert.equal(UA.selectBuilding(drop, b, { p: 0.5, setup: true }).state, 'construct');                 // no deploy art -> old placeholder
+    for (const st of ['hq', 'power', 'depot']) assert.notEqual(UA.selectBuilding(m, B(st, { side }), { p: 0.5, setup: true }).state, 'deploy');
+    const fx = UA.topFxFrames(m, 'refinery'); assert.equal(fx.length, 4, fac);
+    for (const f of fx) { assert.equal(f.state, 'deploy_dust'); assert.ok(Array.isArray(f.footprint_origin)); }
+    assert.equal(UA.selectDeployFx(m, b, 0), fx[0]); assert.equal(UA.selectDeployFx(m, b, 1 / 8), fx[1]); assert.equal(UA.selectDeployFx(m, b, 0.5), fx[0]);
+    assert.equal(UA.selectDeployFx(m, B('depot', { side }), 0), null);
+    for (const [team, idx] of m.baked) assert.equal(UA.selectBuilding(m, b, { p: 0.3, setup: true }, idx).base.team, team);
+  }
 });
 
 test('fallback: unknown type / missing frames -> null (procedural); damaged/open fall back to the intact frame', () => {
