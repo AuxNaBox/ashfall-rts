@@ -12,4 +12,5 @@ const r = openingSim(RTS, { startCredits: start, map, diff });
 console.log(r.log.join('\n'));
 console.log(JSON.stringify(r.numbers));
 let ok = true; for (const [k, v] of Object.entries(r.checks)) { console.log((v ? 'PASS ' : 'FAIL ') + k); ok = ok && v; }
+for (const [k, v] of Object.entries(r.aggregate || {})) console.log((v ? 'SEED-OK ' : 'SEED-MISS ') + k + ' (counted across seeds by tests/opening-hard.js)');
 process.exit(ok ? 0 : 1);

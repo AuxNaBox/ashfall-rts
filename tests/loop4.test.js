@@ -139,6 +139,14 @@ test('opening addendum: 12-minute Normal regression with the scripted expected o
   for (const [k, v] of Object.entries(r.checks)) assert.ok(v, k + ' ' + JSON.stringify(r.numbers));
 });
 
+test('opening regression, Hard (Dezi ruling): check 2 replaced by 2a AI economy / 2b wave 1 at 4:00 / 2c HQ alive at 8:00 (aggregate); Easy / Normal keep check 2', () => {
+  const { RTS, seed } = load(); seed(1);
+  const r = openingSim(RTS, { diff: 'hard' }), k = Object.keys(r.checks).map(x => x.split(' ')[0]);
+  assert.deepEqual(k, ['1', '2a', '2b', '3', '4']); assert.deepEqual(Object.keys(r.aggregate).map(x => x.split(' ')[0]), ['2c']);
+  for (const [n, v] of Object.entries(r.checks)) assert.ok(v, n + ' ' + JSON.stringify(r.numbers));
+  assert.ok(r.numbers.hqHpPctAt480 !== null && r.numbers.aiGrinderPitAt <= 180 && r.numbers.aiSpawningPitAt <= 180 && r.numbers.aiEaters2At <= 180);
+});
+
 test('L4 matchups run on the real code (pass rates reported by npm run matchups, not asserted here)', () => {
   for (const m of MATCHUPS4) { const r = runOne(m, 1); assert.ok(['a', 'b', 'draw', 'a*'].includes(r.win), m.id); }
 });
