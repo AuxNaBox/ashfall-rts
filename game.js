@@ -1363,7 +1363,7 @@ function valuableGroup() {
 const AI_RUSH_DEFENSE = true;
 // 1d §9 ruling 3: earliest time (s) of the AI's FIRST Hell Silo launch, per difficulty (null = no floor). The Silo is still built and
 // charged on its own schedule and holds while charged; later launches are not floored.
-const AI_FIRST_NUKE_MIN = { easy: 900, normal: 780, hard: null };
+const AI_FIRST_NUKE_MIN = { easy: 900, normal: 780, hard: 720 }; // 1d §10: Hard 12:00 (was null)
 const RUSH = { trigTiles: 8, trigCount: 3, before: 360, ratio: 1.5, clearTiles: 10, clearS: 15 };
 function aiRushCheck() {
   const A = G.ai, hive = G.blds.find(b => b.side === 1 && b.type === 'hq' && !b.dead); if (!hive) return null;
