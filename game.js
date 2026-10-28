@@ -1356,34 +1356,28 @@ function valuableGroup() {
   return best;
 }
 // addendum 1d §8 ruling 4: AI rush response (off on Easy). 3+ enemy combat units within 8 tiles of the Hive before 6:00 -> pause the
-// build order, fill the infantry queue with Zombies until the army is 1.5x the attackers (most seen at once), park Eaters within 4 tiles
-// of the Hive behind it (away from the attackers), and hold waves. Ends once no enemy unit has been within 10 tiles for 15 s.
+// build order, fill the infantry queue with Zombies until the army is 1.5x the attackers (most seen at once), and hold waves (a held
+// wave launches on the AI tick the response ends). Ends once no enemy unit has been within 10 tiles for 15 s.
+// 1d §9 ruling 1: the Eater pull is removed (the home pit sits within 4 tiles of the Hive, so it cut the income the defence needs).
 // (Enemy harvesters don't count. The Horde has one shared infantry queue, so every Spawning Pit feeds the same queue.)
 const AI_RUSH_DEFENSE = true;
-const RUSH = { trigTiles: 8, trigCount: 3, before: 360, ratio: 1.5, eaterTiles: 4, clearTiles: 10, clearS: 15 };
+// 1d §9 ruling 3: earliest time (s) of the AI's FIRST Hell Silo launch, per difficulty (null = no floor). The Silo is still built and
+// charged on its own schedule and holds while charged; later launches are not floored.
+const AI_FIRST_NUKE_MIN = { easy: 900, normal: 780, hard: null };
+const RUSH = { trigTiles: 8, trigCount: 3, before: 360, ratio: 1.5, clearTiles: 10, clearS: 15 };
 function aiRushCheck() {
   const A = G.ai, hive = G.blds.find(b => b.side === 1 && b.type === 'hq' && !b.dead); if (!hive) return null;
   const within = r => G.units.filter(u => u.side === 0 && !u.dead && !u.d.harv && dist(u.x, u.y, hive.x, hive.y) <= r * TILE);
   const att = within(RUSH.trigTiles);
   if (!A.rush) {
     if (G.time >= RUSH.before || att.length < RUSH.trigCount) return null;
-    A.rush = { t0: G.time, n: att.length, seen: G.time, pulled: [] };
+    A.rush = { t0: G.time, n: att.length, seen: G.time };
     (A.rushLog || (A.rushLog = [])).push({ t0: G.time, n: att.length, t1: null });
   }
   const R = A.rush; R.n = Math.max(R.n, att.length);
   const near = within(RUSH.clearTiles); if (near.length) R.seen = G.time;
   const log = A.rushLog[A.rushLog.length - 1]; log.n = R.n;
-  if (G.time - R.seen >= RUSH.clearS) { // all clear: Eaters back to work
-    for (const u of R.pulled) if (!u.dead && u.hs === 'parked') { u.hs = 'seek'; u.order = 'idle'; }
-    log.t1 = G.time; A.rush = null; return null;
-  }
-  if (near.length) {
-    let ax = 0, ay = 0; for (const u of near) { ax += u.x; ay += u.y; } ax /= near.length; ay /= near.length;
-    let dx = hive.x - ax, dy = hive.y - ay; const l = Math.hypot(dx, dy) || 1; dx /= l; dy /= l;
-    const back = (Math.max(hive.w, hive.h) / 2 + 2) * TILE;
-    const eat = G.units.filter(u => u.side === 1 && u.d.harv && !u.dead && !R.pulled.includes(u) && dist(u.x, u.y, hive.x, hive.y) <= RUSH.eaterTiles * TILE);
-    if (eat.length) { issueMove(eat, hive.x + dx * back, hive.y + dy * back, false); R.pulled.push(...eat); }
-  }
+  if (G.time - R.seen >= RUSH.clearS) { log.t1 = G.time; A.rush = null; return null; } // all clear
   return R;
 }
 function updAI(dt) {
@@ -1437,11 +1431,12 @@ function updAI(dt) {
   }
   if (!rush && armyN < cap && hasBld(1, 'factory') && Q.vehicle.list.length === 0 && harv >= want && cr() - 900 >= reserve) queueItem(1, 'brute');
   // superweapon
-  const silo = readySilo(1);
-  if (silo) {
+  const silo = readySilo(1), nukeMin = AI_FIRST_NUKE_MIN[G.diffKey];
+  if (silo && silo.chargedAt === undefined) silo.chargedAt = G.time;
+  if (silo && (A.nukeN || nukeMin === null || nukeMin === undefined || G.time >= nukeMin)) {
     let best = null, bs = -1;
     for (const b of G.blds) if (b.side === 0 && !b.dead) { let s = 0; for (const o of G.blds) if (o.side === 0 && !o.dead && dist(o.x, o.y, b.x, b.y) < NUKE_R * TILE * 1.3) s += o.d.hp; if (s > bs) { bs = s; best = b; } }
-    if (best) launchNuke(1, best.x + (rng() - 0.5) * 40, best.y + (rng() - 0.5) * 40);
+    if (best && launchNuke(1, best.x + (rng() - 0.5) * 40, best.y + (rng() - 0.5) * 40)) { A.nukeN = (A.nukeN || 0) + 1; (A.nukeLog || (A.nukeLog = [])).push(G.time); }
   }
   // waves
   const army = aiArmy();
@@ -2685,4 +2680,4 @@ if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(locati
   } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { AI_RUSH_DEFENSE, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
+window.RTS = { AI_RUSH_DEFENSE, AI_FIRST_NUKE_MIN, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
