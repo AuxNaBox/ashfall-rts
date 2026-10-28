@@ -88,8 +88,8 @@ function symmetry(name, partner) {
   }
   return { n, bad, G, MW, MH, RTS };
 }
-test('remote yard §9.2: half grids are symmetric on Crossroads (180 degrees) and Ash Ring (X mirror)', () => {
-  for (const [name, mirror] of [['crossroads', (W, H, x, y) => [W - 1 - x, H - 1 - y]], ['ash-ring', (W, H, x, y) => [W - 1 - x, y]]]) {
+test('remote yard §9.2: half grids are symmetric on Crossroads (180 degrees), Ash Ring (X mirror) and Fallen City (180 degrees: its starts are rotated partners)', () => {
+  for (const [name, mirror] of [['crossroads', (W, H, x, y) => [W - 1 - x, H - 1 - y]], ['ash-ring', (W, H, x, y) => [W - 1 - x, y]], ['fallen-city', (W, H, x, y) => [W - 1 - x, H - 1 - y]]]) {
     const L = load(); L.seed(1); const RTS = L.RTS; RTS.newGame('normal', { map: MAP(name) }); const G = RTS.G, { MW, MH } = RTS;
     for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) {
       const [px, py] = mirror(MW, MH, x, y), h = G.half[y * MW + x], hp = G.half[py * MW + px];
@@ -140,4 +140,27 @@ test('remote yard §7: AI spot is a remote field pit far from the Hive; Easy kee
     else { assert.ok(d < 15, `easy dist ${d}`); G.time = 600; const s2 = RTS.aiFindSpot('refinery'); assert.ok(Math.hypot(s2[0] - hive.tx, s2[1] - hive.ty) >= 12); }
   }
   const L = load(); L.seed(1); const RTS = L.RTS; assert.deepEqual(RTS.REMOTE.AI_PIT_CAP, { easy: 2, normal: 3, hard: 4 });
+});
+
+// Fallen City is a campaign-style asymmetric map (JSON symmetry: 'none'; its terrain matches under no rotation or mirror), so the
+// partner test does not apply. Instead: both sides have valid remote spots, each remote spot obeys the half / strip / Salvage rules,
+// and each side has a remote spot that can serve a Salvage field (dock within 2 tiles of a field; for the Horde, aiRemoteSpot finds one)
+test('remote yard §9.2: Fallen City (asymmetric) - both sides have valid remote spots that obey the rules and can serve a field', () => {
+  const m = MAP('fallen-city'); assert.equal(m.symmetry, 'none');
+  const L = load(); L.seed(1); const RTS = L.RTS; RTS.newGame('normal', { map: m }); const G = RTS.G, { MW, MH } = RTS;
+  RTS.expl.fill(1); G.units.length = 0;
+  const BLOCK = [false, true, true, true, false]; let terrDiff = 0;
+  for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) if (BLOCK[RTS.terr[y * MW + x]] !== BLOCK[RTS.terr[(MH - 1 - y) * MW + MW - 1 - x]]) terrDiff++;
+  assert.ok(terrDiff > 0, 'Fallen City terrain is not 180-degree symmetric');
+  const n = [0, 0], serve = [0, 0];
+  const nearField = (tx, ty) => { for (let y = ty + 2 - 2; y <= ty + 2 + 2; y++) for (let x = tx + 1 - 2; x <= tx + 1 + 2; x++) if (x >= 0 && y >= 0 && x < MW && y < MH && RTS.SAL.field[y * MW + x] >= 0) return true; return false; };
+  for (const side of [0, 1]) for (let ty = 0; ty < MH; ty++) for (let tx = 0; tx < MW; tx++) {
+    if (!RTS.placeCheck(side, 'refinery', tx, ty, 0).ok || !RTS.remoteCheck(side, tx, ty).ok) continue;
+    n[side]++; if (nearField(tx, ty)) serve[side]++;
+    for (let y = ty; y <= ty + 2; y++) for (let x = tx; x < tx + 3; x++) if (y < ty + 2 || x === tx + 1) assert.equal(G.halfIn[side][y * MW + x], 1, `${side} ${tx},${ty}`);
+  }
+  assert.ok(n[0] > 100 && n[1] > 100, `remote spots ${n}`);
+  assert.ok(serve[0] > 0 && serve[1] > 0, `field-serving spots ${serve}`);
+  const hive = G.blds.find(b => b.side === 1 && b.type === 'hq'); RTS.makeBld('refinery', 1, hive.tx - 5, hive.ty + 4);
+  const sp = RTS.aiRemoteSpot(); assert.ok(sp && RTS.remoteCheck(1, sp[0], sp[1]).ok, 'AI finds a remote Grinder Pit spot');
 });
