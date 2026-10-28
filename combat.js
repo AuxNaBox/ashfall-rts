@@ -57,9 +57,11 @@
   const unlockedBy = type => Object.keys(RESEARCH).filter(id => (RESEARCH[id].effect.unlock || []).includes(type));
   const noRiseBy = (done, victimType) => Object.keys(RESEARCH).some(id => done && done[id] && (RESEARCH[id].effect.noRise || []).includes(victimType));
   // towers: [player, Horde]
+  // Job F (user decision via the Director, Oct 28): the HQ / Hive built-in turret reaches 6 tiles (was 5)
+  const HQ_TURRET_RANGE = 6;
   const TOWERS = { turret: { dmgType: ['bullet', 'fire'], cost: 600, time: 9, hp: 650, dmg: 28, rof: 0.9, range: 6.5, sight: 7, power: 20 },
     // Loop 4 opening addendum: built-in HQ / Hive turret. Hits air (bullet / fire), no power, fires during low power
-    hq: { dmgType: ['bullet', 'fire'], dmg: 20, rof: 1.0, range: 5, power: 0, hitsAir: true } };
+    hq: { dmgType: ['bullet', 'fire'], dmg: 20, rof: 1.0, range: HQ_TURRET_RANGE, power: 0, hitsAir: true } }; // HQ and Hive share this turret
   const TABLE = {
     plagueInfDps: { v: 6, src: 'CS plague (was 8)' },
     plagueVehDps: { v: 4, src: 'CS plague, trucks included (was 6)' },
@@ -101,7 +103,7 @@
   const canCrush = (truck, o) => o.side !== truck.side && !o.dead && o.armor === LIGHT && Math.hypot(o.x - truck.x, o.y - truck.y) < D.crushRadiusPx;
   const plagueTick = (side, armor, dt) => side === 0 ? -(armor === LIGHT ? D.plagueInfDps : D.plagueVehDps) * dt : D.plagueHealDps * dt;
 
-  const Combat = { MATRIX, TYPE_MULT, UNITS, TOWERS, TABLE, D, RESEARCH, RORDER, modifier, unlockedBy, noRiseBy, mult, canHit, hitsAir, targetTier, riseEligible, purified, canCrush, plagueTick };
+  const Combat = { HQ_TURRET_RANGE, MATRIX, TYPE_MULT, UNITS, TOWERS, TABLE, D, RESEARCH, RORDER, modifier, unlockedBy, noRiseBy, mult, canHit, hitsAir, targetTier, riseEligible, purified, canCrush, plagueTick };
   if (typeof module !== 'undefined' && module.exports) module.exports = Combat;
   root.Combat = Combat;
 })(typeof window !== 'undefined' ? window : globalThis);

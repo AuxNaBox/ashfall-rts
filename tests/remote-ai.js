@@ -1,5 +1,5 @@
 // node tests/remote-ai.js [seeds=10]  -> remote yards spec §9.4: AI expansion sim
-//  Normal seeds 1..N to 7:00: the 2nd Grinder Pit is >= 15 tiles from the Hive by 7:00 on >= 8 of 10 seeds
+//  Normal seeds 1..N: the 2nd Grinder Pit is >= 15 tiles from the Hive by 5:00 on >= 8 of 10 seeds (addendum 1d; was 7:00)
 //  Easy seeds 1..N to 10:00: no remote Grinder Pit before 10:00
 'use strict';
 const { load } = require('./harness.js');
@@ -16,7 +16,7 @@ function run(diff, s, minutes) {
 }
 let ok = true; const rows = []; let hits = 0;
 for (let s = 1; s <= N; s++) {
-  const r = run('normal', s, 7), good = !!(r.p2 && r.p2.t <= 420 && r.dist >= 15); if (good) hits++;
+  const r = run('normal', s, 7), good = !!(r.p2 && r.p2.t <= 300 && r.dist >= 15); if (good) hits++;
   rows.push({ diff: 'normal', seed: s, pits: r.log.length, pit2At: fmt(r.p2 && r.p2.t), pit2Tile: r.p2 ? `${r.p2.tx},${r.p2.ty}` : '-', pit2Dist: r.dist === null ? '-' : +r.dist.toFixed(1), remote: r.p2 ? r.p2.remote : '-', ok: good });
 }
 const normalOk = hits >= need;
@@ -26,7 +26,7 @@ for (let s = 1; s <= N; s++) {
   rows.push({ diff: 'easy', seed: s, pits: r.log.length, pit2At: fmt(r.p2 && r.p2.t), pit2Tile: r.p2 ? `${r.p2.tx},${r.p2.ty}` : '-', pit2Dist: r.dist === null ? '-' : +r.dist.toFixed(1), remote: r.p2 ? r.p2.remote : '-', ok: !early.length });
 }
 console.table(rows);
-console.log(`Normal: 2nd pit >= 15 tiles from the Hive by 7:00 on ${hits}/${N} seeds (need >= ${need}) ${normalOk ? 'PASS' : 'FAIL'}`);
+console.log(`Normal: 2nd pit >= 15 tiles from the Hive by 5:00 on ${hits}/${N} seeds (need >= ${need}) ${normalOk ? 'PASS' : 'FAIL'}`);
 console.log(`Easy: no remote pit before 10:00 ${easyOk ? 'PASS' : 'FAIL'}`);
 ok = normalOk && easyOk;
 console.log(ok ? 'REMOTE AI PASS' : 'REMOTE AI FAIL');

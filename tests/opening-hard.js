@@ -1,5 +1,5 @@
 // node tests/opening-hard.js [seeds=10]  -> Hard regression over seeds 1..N (Dezi ruling: Hard check 2 replaced by 2a / 2b / 2c, no AI tuning)
-//  per seed: checks 1, 2a (AI economy by 3:00), 2b (wave 1 at 4:00 +/- 5 s), 3, 4 must pass; 2c: player HQ alive at 8:00 on >= 8 of 10 seeds
+//  per seed: checks 1, 2a (AI economy by 2:00; addendum 1d, was 3:00), 2b (wave 1 at 4:00 +/- 5 s), 3, 4 must pass; 2c: player HQ alive at 8:00 on >= 8 of 10 seeds
 'use strict';
 const { load } = require('./harness.js');
 const { openingSim } = require('./opening-sim.js');

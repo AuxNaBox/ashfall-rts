@@ -118,10 +118,10 @@ test('L4 AI: Dark Altar after the Factory at altarTime (earlier once the player 
   G.time = 300; G.ai.churchSeen = true; assert.equal(RTS.aiNextBuild(), 'altar');
 });
 
-test('opening addendum: bare start, HQ turret + slow drop-off, Trucks only from HQ / Factory, wave-1 overrides', () => {
+test('opening addendum (+1d free harvester, Job F turret range 6): start, HQ turret + slow drop-off, Trucks only from HQ / Factory, wave-1 overrides', () => {
   const { RTS } = load(); RTS.newGame('normal'); const G = RTS.G;
-  assert.equal(G.units.length, 0); assert.deepEqual(J(G.blds.map(b => b.type)), ['hq', 'hq']); assert.deepEqual(J(G.credits), [2500, 3000]);
-  const B = RTS.BDEF.hq; assert.deepEqual([B.dmg, B.rof, B.range, B.hitsAir, B.power], [20, 1.0, 5, true, 0]);
+  assert.deepEqual(J(G.units.map(u => [u.type, u.side])), [['gleaner', 0], ['reaper', 1]]); assert.deepEqual(J(G.blds.map(b => b.type)), ['hq', 'hq']); assert.deepEqual(J(G.credits), [2000, 2500]);
+  const B = RTS.BDEF.hq; assert.deepEqual([B.dmg, B.rof, B.range, B.hitsAir, B.power], [20, 1.0, 6, true, 0]); assert.equal(RTS.Combat.HQ_TURRET_RANGE, 6);
   assert.deepEqual(J(G.blds.map(b => b.weapon)), ['bullet', 'fire']); assert.equal(Salvage.powerOfType('hq'), 0);
   assert.equal(Salvage.D.hqUnloadPerSec, 50); assert.equal(Salvage.D.hqStorage, 2000); assert.equal(RTS.storageCapOf(0), 2000);
   for (const [t, d] of Object.entries(RTS.UDEF)) if (d.from.includes('hq')) assert.ok(d.harv, t);

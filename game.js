@@ -93,12 +93,12 @@ for (const k in UDEF) {
   if (c.limit) u.limit = c.limit;
 }
 const BDEF = {
-  hq: { name: ['HQ', 'Hive'], desc: 'Headquarters. Trains Scrap Trucks only. Slow drop-off (one dock pad) until a Scrap Yard exists. Stores 2,000 Credits. Built-in turret (5 tiles, hits air)', w: 3, h: 3, hp: 2200, cost: 0, time: 0, sight: 8,
+  hq: { name: ['HQ', 'Hive'], desc: 'Headquarters. Trains Scrap Trucks only. Slow drop-off (one dock pad) until a Scrap Yard exists. Stores 2,000 Credits. Built-in turret (' + Combat.TOWERS.hq.range + ' tiles, hits air)', w: 3, h: 3, hp: 2200, cost: 0, time: 0, sight: 8,
     dmg: Combat.TOWERS.hq.dmg, rof: Combat.TOWERS.hq.rof, range: Combat.TOWERS.hq.range, dmgType: Combat.TOWERS.hq.dmgType, hitsAir: true, power: 0 },
   power: { name: ['Power Plant', 'Power Plant'], desc: 'Makes +100 power', w: 2, h: 2, hp: SD.powerPlantHp, cost: SD.powerPlantCost, time: SD.powerPlantBuildTime, req: ['hq'], sight: 4 },
   refinery: { name: ['Scrap Yard', 'Grinder Pit'], desc: 'Salvage drop-off with one dock pad. Stores 2,000 Credits. Comes with a free truck. Uses 30 power', w: 3, h: 2, hp: SD.plantHp, cost: SD.plantCost, time: SD.plantBuildTime, req: ['power'], sight: 5 },
   depot: { name: ['Depot', 'Depot'], desc: 'Stores 1,500 more Credits. Uses 10 power', w: 2, h: 1, hp: SD.depotHp, cost: SD.depotCost, time: SD.depotBuildTime, req: ['refinery'], sight: 4 },
-  barracks: { name: ['Barracks', 'Spawning Pit'], desc: 'Trains infantry. Uses 20 power', w: 2, h: 2, hp: 800, cost: 500, time: 8, req: ['hq'], sight: 5 },
+  barracks: { name: ['Barracks', 'Spawning Pit'], desc: 'Trains infantry. Uses 20 power', w: 2, h: 2, hp: 800, cost: 500, time: 8, req: ['hq'], sight: 5 }, // req: see BARRACKS_NEEDS_YARD
   turret: { name: ['Turret', 'Bone Spire'], desc: 'Defense tower. Hits air. Uses 20 power', w: 1, h: 1, hp: 650, cost: 600, time: 9, req: ['barracks'], sight: 7, dmg: 28, rof: 0.9, range: 6.5 },
   factory: { name: ['Factory', 'Factory'], desc: 'Builds heavy units. Uses 40 power', w: 3, h: 3, hp: 1200, cost: 2000, time: 15, req: ['refinery'], sight: 5 },
   silo: { name: ['Nuke Silo', 'Hell Silo'], desc: 'Superweapon. Charges a nuke. Uses 50 power', w: 2, h: 2, hp: 1000, cost: 2500, time: 22, req: ['factory'], sight: 5 },
@@ -107,6 +107,12 @@ const BDEF = {
   church: { name: ['Church', 'Church'], desc: 'Holy research. Unlocks the Medic; trains the Archangel and Templar. Uses 40 power', w: 2, h: 3, hp: 1000, cost: 1500, time: 15, req: ['armory'], sight: 6, side: 0, research: true },
   altar: { name: ['Dark Altar', 'Dark Altar'], desc: 'Trains the Demon Lord. Uses 40 power', w: 2, h: 3, hp: 1000, cost: 1500, time: 15, req: ['factory'], sight: 5, side: 1 },
 };
+// addendum 1d lever (backlog call B): when true, the Barracks / Spawning Pit need a Scrap Yard / Grinder Pit instead of the HQ / Hive
+// (the sidebar then shows "Needs Scrap Yard" / "Needs Grinder Pit"). User decision via the Director, Oct 28: OFF.
+let BARRACKS_NEEDS_YARD = false;
+function setBarracksNeedsYard(v) { BARRACKS_NEEDS_YARD = !!v; BDEF.barracks.req = [BARRACKS_NEEDS_YARD ? 'refinery' : 'hq']; }
+setBarracksNeedsYard(BARRACKS_NEEDS_YARD);
+
 // Loop 4 buildings without art yet: drawn by the procedural drawBld (unitart.js BLD_MAP has no entry)
 const ART_PENDING = [];
 for (const k in BDEF) BDEF[k].armor = 'structure';
@@ -2522,10 +2528,12 @@ function newGame(diffKey, opts) {
   const P = G.baseP;
   for (const side of [0, 1]) {
     const place = (type, tx, ty) => { const d = BDEF[type]; if (side === 1) { tx = MW - tx - d.w; ty = MH - ty - d.h; } return makeBld(type, side, tx, ty); };
-    // Loop 4 opening addendum: a bare start. Only the HQ / Hive; no starting units, no free Truck (player 2,500, AI 3,000 Credits)
+    // Loop 4 opening: the HQ / Hive (+ addendum 1d: one free harvester each, below; player 2,000, AI 2,500 Credits)
     if (dm && side === 1) makeBld('hq', 1, G.baseE.x - 1, G.baseE.y - 1);
     else place('hq', P.x - 1, P.y - 1);
   }
+  // addendum 1d: one free Scrap Truck / Scrap Eater per side, at the HQ / Hive spawn point (dock side), gathering from 0:00
+  for (const side of [0, 1]) { const hq = G.blds.find(b => b.side === side && b.type === 'hq'); const sp = spawnPoint(hq); const h = makeUnit(side ? 'reaper' : 'gleaner', side, sp.x, sp.y); h.hs = 'seek'; }
   G.started = true;
   updFog();
   centerOn(P.x * TILE, P.y * TILE - 100);
@@ -2630,4 +2638,4 @@ if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(locati
   } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
+window.RTS = { get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };

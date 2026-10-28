@@ -31,10 +31,10 @@ function world({ credits = [0, 0], cap = [100000, 100000], fieldTiles = [[5, 5],
 }
 const count = (ev, w) => w.events.filter(e => e.ev === ev).length;
 
-test('balance table: Loop 1 spec + Director ruling 1 + addendum values', () => {
-  assert.equal(D.haulerCapacity, 500); assert.equal(D.haulerCost, 1200); assert.equal(D.gatherPerSec, 25); assert.equal(D.unloadPerSec, 100);
+test('balance table: Loop 1 spec + Director ruling 1 + addendum values (1d: 600 loads, 2,000 / 2,500 start)', () => {
+  assert.equal(D.haulerCapacity, 600); assert.equal(D.startScripPlayer, 2000); assert.equal(D.haulerCost, 1200); assert.equal(D.gatherPerSec, 25); assert.equal(D.unloadPerSec, 100);
   assert.equal(D.plantCost, 2000); assert.equal(D.powerPlantPower, 100); assert.equal(D.plantPower, -30); assert.equal(D.factoryPower, -40);
-  assert.equal(D.startScripAI, 3000); assert.equal(D.aiGorgerReserve, 1200);
+  assert.equal(D.startScripAI, 2500); assert.equal(D.aiGorgerReserve, 1200);
   for (const k in Salvage.TABLE) assert.ok(Salvage.TABLE[k].src, k + ' has a source');
   const ph = Object.keys(Salvage.TABLE).filter(k => /PLACEHOLDER/.test(Salvage.TABLE[k].src));
   assert.ok(ph.includes('tickRate') && ph.includes('siloPower'), 'placeholders are marked');
@@ -69,33 +69,34 @@ test('fixed step: update() runs whole steps from variable dt and keeps the remai
   assert.equal(w.S.update(10), D.maxStepsPerFrame, 'spiral-of-death guard');
 });
 
-test('full loop: gather 500 in ~20 s, return, unload 100/s, Credits +500, events fire', () => {
+test('full loop: gather 600 in ~24 s, return, unload 100/s, Credits +600, events fire (addendum 1d)', () => {
   const w = world();
   const u = w.addTruck(5 * 32 + 16, 7 * 32 + 16);
-  w.run(10); assert.equal(u.hs, 'gather'); assert.ok(u.load > 0 && u.load < 500);
+  w.run(10); assert.equal(u.hs, 'gather'); assert.ok(u.load > 0 && u.load < 600);
   w.run(25); assert.ok(['toPlant', 'queue', 'unload'].includes(u.hs) || w.credits[0] > 0);
   w.run(25);
-  assert.equal(w.credits[0], 500);
+  assert.equal(w.credits[0], 600);
   assert.equal(count('unload', w), 1);
-  assert.equal(w.events.find(e => e.ev === 'unload').data.amount, 500);
+  assert.equal(w.events.find(e => e.ev === 'unload').data.amount, 600);
   assert.ok(count('harvestStart', w) >= 1 && count('loadChanged', w) >= 10 && count('tileStageChanged', w) >= 1);
   const left = [...w.res].reduce((a, b) => a + b, 0), mined = 4 * 500 - left;
-  assert.ok(mined <= 500 + u.load && mined >= 500 + u.load - 25 * 4 * 4, `mined ${mined}: unloaded + carried, minus in-place regrowth`);
+  assert.ok(mined <= 600 + u.load && mined >= 600 + u.load - 25 * 4 * 4, `mined ${mined}: unloaded + carried, minus in-place regrowth`);
 });
 
-test('gather/unload timing matches the spec (20 s fill, 5 s unload)', () => {
+test('gather/unload timing matches the spec (1d: 24 s fill, 6 s unload)', () => {
   const w = world();
   const u = w.addTruck(5 * 32 + 16, 5 * 32 + 16);
   let tGather = null, tFull = null, tUnload = null, tDone = null, t = 0; const dt = 1 / 60;
   while (t < 60 && tDone === null) {
     w.S.update(dt); t += dt;
     if (tGather === null && u.hs === 'gather') tGather = t;
-    if (tFull === null && u.load >= 500) tFull = t;
+    if (tFull === null && u.load >= 600) tFull = t;
     if (tUnload === null && u.hs === 'unload') tUnload = t;
     if (tUnload !== null && tDone === null && u.hs !== 'unload') tDone = t;
   }
-  assert.ok(Math.abs(tFull - tGather - 20) < 0.3, `fill took ${tFull - tGather}`);
-  assert.ok(Math.abs(tDone - tUnload - 5) < 0.3, `unload took ${tDone - tUnload}`);
+  // 600 at 25/s = 24 s; a tile holds 500, so a load now always includes one hop to the next pile (~0.3 s of driving)
+  assert.ok(Math.abs(tFull - tGather - 24) < 0.6, `fill took ${tFull - tGather}`);
+  assert.ok(Math.abs(tDone - tUnload - 6) < 0.3, `unload took ${tDone - tUnload}`);
 });
 
 test('nearest pile: stays in the same field and moves to the nearest non-empty tile', () => {

@@ -17,7 +17,7 @@
     haulerBuildTime:     { v: 15,   src: 'L1' },
     haulerHp:            { v: 600,  src: 'L1' },
     haulerSpeedTiles:    { v: 1.2,  src: 'L1 (tiles/s)' },
-    haulerCapacity:      { v: 500,  src: 'L1 + DIR ruling 1 (not live 300)' },
+    haulerCapacity:      { v: 600,  src: 'L4 addendum 1d (was 500, L1 + DIR ruling 1)' },
     gatherPerSec:        { v: 25,   src: 'L1 (~20 s to fill)' },
     unloadPerSec:        { v: 100,  src: 'L1 (5 s to empty)' },
     hqUnloadPerSec:      { v: 50,   src: 'Loop 4 opening addendum: the HQ is a slow temporary drop-off (half a Scrap Yard)' },
@@ -66,8 +66,8 @@
     storageAmberAt:      { v: 0.9,  src: 'ADD §3' },
     storageAlertCooldown:{ v: 15,   src: 'ADD §3' },
     // start / AI
-    startScripPlayer:    { v: 2500, src: 'L1 + ADD §2' },
-    startScripAI:        { v: 3000, src: 'ADD §2 (Normal)' },
+    startScripPlayer:    { v: 2000, src: 'L4 addendum 1d §2 (was 2,500; the free Truck is worth 1,200)' },
+    startScripAI:        { v: 2500, src: 'L4 addendum 1d §2 (was 3,000; keeps the AI 500 head start)' },
     aiGorgerReserve:     { v: 1200, src: 'ADD §2 (= Gorger cost per DIR ruling 1)' },
     // engineering
     tickRate:            { v: 15,   src: 'PLACEHOLDER (engineering): fixed salvage steps per second' },
