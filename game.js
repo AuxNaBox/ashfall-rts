@@ -138,7 +138,7 @@ const AI_FIELD_LIVE = 0.25, AI_FIELD_SERVED = 8, AI_FIELD_PLAYER_UNIT = 8, AI_FI
 const DIFF = {
   // firstWave / wave1: Loop 4 opening addendum overrides (wave 1 is a fixed group; later waves use minWave + 2 per wave)
   easy: { name: 'Easy', inc: 0.75, prod: 0.85, firstWave: 390, wave1: { zombie: 3 }, waveGap: 150, minWave: 5, siloTime: 600, altarTime: 720 },
-  normal: { name: 'Normal', inc: 1.0, prod: 1.0, firstWave: 300, wave1: { zombie: 4, imp: 1 }, waveGap: 120, minWave: 6, siloTime: 420, altarTime: 540 },
+  normal: { name: 'Normal', inc: 1.0, prod: 1.0, firstWave: 300, wave1: { zombie: 5, imp: 1 }, /* 1d §8 ruling 1 (was 4 Zombies + 1 Imp) */ waveGap: 120, minWave: 6, siloTime: 420, altarTime: 540 },
   hard: { name: 'Hard', inc: 1.35, prod: 1.2, firstWave: 240, wave1: { zombie: 5, imp: 1 }, waveGap: 95, minWave: 8, siloTime: 300, altarTime: 420 },
 };
 const bname = (type, side) => BDEF[type].name[side];
@@ -1355,6 +1355,37 @@ function valuableGroup() {
   for (const u of P) { let v = 0, x = 0, y = 0; for (const o of P) if (dist(u.x, u.y, o.x, o.y) <= 6 * TILE) { const c = o.d.cost || 0; v += c; x += o.x * c; y += o.y * c; } if (v > bv) { bv = v; best = { x: x / v, y: y / v, value: v }; } }
   return best;
 }
+// addendum 1d §8 ruling 4: AI rush response (off on Easy). 3+ enemy combat units within 8 tiles of the Hive before 6:00 -> pause the
+// build order, fill the infantry queue with Zombies until the army is 1.5x the attackers (most seen at once), park Eaters within 4 tiles
+// of the Hive behind it (away from the attackers), and hold waves. Ends once no enemy unit has been within 10 tiles for 15 s.
+// (Enemy harvesters don't count. The Horde has one shared infantry queue, so every Spawning Pit feeds the same queue.)
+const AI_RUSH_DEFENSE = true;
+const RUSH = { trigTiles: 8, trigCount: 3, before: 360, ratio: 1.5, eaterTiles: 4, clearTiles: 10, clearS: 15 };
+function aiRushCheck() {
+  const A = G.ai, hive = G.blds.find(b => b.side === 1 && b.type === 'hq' && !b.dead); if (!hive) return null;
+  const within = r => G.units.filter(u => u.side === 0 && !u.dead && !u.d.harv && dist(u.x, u.y, hive.x, hive.y) <= r * TILE);
+  const att = within(RUSH.trigTiles);
+  if (!A.rush) {
+    if (G.time >= RUSH.before || att.length < RUSH.trigCount) return null;
+    A.rush = { t0: G.time, n: att.length, seen: G.time, pulled: [] };
+    (A.rushLog || (A.rushLog = [])).push({ t0: G.time, n: att.length, t1: null });
+  }
+  const R = A.rush; R.n = Math.max(R.n, att.length);
+  const near = within(RUSH.clearTiles); if (near.length) R.seen = G.time;
+  const log = A.rushLog[A.rushLog.length - 1]; log.n = R.n;
+  if (G.time - R.seen >= RUSH.clearS) { // all clear: Eaters back to work
+    for (const u of R.pulled) if (!u.dead && u.hs === 'parked') { u.hs = 'seek'; u.order = 'idle'; }
+    log.t1 = G.time; A.rush = null; return null;
+  }
+  if (near.length) {
+    let ax = 0, ay = 0; for (const u of near) { ax += u.x; ay += u.y; } ax /= near.length; ay /= near.length;
+    let dx = hive.x - ax, dy = hive.y - ay; const l = Math.hypot(dx, dy) || 1; dx /= l; dy /= l;
+    const back = (Math.max(hive.w, hive.h) / 2 + 2) * TILE;
+    const eat = G.units.filter(u => u.side === 1 && u.d.harv && !u.dead && !R.pulled.includes(u) && dist(u.x, u.y, hive.x, hive.y) <= RUSH.eaterTiles * TILE);
+    if (eat.length) { issueMove(eat, hive.x + dx * back, hive.y + dy * back, false); R.pulled.push(...eat); }
+  }
+  return R;
+}
 function updAI(dt) {
   const A = G.ai; A.t -= dt; if (A.t > 0) return; A.t = 0.5;
   const side = 1, Q = G.queues[1], cr = () => G.credits[1];
@@ -1364,6 +1395,7 @@ function updAI(dt) {
   const harv = G.units.filter(u => u.side === 1 && u.d.harv && !u.dead).length + Q.vehicle.list.filter(t => t === 'reaper').length;
   if (harv === 0 && Q.vehicle.list.length === 0 && cr() >= costOf('reaper') && prereqOk(1, 'reaper')) queueItem(1, 'reaper');
   const firstEater = harv === 0 ? costOf('reaper') : 0;
+  const rush = AI_RUSH_DEFENSE && G.diffKey !== 'easy' ? aiRushCheck() : null;
   // structures
   const next = aiNextBuild();
   // harvesters: hold back the cost of the 2nd Scrap Eater (2 by 3:00; the Grinder Pit's free one counts) before spending on anything else
@@ -1383,22 +1415,27 @@ function updAI(dt) {
       if (b && t === 'refinery') (A.pitLog || (A.pitLog = [])).push({ t: G.time, tx: b.tx, ty: b.ty, remote: !!b.remote });
       if (b && b.remote && t === 'refinery') { if (A.remote2At === undefined) { A.remote2At = G.time; A.remote2 = { tx: b.tx, ty: b.ty }; } if (G.diffKey === 'hard') A.spireFor = b; }
     } else cancelItem(1, t);
-  } else if (A.spireFor && !Q.structure.list.length && prereqOk(1, 'turret') && cr() >= BDEF.turret.cost) queueItem(1, 'turret');
+  } else if (rush) { /* rush response: build order paused */ }
+  else if (A.spireFor && !Q.structure.list.length && prereqOk(1, 'turret') && cr() >= BDEF.turret.cost) queueItem(1, 'turret');
   else if (next && !Q.structure.list.length && prereqOk(1, next) && cr() - (econBuild ? firstEater : eaterReserve + demonReserve) >= BDEF[next].cost) queueItem(1, next);
   const reserve = (next && !Q.structure.list.length && !Q.structure.ready ? BDEF[next].cost : 0) + eaterReserve + demonReserve;
   const want = Math.min(5, Math.max(1, countBld(1, 'refinery')) * 2);
-  if (hasBld(1, 'refinery') && harv < want && Q.vehicle.list.length === 0 && cr() >= costOf('reaper') && prereqOk(1, 'reaper')) { if (queueItem(1, 'reaper') && harv === 1) G.ai.eater2At = G.time; }
+  if (!rush && hasBld(1, 'refinery') && harv < want && Q.vehicle.list.length === 0 && cr() >= costOf('reaper') && prereqOk(1, 'reaper')) { if (queueItem(1, 'reaper') && harv === 1) G.ai.eater2At = G.time; }
   // army (capped so waves stay beatable; the cap grows with every wave)
   const armyN = G.units.filter(u => u.side === 1 && !u.d.harv && !u.dead).length;
   const cap = Math.min(45, Math.round((10 + 5 * A.waveN) * G.diff.inc) + (G.credits[1] > 3000 ? 8 : 0));
-  if (armyN < cap && hasBld(1, 'barracks') && Q.infantry.list.length < 2) {
+  if (rush) { // rush response: Zombies until the army is 1.5x the attackers (no cap, no reserves)
+    const goal = Math.ceil(RUSH.ratio * rush.n);
+    let have = armyN + Q.infantry.list.length;
+    while (have < goal && hasBld(1, 'barracks') && cr() >= UDEF.zombie.cost && queueItem(1, 'zombie')) have++;
+  } else if (armyN < cap && hasBld(1, 'barracks') && Q.infantry.list.length < 2) {
     let t = rng() < (G.time > 240 ? 0.4 : 0.25) ? 'imp' : 'zombie';
     if (A.waveN === 0 && G.diff.wave1) { // build the fixed wave-1 group first (addendum)
       const short = Object.keys(G.diff.wave1).find(k => aliveOf(1, k) + inQueue(1, k) < G.diff.wave1[k]); if (short) t = short;
     }
     if (cr() - UDEF[t].cost >= reserve) queueItem(1, t);
   }
-  if (armyN < cap && hasBld(1, 'factory') && Q.vehicle.list.length === 0 && harv >= want && cr() - 900 >= reserve) queueItem(1, 'brute');
+  if (!rush && armyN < cap && hasBld(1, 'factory') && Q.vehicle.list.length === 0 && harv >= want && cr() - 900 >= reserve) queueItem(1, 'brute');
   // superweapon
   const silo = readySilo(1);
   if (silo) {
@@ -1410,7 +1447,7 @@ function updAI(dt) {
   const army = aiArmy();
   const idle = army.filter(u => !u.target && u.order !== 'attackmove' && u.order !== 'attack');
   const hq = G.blds.find(b => b.side === 1 && b.type === 'hq' && !b.dead) || G.blds.find(b => b.side === 1 && !b.dead);
-  if (G.time >= A.nextWave) {
+  if (G.time >= A.nextWave && !rush) { // waves hold while the rush response is on
     const w1 = A.waveN === 0 && G.diff.wave1;
     const need = w1 ? Object.values(w1).reduce((a, b) => a + b, 0) : Math.min(26, G.diff.minWave + A.waveN * 2);
     let send = null;
@@ -2648,4 +2685,4 @@ if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(locati
   } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
+window.RTS = { AI_RUSH_DEFENSE, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };

@@ -38,7 +38,7 @@ function hqDropOff(seed) {
 }
 const TESTS = [
   { id: 'A1', name: 'HQ alone vs 4 Zombies', run: s => hqDefence(s, { zombie: 4 }), pass: r => !r.hqDead && r.hqHpPct >= 75 && r.attackersLeft === 0, target: 'HQ survives with >= 75% HP' },
-  { id: 'A2', name: 'HQ + 3 Riflemen vs Normal wave 1 (4 Zombies, 1 Imp)', run: s => hqDefence(s, { zombie: 4, imp: 1 }, 3), pass: r => r.attackersLeft === 0 && r.hqHpPct >= 80 && r.riflesLeft >= 1, target: 'Survivors win, HQ >= 80%, >= 1 Rifleman left' },
+  { id: 'A2', name: 'HQ + 3 Riflemen vs Normal wave 1 (5 Zombies, 1 Imp; 1d §8, was 4 + 1)', run: s => hqDefence(s, { zombie: 5, imp: 1 }, 3), pass: r => r.attackersLeft === 0 && r.hqHpPct >= 80 && r.riflesLeft >= 1, target: 'Survivors win, HQ >= 80%, >= 1 Rifleman left' },
   { id: 'A3', name: 'HQ alone vs 12 Zombies (control)', run: s => hqDefence(s, { zombie: 12 }), pass: r => r.hqDead, target: 'HQ destroyed' },
   // Job F: HQ turret range 6 (Combat.HQ_TURRET_RANGE, was 5), so A4 moves out one tile (was: no fire at 6, hits at 4.5)
   { id: 'A4', name: 'HQ turret vs 1 Angel at 7 / 5.5 tiles', run: s => ({ at6: hqVsAngel(s, 7), at45: hqVsAngel(s, 5.5), at6old: hqVsAngel(s, 6) }), pass: r => r.at6.shots === 0 && r.at6.dmg === 0 && r.at45.shots > 0 && r.at45.dmg > 0, target: 'no fire at 7 tiles; fires and hits at 5.5' },

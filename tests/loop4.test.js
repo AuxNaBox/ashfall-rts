@@ -127,7 +127,7 @@ test('opening addendum (+1d free harvester, Job F turret range 6): start, HQ tur
   for (const [t, d] of Object.entries(RTS.UDEF)) if (d.from.includes('hq')) assert.ok(d.harv, t);
   assert.deepEqual(J(RTS.UDEF.gleaner.from), ['hq', 'factory']);
   assert.deepEqual(J(RTS.dropOffs(0).map(b => b.type)), ['hq']);
-  const W = { easy: [390, { zombie: 3 }], normal: [300, { zombie: 4, imp: 1 }], hard: [240, { zombie: 5, imp: 1 }] };
+  const W = { easy: [390, { zombie: 3 }], normal: [300, { zombie: 5, imp: 1 }], hard: [240, { zombie: 5, imp: 1 }] };
   for (const [k, [t, c]] of Object.entries(W)) { RTS.newGame(k); assert.equal(RTS.G.ai.nextWave, t, k); assert.deepEqual(J(RTS.G.diff.wave1), c, k); }
 });
 
