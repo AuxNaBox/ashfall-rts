@@ -139,7 +139,7 @@ const DIFF = {
   // firstWave / wave1: Loop 4 opening addendum overrides (wave 1 is a fixed group; later waves use minWave + 2 per wave)
   easy: { name: 'Easy', inc: 0.75, prod: 0.85, firstWave: 390, wave1: { zombie: 3 }, waveGap: 150, minWave: 5, siloTime: 600, altarTime: 720 },
   normal: { name: 'Normal', inc: 1.0, prod: 1.0, firstWave: 300, wave1: { zombie: 5, imp: 1 }, /* 1d §8 ruling 1 (was 4 Zombies + 1 Imp) */ waveGap: 120, minWave: 6, siloTime: 420, altarTime: 540 },
-  hard: { name: 'Hard', inc: 1.35, prod: 1.2, firstWave: 240, wave1: { zombie: 5, imp: 1 }, waveGap: 95, minWave: 8, siloTime: 300, altarTime: 420 },
+  hard: { name: 'Hard', inc: 1.35, prod: 1.2, firstWave: 240, wave1: { zombie: 5, imp: 1 }, startScripAI: 2000, /* 1d §8 steering: Hard AI starts on 2,000 (was SD.startScripAI 2,500); inc stays 1.35 */ waveGap: 95, minWave: 8, siloTime: 300, altarTime: 420 },
 };
 const bname = (type, side) => BDEF[type].name[side];
 const ename = e => e.kind === 'u' ? e.d.name : bname(e.type, e.side);
@@ -2559,7 +2559,7 @@ function newGame(diffKey, opts) {
   idc = 0; bById.clear();
   if ($('msgs')) $('msgs').innerHTML = '';
   G = { seed, time: 0, diff: DIFF[diffKey] || DIFF.normal, diffKey, units: [], blds: [], proj: [], fx: [], decals: [], rad: [], missiles: [], rises: [], sel: [], groups: {},
-    credits: [SD.startScripPlayer, SD.startScripAI], queues: [mkQ(), mkQ()], rq: [mkRQ(), mkRQ()], research: [{}, {}], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0 },
+    credits: [SD.startScripPlayer, (DIFF[diffKey] || DIFF.normal).startScripAI ?? SD.startScripAI], queues: [mkQ(), mkQ()], rq: [mkRQ(), mkRQ()], research: [{}, {}], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0 },
     over: false, paused: false, started: false, mode: null, placing: null, ai: { t: 1, nextWave: 0, waveN: 0 }, fogT: 0, winT: 0, shakeA: 0,
     baseP: { x: 9, y: MH - 10 }, baseE: { x: MW - 10, y: 9 } };
   G.ai.nextWave = G.diff.firstWave;
