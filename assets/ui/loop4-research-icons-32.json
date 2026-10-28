@@ -1,0 +1,81 @@
+{
+ "_doc": "Ashfall loop 4 research icons pre-baked at 32x32 for the compact sidebar tiers (ui/1-ui-layout-notes.md). Built by art/pipeline/ui-icon-sizes.py from raw/icons/*.jpg. Draw 1:1 (or integer x DPR), nearest.",
+ "image": "loop4-research-icons-32.png",
+ "size": [
+  240,
+  36
+ ],
+ "icon_size": 32,
+ "icons": [
+  {
+   "id": "hollow_points",
+   "research": "hollow",
+   "rect": [
+    2,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "armor_plating",
+   "research": "plating",
+   "rect": [
+    36,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "rocket_launchers",
+   "research": "rockets",
+   "rect": [
+    70,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "long_barrels",
+   "research": "barrels",
+   "rect": [
+    104,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "blessed_rounds",
+   "research": "blessed",
+   "rect": [
+    138,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "halo_wings",
+   "research": "halo",
+   "rect": [
+    172,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "holy_ground",
+   "research": "holyground",
+   "rect": [
+    206,
+    2,
+    32,
+    32
+   ]
+  }
+ ]
+}

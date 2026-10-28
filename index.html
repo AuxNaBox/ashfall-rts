@@ -17,18 +17,19 @@
 <div id="sidebar">
   <div id="sbTop">
   <div id="title">ASHFALL <span>LAST LIGHT</span></div>
-  <div id="credits"><span class="lbl"><span class="coin"></span>CREDITS</span><span><span id="cr">0</span><small id="cap"></small></span></div>
+  <div id="cpBlock">
+  <div id="credits"><span class="lbl"><span class="coin"></span><span class="ct">CREDITS</span></span><span class="num"><span id="cr">0</span><small id="cap"></small></span></div>
   <div id="power"></div>
-  <canvas id="mini" width="236" height="236"></canvas>
+  </div>
+  <canvas id="mini" width="240" height="240"></canvas>
   <div id="super"></div>
   </div>
+  <div id="tabs"><button class="tab"><i class="dot"></i><span class="tl">STRUCT</span><b class="qb"></b></button><button class="tab"><i class="dot"></i><span class="tl">UNITS</span><b class="qb"></b></button><button class="tab"><i class="dot"></i><span class="tl">RESEARCH</span><b class="qb"></b></button><button id="bMenu">≡</button></div>
   <div id="sbScroll">
-  <div class="sect">Structures <small>(left: build · right: cancel)</small></div>
-  <div id="bGrid" class="grid"></div>
-  <div class="sect">Units</div>
-  <div id="uGrid" class="grid"></div>
-  <div class="sect">Research <small>(Armory / Church · right: cancel)</small></div>
-  <div id="rGrid" class="grid"></div>
+  <div class="sec" id="secB"><div class="sect">Structures</div><div id="bGrid" class="grid"></div></div>
+  <div class="sec" id="secU"><div class="sect">Units<small id="uQueue"></small></div><div id="uGrid" class="grid"></div></div>
+  <div class="sec" id="secR"><div class="sect">Research</div><div id="rGrid" class="grid"></div></div>
+  <div class="fade"></div>
   </div>
   <div id="sbBottom">
   <div id="sel"></div>
@@ -39,6 +40,7 @@
   </div>
   </div>
 </div>
+<div id="tinyMsg">Ashfall needs a 1000×600 window or larger.</div>
 
 <div id="overlay" class="show">
   <div class="panel" id="startPanel">
@@ -56,7 +58,7 @@
       <div><b>Right-click</b> move / attack · Scrap Truck: right-click a Scrap Pile to gather or a Scrap Yard to unload · <b>F</b> + click attack-move · <b>X</b> stop</div>
       <div><b>WASD / arrows / screen edge</b> scroll · <b>Minimap</b> click to jump, right-click to send units</div>
       <div><b>Ctrl or Shift + 1-9</b> make a group · <b>1-9</b> select group · <b>H</b> go to base · <b>Space</b> jump to last alert</div>
-      <div><b>N</b> fire superweapon when charged · <b>P / Esc</b> pause · <b>M</b> mute</div>
+      <div><b>Q / E</b> build / research tab · <b>Mouse wheel</b> zoom · <b>N</b> fire superweapon when charged · <b>P / Esc</b> pause · <b>M</b> mute</div>
       <div class="tip">Plague zones (green fog) hurt your ground units and heal the Horde. Infantry killed by zombies or plague rise again as zombies. Flying Angels are immune to plague.</div>
       <div class="tip">Scrap Yards unload one truck at a time; the rest queue. When storage is full, trucks wait at the dock: build a Depot. Yards need a Power Plant.</div>
     </div>
@@ -71,6 +73,7 @@
     <h1>PAUSED</h1>
     <p>Press P or Esc to resume.</p>
     <button id="bResume" class="big">RESUME</button>
+    <div class="pmenu"><button id="bRestart2">Restart</button><button id="bMute2">Sound: On</button></div>
   </div>
 </div>
 <script src="salvage.js"></script>

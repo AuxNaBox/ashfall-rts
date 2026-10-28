@@ -6,32 +6,51 @@ let MW = 80, MH = 80, N = MW * MH;   // env pass 1: design maps can be 64x64 (As
 const $ = id => document.getElementById(id);
 const view = $('view'), ctx = view.getContext('2d');
 const mini = $('mini'), mctx = mini.getContext('2d');
-// view: SW x SH is the canvas in CSS px; VW x VH is the visible world (SW / ZOOM). DPR scales the backing store only.
-let VW = 800, VH = 600, SW = 800, SH = 600, DPR = 1, ZOOM = 1;
-// Job E: mouse-wheel zoom steps (nearest-neighbour, imageSmoothingEnabled false). The smallest step is clamped so the view never
-// shows more than the whole map (zoomMin)
-const ZOOMS = [0.5, 0.75, 1, 1.5, 2, 3];
+// view: SW x SH is the canvas in CSS px; DPR scales the backing store. UI notes §5.1-2 (integer pixel art): the world is drawn at
+// KS = max(1, floor(DPR x ZOOM)) whole device px per art px, so ZS = KS / DPR css px per world px and VW x VH = SW / ZS x SH / ZS
+// is the visible world. At DPR 1 / 2 this is just ZOOM; a fractional DPR (1.25 / 1.5) rounds down to the next whole device scale.
+let VW = 800, VH = 600, SW = 800, SH = 600, DPR = 1, ZOOM = 1, KS = 1, ZS = 1;
+// resolution governor: the backing store follows devicePixelRatio (capped at 2) while the game holds its frame rate; if a 2 s window
+// averages < 55 fps it drops to 1x for the rest of the session (the canvas is upscaled nearest-neighbour, so pixel art looks the same;
+// only text / thin lines lose sharpness). Windows with a frame gap > 250 ms (hidden tab, breakpoint) are ignored.
+let lowRes = false; const perfWin = { t0: 0, n: 0, gap: false };
+function govern(ts, gapMs) {
+  if (lowRes || DPR <= 1) { perfWin.t0 = 0; return; }
+  if (!perfWin.t0) { perfWin.t0 = ts; perfWin.n = 0; perfWin.gap = false; return; }
+  perfWin.n++; if (gapMs > 250) perfWin.gap = true;
+  if (ts - perfWin.t0 >= 2000) { const fps = perfWin.n * 1000 / (ts - perfWin.t0); if (!perfWin.gap && fps < 55) { lowRes = true; resize(); } perfWin.t0 = 0; }
+}
+// Job E: mouse-wheel zoom steps, nearest-neighbour (imageSmoothingEnabled false). Director ruling (Oct 28, 2026): whole-number
+// steps only, 1x / 2x / 3x, plus 4x on very large windows (where the auto zoom of UI notes §7 already starts at 2x). No fractional step:
+// on small screens 1x is the widest view (ui-layout reports the tiles visible at 1x per size).
+const ZOOMS = [1, 2, 3, 4];
+let userZoom = false; // once the player wheels, a resize keeps their step (clamped) instead of the auto zoom
+// UI notes §7: very large windows get an integer zoom so the world stays readable: 1920x1080 -> 1, 2560x1440 -> 1, 3840x2160 -> 2
+function autoZoom() { return Math.max(1, Math.floor(Math.min(SW / 1280, SH / 800))); }
+function zoomMax() { return autoZoom() >= 2 ? 4 : 3; }
 // mouse-over edge-scroll zone of the game view, in px, all four edges.
 // History: 14 (original) -> 17 (x1.2 = 16.8, rounded) -> 20 (ruling Oct 27, 2026).
 const EDGE_SCROLL_PX = 20;
 function resize() {
+  DPR = lowRes ? 1 : Math.max(1, Math.min(2, (typeof window !== 'undefined' && window.devicePixelRatio) || 1));
+  applyTier(); // sidebar width, minimap box and icon set for this window (changes the playfield width)
   const g = $('game'); SW = Math.max(1, g.clientWidth || 0); SH = Math.max(1, g.clientHeight || 0);
-  DPR = Math.max(1, Math.min(3, (typeof window !== 'undefined' && window.devicePixelRatio) || 1));
   view.width = Math.round(SW * DPR); view.height = Math.round(SH * DPR);
-  setZoom(ZOOM);
+  setZoom(userZoom ? ZOOM : autoZoom());
 }
 window.addEventListener('resize', resize);
-function zoomMin() { for (const z of ZOOMS) if (SW / z <= MW * TILE && SH / z <= MH * TILE) return z; return ZOOMS[ZOOMS.length - 1]; }
-// zoom to z (clamped to a step in [zoomMin, max]) keeping the world point under screen point (ax, ay) fixed (default: the view centre)
+// 1x is always allowed: a map smaller than the view is centred by clampCam (UI notes §7), never forced up to a fractional step
+function zoomMin() { return ZOOMS[0]; }
+// zoom to z (clamped to a whole step in [zoomMin, zoomMax]) keeping the world point under screen point (ax, ay) fixed (default: the view centre)
 function setZoom(z, ax, ay) {
   if (ax === undefined) { ax = SW / 2; ay = SH / 2; }
-  const zmin = zoomMin(); let nz = ZOOMS.reduce((b, v) => Math.abs(v - z) < Math.abs(b - z) ? v : b, ZOOMS[0]); if (nz < zmin) nz = zmin;
-  const wx = ax / ZOOM + cam.x, wy = ay / ZOOM + cam.y;
-  ZOOM = nz; VW = SW / ZOOM; VH = SH / ZOOM;
-  cam.x = wx - ax / ZOOM; cam.y = wy - ay / ZOOM; clampCam(); updMouseWorld();
+  const nz = Math.max(zoomMin(), Math.min(zoomMax(), Math.round(z) || 1));
+  const wx = ax / ZS + cam.x, wy = ay / ZS + cam.y;
+  ZOOM = nz; KS = Math.max(1, Math.floor(DPR * ZOOM + 1e-6)); ZS = KS / DPR; VW = SW / ZS; VH = SH / ZS;
+  cam.x = wx - ax / ZS; cam.y = wy - ay / ZS; clampCam(); updMouseWorld();
   return ZOOM;
 }
-function zoomStep(dir, ax, ay) { const i = ZOOMS.indexOf(ZOOM), j = Math.max(0, Math.min(ZOOMS.length - 1, i + dir)); return setZoom(ZOOMS[j], ax, ay); }
+function zoomStep(dir, ax, ay) { userZoom = true; return setZoom(ZOOM + Math.sign(dir), ax, ay); }
 
 function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 let rng = Math.random;
@@ -406,10 +425,20 @@ function renderProcTerrain() {
   }
   for (const d of decos) drawDeco(c, d);
 }
+// UI notes §5.7: a fixed minimap box per tier (160 / 240 css px) with the map at a whole px/tile = floor(box / max(MW, MH)),
+// centred, the rest of the box black. 80x80 -> 2 / 3 px/tile (fills the box); 64x64 Ash Ring -> 128 / 192 centred. Drawn 1:1.
+let MBOX = 240, MP = 3, MOX = 0, MOY = 0;
+function miniLayout() {
+  MP = Math.max(1, Math.floor(MBOX / Math.max(MW, MH))); MOX = Math.floor((MBOX - MW * MP) / 2); MOY = Math.floor((MBOX - MH * MP) / 2);
+  const k = Math.max(1, Math.floor(DPR + 1e-6)); // backing store at a whole multiple of the css box
+  if (mini.width !== MBOX * k || mini.height !== MBOX * k) { mini.width = MBOX * k; mini.height = MBOX * k; }
+  mctx.setTransform(k, 0, 0, k, 0, 0); mctx.imageSmoothingEnabled = false;
+}
 function renderMiniBase() {
-  miniBase = document.createElement('canvas'); miniBase.width = MW * 3; miniBase.height = MH * 3;
+  miniLayout();
+  miniBase = document.createElement('canvas'); miniBase.width = MW * MP; miniBase.height = MH * MP;
   const m = miniBase.getContext('2d');
-  for (let i = 0; i < N; i++) { const t = terr[i]; m.fillStyle = t === T.RUBBLE ? '#6a625a' : t === T.SLUDGE ? '#2a4a18' : t === T.CRATER ? '#141010' : t === T.ROAD ? '#2a2a2c' : '#4a3e32'; m.fillRect((i % MW) * 3, ((i / MW) | 0) * 3, 3, 3); }
+  for (let i = 0; i < N; i++) { const t = terr[i]; m.fillStyle = t === T.RUBBLE ? '#6a625a' : t === T.SLUDGE ? '#2a4a18' : t === T.CRATER ? '#141010' : t === T.ROAD ? '#2a2a2c' : '#4a3e32'; m.fillRect((i % MW) * MP, ((i / MW) | 0) * MP, MP, MP); }
 }
 // ---------------- env art pass 1 (rts-loops/art/env/HANDOFF-env.md; envart.js + env-terrain.js) ----------------
 // G.env = { R: resolveMap() result, props (y-sorted blockers), fires, lights (static), stats }. Purely visual: every blocker
@@ -1859,8 +1888,8 @@ function render() {
   ctx.fillStyle = '#000'; ctx.fillRect(0, 0, SW, SH);
   if (!G) return;
   let sx = 0, sy = 0; if (G.shakeA > 0.2) { sx = (Math.random() - 0.5) * G.shakeA; sy = (Math.random() - 0.5) * G.shakeA; }
-  const cx = Math.round((cam.x + sx) * ZOOM) / ZOOM, cy = Math.round((cam.y + sy) * ZOOM) / ZOOM; // whole screen px
-  ctx.setTransform(DPR * ZOOM, 0, 0, DPR * ZOOM, 0, 0);
+  const cx = Math.round((cam.x + sx) * KS) / KS, cy = Math.round((cam.y + sy) * KS) / KS; // whole device px
+  ctx.setTransform(KS, 0, 0, KS, 0, 0);
   const sw = Math.min(VW, MW * TILE - Math.max(0, cx)), sh = Math.min(VH, MH * TILE - Math.max(0, cy));
   ctx.drawImage(terrCanvas, Math.max(0, cx), Math.max(0, cy), sw, sh, Math.max(0, -cx), Math.max(0, -cy), sw, sh);
   ctx.translate(-cx, -cy);
@@ -1978,7 +2007,7 @@ function render() {
   }
   if (G.mode === 'nuke') { ctx.strokeStyle = '#fff3b0'; ctx.lineWidth = 2; ctx.setLineDash([8, 6]); ctx.beginPath(); ctx.arc(mouse.wx, mouse.wy, NUKE_R * TILE, 0, 7); ctx.stroke(); ctx.setLineDash([]); }
   // drag box
-  if (mouse.drag && mouse.down) { ctx.strokeStyle = '#7dff7d'; ctx.lineWidth = 1 / ZOOM; ctx.strokeRect(mouse.dx, mouse.dy, mouse.wx - mouse.dx, mouse.wy - mouse.dy); }
+  if (mouse.drag && mouse.down) { ctx.strokeStyle = '#7dff7d'; ctx.lineWidth = 1 / ZS; ctx.strokeRect(mouse.dx, mouse.dy, mouse.wx - mouse.dx, mouse.wy - mouse.dy); }
   // screen-space atmosphere
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0); { const VW = SW, VH = SH; // (screen px)
   if (EV) { // env pass 1: ONE vignette over the pre-darkened palette (HANDOFF-env §6), cached per viewport size
@@ -1995,17 +2024,21 @@ function render() {
 const ash = []; for (let k = 0; k < 70; k++) ash.push({ x: Math.random() * 2000, y: Math.random() * 1200, s: 1 + Math.random() * 2, e: Math.random() < 0.3, v: 10 + Math.random() * 25 });
 function updAsh(dt) { for (const a of ash) { a.y += (a.e ? -a.v : a.v) * dt; a.x += Math.sin(a.y * 0.01) * 10 * dt + 6 * dt; if (a.y > SH) a.y = 0; if (a.y < 0) a.y = SH; if (a.x > SW) a.x = 0; } }
 function drawMini() {
-  const s = mini.width / MW;
-  mctx.drawImage(miniBase, 0, 0, mini.width, mini.height);
+  if (!miniBase) return;
+  const s = MP;
+  mctx.save(); mctx.fillStyle = '#000'; mctx.fillRect(0, 0, MBOX, MBOX); mctx.translate(MOX, MOY);
+  mctx.beginPath(); mctx.rect(0, 0, MW * s, MH * s); mctx.clip();
+  mctx.drawImage(miniBase, 0, 0);
   for (const i of resTiles) if (res[i] && expl[i]) { mctx.fillStyle = '#E8B830'; mctx.fillRect((i % MW) * s, ((i / MW) | 0) * s, s, s); }
   mctx.fillStyle = 'rgba(120,230,40,0.35)'; for (const z of plagueZones) { mctx.beginPath(); mctx.arc(z.x / TILE * s, z.y / TILE * s, z.r / TILE * s, 0, 7); mctx.fill(); }
   for (const b of G.blds) if (!b.dead && (b.side === 0 || isVisible(b))) { mctx.fillStyle = SIDES[b.side].mm; mctx.fillRect(b.tx * s, b.ty * s, b.w * s, b.h * s); }
-  for (const u of G.units) if (!u.dead && (u.side === 0 || vis[tileOf(u.y) * MW + tileOf(u.x)])) { mctx.fillStyle = SIDES[u.side].dot; mctx.fillRect(u.x / TILE * s - 1, u.y / TILE * s - 1, 2.5, 2.5); }
+  for (const u of G.units) if (!u.dead && (u.side === 0 || vis[tileOf(u.y) * MW + tileOf(u.x)])) { mctx.fillStyle = SIDES[u.side].dot; mctx.fillRect(tileOf(u.x) * s, tileOf(u.y) * s, s, s); } // 2x2 / 3x3 team dots
   mctx.fillStyle = 'rgba(0,0,0,1)';
   for (let ty = 0; ty < MH; ty++) for (let tx = 0; tx < MW; tx++) { const i = ty * MW + tx; if (!expl[i]) mctx.fillRect(tx * s, ty * s, s + 0.5, s + 0.5); else if (!vis[i]) { mctx.fillStyle = 'rgba(0,0,0,0.4)'; mctx.fillRect(tx * s, ty * s, s, s); mctx.fillStyle = '#000'; } }
   for (const m of G.missiles) { mctx.strokeStyle = m.side ? '#ff3a1a' : '#fff'; mctx.beginPath(); mctx.arc(m.tx / TILE * s, m.ty / TILE * s, 6, 0, 7); mctx.stroke(); }
   if (G.pings) for (const p of G.pings) { const a = (G.time - p.t) / PING_S; if (a < 0 || a > 1) continue; mctx.strokeStyle = p.c; mctx.globalAlpha = 1 - a; mctx.lineWidth = 2; mctx.beginPath(); mctx.arc(p.x / TILE * s, p.y / TILE * s, 3 + 9 * (a * 3 % 1), 0, 7); mctx.stroke(); mctx.globalAlpha = 1; }
-  mctx.strokeStyle = '#fff'; mctx.lineWidth = 1; mctx.strokeRect(cam.x / TILE * s, cam.y / TILE * s, VW / TILE * s, VH / TILE * s);
+  mctx.strokeStyle = '#D8DCDF'; mctx.lineWidth = 1; mctx.strokeRect(Math.round(cam.x / TILE * s) + 0.5, Math.round(cam.y / TILE * s) + 0.5, Math.round(VW / TILE * s) - 1, Math.round(VH / TILE * s) - 1);
+  mctx.restore();
 }
 // ---------------- sound (WebAudio synth) ----------------
 let AC = null, muted = false, noiseBuf = null; const lastS = {};
@@ -2051,47 +2084,162 @@ function msg(text, color, x, y) {
   if (x !== undefined) G.lastAlert = { x, y };
 }
 
-// ---------------- sidebar ----------------
-const btns = {};
-function iconFor(type) {
-  const cv = document.createElement('canvas'); cv.width = 56; cv.height = 38; const c = cv.getContext('2d');
-  if (BDEF[type]) {
-    const d = BDEF[type], s = Math.min(50 / (d.w * TILE), 34 / (d.h * TILE));
-    c.translate(28 - d.w * TILE * s / 2, 19 - d.h * TILE * s / 2); c.scale(s, s);
-    drawBld(c, { tx: 0, ty: 0, w: d.w, h: d.h, x: d.w * 16, y: d.h * 16, anim: 1, side: 0, type, charge: NUKE_CHARGE * 0.7, tang: 0, hitT: 0 });
+// ---------------- sidebar (rts-loops/ui/1-ui-layout-notes.md) ----------------
+// Tier from the inner viewport: S 720-799 (and < 720, plus any width < 1100), M 800-899, L 900-1079, XL >= 1080.
+// S / M / L: three tabs (queue badge + ready dot); XL: one merged list of all 25 items with section headers, no scroll.
+const SB_TIERS = {
+  S: { W: 196, mini: 160, icon: 32, cw: 40, ch: 48, sel: 40, tabH: 20, tabs: ['BUILD', 'UNITS', 'TECH'] },
+  M: { W: 228, mini: 160, icon: 48, cw: 48, ch: 60, sel: 48, tabH: 22, tabs: ['STRUCT', 'UNITS', 'RESEARCH'] },
+  L: { W: 260, mini: 240, icon: 48, cw: 56, ch: 62, sel: 56, tabH: 22, tabs: ['STRUCT', 'UNITS', 'RESEARCH'] },
+  XL: { W: 260, mini: 240, icon: 48, cw: 56, ch: 62, sel: 64, tabH: 22, tabs: ['STRUCT', 'UNITS', 'RESEARCH'] },
+};
+// Tab hot-keys. Q / W / E per the notes, but W already pans the camera (WASD), so W is left off until that clash is ruled on.
+const TAB_KEYS = { KeyQ: 0, KeyE: 2 };
+let TIER = null, SHORT = false, merged = false, mergePref = false, sbTab = 0, iconKey = '';
+function tierOf(w, h) { if (h < 800 || w < 1100) return 'S'; if (h < 900) return 'M'; if (h < 1080) return 'L'; return 'XL'; }
+function applyTier() {
+  if (typeof document === 'undefined' || !document.body || !document.documentElement) { TIER = tierOf(window.innerWidth || 1280, window.innerHeight || 720); MBOX = SB_TIERS[TIER].mini; return; }   // headless (node tests)
+  const w = window.innerWidth || 1280, h = window.innerHeight || 720, t = tierOf(w, h), K = SB_TIERS[t], bd = document.body, st = document.documentElement.style;
+  SHORT = h < 720; merged = t === 'XL' || (t === 'L' && mergePref); TIER = t;
+  bd.dataset.tier = t; bd.classList.toggle('short', SHORT); bd.classList.toggle('merged', merged); bd.classList.toggle('tiny', w < 1000 || h < 600);
+  const px = (k, v) => st.setProperty(k, v + 'px');
+  px('--sbW', K.W); px('--mini', K.mini); px('--cw', K.cw); px('--ch', K.ch); px('--icon', K.icon); px('--sel', SHORT ? 24 : K.sel); px('--tabH', K.tabH);
+  px('--ix', (K.cw - K.icon) / 2 - 1); px('--iy', K.cw > K.icon ? 1 : -1); // icon box inside the 1 px cell border (M: the icon's own bevel is the frame)
+  document.querySelectorAll('#tabs .tab .tl').forEach((e, i) => { e.textContent = K.tabs[i]; });
+  const m = $('bMenu'); if (m) { const L = t === 'L'; m.textContent = L ? '⇅' : '≡'; m.title = L ? (merged ? 'Back to tabs' : 'Show all lists (scrolls)') : 'Menu: pause, restart, sound (P)'; }
+  MBOX = K.mini; if (terr) renderMiniBase(); else miniLayout();
+  const key = t + ':' + DPR; if (key !== iconKey) { iconKey = key; bakeIcons(); }
+  showTab(sbTab, true);
+}
+function showTab(i, quiet) {
+  sbTab = i;
+  document.querySelectorAll('#tabs .tab').forEach((e, k) => e.classList.toggle('on', k === i));
+  document.querySelectorAll('#sbScroll .sec').forEach((e, k) => e.classList.toggle('on', k === i));
+  if (merged && !quiet) { const sec = document.querySelectorAll('#sbScroll .sec')[i]; if (sec && sec.offsetParent) $('sbScroll').scrollTop = sec.offsetTop - $('sbScroll').offsetTop; }
+  else if (!quiet) $('sbScroll').scrollTop = 0;
+}
+// ---- icons: pre-baked sizes only (notes §5.3-6). Tiles are baked at B = 24 / 32 / 48 css-art px and shown at a whole factor f
+// (48 x2 / x3 on DPR 2 / 3 screens); the browser never resamples them by a non-integer factor.
+const btns = {}, rbtns = {}, cells = [];
+const RICON_ORDER = ['hollow', 'plating', 'rockets', 'barrels', 'blessed', 'halo', 'holyground'];
+const RICON = {}; // B -> Image (assets/ui/loop4-research-icons{,-32,-24}.png; rect x = 2 + i (B + 2), y = 2)
+if (typeof Image !== 'undefined') for (const B of [48, 32, 24]) { const im = new Image(); im.onload = () => { RICON[B] = im; iconKey = ''; if (cells.length) bakeIcons(); }; im.src = 'assets/ui/loop4-research-icons' + (B === 48 ? '' : '-' + B) + '.png'; }
+function iconScale(css) { const D = Math.round(css * DPR); for (const [B, f] of [[48, 3], [48, 2], [48, 1], [32, 1], [24, 1]]) if (B * f <= D) return { D, B, f, o: Math.floor((D - B * f) / 2) }; return { D, B: 24, f: 1, o: 0 }; }
+const bevelOf = B => (B >= 48 ? 2 : 1);
+function bevelTile(c, B) {
+  const b = bevelOf(B);
+  c.fillStyle = '#121314'; c.fillRect(0, 0, B, B); c.fillStyle = '#55595D'; c.fillRect(1, 1, B - 2, B - 2);
+  c.fillStyle = '#26282A'; c.fillRect(1 + b, 1 + b, B - 2 - b, B - 2 - b); c.fillStyle = '#232527'; c.fillRect(1 + b, 1 + b, B - 2 - 2 * b, B - 2 - 2 * b);
+}
+// the engine's own sprite (atlas art when loaded, else procedural) at 1:1, trimmed to its bounding box
+function cameoSrc(kind, id) {
+  const cv = document.createElement('canvas'), c = cv.getContext('2d');
+  if (kind === 'b') {
+    const d = BDEF[id]; cv.width = d.w * TILE + 64; cv.height = d.h * TILE + 96; c.imageSmoothingEnabled = false; c.translate(32, 64);
+    const fb = { tx: 0, ty: 0, w: d.w, h: d.h, x: d.w * 16, y: d.h * 16, anim: 1, side: 0, type: id, charge: 0, tang: 0, hitT: 0, hp: 1, maxhp: 1 };
+    const P = typeof UnitArt !== 'undefined' ? UnitArt.planBuilding(fb, { p: 1, nukeCharge: NUKE_CHARGE }) : null; // the idle frame (silo: closed), turret head at its mount
+    if (P) { UnitArt.drawBuildingBody(c, P, {}); if (P.sel.top) UnitArt.drawBuildingTop(c, P, {}); } else drawBld(c, fb);
   } else {
-    c.translate(28, 22); c.scale(1.4, 1.4);
-    drawUnit(c, { type, x: 0, y: 0, ang: -Math.PI / 2, tang: -Math.PI / 2, anim: 1, d: UDEF[type], load: 150, hs: '', moving: false, hitT: 0, r: UDEF[type].r });
+    cv.width = 128; cv.height = 128; c.imageSmoothingEnabled = false; c.translate(64, 72);
+    drawUnit(c, { type: id, x: 0, y: 0, ang: Math.PI / 2, tang: Math.PI / 2, anim: 1, d: UDEF[id], load: 150, hs: '', moving: false, hitT: 0, r: UDEF[id].r, side: 0, hp: 1, maxhp: 1 });
   }
+  const im = c.getImageData(0, 0, cv.width, cv.height).data; let x0 = cv.width, y0 = cv.height, x1 = -1, y1 = -1;
+  for (let y = 0; y < cv.height; y++) for (let x = 0; x < cv.width; x++) if (im[(y * cv.width + x) * 4 + 3] > 8) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+  if (x1 < 0) return null;
+  return { cv, im, W: cv.width, x: x0, y: y0, w: x1 - x0 + 1, h: y1 - y0 + 1 };
+}
+// exact k x k box average (premultiplied alpha), k a whole number: the engine version of PIL reduce(k)
+function boxReduce(S, k) {
+  const W = Math.ceil(S.w / k), H = Math.ceil(S.h / k), out = new ImageData(W, H), o = out.data, n = k * k;
+  for (let oy = 0; oy < H; oy++) for (let ox = 0; ox < W; ox++) {
+    let r = 0, g = 0, b = 0, a = 0;
+    for (let j = 0; j < k; j++) for (let i = 0; i < k; i++) {
+      const x = S.x + ox * k + i, y = S.y + oy * k + j; if (x >= S.x + S.w || y >= S.y + S.h) continue;
+      const p = (y * S.W + x) * 4, al = S.im[p + 3]; r += S.im[p] * al; g += S.im[p + 1] * al; b += S.im[p + 2] * al; a += al;
+    }
+    const q = (oy * W + ox) * 4; if (a > 0) { o[q] = r / a; o[q + 1] = g / a; o[q + 2] = b / a; } o[q + 3] = a / n;
+  }
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; cv.getContext('2d').putImageData(out, 0, 0); return cv;
+}
+const tileCache = new Map();
+let artDone = typeof UnitArt === 'undefined';
+function rebakeArt() { artDone = true; tileCache.clear(); bakeIcons(); }
+function bakeTile(kind, id, B) {
+  const key = kind + ':' + id + ':' + B; if (tileCache.has(key)) return tileCache.get(key);
+  const cv = document.createElement('canvas'); cv.width = B; cv.height = B; const c = cv.getContext('2d'); c.imageSmoothingEnabled = false;
+  let final = true;
+  if (kind === 'r') {
+    const im = RICON[B], i = RICON_ORDER.indexOf(id);
+    if (im && i >= 0) c.drawImage(im, 2 + i * (B + 2), 2, B, B, 0, 0, B, B);
+    else { bevelTile(c, B); const g = researchIcon(id); c.drawImage(g, 0, 0, 56, 38, 0, Math.floor((B - B * 38 / 56) / 2), B, Math.floor(B * 38 / 56)); final = false; }
+  } else {
+    bevelTile(c, B);
+    const small = B < 48, inner = B - (small ? 4 : 6);
+    let S = null; try { S = cameoSrc(kind, id); } catch (e) { S = null; }
+    if (S) {
+      let art;
+      if (kind === 'u' && Math.max(S.w, S.h) <= inner) { const k = Math.max(1, Math.floor(inner / Math.max(S.w, S.h))); art = document.createElement('canvas'); art.width = S.w * k; art.height = S.h * k; const a = art.getContext('2d'); a.imageSmoothingEnabled = false; a.drawImage(S.cv, S.x, S.y, S.w, S.h, 0, 0, S.w * k, S.h * k); }
+      else art = boxReduce(S, Math.max(1, Math.ceil(Math.max(S.w, S.h) / inner)));
+      c.drawImage(art, Math.floor((B - art.width) / 2), B - (small ? 2 : 3) - art.height - Math.max(0, Math.floor((inner - art.height) / 4)));
+    }
+    final = artDone; // until the atlases load the cameo is procedural; it is re-baked once they are in
+  }
+  if (final) tileCache.set(key, cv);
   return cv;
 }
+function bakeIcons() {
+  if (typeof document === 'undefined' || !TIER) return;
+  const css = SB_TIERS[TIER].icon;
+  for (const cell of cells) {
+    const sc = iconScale(css); cell.sc = sc;
+    for (const cv of [cell.ic, cell.wipe]) { if (cv.width !== sc.D) { cv.width = sc.D; cv.height = sc.D; } }
+    const c = cell.ic.getContext('2d'); c.imageSmoothingEnabled = false; c.clearRect(0, 0, sc.D, sc.D);
+    try { c.drawImage(bakeTile(cell.kind, cell.id, sc.B), sc.o, sc.o, sc.B * sc.f, sc.B * sc.f); } catch (e) { /* keep the cell blank rather than break the sidebar */ }
+    cell.lastWipe = null;
+  }
+}
+// clock-wipe (notes §9, Director decision): the dark sector covers the *remaining* part, clearing clockwise from 12 o'clock; clipped
+// to the tile's inner rect (inside the edge + bevel) with a half-diagonal radius, so the wipe is square. 48 px tiers only.
+function drawWipe(cell, p) {
+  const w = cell.wipe, c = w.getContext('2d'), key = p === null ? 'off' : Math.round(p * 400);
+  if (cell.lastWipe === key) return; cell.lastWipe = key;
+  c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, w.width, w.height);
+  if (p === null) return;
+  const { B, f, o } = cell.sc, ins = (1 + bevelOf(B)) * f, x0 = o + ins, s = B * f - 2 * ins, cx = x0 + s / 2, cy = x0 + s / 2, R = Math.SQRT2 * s / 2 + 1;
+  const a0 = -Math.PI / 2 + 2 * Math.PI * Math.min(1, Math.max(0, p));
+  c.save(); c.beginPath(); c.rect(x0, x0, s, s); c.clip();
+  if (p < 1) { c.fillStyle = 'rgba(0,0,0,0.6)'; c.beginPath(); c.moveTo(cx, cy); c.arc(cx, cy, R, a0, 1.5 * Math.PI); c.closePath(); c.fill(); }
+  c.strokeStyle = 'rgba(159,232,255,0.7)'; c.lineWidth = f; c.beginPath(); c.moveTo(cx, cy); c.lineTo(cx + Math.cos(a0) * R, cy + Math.sin(a0) * R); c.stroke();
+  c.restore();
+}
+function makeCell(grid, kind, id, name, onClick, onCancel) {
+  const b = document.createElement('div'); b.className = 'btn'; b.dataset.id = id;
+  b.innerHTML = `<canvas class="ic"></canvas><canvas class="wipe"></canvas><span class="nm">${name}</span><span class="cs"></span><div class="bar"></div><span class="cnt"></span>`;
+  b.addEventListener('click', onClick);
+  b.addEventListener('contextmenu', e => { e.preventDefault(); onCancel(); });
+  grid.appendChild(b);
+  const cell = { el: b, kind, id, name, ic: b.querySelector('.ic'), wipe: b.querySelector('.wipe'), cs: b.querySelector('.cs'), bar: b.querySelector('.bar'), cnt: b.querySelector('.cnt'), lastWipe: null, sc: null };
+  cells.push(cell); return cell;
+}
 function buildSidebar() {
+  cells.length = 0;
   for (const [grid, list] of [[$('bGrid'), BORDER], [$('uGrid'), UORDER[0]]]) {
     grid.innerHTML = '';
     for (const type of list) {
-      const b = document.createElement('div'); b.className = 'btn';
       const isB = !!BDEF[type], d = isB ? BDEF[type] : UDEF[type];
-      b.appendChild(iconFor(type));
-      b.insertAdjacentHTML('beforeend', `<span class="nm">${isB ? d.name[0] : d.name}</span><span class="cs">$${d.cost}</span><div class="bar"></div><span class="cnt"></span>`);
-      b.title = `${isB ? d.name[0] : d.name}: ${d.desc}. Cost ${d.cost}, ${d.time}s.`;
-      b.addEventListener('click', () => onBuildBtn(type));
-      b.addEventListener('contextmenu', e => { e.preventDefault(); if (G) { cancelItem(0, type); if (G.placing === type && !G.queues[0].structure.ready) G.placing = null; } });
-      grid.appendChild(b); btns[type] = b;
+      btns[type] = makeCell(grid, isB ? 'b' : 'u', type, isB ? d.name[0] : d.name, () => onBuildBtn(type), () => { if (G) { cancelItem(0, type); if (G.placing === type && !G.queues[0].structure.ready) G.placing = null; } });
     }
   }
   // Loop 4 research (Armory / Church): click to queue, right-click to cancel
-  const rg = $('rGrid'); if (!rg) return; rg.innerHTML = '';
-  for (const at of ['armory', 'church']) for (const id of Combat.RORDER[at]) {
-    const R = Combat.RESEARCH[id], b = document.createElement('div'); b.className = 'btn rbtn';
-    b.appendChild(researchIcon(id));
-    b.insertAdjacentHTML('beforeend', `<span class="nm">${R.name}</span><span class="cs">$${R.cost}</span><div class="bar"></div><span class="cnt"></span>`);
-    b.title = `${R.name} (${BDEF[at].name[0]}): ${R.desc}. Cost ${R.cost}, ${R.time}s.`;
-    b.addEventListener('click', () => { if (G && !G.over) { initAudio(); queueResearch(0, id); } });
-    b.addEventListener('contextmenu', e => { e.preventDefault(); if (G) cancelResearch(0, id); });
-    rg.appendChild(b); rbtns[id] = b;
+  const rg = $('rGrid'); if (rg) {
+    rg.innerHTML = '';
+    for (const at of ['armory', 'church']) for (const id of Combat.RORDER[at]) {
+      const R = Combat.RESEARCH[id];
+      rbtns[id] = makeCell(rg, 'r', id, R.name, () => { if (G && !G.over) { initAudio(); queueResearch(0, id); } }, () => { if (G) cancelResearch(0, id); });
+    }
   }
+  iconKey = ''; applyTier();
 }
-const rbtns = {};
 // procedural research icons (art pending): a glyph on the research building's colours
 function researchIcon(id) {
   const cv = document.createElement('canvas'); cv.width = 56; cv.height = 38; const c = cv.getContext('2d');
@@ -2116,45 +2264,73 @@ function onBuildBtn(type) {
   if (BDEF[type] && q.ready === type) { G.placing = type; G.mode = null; hint('Click to place ' + bname(type, 0) + ' near your base · Right-click / Esc to cancel'); return; }
   queueItem(0, type);
 }
+const fmtN = n => Math.floor(n).toLocaleString('en-US');
+// one cell's look: state classes, the cost line, the queue count, the 2 px bar and (48 px tiers) the clock-wipe
+function setCell(cell, o) {
+  const b = cell.el;
+  for (const k of ['locked', 'poor', 'ready', 'placing', 'prog', 'hold', 'stall', 'limit', 'done']) b.classList.toggle(k, !!o[k]);
+  if (cell.cs.textContent !== o.label) cell.cs.textContent = o.label;
+  const cnt = o.cnt ? String(o.cnt) : ''; if (cell.cnt.textContent !== cnt) cell.cnt.textContent = cnt;
+  const bw = o.p === null ? '0' : (100 * o.p).toFixed(1) + '%'; if (cell.bar.style.width !== bw) cell.bar.style.width = bw;
+  if (b.title !== o.title) b.title = o.title;
+  if (cell.sc) drawWipe(cell, SB_TIERS[TIER].icon >= 48 && o.p !== null && o.prog ? o.p : null);
+}
 function updSidebar() {
   if (!G) return;
+  if (!artDone && typeof UnitArt !== 'undefined' && UnitArt.state) { const r = UnitArt.state.ready; if (r['bld:survivors'] && r.survivors && r['survivors-l4']) { rebakeArt(); setTimeout(rebakeArt, 1500); } }
   const cap = storageCapOf(0), crd = G.credits[0], pw = powerOf(0);
-  $('cr').textContent = Math.floor(crd); $('cap').textContent = '/' + cap;
+  $('cr').textContent = fmtN(crd); $('cap').textContent = '/' + fmtN(cap);
   $('credits').classList.toggle('amber', crd >= cap * SD.storageAmberAt && crd < cap); $('credits').classList.toggle('full', crd >= cap);
+  $('credits').title = `Credits ${fmtN(crd)} / storage ${fmtN(cap)}`;
+  // superweapon charge (only while a Silo exists on either side); short screens fold it into the power row (notes §7)
+  const ps = G.blds.filter(b => b.side === 0 && b.type === 'silo' && !b.dead).sort((a, b) => b.charge - a.charge)[0];
+  const es = G.blds.filter(b => b.side === 1 && b.type === 'silo' && !b.dead).sort((a, b) => b.charge - a.charge)[0];
   $('power').className = pw.net < 0 ? 'low' : '';
-  const ph = `<span>POWER</span><div class="meter"><div style="width:${pw.made ? Math.min(100, 100 * pw.used / pw.made) : 100}%"></div></div><span>${pw.used}/${pw.made}${pw.net < 0 ? ' LOW' : ''}</span>`;
-  if ($('power').innerHTML !== ph) $('power').innerHTML = ph;
+  let ph = `<span>PWR</span><div class="meter"><div style="width:${pw.made ? Math.min(100, 100 * pw.used / pw.made) : 100}%"></div></div><span>${pw.used}/${pw.made}${pw.net < 0 ? ' LOW' : ''}</span>`;
+  if (SHORT && (ps || es)) { const sv = ps || es, f = Math.min(1, sv.charge / NUKE_CHARGE); ph += ps && f >= 1 ? '<button id="bNuke2">FIRE</button>' : `<div class="smeter${ps ? '' : ' enemy'}" title="${ps ? 'Nuke' : 'Hell Silo'} ${Math.floor(f * 100)}%"><div style="width:${f * 100}%"></div></div>`; }
+  if ($('power').innerHTML !== ph) { $('power').innerHTML = ph; const bn = $('bNuke2'); if (bn) bn.onclick = () => startNuke(); }
+  let h = '';
+  if (!SHORT) {
+    if (ps) { const f = Math.min(1, ps.charge / NUKE_CHARGE); h += `<div class="row"><span class="gold">NUKE</span><div class="meter"><div style="width:${f * 100}%"></div></div>${f >= 1 ? '<button id="bNuke">FIRE</button>' : Math.floor(f * 100) + '%'}</div>`; }
+    if (es) { const f = Math.min(1, es.charge / NUKE_CHARGE); h += `<div class="row"><span class="red">${TIER === 'S' ? 'HELL' : 'HELL SILO'}</span><div class="meter enemy"><div style="width:${f * 100}%"></div></div>${Math.floor(f * 100)}%</div>`; }
+  }
+  $('super').style.display = h ? '' : 'none';
+  if ($('super').innerHTML !== h) { $('super').innerHTML = h; const bn = $('bNuke'); if (bn) bn.onclick = () => startNuke(); }
+  // build / unit cells
   const Q = G.queues[0];
   for (const type in btns) {
-    const b = btns[type], cat = catOf(type), q = Q[cat];
-    const locked = !prereqOk(0, type);
-    b.classList.toggle('locked', locked);
-    b.classList.toggle('poor', G.credits[0] < costOf(type));
-    b.classList.toggle('ready', cat === 'structure' && q.ready === type && G.placing !== type);
-    b.classList.toggle('placing', G.placing === type);
-    const n = q.list.filter(t => t === type).length;
-    b.querySelector('.cnt').textContent = n > (cat === 'structure' ? 1 : 0) || (cat !== 'structure' && n) ? n : '';
-    b.querySelector('.bar').style.width = q.list[0] === type ? (100 * q.prog / timeOf(type)) + '%' : '0';
-    const lim = UDEF[type] && UDEF[type].limit, full = lim && atLimit(0, type);
-    b.classList.toggle('limit', !!full);
-    b.querySelector('.cs').textContent = q.ready === type ? 'READY' : locked ? 'Needs ' + missingReq(0, type) : full ? `Limit ${lim}` : '$' + costOf(type);
+    const cell = btns[type], cat = catOf(type), q = Q[cat], d = BDEF[type] || UDEF[type], nm = BDEF[type] ? d.name[0] : d.name;
+    const locked = !prereqOk(0, type), lim = UDEF[type] && UDEF[type].limit, full = !!(lim && atLimit(0, type));
+    const ready = cat === 'structure' && q.ready === type, active = q.list[0] === type && !q.ready;
+    const hold = active && (locked || !!(lim && aliveOf(0, type) >= lim)), n = q.list.filter(t => t === type).length;
+    setCell(cell, {
+      locked, ready: ready && G.placing !== type, placing: G.placing === type, prog: active, hold, limit: full,
+      poor: !active && !ready && G.credits[0] < costOf(type), stall: false, // paid in full when queued, so a build never stalls on Credits
+      p: active ? q.prog / timeOf(type) : null,
+      cnt: cat === 'structure' ? (n > 1 ? n : 0) : n,
+      label: ready ? 'READY' : full ? `Limit ${lim}` : fmtN(costOf(type)),
+      title: `${nm}${locked ? ' (needs ' + missingReq(0, type) + ')' : ''}: ${d.desc}. Cost ${d.cost}, ${d.time}s.${ready ? ' Ready: click to place.' : ''}`,
+    });
   }
   for (const id in rbtns) {
-    const b = rbtns[id], R = Combat.RESEARCH[id], st = researchState(0, id), q = G.rq[0][R.at];
-    b.classList.toggle('locked', st === 'locked'); b.classList.toggle('done', st === 'done');
-    b.classList.toggle('poor', st === 'ready' && G.credits[0] < R.cost);
-    b.querySelector('.bar').style.width = st === 'active' ? (100 * q.prog / R.time) + '%' : st === 'done' ? '100%' : '0';
-    b.querySelector('.cnt').textContent = st === 'queued' ? (q.list.indexOf(id) + 1) : '';
-    b.querySelector('.cs').textContent = st === 'done' ? 'DONE' : st === 'active' ? Math.floor(100 * q.prog / R.time) + '%' : st === 'queued' ? 'QUEUED' : st === 'locked' ? 'Needs ' + researchMissing(0, id) : '$' + R.cost;
+    const cell = rbtns[id], R = Combat.RESEARCH[id], st = researchState(0, id), q = G.rq[0][R.at];
+    setCell(cell, {
+      locked: st === 'locked', done: st === 'done', prog: st === 'active', poor: st === 'ready' && G.credits[0] < R.cost,
+      p: st === 'active' ? q.prog / R.time : null, cnt: st === 'queued' ? q.list.indexOf(id) + 1 : 0,
+      label: st === 'done' ? 'DONE' : fmtN(R.cost),
+      title: `${R.name} (${BDEF[R.at].name[0]})${st === 'locked' ? ' (needs ' + researchMissing(0, id) + ')' : ''}: ${R.desc}. Cost ${R.cost}, ${R.time}s.${st === 'active' ? ' Researching ' + Math.floor(100 * q.prog / R.time) + '%.' : st === 'queued' ? ' Queued.' : ''}`,
+    });
   }
-  // superweapons
-  let h = '';
-  const ps = G.blds.filter(b => b.side === 0 && b.type === 'silo' && !b.dead).sort((a, b) => b.charge - a.charge)[0];
-  if (ps) { const f = Math.min(1, ps.charge / NUKE_CHARGE); h += `<div class="row"><span class="gold">Nuke</span><div class="meter"><div style="width:${f * 100}%"></div></div>${f >= 1 ? '<button id="bNuke">LAUNCH (N)</button>' : fmtT(NUKE_CHARGE - ps.charge)}</div>`; }
-  const es = G.blds.filter(b => b.side === 1 && b.type === 'silo' && !b.dead).sort((a, b) => b.charge - a.charge)[0];
-  if (es) { const f = Math.min(1, es.charge / NUKE_CHARGE); h += `<div class="row"><span class="red">Hell Silo</span><div class="meter enemy"><div style="width:${f * 100}%"></div></div>${fmtT(NUKE_CHARGE - es.charge)}</div>`; }
-  if (!h) h = '<span style="color:#6E7378">Superweapon: build a Nuke Silo (needs Factory).</span>';
-  if ($('super').innerHTML !== h) { $('super').innerHTML = h; const bn = $('bNuke'); if (bn) bn.onclick = () => startNuke(); }
+  // tabs: queue badge (items queued in that tab) + ready dot (a structure waiting to be placed); hidden tabs still report progress
+  const nB = Q.structure.list.length, nU = QCATS.filter(c => c !== 'structure').reduce((a, c) => a + Q[c].list.length, 0), nR = Object.values(G.rq[0]).reduce((a, q) => a + q.list.length, 0);
+  document.querySelectorAll('#tabs .tab').forEach((e, i) => {
+    const n = [nB, nU, nR][i], qb = e.querySelector('.qb'), t = n ? String(n) : ''; if (qb.textContent !== t) qb.textContent = t;
+    e.classList.toggle('rdy', i === 0 && !!Q.structure.ready);
+  });
+  const uq = $('uQueue'); if (uq) { const t = nU ? 'queue ' + nU : ''; if (uq.textContent !== t) uq.textContent = t; }
+  // merged list: the Research block shows once an Armory or Church exists
+  $('secR').classList.toggle('none', merged && !hasBld(0, 'armory') && !hasBld(0, 'church'));
+  const sc = $('sbScroll'); sc.classList.toggle('more', sc.scrollHeight - sc.scrollTop - sc.clientHeight > 1);
   // selection info
   let s = '';
   const sel = G.sel.filter(e => !e.dead);
@@ -2175,7 +2351,13 @@ function updSidebar() {
     s = `<b>${sel.length} selected</b><br>` + Object.entries(c).map(([k, v]) => `${v} × ${k}`).join('<br>');
   } else s = '<span style="color:#6E7378">Nothing selected.<br>Drag to select units. Right-click to command.</span>';
   s += `<br><small style="color:#6E7378">Time ${fmtT(G.time)} · ${G.diff.name} · Horde waves sent: ${G.ai.waveN}</small>`;
-  $('sel').innerHTML = s;
+  // short screens (< 720 tall): one 24 px line, name + HP bar (notes §7); the full text stays in the tooltip
+  if (SHORT) {
+    const e = sel.length === 1 ? sel[0] : null;
+    s = e ? `<div class="one"><b style="color:${SIDES[e.side].ui}">${ename(e)}</b><div class="hp"><div style="width:${100 * e.hp / e.maxhp}%"></div></div></div>`
+      : `<div class="one">${sel.length ? `<b>${sel.length} selected</b>` : '<span style="color:#6E7378">Nothing selected</span>'}<small style="color:#6E7378">${fmtT(G.time)}</small></div>`;
+  }
+  if ($('sel').innerHTML !== s) $('sel').innerHTML = s;
 }
 const fmtT = t => { t = Math.max(0, Math.ceil(t)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); };
 function hint(t) { const h = $('modeHint'); if (t) { h.textContent = t; h.style.display = 'block'; } else h.style.display = 'none'; }
@@ -2185,7 +2367,7 @@ function startNuke() { if (!G || !readySilo(0)) return; G.mode = 'nuke'; G.placi
 const mouse = { x: 0, y: 0, wx: 0, wy: 0, in: false, down: false, drag: false, dx: 0, dy: 0, sx: 0, sy: 0 };
 const keys = {};
 let lastClick = { t: 0, type: null };
-function updMouseWorld() { mouse.wx = mouse.x / ZOOM + cam.x; mouse.wy = mouse.y / ZOOM + cam.y; }
+function updMouseWorld() { mouse.wx = mouse.x / ZS + cam.x; mouse.wy = mouse.y / ZS + cam.y; }
 function entityAt(wx, wy) {
   for (let i = G.units.length - 1; i >= 0; i--) { const u = G.units[i]; if (u.dead) continue; if (u.side === 1 && !vis[tileOf(u.y) * MW + tileOf(u.x)]) continue; const oy = u.d.fly ? -9 : 0; if (dist(wx, wy, u.x, u.y + oy) < u.r + 4) return u; }
   const tx = tileOf(wx), ty = tileOf(wy); if (tx < 0 || ty < 0 || tx >= MW || ty >= MH) return null;
@@ -2268,14 +2450,18 @@ function command(wx, wy) {
   sfx('click');
 }
 // minimap
-function miniToWorld(e) { const r = mini.getBoundingClientRect(); return { x: (e.clientX - r.left) / r.width * MW * TILE, y: (e.clientY - r.top) / r.height * MH * TILE }; }
+function miniToWorld(e) { const r = mini.getBoundingClientRect(), f = MBOX / (mini.clientWidth || MBOX), px = (e.clientX - r.left - mini.clientLeft) * f, py = (e.clientY - r.top - mini.clientTop) * f; return { x: clamp((px - MOX) / MP, 0, MW) * TILE, y: clamp((py - MOY) / MP, 0, MH) * TILE }; }
 let miniDown = false;
 mini.addEventListener('contextmenu', e => e.preventDefault());
 mini.addEventListener('mousedown', e => { if (!G) return; const p = miniToWorld(e); if (e.button === 2) { const my = G.sel.filter(u => u.kind === 'u' && u.side === 0 && !u.dead); if (my.length) command(p.x, p.y); return; } miniDown = true; centerOn(p.x, p.y); });
 window.addEventListener('mousemove', e => { if (miniDown && G) { const p = miniToWorld(e); centerOn(p.x, p.y); } });
 window.addEventListener('mouseup', () => { miniDown = false; });
 function centerOn(x, y) { cam.x = x - VW / 2; cam.y = y - VH / 2; clampCam(); }
-function clampCam() { cam.x = clamp(cam.x, -40, MW * TILE - VW + 40); cam.y = clamp(cam.y, -40, MH * TILE - VH + 40); }
+// a map narrower / shorter than the view is centred (UI notes §7: the outside stays the void)
+function clampCam() {
+  cam.x = VW > MW * TILE + 80 ? (MW * TILE - VW) / 2 : clamp(cam.x, -40, MW * TILE - VW + 40);
+  cam.y = VH > MH * TILE + 80 ? (MH * TILE - VH) / 2 : clamp(cam.y, -40, MH * TILE - VH + 40);
+}
 window.addEventListener('keydown', e => {
   keys[e.code] = true;
   if (!G || !G.started) return;
@@ -2283,6 +2469,7 @@ window.addEventListener('keydown', e => {
   if (e.code === 'KeyP') { togglePause(); return; }
   if (e.code === 'KeyM') { toggleMute(); return; }
   if (G.paused || G.over) return;
+  if (e.code in TAB_KEYS && !e.ctrlKey && !e.metaKey && !e.altKey) { showTab(TAB_KEYS[e.code]); return; } // tabs (merged list: scroll to the section)
   const m = /^Digit([1-9])$/.exec(e.code);
   if (m) {
     const n = m[1];
@@ -2299,7 +2486,7 @@ window.addEventListener('keydown', e => {
 window.addEventListener('keyup', e => { keys[e.code] = false; });
 window.addEventListener('blur', () => { for (const k in keys) keys[k] = false; });
 function updCamera(dt) {
-  const sp = 800 * dt / ZOOM; let dx = 0, dy = 0; // the same screen speed at every zoom
+  const sp = 800 * dt / ZS; let dx = 0, dy = 0; // the same screen speed at every zoom
   if (keys.ArrowLeft || keys.KeyA) dx -= sp;
   if (keys.ArrowRight || keys.KeyD) dx += sp; if (keys.ArrowUp || keys.KeyW) dy -= sp; if (keys.ArrowDown || keys.KeyS) dy += sp;
   if (mouse.in && !mouse.down && document.hasFocus()) { const m = EDGE_SCROLL_PX; if (mouse.x < m) dx -= sp; if (mouse.x > SW - m) dx += sp; if (mouse.y < m) dy -= sp; if (mouse.y > SH - m) dy += sp; }
@@ -2308,14 +2495,14 @@ function updCamera(dt) {
 
 // ---------------- game flow ----------------
 function togglePause() { if (!G || G.over) return; G.paused = !G.paused; showPanel(G.paused ? 'pausePanel' : null); $('bPause').textContent = G.paused ? 'Resume (P)' : 'Pause (P)'; }
-function toggleMute() { muted = !muted; $('bMute').textContent = 'Sound: ' + (muted ? 'Off' : 'On'); }
+function toggleMute() { muted = !muted; $('bMute').textContent = $('bMute2').textContent = 'Sound: ' + (muted ? 'Off' : 'On'); }
 function showPanel(id) { for (const p of document.querySelectorAll('.panel')) p.classList.toggle('show', p.id === id); $('overlay').classList.toggle('show', !!id); }
 function newGame(diffKey, opts) {
   opts = opts || {};
   const seed = (Math.random() * 1e9) | 0; rng = mulberry32(seed);
   const dm = opts.map || (opts.map === undefined ? designMap : null);
   setMapSize(dm ? dm.w : 80, dm ? dm.h : 80);
-  setZoom(ZOOM); // a smaller map can raise the minimum zoom
+  setZoom(ZOOM); // re-clamp the camera to the new map size
   idc = 0; bById.clear();
   if ($('msgs')) $('msgs').innerHTML = '';
   G = { seed, time: 0, diff: DIFF[diffKey] || DIFF.normal, diffKey, units: [], blds: [], proj: [], fx: [], decals: [], rad: [], missiles: [], rises: [], sel: [], groups: {},
@@ -2397,6 +2584,7 @@ function checkEnd() {
 let lastTs = 0, uiT = 0, miniT = 0;
 function frame(ts) {
   requestAnimationFrame(frame);
+  govern(ts, ts - lastTs);
   const dt = Math.min(0.05, (ts - lastTs) / 1000 || 0); lastTs = ts;
   if (G) {
     if (G.started && !G.paused && !G.over) step(dt);
@@ -2414,13 +2602,19 @@ $('bRestart').onclick = () => { if (!G) return; if (G.over || confirm('Restart t
 $('bPause').onclick = () => togglePause();
 $('bResume').onclick = () => togglePause();
 $('bMute').onclick = () => toggleMute();
+$('bRestart2').onclick = () => $('bRestart').onclick();
+$('bMute2').onclick = () => toggleMute();
+document.querySelectorAll('#tabs .tab').forEach((e, i) => { e.onclick = () => showTab(i); });
+$('bMenu').onclick = () => { if (TIER === 'L') { mergePref = !mergePref; applyTier(); if (G) updSidebar(); } else togglePause(); };
+$('sbScroll').addEventListener('scroll', () => { const sc = $('sbScroll'); sc.classList.toggle('more', sc.scrollHeight - sc.scrollTop - sc.clientHeight > 1); });
 resize();
 showPanel('startPanel');
 // unit art v2: ?unitart=off forces procedural sprites; ?unitart=baked skips the recolour (baked colour atlases); ?team0=red / ?team1=red pick the alternate team colour
 if (typeof UnitArt !== 'undefined') {
   const q = new URLSearchParams(location.search), team = {};
   if (q.get('team0')) team[0] = q.get('team0'); if (q.get('team1')) team[1] = q.get('team1');
-  if (q.get('unitart') !== 'off') UnitArt.load({ team, baked: q.get('unitart') === 'baked' });
+  if (q.get('unitart') !== 'off') UnitArt.load({ team, baked: q.get('unitart') === 'baked' }).then(() => { rebakeArt(); setTimeout(rebakeArt, 1500); }, rebakeArt); // re-bake the cameos from the atlases (again after a baked-atlas fallback)
+  else artDone = true;
 }
 // env art pass 1: ?envart=off keeps the procedural ground (nothing fetched); atlas failure -> same fallback, one warning
 if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(location.search).get('envart') === 'off' });
@@ -2434,4 +2628,4 @@ if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(locati
   } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM }; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
+window.RTS = { get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
