@@ -13,6 +13,9 @@
     // Loop 4 (L4 = rts-loops/loop4/1-tech-spec.md): the Templar's "Holy melee" uses the Holy beam row; melee cannot reach air
     holy: { light: 1.25, heavy: 1.0, air: null, structure: 0.6 },
   };
+  // per-unit-type overrides of the matrix (weapon -> unit type -> multiplier). Tuning pass 1 (Dezi, after f12dd60):
+  // Imps are hellfire demons and take 50% Fire damage (was 1.25x as light). Flamer stats unchanged.
+  const TYPE_MULT = { fire: { imp: 0.625 } };
   // CS balance table + live values. speed in tiles/s, range/sight in tiles, rof = s between shots.
   // Speeds come from the spec table (x32 px; e.g. Zombie 35.2 vs live 36): approved by Dezi, Loop 3. Imp splash 0.35 tiles: approved by Dezi, Loop 3.
   const UNITS = {
@@ -26,11 +29,11 @@
     reaper: { armor: 'heavy', dmgType: null },
     // Loop 4 (L4 "New units" + "The Horde in this loop"). Archangel "60 Holy" = Holy beam (Angel weapon type).
     flamer: { armor: 'light', dmgType: 'fire', splash: 0.6, cost: 250, time: 7, hp: 150, dmg: 18, rof: 0.6, range: 2.5, speed: 1.6, sight: 5 },
-    rocket: { armor: 'light', dmgType: 'shell', cost: 300, time: 8, hp: 110, dmg: 45, rof: 2.0, range: 5.5, speed: 1.5, sight: 6 },
+    rocket: { armor: 'light', dmgType: 'shell', cost: 300, time: 8, hp: 110, dmg: 60, rof: 1.8, range: 6, /* tuning pass 1: 45/2.0/5.5 -> 60/1.8/6 */ speed: 1.5, sight: 6 },
     medic: { armor: 'light', dmgType: null, cost: 200, time: 6, hp: 90, heal: 10, range: 3, speed: 1.8, sight: 6 },
-    archangel: { armor: 'air', dmgType: 'beam', splash: 1.0, cost: 2500, time: 35, hp: 1400, dmg: 60, rof: 1.5, range: 6, speed: 1.8, sight: 9, limit: 1 },
-    templar: { armor: 'heavy', dmgType: 'holy', splash: 0.8, cost: 1400, time: 25, hp: 1500, dmg: 70, rof: 1.4, range: 1.1, speed: 1.3, sight: 6, limit: 2 },
-    demon: { armor: 'heavy', dmgType: 'fire', splash: 1.2, cost: 2500, time: 35, hp: 2400, dmg: 50, rof: 1.5, range: 5, speed: 1.0, sight: 8, limit: 1 },
+    archangel: { armor: 'air', dmgType: 'beam', splash: 0.5, cost: 2500, time: 35, hp: 1400, dmg: 50, /* tuning pass 1: dmg 60 -> 50, splash 1.0 -> 0.5 */ rof: 1.5, range: 6, speed: 1.8, sight: 9, limit: 1 },
+    templar: { armor: 'heavy', dmgType: 'holy', splash: 0.3, /* tuning pass 1: 0.8 -> 0.3 */ cost: 1400, time: 25, hp: 1500, dmg: 70, rof: 1.4, range: 1.1, speed: 1.3, sight: 6, limit: 2 },
+    demon: { armor: 'heavy', dmgType: 'fire', splash: 1.2, cost: 2500, time: 35, hp: 2100, /* tuning pass 1 step 2 (#11 still missed after 1-4): 2400 -> 2100 */ dmg: 50, rof: 1.5, range: 5, speed: 1.0, sight: 8, limit: 1 },
   };
   // Loop 4 research (L4 "Armory research", "Church research and units"). Effects are modifiers read at use time;
   // base stats (UDEF / BDEF / UNITS) are never changed. at = building that researches it.
@@ -84,7 +87,7 @@
   const RISE_WEAPONS = ['claw', 'plague'];          // crush, shell, fire, cleave never rise
   const LIGHT = 'light';
 
-  const mult = (w, armor) => { const row = MATRIX[w]; if (!row) return 1; const m = row[armor]; return m == null ? 0 : m; };
+  const mult = (w, armor, type) => { const o = type && TYPE_MULT[w]; if (o && o[type] != null) return o[type]; const row = MATRIX[w]; if (!row) return 1; const m = row[armor]; return m == null ? 0 : m; };
   const canHit = (w, armor) => { const row = MATRIX[w]; if (!row) return true; return row[armor] != null; };
   const hitsAir = w => canHit(w, 'air');
   // auto-target tier (lower = preferred): armed enemies, then trucks, then other buildings
@@ -98,7 +101,7 @@
   const canCrush = (truck, o) => o.side !== truck.side && !o.dead && o.armor === LIGHT && Math.hypot(o.x - truck.x, o.y - truck.y) < D.crushRadiusPx;
   const plagueTick = (side, armor, dt) => side === 0 ? -(armor === LIGHT ? D.plagueInfDps : D.plagueVehDps) * dt : D.plagueHealDps * dt;
 
-  const Combat = { MATRIX, UNITS, TOWERS, TABLE, D, RESEARCH, RORDER, modifier, unlockedBy, noRiseBy, mult, canHit, hitsAir, targetTier, riseEligible, purified, canCrush, plagueTick };
+  const Combat = { MATRIX, TYPE_MULT, UNITS, TOWERS, TABLE, D, RESEARCH, RORDER, modifier, unlockedBy, noRiseBy, mult, canHit, hitsAir, targetTier, riseEligible, purified, canCrush, plagueTick };
   if (typeof module !== 'undefined' && module.exports) module.exports = Combat;
   root.Combat = Combat;
 })(typeof window !== 'undefined' ? window : globalThis);

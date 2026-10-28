@@ -590,7 +590,7 @@ function areaDamage(x, y, r, dmg, src, w) {
 }
 function damage(t, amt, src, w) {
   if (t.dead) return;
-  amt *= Combat.mult(w, armorOf(t)); // CS damage matrix (unknown types such as plague or nuke: x1)
+  amt *= Combat.mult(w, armorOf(t), t.kind === 'u' ? t.type : null); // CS damage matrix (unknown types such as plague or nuke: x1)
   t.hp -= amt; t.hitT = 0.12;
   if (t.side === 0 && w !== 'plague') alertAttack(t);
   if (t.hp <= 0) kill(t, src, w);

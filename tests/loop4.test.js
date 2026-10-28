@@ -13,7 +13,7 @@ const J = x => JSON.parse(JSON.stringify(x)); // vm-realm arrays -> this realm f
 
 test('L4 data: new units, buildings, limits, power, research table', () => {
   const { RTS } = load(); const U = RTS.UDEF, B = RTS.BDEF;
-  const want = { flamer: [250, 7, 150, 18, 0.6, 2.5], rocket: [300, 8, 110, 45, 2.0, 5.5], archangel: [2500, 35, 1400, 60, 1.5, 6], templar: [1400, 25, 1500, 70, 1.4, 1.1], demon: [2500, 35, 2400, 50, 1.5, 5] };
+  const want = { flamer: [250, 7, 150, 18, 0.6, 2.5], rocket: [300, 8, 110, 60, 1.8, 6], archangel: [2500, 35, 1400, 50, 1.5, 6], templar: [1400, 25, 1500, 70, 1.4, 1.1], demon: [2500, 35, 2100, 50, 1.5, 5] };
   for (const [t, [c, tm, hp, d, rof, rg]] of Object.entries(want)) assert.deepEqual([U[t].cost, U[t].time, U[t].hp, U[t].dmg, U[t].rof, U[t].range], [c, tm, hp, d, rof, rg], t);
   assert.equal(U.medic.cost, 200); assert.equal(U.medic.heal, 10); assert.equal(U.medic.hp, 90); assert.ok(!U.medic.weapon);
   assert.equal(U.archangel.limit, 1); assert.equal(U.templar.limit, 2); assert.equal(U.demon.limit, 1);
@@ -141,4 +141,43 @@ test('opening addendum: 12-minute Normal regression with the scripted expected o
 
 test('L4 matchups run on the real code (pass rates reported by npm run matchups, not asserted here)', () => {
   for (const m of MATCHUPS4) { const r = runOne(m, 1); assert.ok(['a', 'b', 'draw', 'a*'].includes(r.win), m.id); }
+});
+
+test('L4 tuning pass 1 (Dezi): Imps take 0.625x Fire, Rocket 60/1.8/6, Archangel 50 dmg 0.5 splash, Templar 0.3 splash; Flamer unchanged', () => {
+  const { RTS } = load(); const U = RTS.UDEF;
+  assert.equal(Combat.mult('fire', 'light', 'imp'), 0.625); assert.equal(Combat.mult('fire', 'light', 'zombie'), 1.25); assert.equal(Combat.mult('fire', 'light'), 1.25);
+  assert.equal(Combat.MATRIX.fire.light, 1.25); // the matrix row itself is unchanged
+  assert.deepEqual([U.rocket.dmg, U.rocket.rof, U.rocket.range], [60, 1.8, 6]);
+  assert.deepEqual([U.archangel.dmg, U.archangel.splash, U.archangel.hp], [50, 0.5, 1400]);
+  assert.equal(U.templar.splash, 0.3); assert.equal(U.templar.weapon, 'holy'); assert.ok(!Combat.canHit('holy', 'air'));
+  assert.deepEqual([U.flamer.dmg, U.flamer.rof, U.flamer.range, U.flamer.splash], [18, 0.6, 2.5, 0.6]);
+  RTS.newArena(9); const imp = RTS.makeUnit('imp', 1, 1000, 1000), z = RTS.makeUnit('zombie', 1, 1100, 1000);
+  const i0 = imp.hp, z0 = z.hp; RTS.damage(imp, 20, null, 'fire'); RTS.damage(z, 20, null, 'fire');
+  assert.equal(i0 - imp.hp, 12.5); assert.equal(z0 - z.hp, 25);
+});
+
+test('L4 rule: Demon Lord aura does not stack with map plague (one heal / damage tick either way)', () => {
+  const { RTS } = load(); RTS.newArena(6); const G = RTS.G;
+  const both = RTS.makeUnit('zombie', 1, 1000 + 2 * TILE, 1000), only = RTS.makeUnit('zombie', 1, 600, 600);
+  const dl = RTS.makeUnit('demon', 1, 1000, 1000);
+  for (const u of [both, only]) RTS.plague[Math.floor(u.y / TILE) * RTS.MW + Math.floor(u.x / TILE)] = 1;
+  both.hp = only.hp = 40; for (const u of [both, only, dl]) u.scan = 1e9;
+  for (let t = 0; t < 2.01; t += 1 / 30) { RTS.step(1 / 30); both.target = only.target = dl.target = null; }
+  assert.ok(both.hp > 40); assert.equal(both.hp, only.hp);
+});
+
+test('L4 rule: the HQ is a drop-off whenever its side has no living Scrap Yard (losing the Yard falls back to the HQ)', () => {
+  const { RTS } = load(); RTS.newArena(7); const G = RTS.G;
+  const hq = RTS.makeBld('hq', 0, 30, 30), yard = RTS.makeBld('refinery', 0, 36, 30);
+  assert.deepEqual(J(RTS.dropOffs(0).map(b => b.type)), ['refinery']);
+  const u = RTS.makeUnit('gleaner', 0, 33 * TILE, 40 * TILE); u.load = u.d.cap; u.hs = 'seek';
+  for (let t = 0; t < 1; t += 1 / 30) RTS.step(1 / 30);
+  assert.equal(u.dock, yard);
+  RTS.kill(yard, null, 'nuke');
+  assert.deepEqual(J(RTS.dropOffs(0).map(b => b.type)), ['hq']);
+  const c0 = G.credits[0]; let t = 0;
+  while (t < 60 && G.credits[0] === c0) { RTS.step(1 / 30); t += 1 / 30; }
+  assert.equal(u.dock, hq); assert.ok(G.credits[0] > c0, 'unloaded at the HQ after the Yard died');
+  const y2 = RTS.makeBld('refinery', 0, 36, 36);
+  assert.deepEqual(J(RTS.dropOffs(0).map(b => b.type)), ['refinery']); assert.ok(y2);
 });
