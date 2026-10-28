@@ -1,11 +1,11 @@
 // Loop 4 opening addendum: 12-minute Normal regression with a scripted player following the expected opening
 // (Truck + Power Plant at 0:00, Scrap Yard when affordable, Barracks, then Riflemen / Factory ...).
 // Runs in node (tests/opening.js via the vm harness) and in the browser (rts-test/loop4.js injects this file).
-// openingSim(RTS, { minutes, startCredits, dt }) -> { checks, numbers, log }
+// openingSim(RTS, { minutes, startCredits, dt, diff, map }) -> { checks, numbers, log }
 function openingSim(RTS, opts) {
   opts = opts || {};
   const minutes = opts.minutes || 12, dt = opts.dt || 1 / 30;
-  if (!opts.noNewGame) RTS.newGame(opts.diff || 'normal');
+  if (!opts.noNewGame) RTS.newGame(opts.diff || 'normal', opts.map ? { map: opts.map } : undefined);   // opts.map: a design map JSON (env pass 1)
   const G = RTS.G, log = [];
   if (opts.startCredits) G.credits[0] = opts.startCredits;
   const hq0 = G.blds.find(b => b.side === 0 && b.type === 'hq');

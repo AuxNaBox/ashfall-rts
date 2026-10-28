@@ -46,3 +46,8 @@ Destroy every Horde structure. You lose if all of your structures are destroyed.
 - **Nukes:** a Judgment Spire charges for 3:20, then can strike anywhere. The blast leaves a radiation zone that hurts every unit inside it for 45 seconds. The Horde builds its own Hellfire Maw and will fire it at your base, but you get a 4-second warning marker.
 - **Enemy AI:** gathers salvage, follows a build order, defends its base, and sends attack waves that get bigger over time. There are Easy, Normal, and Hard difficulty levels.
 - Fog of war, minimap, build queues with progress bars, and win/lose screens with stats.
+
+## URL options
+- `?map=crossroads`, `?map=fallen-city`, `?map=ash-ring`: play one of the design maps in `assets/maps/` instead of the random map.
+- `?envart=off`: skip the environment art (ground tiles, ruins, cars, trees, lights) and draw the plain procedural ground. Trees and cars still block movement.
+- `?unitart=off` / `?unitart=baked`: procedural unit sprites / pre-coloured unit atlases.

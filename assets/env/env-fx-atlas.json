@@ -1,0 +1,2015 @@
+{
+ "_doc": "Ashfall env fx atlas v1 (env pass 1 r2, approved by Director). flame: 4-frame looping fire, 10 fps, anchor = bottom-centre, normal composite, draw over the burning prop at its fire_point. light: pre-rendered radial light, draw with ctx.globalCompositeOperation = \"lighter\" after units/buildings and before fog; anchor = centre; alpha = peak baked in, modulate with globalAlpha per flicker; ground lights are squashed to 0.8 in y for the 3/4 view. fog: dual-grid 32x32 fog edge tiles (cell = tile vertex, drawn at (vx*32-16, vy*32-16)); bits = FOGGED corner tiles TL=1 TR=2 BR=4 BL=8; bits 0 = draw nothing, bits 15 = fillRect (black, or rgba(0,0,0,0.45) for shroud). See HANDOFF-env.md.",
+ "image": "env-fx-atlas.png",
+ "size": [
+  1024,
+  256
+ ],
+ "tile": 32,
+ "frames": [
+  {
+   "name": "ao_vehicle_m",
+   "rect": [
+    784,
+    2,
+    76,
+    53
+   ],
+   "kind": "ao",
+   "composite": "source-over",
+   "peak_alpha": 0.62,
+   "y_squash": 0.7,
+   "anchor": [
+    38.0,
+    26.5
+   ],
+   "_": "vehicle contact shadow: draw centred on the unit ground point (+2,+2) before its shadow; 1 drawImage per vehicle in view; tanks / scrap trucks (optional: scrap eaters)"
+  },
+  {
+   "name": "ao_vehicle_s",
+   "rect": [
+    928,
+    2,
+    60,
+    42
+   ],
+   "kind": "ao",
+   "composite": "source-over",
+   "peak_alpha": 0.58,
+   "y_squash": 0.7,
+   "anchor": [
+    30.0,
+    21.0
+   ],
+   "_": "vehicle contact shadow: draw centred on the unit ground point (+2,+2) before its shadow; 1 drawImage per vehicle in view; tanks / scrap trucks (optional: scrap eaters)"
+  },
+  {
+   "name": "fire_l-f0",
+   "rect": [
+    44,
+    106,
+    20,
+    28
+   ],
+   "kind": "flame",
+   "flame": "fire_l",
+   "frame": 0,
+   "frames": 4,
+   "fps": 10,
+   "anchor": [
+    10.0,
+    28
+   ]
+  },
+  {
+   "name": "fire_l-f1",
+   "rect": [
+    66,
+    106,
+    20,
+    28
+   ],
+   "kind": "flame",
+   "flame": "fire_l",
+   "frame": 1,
+   "frames": 4,
+   "fps": 10,
+   "anchor": [
+    10.0,
+    28
+   ]
+  },
+  {
+   "name": "fire_l-f2",
+   "rect": [
+    88,
+    106,
+    20,
+    28
+   ],
+   "kind": "flame",
+   "flame": "fire_l",
+   "frame": 2,
+   "frames": 4,
+   "fps": 10,
+   "anchor": [
+    10.0,
+    28
+   ]
+  },
+  {
+   "name": "fire_l-f3",
+   "rect": [
+    110,
+    106,
+    20,
+    28
+   ],
+   "kind": "flame",
+   "flame": "fire_l",
+   "frame": 3,
+   "frames": 4,
+   "fps": 10,
+   "anchor": [
+    10.0,
+    28
+   ]
+  },
+  {
+   "name": "fire_m-f0",
+   "rect": [
+    132,
+    106,
+    14,
+    20
+   ],
+   "kind": "flame",
+   "flame": "fire_m",
+   "frame": 0,
+   "frames": 4,
+   "fps": 10,
+   "anchor": [
+    7.0,
+    20
+   ]
+  },
+  {
+   "name": "fire_m-f1",
+   "rect": [
+    148,
+    106,
+    14,
+    20
+   ],
+   "kind": "flame",
+   "flame": "fire_m",
+   "frame": 1,
+   "frames": 4,
+   "fps": 10,
+   "anchor": [
+    7.0,
+    20
+   ]
+  },
+  {
+   "name": "fire_m-f2",
+   "rect": [
+    164,
+    106,
+    14,
+    20
+   ],
+   "kind": "flame",
+   "flame": "fire_m",
+   "frame": 2,
+   "frames": 4,
+   "fps": 10,
+   "anchor": [
+    7.0,
+    20
+   ]
+  },
+  {
+   "name": "fire_m-f3",
+   "rect": [
+    180,
+    106,
+    14,
+    20
+   ],
+   "kind": "flame",
+   "flame": "fire_m",
+   "frame": 3,
+   "frames": 4,
+   "fps": 10,
+   "anchor": [
+    7.0,
+    20
+   ]
+  },
+  {
+   "name": "fire_s-f0",
+   "rect": [
+    196,
+    106,
+    10,
+    14
+   ],
+   "kind": "flame",
+   "flame": "fire_s",
+   "frame": 0,
+   "frames": 4,
+   "fps": 10,
+   "anchor": [
+    5.0,
+    14
+   ]
+  },
+  {
+   "name": "fire_s-f1",
+   "rect": [
+    208,
+    106,
+    10,
+    14
+   ],
+   "kind": "flame",
+   "flame": "fire_s",
+   "frame": 1,
+   "frames": 4,
+   "fps": 10,
+   "anchor": [
+    5.0,
+    14
+   ]
+  },
+  {
+   "name": "fire_s-f2",
+   "rect": [
+    220,
+    106,
+    10,
+    14
+   ],
+   "kind": "flame",
+   "flame": "fire_s",
+   "frame": 2,
+   "frames": 4,
+   "fps": 10,
+   "anchor": [
+    5.0,
+    14
+   ]
+  },
+  {
+   "name": "fire_s-f3",
+   "rect": [
+    232,
+    106,
+    10,
+    14
+   ],
+   "kind": "flame",
+   "flame": "fire_s",
+   "frame": 3,
+   "frames": 4,
+   "fps": 10,
+   "anchor": [
+    5.0,
+    14
+   ]
+  },
+  {
+   "name": "fog_dark_ash-01-v0",
+   "rect": [
+    0,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 1,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-01-v1",
+   "rect": [
+    32,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 1,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-02-v0",
+   "rect": [
+    64,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 2,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-02-v1",
+   "rect": [
+    96,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 2,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-03-v0",
+   "rect": [
+    128,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 3,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-03-v1",
+   "rect": [
+    160,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 3,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-04-v0",
+   "rect": [
+    192,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 4,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-04-v1",
+   "rect": [
+    224,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 4,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-05-v0",
+   "rect": [
+    256,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 5,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-05-v1",
+   "rect": [
+    288,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 5,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-06-v0",
+   "rect": [
+    320,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 6,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-06-v1",
+   "rect": [
+    352,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 6,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-07-v0",
+   "rect": [
+    384,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 7,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-07-v1",
+   "rect": [
+    416,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 7,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-08-v0",
+   "rect": [
+    448,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 8,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-08-v1",
+   "rect": [
+    480,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 8,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-09-v0",
+   "rect": [
+    512,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 9,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-09-v1",
+   "rect": [
+    544,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 9,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-10-v0",
+   "rect": [
+    576,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 10,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-10-v1",
+   "rect": [
+    608,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 10,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-11-v0",
+   "rect": [
+    640,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 11,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-11-v1",
+   "rect": [
+    672,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 11,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-12-v0",
+   "rect": [
+    704,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 12,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-12-v1",
+   "rect": [
+    736,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 12,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-13-v0",
+   "rect": [
+    768,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 13,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-13-v1",
+   "rect": [
+    800,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 13,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-14-v0",
+   "rect": [
+    832,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 14,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-14-v1",
+   "rect": [
+    864,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 14,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-15-v0",
+   "rect": [
+    896,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 15,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ash-15-v1",
+   "rect": [
+    928,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ash",
+   "bits": 15,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-01-v0",
+   "rect": [
+    960,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 1,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-01-v1",
+   "rect": [
+    992,
+    148,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 1,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-02-v0",
+   "rect": [
+    0,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 2,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-02-v1",
+   "rect": [
+    32,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 2,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-03-v0",
+   "rect": [
+    64,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 3,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-03-v1",
+   "rect": [
+    96,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 3,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-04-v0",
+   "rect": [
+    128,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 4,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-04-v1",
+   "rect": [
+    160,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 4,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-05-v0",
+   "rect": [
+    192,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 5,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-05-v1",
+   "rect": [
+    224,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 5,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-06-v0",
+   "rect": [
+    256,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 6,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-06-v1",
+   "rect": [
+    288,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 6,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-07-v0",
+   "rect": [
+    320,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 7,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-07-v1",
+   "rect": [
+    352,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 7,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-08-v0",
+   "rect": [
+    384,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 8,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-08-v1",
+   "rect": [
+    416,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 8,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-09-v0",
+   "rect": [
+    448,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 9,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-09-v1",
+   "rect": [
+    480,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 9,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-10-v0",
+   "rect": [
+    512,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 10,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-10-v1",
+   "rect": [
+    544,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 10,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-11-v0",
+   "rect": [
+    576,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 11,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-11-v1",
+   "rect": [
+    608,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 11,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-12-v0",
+   "rect": [
+    640,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 12,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-12-v1",
+   "rect": [
+    672,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 12,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-13-v0",
+   "rect": [
+    704,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 13,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-13-v1",
+   "rect": [
+    736,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 13,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-14-v0",
+   "rect": [
+    768,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 14,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-14-v1",
+   "rect": [
+    800,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 14,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-15-v0",
+   "rect": [
+    832,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 15,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_dark_ember-15-v1",
+   "rect": [
+    864,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "dark_ember",
+   "bits": 15,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-01-v0",
+   "rect": [
+    896,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 1,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-01-v1",
+   "rect": [
+    928,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 1,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-02-v0",
+   "rect": [
+    960,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 2,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-02-v1",
+   "rect": [
+    992,
+    180,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 2,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-03-v0",
+   "rect": [
+    0,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 3,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-03-v1",
+   "rect": [
+    32,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 3,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-04-v0",
+   "rect": [
+    64,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 4,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-04-v1",
+   "rect": [
+    96,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 4,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-05-v0",
+   "rect": [
+    128,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 5,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-05-v1",
+   "rect": [
+    160,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 5,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-06-v0",
+   "rect": [
+    192,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 6,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-06-v1",
+   "rect": [
+    224,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 6,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-07-v0",
+   "rect": [
+    256,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 7,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-07-v1",
+   "rect": [
+    288,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 7,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-08-v0",
+   "rect": [
+    320,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 8,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-08-v1",
+   "rect": [
+    352,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 8,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-09-v0",
+   "rect": [
+    384,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 9,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-09-v1",
+   "rect": [
+    416,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 9,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-10-v0",
+   "rect": [
+    448,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 10,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-10-v1",
+   "rect": [
+    480,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 10,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-11-v0",
+   "rect": [
+    512,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 11,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-11-v1",
+   "rect": [
+    544,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 11,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-12-v0",
+   "rect": [
+    576,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 12,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-12-v1",
+   "rect": [
+    608,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 12,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-13-v0",
+   "rect": [
+    640,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 13,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-13-v1",
+   "rect": [
+    672,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 13,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-14-v0",
+   "rect": [
+    704,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 14,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-14-v1",
+   "rect": [
+    736,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 14,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-15-v0",
+   "rect": [
+    768,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 15,
+   "variant": 0,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "fog_shroud-15-v1",
+   "rect": [
+    800,
+    212,
+    32,
+    32
+   ],
+   "kind": "fog",
+   "set": "shroud",
+   "bits": 15,
+   "variant": 1,
+   "anchor": [
+    0,
+    0
+   ]
+  },
+  {
+   "name": "light_archangel",
+   "rect": [
+    506,
+    2,
+    80,
+    80
+   ],
+   "kind": "light",
+   "composite": "lighter",
+   "radius": 40,
+   "colour": "#FFF6DE",
+   "peak_alpha": 0.6,
+   "y_squash": 1.0,
+   "flicker": {
+    "type": "pulse",
+    "hz": 0.6,
+    "alpha_jitter": 0.1
+   },
+   "anchor": [
+    40.0,
+    40.0
+   ]
+  },
+  {
+   "name": "light_fire_l",
+   "rect": [
+    2,
+    2,
+    128,
+    102
+   ],
+   "kind": "light",
+   "composite": "lighter",
+   "radius": 64,
+   "colour": "#FF8A2A",
+   "peak_alpha": 0.6,
+   "y_squash": 0.8,
+   "flicker": {
+    "type": "fire",
+    "hz": 7,
+    "alpha_jitter": 0.15,
+    "scale_jitter": 0.04
+   },
+   "anchor": [
+    64.0,
+    51.0
+   ]
+  },
+  {
+   "name": "light_fire_m",
+   "rect": [
+    588,
+    2,
+    96,
+    77
+   ],
+   "kind": "light",
+   "composite": "lighter",
+   "radius": 48,
+   "colour": "#FF8A2A",
+   "peak_alpha": 0.55,
+   "y_squash": 0.8,
+   "flicker": {
+    "type": "fire",
+    "hz": 8,
+    "alpha_jitter": 0.18,
+    "scale_jitter": 0.05
+   },
+   "anchor": [
+    48.0,
+    38.5
+   ]
+  },
+  {
+   "name": "light_fire_s",
+   "rect": [
+    862,
+    2,
+    64,
+    51
+   ],
+   "kind": "light",
+   "composite": "lighter",
+   "radius": 32,
+   "colour": "#FF8A2A",
+   "peak_alpha": 0.55,
+   "y_squash": 0.8,
+   "flicker": {
+    "type": "fire",
+    "hz": 9,
+    "alpha_jitter": 0.18,
+    "scale_jitter": 0.05
+   },
+   "anchor": [
+    32.0,
+    25.5
+   ]
+  },
+  {
+   "name": "light_halo",
+   "rect": [
+    2,
+    106,
+    40,
+    40
+   ],
+   "kind": "light",
+   "composite": "lighter",
+   "radius": 20,
+   "colour": "#FFF1CC",
+   "peak_alpha": 0.5,
+   "y_squash": 1.0,
+   "flicker": {
+    "type": "pulse",
+    "hz": 0.8,
+    "alpha_jitter": 0.08
+   },
+   "anchor": [
+    20.0,
+    20.0
+   ]
+  },
+  {
+   "name": "light_hell_open",
+   "rect": [
+    132,
+    2,
+    128,
+    102
+   ],
+   "kind": "light",
+   "composite": "lighter",
+   "radius": 64,
+   "colour": "#FF9A1E",
+   "peak_alpha": 0.65,
+   "y_squash": 0.8,
+   "flicker": {
+    "type": "fire",
+    "hz": 6,
+    "alpha_jitter": 0.15,
+    "scale_jitter": 0.04
+   },
+   "anchor": [
+    64.0,
+    51.0
+   ]
+  },
+  {
+   "name": "light_holy",
+   "rect": [
+    686,
+    2,
+    96,
+    77
+   ],
+   "kind": "light",
+   "composite": "lighter",
+   "radius": 48,
+   "colour": "#FFF4D0",
+   "peak_alpha": 0.5,
+   "y_squash": 0.8,
+   "flicker": {
+    "type": "pulse",
+    "hz": 0.7,
+    "alpha_jitter": 0.1,
+    "_": "optional: Holy Ground / Hymn effects"
+   },
+   "anchor": [
+    48.0,
+    38.5
+   ]
+  },
+  {
+   "name": "light_nuke_open",
+   "rect": [
+    262,
+    2,
+    128,
+    102
+   ],
+   "kind": "light",
+   "composite": "lighter",
+   "radius": 64,
+   "colour": "#FFE070",
+   "peak_alpha": 0.6,
+   "y_squash": 0.8,
+   "flicker": {
+    "type": "pulse",
+    "hz": 1.0,
+    "alpha_jitter": 0.25,
+    "_": "slow hazard pulse while the silo door is open"
+   },
+   "anchor": [
+    64.0,
+    51.0
+   ]
+  },
+  {
+   "name": "light_wreck",
+   "rect": [
+    392,
+    2,
+    112,
+    90
+   ],
+   "kind": "light",
+   "composite": "lighter",
+   "radius": 56,
+   "colour": "#E8B830",
+   "peak_alpha": 0.45,
+   "y_squash": 0.8,
+   "flicker": {
+    "type": "pulse",
+    "hz": 0.5,
+    "alpha_jitter": 0.12
+   },
+   "anchor": [
+    56.0,
+    45.0
+   ]
+  }
+ ]
+}

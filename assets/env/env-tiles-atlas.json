@@ -1,0 +1,8184 @@
+{
+ "_doc": "Ashfall env ground tiles v1 (env pass 1 r2, approved by Director). 32x32, no gutter (baked once into terrCanvas at 1:1). wang: per terrain 81 corner-Wang tiles, 3 colours per tile vertex; index = tl + 3tr + 9br + 27bl, vertex colours from a stateless hash (HANDOFF-env.md section 2). mask: dual-grid transition masks (black = layer present), bits = corner tiles at or above the layer, TL=1 TR=2 BR=4 BL=8, 4 variants; used with destination-in at bake time; the same mask drawn at (+1,+1) with alpha 0.35 is the lip shadow for \"lip\" layers.",
+ "image": "env-tiles-atlas.png",
+ "size": [
+  1024,
+  1024
+ ],
+ "tile": 32,
+ "wang": {
+  "type": "corner",
+  "colours": 3,
+  "index": "tl + 3*tr + 9*br + 27*bl",
+  "corners": "tl = C(tx,ty), tr = C(tx+1,ty), br = C(tx+1,ty+1), bl = C(tx,ty+1); C(vx,vy) = hash(vx,vy,terrainSalt) % 3"
+ },
+ "layers": [
+  {
+   "terrain": "ash",
+   "order": 0,
+   "edge": "base",
+   "game": "GROUND (default)"
+  },
+  {
+   "terrain": "scorched",
+   "order": 1,
+   "edge": "soft",
+   "game": "GROUND sub-type: scorched flag (crater surrounds, nuke/fire sites, noise blobs)"
+  },
+  {
+   "terrain": "salvage",
+   "order": 2,
+   "edge": "soft",
+   "game": "GROUND sub-type: within 1-2 tiles of a Salvage heap or Angel Wreck"
+  },
+  {
+   "terrain": "asphalt",
+   "order": 3,
+   "edge": "lip",
+   "game": "ROAD"
+  },
+  {
+   "terrain": "sludge",
+   "order": 4,
+   "edge": "sunken",
+   "game": "SLUDGE (blocks)"
+  }
+ ],
+ "masks": {
+  "bits": "TL=1 TR=2 BR=4 BL=8",
+  "variants": 4
+ },
+ "shade_usage": {
+  "ash": {
+   "ash.base": 0.753,
+   "ash.dark": 0.147,
+   "ash.deep": 0.015,
+   "ash.light": 0.085
+  },
+  "asphalt": {
+   "asphalt.base": 0.839,
+   "asphalt.crack": 0.015,
+   "asphalt.dark": 0.07,
+   "asphalt.light": 0.077,
+   "asphalt.paint": 0.0
+  },
+  "scorched": {
+   "scorched.base": 0.544,
+   "scorched.dark": 0.046,
+   "scorched.deep": 0.003,
+   "scorched.light": 0.408
+  },
+  "salvage": {
+   "salvage.base": 0.786,
+   "salvage.bolt": 0.003,
+   "salvage.dark": 0.141,
+   "salvage.light": 0.05,
+   "salvage.oil": 0.021
+  },
+  "sludge": {
+   "sludge.base": 0.312,
+   "sludge.dark": 0.657,
+   "sludge.deep": 0.009,
+   "sludge.light": 0.016,
+   "sludge.scum": 0.006
+  }
+ },
+ "palette": {
+  "ash": {
+   "light": "#47433D",
+   "base": "#3E3A35",
+   "dark": "#35322E",
+   "deep": "#2C2926",
+   "grass": "#484734"
+  },
+  "asphalt": {
+   "light": "#3C3C3F",
+   "base": "#333336",
+   "dark": "#29292C",
+   "crack": "#1F1F21",
+   "paint": "#4A473B"
+  },
+  "scorched": {
+   "light": "#38332E",
+   "base": "#2E2A26",
+   "dark": "#25221F",
+   "deep": "#1D1B19",
+   "ember": "#3E2E24"
+  },
+  "salvage": {
+   "light": "#46423B",
+   "base": "#3B3731",
+   "dark": "#302D28",
+   "oil": "#252320",
+   "rust": "#4A3729",
+   "bolt": "#56585A"
+  },
+  "sludge": {
+   "light": "#343E2A",
+   "base": "#29321F",
+   "dark": "#1F2618",
+   "deep": "#171C12",
+   "scum": "#3E4630"
+  }
+ },
+ "frames": [
+  {
+   "name": "ash-c0000",
+   "rect": [
+    0,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "index": 0
+  },
+  {
+   "name": "ash-c1000",
+   "rect": [
+    32,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "index": 1
+  },
+  {
+   "name": "ash-c2000",
+   "rect": [
+    64,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "index": 2
+  },
+  {
+   "name": "ash-c0100",
+   "rect": [
+    96,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    1,
+    0,
+    0
+   ],
+   "index": 3
+  },
+  {
+   "name": "ash-c1100",
+   "rect": [
+    128,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    1,
+    0,
+    0
+   ],
+   "index": 4
+  },
+  {
+   "name": "ash-c2100",
+   "rect": [
+    160,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    1,
+    0,
+    0
+   ],
+   "index": 5
+  },
+  {
+   "name": "ash-c0200",
+   "rect": [
+    192,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    2,
+    0,
+    0
+   ],
+   "index": 6
+  },
+  {
+   "name": "ash-c1200",
+   "rect": [
+    224,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    2,
+    0,
+    0
+   ],
+   "index": 7
+  },
+  {
+   "name": "ash-c2200",
+   "rect": [
+    256,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    2,
+    0,
+    0
+   ],
+   "index": 8
+  },
+  {
+   "name": "ash-c0010",
+   "rect": [
+    288,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    0,
+    1,
+    0
+   ],
+   "index": 9
+  },
+  {
+   "name": "ash-c1010",
+   "rect": [
+    320,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    0,
+    1,
+    0
+   ],
+   "index": 10
+  },
+  {
+   "name": "ash-c2010",
+   "rect": [
+    352,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    0,
+    1,
+    0
+   ],
+   "index": 11
+  },
+  {
+   "name": "ash-c0110",
+   "rect": [
+    384,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    1,
+    1,
+    0
+   ],
+   "index": 12
+  },
+  {
+   "name": "ash-c1110",
+   "rect": [
+    416,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    1,
+    1,
+    0
+   ],
+   "index": 13
+  },
+  {
+   "name": "ash-c2110",
+   "rect": [
+    448,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    1,
+    1,
+    0
+   ],
+   "index": 14
+  },
+  {
+   "name": "ash-c0210",
+   "rect": [
+    480,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    2,
+    1,
+    0
+   ],
+   "index": 15
+  },
+  {
+   "name": "ash-c1210",
+   "rect": [
+    512,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    2,
+    1,
+    0
+   ],
+   "index": 16
+  },
+  {
+   "name": "ash-c2210",
+   "rect": [
+    544,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    2,
+    1,
+    0
+   ],
+   "index": 17
+  },
+  {
+   "name": "ash-c0020",
+   "rect": [
+    576,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    0,
+    2,
+    0
+   ],
+   "index": 18
+  },
+  {
+   "name": "ash-c1020",
+   "rect": [
+    608,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    0,
+    2,
+    0
+   ],
+   "index": 19
+  },
+  {
+   "name": "ash-c2020",
+   "rect": [
+    640,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    0,
+    2,
+    0
+   ],
+   "index": 20
+  },
+  {
+   "name": "ash-c0120",
+   "rect": [
+    672,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    1,
+    2,
+    0
+   ],
+   "index": 21
+  },
+  {
+   "name": "ash-c1120",
+   "rect": [
+    704,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    1,
+    2,
+    0
+   ],
+   "index": 22
+  },
+  {
+   "name": "ash-c2120",
+   "rect": [
+    736,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    1,
+    2,
+    0
+   ],
+   "index": 23
+  },
+  {
+   "name": "ash-c0220",
+   "rect": [
+    768,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    2,
+    2,
+    0
+   ],
+   "index": 24
+  },
+  {
+   "name": "ash-c1220",
+   "rect": [
+    800,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    2,
+    2,
+    0
+   ],
+   "index": 25
+  },
+  {
+   "name": "ash-c2220",
+   "rect": [
+    832,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    2,
+    2,
+    0
+   ],
+   "index": 26
+  },
+  {
+   "name": "ash-c0001",
+   "rect": [
+    864,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "index": 27
+  },
+  {
+   "name": "ash-c1001",
+   "rect": [
+    896,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    0,
+    0,
+    1
+   ],
+   "index": 28
+  },
+  {
+   "name": "ash-c2001",
+   "rect": [
+    928,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    0,
+    0,
+    1
+   ],
+   "index": 29
+  },
+  {
+   "name": "ash-c0101",
+   "rect": [
+    960,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    1,
+    0,
+    1
+   ],
+   "index": 30
+  },
+  {
+   "name": "ash-c1101",
+   "rect": [
+    992,
+    0,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    1,
+    0,
+    1
+   ],
+   "index": 31
+  },
+  {
+   "name": "ash-c2101",
+   "rect": [
+    0,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    1,
+    0,
+    1
+   ],
+   "index": 32
+  },
+  {
+   "name": "ash-c0201",
+   "rect": [
+    32,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    2,
+    0,
+    1
+   ],
+   "index": 33
+  },
+  {
+   "name": "ash-c1201",
+   "rect": [
+    64,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    2,
+    0,
+    1
+   ],
+   "index": 34
+  },
+  {
+   "name": "ash-c2201",
+   "rect": [
+    96,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    2,
+    0,
+    1
+   ],
+   "index": 35
+  },
+  {
+   "name": "ash-c0011",
+   "rect": [
+    128,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "index": 36
+  },
+  {
+   "name": "ash-c1011",
+   "rect": [
+    160,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    0,
+    1,
+    1
+   ],
+   "index": 37
+  },
+  {
+   "name": "ash-c2011",
+   "rect": [
+    192,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    0,
+    1,
+    1
+   ],
+   "index": 38
+  },
+  {
+   "name": "ash-c0111",
+   "rect": [
+    224,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    1,
+    1,
+    1
+   ],
+   "index": 39
+  },
+  {
+   "name": "ash-c1111",
+   "rect": [
+    256,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "index": 40
+  },
+  {
+   "name": "ash-c2111",
+   "rect": [
+    288,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    1,
+    1,
+    1
+   ],
+   "index": 41
+  },
+  {
+   "name": "ash-c0211",
+   "rect": [
+    320,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    2,
+    1,
+    1
+   ],
+   "index": 42
+  },
+  {
+   "name": "ash-c1211",
+   "rect": [
+    352,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    2,
+    1,
+    1
+   ],
+   "index": 43
+  },
+  {
+   "name": "ash-c2211",
+   "rect": [
+    384,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    2,
+    1,
+    1
+   ],
+   "index": 44
+  },
+  {
+   "name": "ash-c0021",
+   "rect": [
+    416,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    0,
+    2,
+    1
+   ],
+   "index": 45
+  },
+  {
+   "name": "ash-c1021",
+   "rect": [
+    448,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    0,
+    2,
+    1
+   ],
+   "index": 46
+  },
+  {
+   "name": "ash-c2021",
+   "rect": [
+    480,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    0,
+    2,
+    1
+   ],
+   "index": 47
+  },
+  {
+   "name": "ash-c0121",
+   "rect": [
+    512,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    1,
+    2,
+    1
+   ],
+   "index": 48
+  },
+  {
+   "name": "ash-c1121",
+   "rect": [
+    544,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "index": 49
+  },
+  {
+   "name": "ash-c2121",
+   "rect": [
+    576,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    1,
+    2,
+    1
+   ],
+   "index": 50
+  },
+  {
+   "name": "ash-c0221",
+   "rect": [
+    608,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    2,
+    2,
+    1
+   ],
+   "index": 51
+  },
+  {
+   "name": "ash-c1221",
+   "rect": [
+    640,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    2,
+    2,
+    1
+   ],
+   "index": 52
+  },
+  {
+   "name": "ash-c2221",
+   "rect": [
+    672,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    2,
+    2,
+    1
+   ],
+   "index": 53
+  },
+  {
+   "name": "ash-c0002",
+   "rect": [
+    704,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    0,
+    0,
+    2
+   ],
+   "index": 54
+  },
+  {
+   "name": "ash-c1002",
+   "rect": [
+    736,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    0,
+    0,
+    2
+   ],
+   "index": 55
+  },
+  {
+   "name": "ash-c2002",
+   "rect": [
+    768,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    0,
+    0,
+    2
+   ],
+   "index": 56
+  },
+  {
+   "name": "ash-c0102",
+   "rect": [
+    800,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    1,
+    0,
+    2
+   ],
+   "index": 57
+  },
+  {
+   "name": "ash-c1102",
+   "rect": [
+    832,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    1,
+    0,
+    2
+   ],
+   "index": 58
+  },
+  {
+   "name": "ash-c2102",
+   "rect": [
+    864,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    1,
+    0,
+    2
+   ],
+   "index": 59
+  },
+  {
+   "name": "ash-c0202",
+   "rect": [
+    896,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    2,
+    0,
+    2
+   ],
+   "index": 60
+  },
+  {
+   "name": "ash-c1202",
+   "rect": [
+    928,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    2,
+    0,
+    2
+   ],
+   "index": 61
+  },
+  {
+   "name": "ash-c2202",
+   "rect": [
+    960,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    2,
+    0,
+    2
+   ],
+   "index": 62
+  },
+  {
+   "name": "ash-c0012",
+   "rect": [
+    992,
+    32,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    0,
+    1,
+    2
+   ],
+   "index": 63
+  },
+  {
+   "name": "ash-c1012",
+   "rect": [
+    0,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    0,
+    1,
+    2
+   ],
+   "index": 64
+  },
+  {
+   "name": "ash-c2012",
+   "rect": [
+    32,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    0,
+    1,
+    2
+   ],
+   "index": 65
+  },
+  {
+   "name": "ash-c0112",
+   "rect": [
+    64,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    1,
+    1,
+    2
+   ],
+   "index": 66
+  },
+  {
+   "name": "ash-c1112",
+   "rect": [
+    96,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    1,
+    1,
+    2
+   ],
+   "index": 67
+  },
+  {
+   "name": "ash-c2112",
+   "rect": [
+    128,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    1,
+    1,
+    2
+   ],
+   "index": 68
+  },
+  {
+   "name": "ash-c0212",
+   "rect": [
+    160,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    2,
+    1,
+    2
+   ],
+   "index": 69
+  },
+  {
+   "name": "ash-c1212",
+   "rect": [
+    192,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    2,
+    1,
+    2
+   ],
+   "index": 70
+  },
+  {
+   "name": "ash-c2212",
+   "rect": [
+    224,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    2,
+    1,
+    2
+   ],
+   "index": 71
+  },
+  {
+   "name": "ash-c0022",
+   "rect": [
+    256,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    0,
+    2,
+    2
+   ],
+   "index": 72
+  },
+  {
+   "name": "ash-c1022",
+   "rect": [
+    288,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    0,
+    2,
+    2
+   ],
+   "index": 73
+  },
+  {
+   "name": "ash-c2022",
+   "rect": [
+    320,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    0,
+    2,
+    2
+   ],
+   "index": 74
+  },
+  {
+   "name": "ash-c0122",
+   "rect": [
+    352,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    1,
+    2,
+    2
+   ],
+   "index": 75
+  },
+  {
+   "name": "ash-c1122",
+   "rect": [
+    384,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    1,
+    2,
+    2
+   ],
+   "index": 76
+  },
+  {
+   "name": "ash-c2122",
+   "rect": [
+    416,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    1,
+    2,
+    2
+   ],
+   "index": 77
+  },
+  {
+   "name": "ash-c0222",
+   "rect": [
+    448,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    0,
+    2,
+    2,
+    2
+   ],
+   "index": 78
+  },
+  {
+   "name": "ash-c1222",
+   "rect": [
+    480,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    1,
+    2,
+    2,
+    2
+   ],
+   "index": 79
+  },
+  {
+   "name": "ash-c2222",
+   "rect": [
+    512,
+    64,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "ash",
+   "corners": [
+    2,
+    2,
+    2,
+    2
+   ],
+   "index": 80
+  },
+  {
+   "name": "asphalt-c0000",
+   "rect": [
+    0,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "index": 0
+  },
+  {
+   "name": "asphalt-c1000",
+   "rect": [
+    32,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "index": 1
+  },
+  {
+   "name": "asphalt-c2000",
+   "rect": [
+    64,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "index": 2
+  },
+  {
+   "name": "asphalt-c0100",
+   "rect": [
+    96,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    1,
+    0,
+    0
+   ],
+   "index": 3
+  },
+  {
+   "name": "asphalt-c1100",
+   "rect": [
+    128,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    1,
+    0,
+    0
+   ],
+   "index": 4
+  },
+  {
+   "name": "asphalt-c2100",
+   "rect": [
+    160,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    1,
+    0,
+    0
+   ],
+   "index": 5
+  },
+  {
+   "name": "asphalt-c0200",
+   "rect": [
+    192,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    2,
+    0,
+    0
+   ],
+   "index": 6
+  },
+  {
+   "name": "asphalt-c1200",
+   "rect": [
+    224,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    2,
+    0,
+    0
+   ],
+   "index": 7
+  },
+  {
+   "name": "asphalt-c2200",
+   "rect": [
+    256,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    2,
+    0,
+    0
+   ],
+   "index": 8
+  },
+  {
+   "name": "asphalt-c0010",
+   "rect": [
+    288,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    0,
+    1,
+    0
+   ],
+   "index": 9
+  },
+  {
+   "name": "asphalt-c1010",
+   "rect": [
+    320,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    0,
+    1,
+    0
+   ],
+   "index": 10
+  },
+  {
+   "name": "asphalt-c2010",
+   "rect": [
+    352,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    0,
+    1,
+    0
+   ],
+   "index": 11
+  },
+  {
+   "name": "asphalt-c0110",
+   "rect": [
+    384,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    1,
+    1,
+    0
+   ],
+   "index": 12
+  },
+  {
+   "name": "asphalt-c1110",
+   "rect": [
+    416,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    1,
+    1,
+    0
+   ],
+   "index": 13
+  },
+  {
+   "name": "asphalt-c2110",
+   "rect": [
+    448,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    1,
+    1,
+    0
+   ],
+   "index": 14
+  },
+  {
+   "name": "asphalt-c0210",
+   "rect": [
+    480,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    2,
+    1,
+    0
+   ],
+   "index": 15
+  },
+  {
+   "name": "asphalt-c1210",
+   "rect": [
+    512,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    2,
+    1,
+    0
+   ],
+   "index": 16
+  },
+  {
+   "name": "asphalt-c2210",
+   "rect": [
+    544,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    2,
+    1,
+    0
+   ],
+   "index": 17
+  },
+  {
+   "name": "asphalt-c0020",
+   "rect": [
+    576,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    0,
+    2,
+    0
+   ],
+   "index": 18
+  },
+  {
+   "name": "asphalt-c1020",
+   "rect": [
+    608,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    0,
+    2,
+    0
+   ],
+   "index": 19
+  },
+  {
+   "name": "asphalt-c2020",
+   "rect": [
+    640,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    0,
+    2,
+    0
+   ],
+   "index": 20
+  },
+  {
+   "name": "asphalt-c0120",
+   "rect": [
+    672,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    1,
+    2,
+    0
+   ],
+   "index": 21
+  },
+  {
+   "name": "asphalt-c1120",
+   "rect": [
+    704,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    1,
+    2,
+    0
+   ],
+   "index": 22
+  },
+  {
+   "name": "asphalt-c2120",
+   "rect": [
+    736,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    1,
+    2,
+    0
+   ],
+   "index": 23
+  },
+  {
+   "name": "asphalt-c0220",
+   "rect": [
+    768,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    2,
+    2,
+    0
+   ],
+   "index": 24
+  },
+  {
+   "name": "asphalt-c1220",
+   "rect": [
+    800,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    2,
+    2,
+    0
+   ],
+   "index": 25
+  },
+  {
+   "name": "asphalt-c2220",
+   "rect": [
+    832,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    2,
+    2,
+    0
+   ],
+   "index": 26
+  },
+  {
+   "name": "asphalt-c0001",
+   "rect": [
+    864,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "index": 27
+  },
+  {
+   "name": "asphalt-c1001",
+   "rect": [
+    896,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    0,
+    0,
+    1
+   ],
+   "index": 28
+  },
+  {
+   "name": "asphalt-c2001",
+   "rect": [
+    928,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    0,
+    0,
+    1
+   ],
+   "index": 29
+  },
+  {
+   "name": "asphalt-c0101",
+   "rect": [
+    960,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    1,
+    0,
+    1
+   ],
+   "index": 30
+  },
+  {
+   "name": "asphalt-c1101",
+   "rect": [
+    992,
+    96,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    1,
+    0,
+    1
+   ],
+   "index": 31
+  },
+  {
+   "name": "asphalt-c2101",
+   "rect": [
+    0,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    1,
+    0,
+    1
+   ],
+   "index": 32
+  },
+  {
+   "name": "asphalt-c0201",
+   "rect": [
+    32,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    2,
+    0,
+    1
+   ],
+   "index": 33
+  },
+  {
+   "name": "asphalt-c1201",
+   "rect": [
+    64,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    2,
+    0,
+    1
+   ],
+   "index": 34
+  },
+  {
+   "name": "asphalt-c2201",
+   "rect": [
+    96,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    2,
+    0,
+    1
+   ],
+   "index": 35
+  },
+  {
+   "name": "asphalt-c0011",
+   "rect": [
+    128,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "index": 36
+  },
+  {
+   "name": "asphalt-c1011",
+   "rect": [
+    160,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    0,
+    1,
+    1
+   ],
+   "index": 37
+  },
+  {
+   "name": "asphalt-c2011",
+   "rect": [
+    192,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    0,
+    1,
+    1
+   ],
+   "index": 38
+  },
+  {
+   "name": "asphalt-c0111",
+   "rect": [
+    224,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    1,
+    1,
+    1
+   ],
+   "index": 39
+  },
+  {
+   "name": "asphalt-c1111",
+   "rect": [
+    256,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "index": 40
+  },
+  {
+   "name": "asphalt-c2111",
+   "rect": [
+    288,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    1,
+    1,
+    1
+   ],
+   "index": 41
+  },
+  {
+   "name": "asphalt-c0211",
+   "rect": [
+    320,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    2,
+    1,
+    1
+   ],
+   "index": 42
+  },
+  {
+   "name": "asphalt-c1211",
+   "rect": [
+    352,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    2,
+    1,
+    1
+   ],
+   "index": 43
+  },
+  {
+   "name": "asphalt-c2211",
+   "rect": [
+    384,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    2,
+    1,
+    1
+   ],
+   "index": 44
+  },
+  {
+   "name": "asphalt-c0021",
+   "rect": [
+    416,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    0,
+    2,
+    1
+   ],
+   "index": 45
+  },
+  {
+   "name": "asphalt-c1021",
+   "rect": [
+    448,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    0,
+    2,
+    1
+   ],
+   "index": 46
+  },
+  {
+   "name": "asphalt-c2021",
+   "rect": [
+    480,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    0,
+    2,
+    1
+   ],
+   "index": 47
+  },
+  {
+   "name": "asphalt-c0121",
+   "rect": [
+    512,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    1,
+    2,
+    1
+   ],
+   "index": 48
+  },
+  {
+   "name": "asphalt-c1121",
+   "rect": [
+    544,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "index": 49
+  },
+  {
+   "name": "asphalt-c2121",
+   "rect": [
+    576,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    1,
+    2,
+    1
+   ],
+   "index": 50
+  },
+  {
+   "name": "asphalt-c0221",
+   "rect": [
+    608,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    2,
+    2,
+    1
+   ],
+   "index": 51
+  },
+  {
+   "name": "asphalt-c1221",
+   "rect": [
+    640,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    2,
+    2,
+    1
+   ],
+   "index": 52
+  },
+  {
+   "name": "asphalt-c2221",
+   "rect": [
+    672,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    2,
+    2,
+    1
+   ],
+   "index": 53
+  },
+  {
+   "name": "asphalt-c0002",
+   "rect": [
+    704,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    0,
+    0,
+    2
+   ],
+   "index": 54
+  },
+  {
+   "name": "asphalt-c1002",
+   "rect": [
+    736,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    0,
+    0,
+    2
+   ],
+   "index": 55
+  },
+  {
+   "name": "asphalt-c2002",
+   "rect": [
+    768,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    0,
+    0,
+    2
+   ],
+   "index": 56
+  },
+  {
+   "name": "asphalt-c0102",
+   "rect": [
+    800,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    1,
+    0,
+    2
+   ],
+   "index": 57
+  },
+  {
+   "name": "asphalt-c1102",
+   "rect": [
+    832,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    1,
+    0,
+    2
+   ],
+   "index": 58
+  },
+  {
+   "name": "asphalt-c2102",
+   "rect": [
+    864,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    1,
+    0,
+    2
+   ],
+   "index": 59
+  },
+  {
+   "name": "asphalt-c0202",
+   "rect": [
+    896,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    2,
+    0,
+    2
+   ],
+   "index": 60
+  },
+  {
+   "name": "asphalt-c1202",
+   "rect": [
+    928,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    2,
+    0,
+    2
+   ],
+   "index": 61
+  },
+  {
+   "name": "asphalt-c2202",
+   "rect": [
+    960,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    2,
+    0,
+    2
+   ],
+   "index": 62
+  },
+  {
+   "name": "asphalt-c0012",
+   "rect": [
+    992,
+    128,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    0,
+    1,
+    2
+   ],
+   "index": 63
+  },
+  {
+   "name": "asphalt-c1012",
+   "rect": [
+    0,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    0,
+    1,
+    2
+   ],
+   "index": 64
+  },
+  {
+   "name": "asphalt-c2012",
+   "rect": [
+    32,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    0,
+    1,
+    2
+   ],
+   "index": 65
+  },
+  {
+   "name": "asphalt-c0112",
+   "rect": [
+    64,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    1,
+    1,
+    2
+   ],
+   "index": 66
+  },
+  {
+   "name": "asphalt-c1112",
+   "rect": [
+    96,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    1,
+    1,
+    2
+   ],
+   "index": 67
+  },
+  {
+   "name": "asphalt-c2112",
+   "rect": [
+    128,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    1,
+    1,
+    2
+   ],
+   "index": 68
+  },
+  {
+   "name": "asphalt-c0212",
+   "rect": [
+    160,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    2,
+    1,
+    2
+   ],
+   "index": 69
+  },
+  {
+   "name": "asphalt-c1212",
+   "rect": [
+    192,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    2,
+    1,
+    2
+   ],
+   "index": 70
+  },
+  {
+   "name": "asphalt-c2212",
+   "rect": [
+    224,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    2,
+    1,
+    2
+   ],
+   "index": 71
+  },
+  {
+   "name": "asphalt-c0022",
+   "rect": [
+    256,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    0,
+    2,
+    2
+   ],
+   "index": 72
+  },
+  {
+   "name": "asphalt-c1022",
+   "rect": [
+    288,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    0,
+    2,
+    2
+   ],
+   "index": 73
+  },
+  {
+   "name": "asphalt-c2022",
+   "rect": [
+    320,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    0,
+    2,
+    2
+   ],
+   "index": 74
+  },
+  {
+   "name": "asphalt-c0122",
+   "rect": [
+    352,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    1,
+    2,
+    2
+   ],
+   "index": 75
+  },
+  {
+   "name": "asphalt-c1122",
+   "rect": [
+    384,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    1,
+    2,
+    2
+   ],
+   "index": 76
+  },
+  {
+   "name": "asphalt-c2122",
+   "rect": [
+    416,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    1,
+    2,
+    2
+   ],
+   "index": 77
+  },
+  {
+   "name": "asphalt-c0222",
+   "rect": [
+    448,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    0,
+    2,
+    2,
+    2
+   ],
+   "index": 78
+  },
+  {
+   "name": "asphalt-c1222",
+   "rect": [
+    480,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    1,
+    2,
+    2,
+    2
+   ],
+   "index": 79
+  },
+  {
+   "name": "asphalt-c2222",
+   "rect": [
+    512,
+    160,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "asphalt",
+   "corners": [
+    2,
+    2,
+    2,
+    2
+   ],
+   "index": 80
+  },
+  {
+   "name": "scorched-c0000",
+   "rect": [
+    0,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "index": 0
+  },
+  {
+   "name": "scorched-c1000",
+   "rect": [
+    32,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "index": 1
+  },
+  {
+   "name": "scorched-c2000",
+   "rect": [
+    64,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "index": 2
+  },
+  {
+   "name": "scorched-c0100",
+   "rect": [
+    96,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    1,
+    0,
+    0
+   ],
+   "index": 3
+  },
+  {
+   "name": "scorched-c1100",
+   "rect": [
+    128,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    1,
+    0,
+    0
+   ],
+   "index": 4
+  },
+  {
+   "name": "scorched-c2100",
+   "rect": [
+    160,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    1,
+    0,
+    0
+   ],
+   "index": 5
+  },
+  {
+   "name": "scorched-c0200",
+   "rect": [
+    192,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    2,
+    0,
+    0
+   ],
+   "index": 6
+  },
+  {
+   "name": "scorched-c1200",
+   "rect": [
+    224,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    2,
+    0,
+    0
+   ],
+   "index": 7
+  },
+  {
+   "name": "scorched-c2200",
+   "rect": [
+    256,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    2,
+    0,
+    0
+   ],
+   "index": 8
+  },
+  {
+   "name": "scorched-c0010",
+   "rect": [
+    288,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    0,
+    1,
+    0
+   ],
+   "index": 9
+  },
+  {
+   "name": "scorched-c1010",
+   "rect": [
+    320,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    0,
+    1,
+    0
+   ],
+   "index": 10
+  },
+  {
+   "name": "scorched-c2010",
+   "rect": [
+    352,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    0,
+    1,
+    0
+   ],
+   "index": 11
+  },
+  {
+   "name": "scorched-c0110",
+   "rect": [
+    384,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    1,
+    1,
+    0
+   ],
+   "index": 12
+  },
+  {
+   "name": "scorched-c1110",
+   "rect": [
+    416,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    1,
+    1,
+    0
+   ],
+   "index": 13
+  },
+  {
+   "name": "scorched-c2110",
+   "rect": [
+    448,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    1,
+    1,
+    0
+   ],
+   "index": 14
+  },
+  {
+   "name": "scorched-c0210",
+   "rect": [
+    480,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    2,
+    1,
+    0
+   ],
+   "index": 15
+  },
+  {
+   "name": "scorched-c1210",
+   "rect": [
+    512,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    2,
+    1,
+    0
+   ],
+   "index": 16
+  },
+  {
+   "name": "scorched-c2210",
+   "rect": [
+    544,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    2,
+    1,
+    0
+   ],
+   "index": 17
+  },
+  {
+   "name": "scorched-c0020",
+   "rect": [
+    576,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    0,
+    2,
+    0
+   ],
+   "index": 18
+  },
+  {
+   "name": "scorched-c1020",
+   "rect": [
+    608,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    0,
+    2,
+    0
+   ],
+   "index": 19
+  },
+  {
+   "name": "scorched-c2020",
+   "rect": [
+    640,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    0,
+    2,
+    0
+   ],
+   "index": 20
+  },
+  {
+   "name": "scorched-c0120",
+   "rect": [
+    672,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    1,
+    2,
+    0
+   ],
+   "index": 21
+  },
+  {
+   "name": "scorched-c1120",
+   "rect": [
+    704,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    1,
+    2,
+    0
+   ],
+   "index": 22
+  },
+  {
+   "name": "scorched-c2120",
+   "rect": [
+    736,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    1,
+    2,
+    0
+   ],
+   "index": 23
+  },
+  {
+   "name": "scorched-c0220",
+   "rect": [
+    768,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    2,
+    2,
+    0
+   ],
+   "index": 24
+  },
+  {
+   "name": "scorched-c1220",
+   "rect": [
+    800,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    2,
+    2,
+    0
+   ],
+   "index": 25
+  },
+  {
+   "name": "scorched-c2220",
+   "rect": [
+    832,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    2,
+    2,
+    0
+   ],
+   "index": 26
+  },
+  {
+   "name": "scorched-c0001",
+   "rect": [
+    864,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "index": 27
+  },
+  {
+   "name": "scorched-c1001",
+   "rect": [
+    896,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    0,
+    0,
+    1
+   ],
+   "index": 28
+  },
+  {
+   "name": "scorched-c2001",
+   "rect": [
+    928,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    0,
+    0,
+    1
+   ],
+   "index": 29
+  },
+  {
+   "name": "scorched-c0101",
+   "rect": [
+    960,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    1,
+    0,
+    1
+   ],
+   "index": 30
+  },
+  {
+   "name": "scorched-c1101",
+   "rect": [
+    992,
+    192,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    1,
+    0,
+    1
+   ],
+   "index": 31
+  },
+  {
+   "name": "scorched-c2101",
+   "rect": [
+    0,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    1,
+    0,
+    1
+   ],
+   "index": 32
+  },
+  {
+   "name": "scorched-c0201",
+   "rect": [
+    32,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    2,
+    0,
+    1
+   ],
+   "index": 33
+  },
+  {
+   "name": "scorched-c1201",
+   "rect": [
+    64,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    2,
+    0,
+    1
+   ],
+   "index": 34
+  },
+  {
+   "name": "scorched-c2201",
+   "rect": [
+    96,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    2,
+    0,
+    1
+   ],
+   "index": 35
+  },
+  {
+   "name": "scorched-c0011",
+   "rect": [
+    128,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "index": 36
+  },
+  {
+   "name": "scorched-c1011",
+   "rect": [
+    160,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    0,
+    1,
+    1
+   ],
+   "index": 37
+  },
+  {
+   "name": "scorched-c2011",
+   "rect": [
+    192,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    0,
+    1,
+    1
+   ],
+   "index": 38
+  },
+  {
+   "name": "scorched-c0111",
+   "rect": [
+    224,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    1,
+    1,
+    1
+   ],
+   "index": 39
+  },
+  {
+   "name": "scorched-c1111",
+   "rect": [
+    256,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "index": 40
+  },
+  {
+   "name": "scorched-c2111",
+   "rect": [
+    288,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    1,
+    1,
+    1
+   ],
+   "index": 41
+  },
+  {
+   "name": "scorched-c0211",
+   "rect": [
+    320,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    2,
+    1,
+    1
+   ],
+   "index": 42
+  },
+  {
+   "name": "scorched-c1211",
+   "rect": [
+    352,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    2,
+    1,
+    1
+   ],
+   "index": 43
+  },
+  {
+   "name": "scorched-c2211",
+   "rect": [
+    384,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    2,
+    1,
+    1
+   ],
+   "index": 44
+  },
+  {
+   "name": "scorched-c0021",
+   "rect": [
+    416,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    0,
+    2,
+    1
+   ],
+   "index": 45
+  },
+  {
+   "name": "scorched-c1021",
+   "rect": [
+    448,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    0,
+    2,
+    1
+   ],
+   "index": 46
+  },
+  {
+   "name": "scorched-c2021",
+   "rect": [
+    480,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    0,
+    2,
+    1
+   ],
+   "index": 47
+  },
+  {
+   "name": "scorched-c0121",
+   "rect": [
+    512,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    1,
+    2,
+    1
+   ],
+   "index": 48
+  },
+  {
+   "name": "scorched-c1121",
+   "rect": [
+    544,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "index": 49
+  },
+  {
+   "name": "scorched-c2121",
+   "rect": [
+    576,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    1,
+    2,
+    1
+   ],
+   "index": 50
+  },
+  {
+   "name": "scorched-c0221",
+   "rect": [
+    608,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    2,
+    2,
+    1
+   ],
+   "index": 51
+  },
+  {
+   "name": "scorched-c1221",
+   "rect": [
+    640,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    2,
+    2,
+    1
+   ],
+   "index": 52
+  },
+  {
+   "name": "scorched-c2221",
+   "rect": [
+    672,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    2,
+    2,
+    1
+   ],
+   "index": 53
+  },
+  {
+   "name": "scorched-c0002",
+   "rect": [
+    704,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    0,
+    0,
+    2
+   ],
+   "index": 54
+  },
+  {
+   "name": "scorched-c1002",
+   "rect": [
+    736,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    0,
+    0,
+    2
+   ],
+   "index": 55
+  },
+  {
+   "name": "scorched-c2002",
+   "rect": [
+    768,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    0,
+    0,
+    2
+   ],
+   "index": 56
+  },
+  {
+   "name": "scorched-c0102",
+   "rect": [
+    800,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    1,
+    0,
+    2
+   ],
+   "index": 57
+  },
+  {
+   "name": "scorched-c1102",
+   "rect": [
+    832,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    1,
+    0,
+    2
+   ],
+   "index": 58
+  },
+  {
+   "name": "scorched-c2102",
+   "rect": [
+    864,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    1,
+    0,
+    2
+   ],
+   "index": 59
+  },
+  {
+   "name": "scorched-c0202",
+   "rect": [
+    896,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    2,
+    0,
+    2
+   ],
+   "index": 60
+  },
+  {
+   "name": "scorched-c1202",
+   "rect": [
+    928,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    2,
+    0,
+    2
+   ],
+   "index": 61
+  },
+  {
+   "name": "scorched-c2202",
+   "rect": [
+    960,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    2,
+    0,
+    2
+   ],
+   "index": 62
+  },
+  {
+   "name": "scorched-c0012",
+   "rect": [
+    992,
+    224,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    0,
+    1,
+    2
+   ],
+   "index": 63
+  },
+  {
+   "name": "scorched-c1012",
+   "rect": [
+    0,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    0,
+    1,
+    2
+   ],
+   "index": 64
+  },
+  {
+   "name": "scorched-c2012",
+   "rect": [
+    32,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    0,
+    1,
+    2
+   ],
+   "index": 65
+  },
+  {
+   "name": "scorched-c0112",
+   "rect": [
+    64,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    1,
+    1,
+    2
+   ],
+   "index": 66
+  },
+  {
+   "name": "scorched-c1112",
+   "rect": [
+    96,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    1,
+    1,
+    2
+   ],
+   "index": 67
+  },
+  {
+   "name": "scorched-c2112",
+   "rect": [
+    128,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    1,
+    1,
+    2
+   ],
+   "index": 68
+  },
+  {
+   "name": "scorched-c0212",
+   "rect": [
+    160,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    2,
+    1,
+    2
+   ],
+   "index": 69
+  },
+  {
+   "name": "scorched-c1212",
+   "rect": [
+    192,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    2,
+    1,
+    2
+   ],
+   "index": 70
+  },
+  {
+   "name": "scorched-c2212",
+   "rect": [
+    224,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    2,
+    1,
+    2
+   ],
+   "index": 71
+  },
+  {
+   "name": "scorched-c0022",
+   "rect": [
+    256,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    0,
+    2,
+    2
+   ],
+   "index": 72
+  },
+  {
+   "name": "scorched-c1022",
+   "rect": [
+    288,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    0,
+    2,
+    2
+   ],
+   "index": 73
+  },
+  {
+   "name": "scorched-c2022",
+   "rect": [
+    320,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    0,
+    2,
+    2
+   ],
+   "index": 74
+  },
+  {
+   "name": "scorched-c0122",
+   "rect": [
+    352,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    1,
+    2,
+    2
+   ],
+   "index": 75
+  },
+  {
+   "name": "scorched-c1122",
+   "rect": [
+    384,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    1,
+    2,
+    2
+   ],
+   "index": 76
+  },
+  {
+   "name": "scorched-c2122",
+   "rect": [
+    416,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    1,
+    2,
+    2
+   ],
+   "index": 77
+  },
+  {
+   "name": "scorched-c0222",
+   "rect": [
+    448,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    0,
+    2,
+    2,
+    2
+   ],
+   "index": 78
+  },
+  {
+   "name": "scorched-c1222",
+   "rect": [
+    480,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    1,
+    2,
+    2,
+    2
+   ],
+   "index": 79
+  },
+  {
+   "name": "scorched-c2222",
+   "rect": [
+    512,
+    256,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "scorched",
+   "corners": [
+    2,
+    2,
+    2,
+    2
+   ],
+   "index": 80
+  },
+  {
+   "name": "salvage-c0000",
+   "rect": [
+    0,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "index": 0
+  },
+  {
+   "name": "salvage-c1000",
+   "rect": [
+    32,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "index": 1
+  },
+  {
+   "name": "salvage-c2000",
+   "rect": [
+    64,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "index": 2
+  },
+  {
+   "name": "salvage-c0100",
+   "rect": [
+    96,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    1,
+    0,
+    0
+   ],
+   "index": 3
+  },
+  {
+   "name": "salvage-c1100",
+   "rect": [
+    128,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    1,
+    0,
+    0
+   ],
+   "index": 4
+  },
+  {
+   "name": "salvage-c2100",
+   "rect": [
+    160,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    1,
+    0,
+    0
+   ],
+   "index": 5
+  },
+  {
+   "name": "salvage-c0200",
+   "rect": [
+    192,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    2,
+    0,
+    0
+   ],
+   "index": 6
+  },
+  {
+   "name": "salvage-c1200",
+   "rect": [
+    224,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    2,
+    0,
+    0
+   ],
+   "index": 7
+  },
+  {
+   "name": "salvage-c2200",
+   "rect": [
+    256,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    2,
+    0,
+    0
+   ],
+   "index": 8
+  },
+  {
+   "name": "salvage-c0010",
+   "rect": [
+    288,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    0,
+    1,
+    0
+   ],
+   "index": 9
+  },
+  {
+   "name": "salvage-c1010",
+   "rect": [
+    320,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    0,
+    1,
+    0
+   ],
+   "index": 10
+  },
+  {
+   "name": "salvage-c2010",
+   "rect": [
+    352,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    0,
+    1,
+    0
+   ],
+   "index": 11
+  },
+  {
+   "name": "salvage-c0110",
+   "rect": [
+    384,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    1,
+    1,
+    0
+   ],
+   "index": 12
+  },
+  {
+   "name": "salvage-c1110",
+   "rect": [
+    416,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    1,
+    1,
+    0
+   ],
+   "index": 13
+  },
+  {
+   "name": "salvage-c2110",
+   "rect": [
+    448,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    1,
+    1,
+    0
+   ],
+   "index": 14
+  },
+  {
+   "name": "salvage-c0210",
+   "rect": [
+    480,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    2,
+    1,
+    0
+   ],
+   "index": 15
+  },
+  {
+   "name": "salvage-c1210",
+   "rect": [
+    512,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    2,
+    1,
+    0
+   ],
+   "index": 16
+  },
+  {
+   "name": "salvage-c2210",
+   "rect": [
+    544,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    2,
+    1,
+    0
+   ],
+   "index": 17
+  },
+  {
+   "name": "salvage-c0020",
+   "rect": [
+    576,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    0,
+    2,
+    0
+   ],
+   "index": 18
+  },
+  {
+   "name": "salvage-c1020",
+   "rect": [
+    608,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    0,
+    2,
+    0
+   ],
+   "index": 19
+  },
+  {
+   "name": "salvage-c2020",
+   "rect": [
+    640,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    0,
+    2,
+    0
+   ],
+   "index": 20
+  },
+  {
+   "name": "salvage-c0120",
+   "rect": [
+    672,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    1,
+    2,
+    0
+   ],
+   "index": 21
+  },
+  {
+   "name": "salvage-c1120",
+   "rect": [
+    704,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    1,
+    2,
+    0
+   ],
+   "index": 22
+  },
+  {
+   "name": "salvage-c2120",
+   "rect": [
+    736,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    1,
+    2,
+    0
+   ],
+   "index": 23
+  },
+  {
+   "name": "salvage-c0220",
+   "rect": [
+    768,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    2,
+    2,
+    0
+   ],
+   "index": 24
+  },
+  {
+   "name": "salvage-c1220",
+   "rect": [
+    800,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    2,
+    2,
+    0
+   ],
+   "index": 25
+  },
+  {
+   "name": "salvage-c2220",
+   "rect": [
+    832,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    2,
+    2,
+    0
+   ],
+   "index": 26
+  },
+  {
+   "name": "salvage-c0001",
+   "rect": [
+    864,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "index": 27
+  },
+  {
+   "name": "salvage-c1001",
+   "rect": [
+    896,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    0,
+    0,
+    1
+   ],
+   "index": 28
+  },
+  {
+   "name": "salvage-c2001",
+   "rect": [
+    928,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    0,
+    0,
+    1
+   ],
+   "index": 29
+  },
+  {
+   "name": "salvage-c0101",
+   "rect": [
+    960,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    1,
+    0,
+    1
+   ],
+   "index": 30
+  },
+  {
+   "name": "salvage-c1101",
+   "rect": [
+    992,
+    288,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    1,
+    0,
+    1
+   ],
+   "index": 31
+  },
+  {
+   "name": "salvage-c2101",
+   "rect": [
+    0,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    1,
+    0,
+    1
+   ],
+   "index": 32
+  },
+  {
+   "name": "salvage-c0201",
+   "rect": [
+    32,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    2,
+    0,
+    1
+   ],
+   "index": 33
+  },
+  {
+   "name": "salvage-c1201",
+   "rect": [
+    64,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    2,
+    0,
+    1
+   ],
+   "index": 34
+  },
+  {
+   "name": "salvage-c2201",
+   "rect": [
+    96,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    2,
+    0,
+    1
+   ],
+   "index": 35
+  },
+  {
+   "name": "salvage-c0011",
+   "rect": [
+    128,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "index": 36
+  },
+  {
+   "name": "salvage-c1011",
+   "rect": [
+    160,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    0,
+    1,
+    1
+   ],
+   "index": 37
+  },
+  {
+   "name": "salvage-c2011",
+   "rect": [
+    192,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    0,
+    1,
+    1
+   ],
+   "index": 38
+  },
+  {
+   "name": "salvage-c0111",
+   "rect": [
+    224,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    1,
+    1,
+    1
+   ],
+   "index": 39
+  },
+  {
+   "name": "salvage-c1111",
+   "rect": [
+    256,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "index": 40
+  },
+  {
+   "name": "salvage-c2111",
+   "rect": [
+    288,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    1,
+    1,
+    1
+   ],
+   "index": 41
+  },
+  {
+   "name": "salvage-c0211",
+   "rect": [
+    320,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    2,
+    1,
+    1
+   ],
+   "index": 42
+  },
+  {
+   "name": "salvage-c1211",
+   "rect": [
+    352,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    2,
+    1,
+    1
+   ],
+   "index": 43
+  },
+  {
+   "name": "salvage-c2211",
+   "rect": [
+    384,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    2,
+    1,
+    1
+   ],
+   "index": 44
+  },
+  {
+   "name": "salvage-c0021",
+   "rect": [
+    416,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    0,
+    2,
+    1
+   ],
+   "index": 45
+  },
+  {
+   "name": "salvage-c1021",
+   "rect": [
+    448,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    0,
+    2,
+    1
+   ],
+   "index": 46
+  },
+  {
+   "name": "salvage-c2021",
+   "rect": [
+    480,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    0,
+    2,
+    1
+   ],
+   "index": 47
+  },
+  {
+   "name": "salvage-c0121",
+   "rect": [
+    512,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    1,
+    2,
+    1
+   ],
+   "index": 48
+  },
+  {
+   "name": "salvage-c1121",
+   "rect": [
+    544,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "index": 49
+  },
+  {
+   "name": "salvage-c2121",
+   "rect": [
+    576,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    1,
+    2,
+    1
+   ],
+   "index": 50
+  },
+  {
+   "name": "salvage-c0221",
+   "rect": [
+    608,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    2,
+    2,
+    1
+   ],
+   "index": 51
+  },
+  {
+   "name": "salvage-c1221",
+   "rect": [
+    640,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    2,
+    2,
+    1
+   ],
+   "index": 52
+  },
+  {
+   "name": "salvage-c2221",
+   "rect": [
+    672,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    2,
+    2,
+    1
+   ],
+   "index": 53
+  },
+  {
+   "name": "salvage-c0002",
+   "rect": [
+    704,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    0,
+    0,
+    2
+   ],
+   "index": 54
+  },
+  {
+   "name": "salvage-c1002",
+   "rect": [
+    736,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    0,
+    0,
+    2
+   ],
+   "index": 55
+  },
+  {
+   "name": "salvage-c2002",
+   "rect": [
+    768,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    0,
+    0,
+    2
+   ],
+   "index": 56
+  },
+  {
+   "name": "salvage-c0102",
+   "rect": [
+    800,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    1,
+    0,
+    2
+   ],
+   "index": 57
+  },
+  {
+   "name": "salvage-c1102",
+   "rect": [
+    832,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    1,
+    0,
+    2
+   ],
+   "index": 58
+  },
+  {
+   "name": "salvage-c2102",
+   "rect": [
+    864,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    1,
+    0,
+    2
+   ],
+   "index": 59
+  },
+  {
+   "name": "salvage-c0202",
+   "rect": [
+    896,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    2,
+    0,
+    2
+   ],
+   "index": 60
+  },
+  {
+   "name": "salvage-c1202",
+   "rect": [
+    928,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    2,
+    0,
+    2
+   ],
+   "index": 61
+  },
+  {
+   "name": "salvage-c2202",
+   "rect": [
+    960,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    2,
+    0,
+    2
+   ],
+   "index": 62
+  },
+  {
+   "name": "salvage-c0012",
+   "rect": [
+    992,
+    320,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    0,
+    1,
+    2
+   ],
+   "index": 63
+  },
+  {
+   "name": "salvage-c1012",
+   "rect": [
+    0,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    0,
+    1,
+    2
+   ],
+   "index": 64
+  },
+  {
+   "name": "salvage-c2012",
+   "rect": [
+    32,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    0,
+    1,
+    2
+   ],
+   "index": 65
+  },
+  {
+   "name": "salvage-c0112",
+   "rect": [
+    64,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    1,
+    1,
+    2
+   ],
+   "index": 66
+  },
+  {
+   "name": "salvage-c1112",
+   "rect": [
+    96,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    1,
+    1,
+    2
+   ],
+   "index": 67
+  },
+  {
+   "name": "salvage-c2112",
+   "rect": [
+    128,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    1,
+    1,
+    2
+   ],
+   "index": 68
+  },
+  {
+   "name": "salvage-c0212",
+   "rect": [
+    160,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    2,
+    1,
+    2
+   ],
+   "index": 69
+  },
+  {
+   "name": "salvage-c1212",
+   "rect": [
+    192,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    2,
+    1,
+    2
+   ],
+   "index": 70
+  },
+  {
+   "name": "salvage-c2212",
+   "rect": [
+    224,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    2,
+    1,
+    2
+   ],
+   "index": 71
+  },
+  {
+   "name": "salvage-c0022",
+   "rect": [
+    256,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    0,
+    2,
+    2
+   ],
+   "index": 72
+  },
+  {
+   "name": "salvage-c1022",
+   "rect": [
+    288,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    0,
+    2,
+    2
+   ],
+   "index": 73
+  },
+  {
+   "name": "salvage-c2022",
+   "rect": [
+    320,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    0,
+    2,
+    2
+   ],
+   "index": 74
+  },
+  {
+   "name": "salvage-c0122",
+   "rect": [
+    352,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    1,
+    2,
+    2
+   ],
+   "index": 75
+  },
+  {
+   "name": "salvage-c1122",
+   "rect": [
+    384,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    1,
+    2,
+    2
+   ],
+   "index": 76
+  },
+  {
+   "name": "salvage-c2122",
+   "rect": [
+    416,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    1,
+    2,
+    2
+   ],
+   "index": 77
+  },
+  {
+   "name": "salvage-c0222",
+   "rect": [
+    448,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    0,
+    2,
+    2,
+    2
+   ],
+   "index": 78
+  },
+  {
+   "name": "salvage-c1222",
+   "rect": [
+    480,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    1,
+    2,
+    2,
+    2
+   ],
+   "index": 79
+  },
+  {
+   "name": "salvage-c2222",
+   "rect": [
+    512,
+    352,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "salvage",
+   "corners": [
+    2,
+    2,
+    2,
+    2
+   ],
+   "index": 80
+  },
+  {
+   "name": "sludge-c0000",
+   "rect": [
+    0,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "index": 0
+  },
+  {
+   "name": "sludge-c1000",
+   "rect": [
+    32,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "index": 1
+  },
+  {
+   "name": "sludge-c2000",
+   "rect": [
+    64,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "index": 2
+  },
+  {
+   "name": "sludge-c0100",
+   "rect": [
+    96,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    1,
+    0,
+    0
+   ],
+   "index": 3
+  },
+  {
+   "name": "sludge-c1100",
+   "rect": [
+    128,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    1,
+    0,
+    0
+   ],
+   "index": 4
+  },
+  {
+   "name": "sludge-c2100",
+   "rect": [
+    160,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    1,
+    0,
+    0
+   ],
+   "index": 5
+  },
+  {
+   "name": "sludge-c0200",
+   "rect": [
+    192,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    2,
+    0,
+    0
+   ],
+   "index": 6
+  },
+  {
+   "name": "sludge-c1200",
+   "rect": [
+    224,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    2,
+    0,
+    0
+   ],
+   "index": 7
+  },
+  {
+   "name": "sludge-c2200",
+   "rect": [
+    256,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    2,
+    0,
+    0
+   ],
+   "index": 8
+  },
+  {
+   "name": "sludge-c0010",
+   "rect": [
+    288,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    0,
+    1,
+    0
+   ],
+   "index": 9
+  },
+  {
+   "name": "sludge-c1010",
+   "rect": [
+    320,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    0,
+    1,
+    0
+   ],
+   "index": 10
+  },
+  {
+   "name": "sludge-c2010",
+   "rect": [
+    352,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    0,
+    1,
+    0
+   ],
+   "index": 11
+  },
+  {
+   "name": "sludge-c0110",
+   "rect": [
+    384,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    1,
+    1,
+    0
+   ],
+   "index": 12
+  },
+  {
+   "name": "sludge-c1110",
+   "rect": [
+    416,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    1,
+    1,
+    0
+   ],
+   "index": 13
+  },
+  {
+   "name": "sludge-c2110",
+   "rect": [
+    448,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    1,
+    1,
+    0
+   ],
+   "index": 14
+  },
+  {
+   "name": "sludge-c0210",
+   "rect": [
+    480,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    2,
+    1,
+    0
+   ],
+   "index": 15
+  },
+  {
+   "name": "sludge-c1210",
+   "rect": [
+    512,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    2,
+    1,
+    0
+   ],
+   "index": 16
+  },
+  {
+   "name": "sludge-c2210",
+   "rect": [
+    544,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    2,
+    1,
+    0
+   ],
+   "index": 17
+  },
+  {
+   "name": "sludge-c0020",
+   "rect": [
+    576,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    0,
+    2,
+    0
+   ],
+   "index": 18
+  },
+  {
+   "name": "sludge-c1020",
+   "rect": [
+    608,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    0,
+    2,
+    0
+   ],
+   "index": 19
+  },
+  {
+   "name": "sludge-c2020",
+   "rect": [
+    640,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    0,
+    2,
+    0
+   ],
+   "index": 20
+  },
+  {
+   "name": "sludge-c0120",
+   "rect": [
+    672,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    1,
+    2,
+    0
+   ],
+   "index": 21
+  },
+  {
+   "name": "sludge-c1120",
+   "rect": [
+    704,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    1,
+    2,
+    0
+   ],
+   "index": 22
+  },
+  {
+   "name": "sludge-c2120",
+   "rect": [
+    736,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    1,
+    2,
+    0
+   ],
+   "index": 23
+  },
+  {
+   "name": "sludge-c0220",
+   "rect": [
+    768,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    2,
+    2,
+    0
+   ],
+   "index": 24
+  },
+  {
+   "name": "sludge-c1220",
+   "rect": [
+    800,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    2,
+    2,
+    0
+   ],
+   "index": 25
+  },
+  {
+   "name": "sludge-c2220",
+   "rect": [
+    832,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    2,
+    2,
+    0
+   ],
+   "index": 26
+  },
+  {
+   "name": "sludge-c0001",
+   "rect": [
+    864,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "index": 27
+  },
+  {
+   "name": "sludge-c1001",
+   "rect": [
+    896,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    0,
+    0,
+    1
+   ],
+   "index": 28
+  },
+  {
+   "name": "sludge-c2001",
+   "rect": [
+    928,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    0,
+    0,
+    1
+   ],
+   "index": 29
+  },
+  {
+   "name": "sludge-c0101",
+   "rect": [
+    960,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    1,
+    0,
+    1
+   ],
+   "index": 30
+  },
+  {
+   "name": "sludge-c1101",
+   "rect": [
+    992,
+    384,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    1,
+    0,
+    1
+   ],
+   "index": 31
+  },
+  {
+   "name": "sludge-c2101",
+   "rect": [
+    0,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    1,
+    0,
+    1
+   ],
+   "index": 32
+  },
+  {
+   "name": "sludge-c0201",
+   "rect": [
+    32,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    2,
+    0,
+    1
+   ],
+   "index": 33
+  },
+  {
+   "name": "sludge-c1201",
+   "rect": [
+    64,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    2,
+    0,
+    1
+   ],
+   "index": 34
+  },
+  {
+   "name": "sludge-c2201",
+   "rect": [
+    96,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    2,
+    0,
+    1
+   ],
+   "index": 35
+  },
+  {
+   "name": "sludge-c0011",
+   "rect": [
+    128,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "index": 36
+  },
+  {
+   "name": "sludge-c1011",
+   "rect": [
+    160,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    0,
+    1,
+    1
+   ],
+   "index": 37
+  },
+  {
+   "name": "sludge-c2011",
+   "rect": [
+    192,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    0,
+    1,
+    1
+   ],
+   "index": 38
+  },
+  {
+   "name": "sludge-c0111",
+   "rect": [
+    224,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    1,
+    1,
+    1
+   ],
+   "index": 39
+  },
+  {
+   "name": "sludge-c1111",
+   "rect": [
+    256,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "index": 40
+  },
+  {
+   "name": "sludge-c2111",
+   "rect": [
+    288,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    1,
+    1,
+    1
+   ],
+   "index": 41
+  },
+  {
+   "name": "sludge-c0211",
+   "rect": [
+    320,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    2,
+    1,
+    1
+   ],
+   "index": 42
+  },
+  {
+   "name": "sludge-c1211",
+   "rect": [
+    352,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    2,
+    1,
+    1
+   ],
+   "index": 43
+  },
+  {
+   "name": "sludge-c2211",
+   "rect": [
+    384,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    2,
+    1,
+    1
+   ],
+   "index": 44
+  },
+  {
+   "name": "sludge-c0021",
+   "rect": [
+    416,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    0,
+    2,
+    1
+   ],
+   "index": 45
+  },
+  {
+   "name": "sludge-c1021",
+   "rect": [
+    448,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    0,
+    2,
+    1
+   ],
+   "index": 46
+  },
+  {
+   "name": "sludge-c2021",
+   "rect": [
+    480,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    0,
+    2,
+    1
+   ],
+   "index": 47
+  },
+  {
+   "name": "sludge-c0121",
+   "rect": [
+    512,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    1,
+    2,
+    1
+   ],
+   "index": 48
+  },
+  {
+   "name": "sludge-c1121",
+   "rect": [
+    544,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    1,
+    2,
+    1
+   ],
+   "index": 49
+  },
+  {
+   "name": "sludge-c2121",
+   "rect": [
+    576,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    1,
+    2,
+    1
+   ],
+   "index": 50
+  },
+  {
+   "name": "sludge-c0221",
+   "rect": [
+    608,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    2,
+    2,
+    1
+   ],
+   "index": 51
+  },
+  {
+   "name": "sludge-c1221",
+   "rect": [
+    640,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    2,
+    2,
+    1
+   ],
+   "index": 52
+  },
+  {
+   "name": "sludge-c2221",
+   "rect": [
+    672,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    2,
+    2,
+    1
+   ],
+   "index": 53
+  },
+  {
+   "name": "sludge-c0002",
+   "rect": [
+    704,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    0,
+    0,
+    2
+   ],
+   "index": 54
+  },
+  {
+   "name": "sludge-c1002",
+   "rect": [
+    736,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    0,
+    0,
+    2
+   ],
+   "index": 55
+  },
+  {
+   "name": "sludge-c2002",
+   "rect": [
+    768,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    0,
+    0,
+    2
+   ],
+   "index": 56
+  },
+  {
+   "name": "sludge-c0102",
+   "rect": [
+    800,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    1,
+    0,
+    2
+   ],
+   "index": 57
+  },
+  {
+   "name": "sludge-c1102",
+   "rect": [
+    832,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    1,
+    0,
+    2
+   ],
+   "index": 58
+  },
+  {
+   "name": "sludge-c2102",
+   "rect": [
+    864,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    1,
+    0,
+    2
+   ],
+   "index": 59
+  },
+  {
+   "name": "sludge-c0202",
+   "rect": [
+    896,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    2,
+    0,
+    2
+   ],
+   "index": 60
+  },
+  {
+   "name": "sludge-c1202",
+   "rect": [
+    928,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    2,
+    0,
+    2
+   ],
+   "index": 61
+  },
+  {
+   "name": "sludge-c2202",
+   "rect": [
+    960,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    2,
+    0,
+    2
+   ],
+   "index": 62
+  },
+  {
+   "name": "sludge-c0012",
+   "rect": [
+    992,
+    416,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    0,
+    1,
+    2
+   ],
+   "index": 63
+  },
+  {
+   "name": "sludge-c1012",
+   "rect": [
+    0,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    0,
+    1,
+    2
+   ],
+   "index": 64
+  },
+  {
+   "name": "sludge-c2012",
+   "rect": [
+    32,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    0,
+    1,
+    2
+   ],
+   "index": 65
+  },
+  {
+   "name": "sludge-c0112",
+   "rect": [
+    64,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    1,
+    1,
+    2
+   ],
+   "index": 66
+  },
+  {
+   "name": "sludge-c1112",
+   "rect": [
+    96,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    1,
+    1,
+    2
+   ],
+   "index": 67
+  },
+  {
+   "name": "sludge-c2112",
+   "rect": [
+    128,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    1,
+    1,
+    2
+   ],
+   "index": 68
+  },
+  {
+   "name": "sludge-c0212",
+   "rect": [
+    160,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    2,
+    1,
+    2
+   ],
+   "index": 69
+  },
+  {
+   "name": "sludge-c1212",
+   "rect": [
+    192,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    2,
+    1,
+    2
+   ],
+   "index": 70
+  },
+  {
+   "name": "sludge-c2212",
+   "rect": [
+    224,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    2,
+    1,
+    2
+   ],
+   "index": 71
+  },
+  {
+   "name": "sludge-c0022",
+   "rect": [
+    256,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    0,
+    2,
+    2
+   ],
+   "index": 72
+  },
+  {
+   "name": "sludge-c1022",
+   "rect": [
+    288,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    0,
+    2,
+    2
+   ],
+   "index": 73
+  },
+  {
+   "name": "sludge-c2022",
+   "rect": [
+    320,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    0,
+    2,
+    2
+   ],
+   "index": 74
+  },
+  {
+   "name": "sludge-c0122",
+   "rect": [
+    352,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    1,
+    2,
+    2
+   ],
+   "index": 75
+  },
+  {
+   "name": "sludge-c1122",
+   "rect": [
+    384,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    1,
+    2,
+    2
+   ],
+   "index": 76
+  },
+  {
+   "name": "sludge-c2122",
+   "rect": [
+    416,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    1,
+    2,
+    2
+   ],
+   "index": 77
+  },
+  {
+   "name": "sludge-c0222",
+   "rect": [
+    448,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    0,
+    2,
+    2,
+    2
+   ],
+   "index": 78
+  },
+  {
+   "name": "sludge-c1222",
+   "rect": [
+    480,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    1,
+    2,
+    2,
+    2
+   ],
+   "index": 79
+  },
+  {
+   "name": "sludge-c2222",
+   "rect": [
+    512,
+    448,
+    32,
+    32
+   ],
+   "kind": "wang",
+   "terrain": "sludge",
+   "corners": [
+    2,
+    2,
+    2,
+    2
+   ],
+   "index": 80
+  },
+  {
+   "name": "mask-00-v0",
+   "rect": [
+    0,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 0,
+   "variant": 0
+  },
+  {
+   "name": "mask-01-v0",
+   "rect": [
+    32,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 1,
+   "variant": 0
+  },
+  {
+   "name": "mask-02-v0",
+   "rect": [
+    64,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 2,
+   "variant": 0
+  },
+  {
+   "name": "mask-03-v0",
+   "rect": [
+    96,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 3,
+   "variant": 0
+  },
+  {
+   "name": "mask-04-v0",
+   "rect": [
+    128,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 4,
+   "variant": 0
+  },
+  {
+   "name": "mask-05-v0",
+   "rect": [
+    160,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 5,
+   "variant": 0
+  },
+  {
+   "name": "mask-06-v0",
+   "rect": [
+    192,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 6,
+   "variant": 0
+  },
+  {
+   "name": "mask-07-v0",
+   "rect": [
+    224,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 7,
+   "variant": 0
+  },
+  {
+   "name": "mask-08-v0",
+   "rect": [
+    256,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 8,
+   "variant": 0
+  },
+  {
+   "name": "mask-09-v0",
+   "rect": [
+    288,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 9,
+   "variant": 0
+  },
+  {
+   "name": "mask-10-v0",
+   "rect": [
+    320,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 10,
+   "variant": 0
+  },
+  {
+   "name": "mask-11-v0",
+   "rect": [
+    352,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 11,
+   "variant": 0
+  },
+  {
+   "name": "mask-12-v0",
+   "rect": [
+    384,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 12,
+   "variant": 0
+  },
+  {
+   "name": "mask-13-v0",
+   "rect": [
+    416,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 13,
+   "variant": 0
+  },
+  {
+   "name": "mask-14-v0",
+   "rect": [
+    448,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 14,
+   "variant": 0
+  },
+  {
+   "name": "mask-15-v0",
+   "rect": [
+    480,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 15,
+   "variant": 0
+  },
+  {
+   "name": "mask-00-v1",
+   "rect": [
+    512,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 0,
+   "variant": 1
+  },
+  {
+   "name": "mask-01-v1",
+   "rect": [
+    544,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 1,
+   "variant": 1
+  },
+  {
+   "name": "mask-02-v1",
+   "rect": [
+    576,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 2,
+   "variant": 1
+  },
+  {
+   "name": "mask-03-v1",
+   "rect": [
+    608,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 3,
+   "variant": 1
+  },
+  {
+   "name": "mask-04-v1",
+   "rect": [
+    640,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 4,
+   "variant": 1
+  },
+  {
+   "name": "mask-05-v1",
+   "rect": [
+    672,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 5,
+   "variant": 1
+  },
+  {
+   "name": "mask-06-v1",
+   "rect": [
+    704,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 6,
+   "variant": 1
+  },
+  {
+   "name": "mask-07-v1",
+   "rect": [
+    736,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 7,
+   "variant": 1
+  },
+  {
+   "name": "mask-08-v1",
+   "rect": [
+    768,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 8,
+   "variant": 1
+  },
+  {
+   "name": "mask-09-v1",
+   "rect": [
+    800,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 9,
+   "variant": 1
+  },
+  {
+   "name": "mask-10-v1",
+   "rect": [
+    832,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 10,
+   "variant": 1
+  },
+  {
+   "name": "mask-11-v1",
+   "rect": [
+    864,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 11,
+   "variant": 1
+  },
+  {
+   "name": "mask-12-v1",
+   "rect": [
+    896,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 12,
+   "variant": 1
+  },
+  {
+   "name": "mask-13-v1",
+   "rect": [
+    928,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 13,
+   "variant": 1
+  },
+  {
+   "name": "mask-14-v1",
+   "rect": [
+    960,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 14,
+   "variant": 1
+  },
+  {
+   "name": "mask-15-v1",
+   "rect": [
+    992,
+    480,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 15,
+   "variant": 1
+  },
+  {
+   "name": "mask-00-v2",
+   "rect": [
+    0,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 0,
+   "variant": 2
+  },
+  {
+   "name": "mask-01-v2",
+   "rect": [
+    32,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 1,
+   "variant": 2
+  },
+  {
+   "name": "mask-02-v2",
+   "rect": [
+    64,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 2,
+   "variant": 2
+  },
+  {
+   "name": "mask-03-v2",
+   "rect": [
+    96,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 3,
+   "variant": 2
+  },
+  {
+   "name": "mask-04-v2",
+   "rect": [
+    128,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 4,
+   "variant": 2
+  },
+  {
+   "name": "mask-05-v2",
+   "rect": [
+    160,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 5,
+   "variant": 2
+  },
+  {
+   "name": "mask-06-v2",
+   "rect": [
+    192,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 6,
+   "variant": 2
+  },
+  {
+   "name": "mask-07-v2",
+   "rect": [
+    224,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 7,
+   "variant": 2
+  },
+  {
+   "name": "mask-08-v2",
+   "rect": [
+    256,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 8,
+   "variant": 2
+  },
+  {
+   "name": "mask-09-v2",
+   "rect": [
+    288,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 9,
+   "variant": 2
+  },
+  {
+   "name": "mask-10-v2",
+   "rect": [
+    320,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 10,
+   "variant": 2
+  },
+  {
+   "name": "mask-11-v2",
+   "rect": [
+    352,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 11,
+   "variant": 2
+  },
+  {
+   "name": "mask-12-v2",
+   "rect": [
+    384,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 12,
+   "variant": 2
+  },
+  {
+   "name": "mask-13-v2",
+   "rect": [
+    416,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 13,
+   "variant": 2
+  },
+  {
+   "name": "mask-14-v2",
+   "rect": [
+    448,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 14,
+   "variant": 2
+  },
+  {
+   "name": "mask-15-v2",
+   "rect": [
+    480,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 15,
+   "variant": 2
+  },
+  {
+   "name": "mask-00-v3",
+   "rect": [
+    512,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 0,
+   "variant": 3
+  },
+  {
+   "name": "mask-01-v3",
+   "rect": [
+    544,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 1,
+   "variant": 3
+  },
+  {
+   "name": "mask-02-v3",
+   "rect": [
+    576,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 2,
+   "variant": 3
+  },
+  {
+   "name": "mask-03-v3",
+   "rect": [
+    608,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 3,
+   "variant": 3
+  },
+  {
+   "name": "mask-04-v3",
+   "rect": [
+    640,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 4,
+   "variant": 3
+  },
+  {
+   "name": "mask-05-v3",
+   "rect": [
+    672,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 5,
+   "variant": 3
+  },
+  {
+   "name": "mask-06-v3",
+   "rect": [
+    704,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 6,
+   "variant": 3
+  },
+  {
+   "name": "mask-07-v3",
+   "rect": [
+    736,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 7,
+   "variant": 3
+  },
+  {
+   "name": "mask-08-v3",
+   "rect": [
+    768,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 8,
+   "variant": 3
+  },
+  {
+   "name": "mask-09-v3",
+   "rect": [
+    800,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 9,
+   "variant": 3
+  },
+  {
+   "name": "mask-10-v3",
+   "rect": [
+    832,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 10,
+   "variant": 3
+  },
+  {
+   "name": "mask-11-v3",
+   "rect": [
+    864,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 11,
+   "variant": 3
+  },
+  {
+   "name": "mask-12-v3",
+   "rect": [
+    896,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 12,
+   "variant": 3
+  },
+  {
+   "name": "mask-13-v3",
+   "rect": [
+    928,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 13,
+   "variant": 3
+  },
+  {
+   "name": "mask-14-v3",
+   "rect": [
+    960,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 14,
+   "variant": 3
+  },
+  {
+   "name": "mask-15-v3",
+   "rect": [
+    992,
+    512,
+    32,
+    32
+   ],
+   "kind": "mask",
+   "bits": 15,
+   "variant": 3
+  }
+ ]
+}

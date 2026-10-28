@@ -1,7 +1,8 @@
 'use strict';
 // ===================== ASHFALL: LAST LIGHT =====================
 // A small classic-style RTS. Pure Canvas 2D, no assets.
-const TILE = 32, MW = 80, MH = 80, N = MW * MH;
+const TILE = 32;
+let MW = 80, MH = 80, N = MW * MH;   // env pass 1: design maps can be 64x64 (Ash Ring), so the map size is set per game (setMapSize)
 const $ = id => document.getElementById(id);
 const view = $('view'), ctx = view.getContext('2d');
 const mini = $('mini'), mctx = mini.getContext('2d');
@@ -88,6 +89,7 @@ const ename = e => e.kind === 'u' ? e.d.name : bname(e.type, e.side);
 // ---------------- map state ----------------
 let terr, res, plague, bgrid, vis, expl, plagueZones, craters, decos, terrCanvas, miniBase, resTiles;
 let G = null, SAL = null; // SAL: salvage sim instance (salvage.js)
+let designMap = null;   // ?map=<name> (assets/maps/<name>.json) or RTS.newGame(diff, { map })
 let idc = 0;
 const bById = new Map();
 
@@ -98,9 +100,10 @@ function walk(tx, ty) {
 const tileOf = v => Math.floor(v / TILE);
 
 // ---------------- pathfinding (A*) ----------------
-const gS = new Float32Array(N), came = new Int32Array(N), stamp = new Uint32Array(N), closed = new Uint32Array(N);
-let curStamp = 0;
-const heapI = new Int32Array(N * 8), heapP = new Float32Array(N * 8); let hsz = 0;
+let gS, came, stamp, closed, heapI, heapP, curStamp = 0, hsz = 0;
+function allocPath() { gS = new Float32Array(N); came = new Int32Array(N); stamp = new Uint32Array(N); closed = new Uint32Array(N); heapI = new Int32Array(N * 8); heapP = new Float32Array(N * 8); curStamp = 0; }
+allocPath();
+function setMapSize(w, h) { if (w === MW && h === MH) return; MW = w; MH = h; N = w * h; allocPath(); }
 function hpush(i, p) { let k = hsz++; heapI[k] = i; heapP[k] = p; while (k > 0) { const pa = (k - 1) >> 1; if (heapP[pa] <= heapP[k]) break; const ti = heapI[pa], tp = heapP[pa]; heapI[pa] = heapI[k]; heapP[pa] = heapP[k]; heapI[k] = ti; heapP[k] = tp; k = pa; } }
 function hpop() { const top = heapI[0]; hsz--; if (hsz > 0) { heapI[0] = heapI[hsz]; heapP[0] = heapP[hsz]; let k = 0; for (;;) { const l = 2 * k + 1, r = l + 1; let m = k; if (l < hsz && heapP[l] < heapP[m]) m = l; if (r < hsz && heapP[r] < heapP[m]) m = r; if (m === k) break; const ti = heapI[m], tp = heapP[m]; heapI[m] = heapI[k]; heapP[m] = heapP[k]; heapI[k] = ti; heapP[k] = tp; k = m; } } return top; }
 const DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]];
@@ -246,12 +249,53 @@ function genMap() {
   ensureConnected(P, E);
   craters = craters.filter(c => terr[tileOf(c.y) * MW + tileOf(c.x)] === T.CRATER);
   resTiles = []; for (let i = 0; i < N; i++) if (res[i] > 0) resTiles.push(i);
-  // cosmetic decorations
+  // decorations. Env pass 1: trees and cars are BLOCKERS (HANDOFF-env §4): their tile becomes RUBBLE (impassable for pathing,
+  // units and building placement). Never on a Scrap Pile or its 1-tile ring (fields never sit under them, trucks keep their approach),
+  // and never where the blocker would cut off ground that was reachable (flood-fill check per blocker). Skulls/bones/crosses stay walkable decals.
+  let reachN = 0; { const s0 = reach(P); for (let i = 0; i < N; i++) reachN += s0[i]; }
+  const nearRes = (x, y) => { for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) { const xx = x + dx, yy = y + dy; if (xx >= 0 && yy >= 0 && xx < MW && yy < MH && res[yy * MW + xx]) return true; } return false; };
   for (let k = 0; k < 140; k++) {
     const x = ri(MW), y = ri(MH), i = y * MW + x;
     if (terr[i] !== T.GROUND || res[i] || dist(x, y, P.x, P.y) < 8 || dist(x, y, E.x, E.y) < 8) continue;
-    decos.push({ t: ['tree', 'skull', 'car', 'bones', 'tree', 'cross'][ri(6)], x: x * TILE + 6 + rng() * 20, y: y * TILE + 6 + rng() * 20, a: rng() * 6.28, s: 0.8 + rng() * 0.5 });
+    const d = { t: ['tree', 'skull', 'car', 'bones', 'tree', 'cross'][ri(6)], x: x * TILE + 6 + rng() * 20, y: y * TILE + 6 + rng() * 20, a: rng() * 6.28, s: 0.8 + rng() * 0.5, tx: x, ty: y };
+    if (d.t === 'tree' || d.t === 'car') {
+      if (nearRes(x, y)) continue;
+      terr[i] = T.RUBBLE; let n = 0; const s1 = reach(P); for (let j = 0; j < N; j++) n += s1[j];
+      if (n !== reachN - 1) { terr[i] = T.GROUND; continue; }
+      reachN = n; d.block = true; d.v = Math.floor(hash(i * 41) * 4); d.x = x * TILE + 16; d.y = y * TILE + 20;
+    }
+    decos.push(d);
   }
+  G.mapSrc = null;
+  renderTerrain();
+}
+// ---------------- design maps (Dezi, design-backlog/maps/*.json) ----------------
+// Gameplay reads the map's rows/legend only (never the sprites); the env art resolves the same JSON through EnvTerrain.resolveMap().
+const LEGEND_T = { '=': T.ROAD, '~': T.SLUDGE, '#': T.RUBBLE, r: T.RUBBLE, c: T.RUBBLE, t: T.RUBBLE, o: T.CRATER };
+function applyDesignMap(m) {
+  setMapSize(m.w, m.h);
+  terr = new Uint8Array(N); res = new Uint16Array(N); plague = new Uint8Array(N);
+  bgrid = new Int32Array(N); vis = new Uint8Array(N); expl = new Uint8Array(N);
+  plagueZones = []; craters = []; decos = [];
+  for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) {
+    const c = m.rows[y][x], i = y * MW + x;
+    terr[i] = LEGEND_T[c] !== undefined ? LEGEND_T[c] : T.GROUND;
+    if (c === 'S' || c === 'A') res[i] = SD.tileMax;
+    if (c === 'o') craters.push({ x: x * TILE + 16, y: y * TILE + 16, r: 22 });
+  }
+  for (const z of m.plague || []) {
+    plagueZones.push({ x: z.x * TILE + 16, y: z.y * TILE + 16, r: z.r * TILE });
+    for (let y = Math.floor(z.y - z.r); y <= z.y + z.r; y++) for (let x = Math.floor(z.x - z.r); x <= z.x + z.r; x++)
+      if (x >= 0 && y >= 0 && x < MW && y < MH && dist(x, y, z.x, z.y) <= z.r) plague[y * MW + x] = 1;
+  }
+  // procedural-renderer fallback decorations (only drawn when the env atlases are off / failed)
+  for (const p of m.props || []) {
+    const t = p.key === 'trees' ? 'tree' : p.key === 'cars' ? 'car' : p.key === 'decals' ? ['bones', 'skull', 'cross'][(p.v || 0) % 3] : null;
+    if (t) decos.push({ t, x: p.x * TILE + 16, y: p.y * TILE + (t === 'tree' || t === 'car' ? 20 : 16), a: hash(p.y * MW + p.x) * 6.28, s: 1, tx: p.x, ty: p.y, block: t === 'tree' || t === 'car', v: p.v || 0 });
+  }
+  // no ensureConnected on a loaded map (1-maps.md): validate-maps.js already proves both starts and every pile connect
+  resTiles = []; for (let i = 0; i < N; i++) if (res[i] > 0) resTiles.push(i);
+  G.mapSrc = m;
   renderTerrain();
 }
 function carveLine(ax, ay, bx, by) {
@@ -277,6 +321,12 @@ function ensureConnected(P, E) {
 function hash(i) { let x = Math.imul(i ^ 0x9e3779b9, 0x85ebca6b); x ^= x >>> 13; x = Math.imul(x, 0xc2b2ae35); x ^= x >>> 16; return (x >>> 0) / 4294967296; }
 
 function renderTerrain() {
+  renderMiniBase();
+  if (envPrepare()) return;   // env atlases ready: baked env ground, no procedural ground
+  renderProcTerrain();
+}
+function renderProcTerrain() {
+  const blk = new Set(decos.filter(d => d.block).map(d => d.ty * MW + d.tx));
   terrCanvas = document.createElement('canvas'); terrCanvas.width = MW * TILE; terrCanvas.height = MH * TILE;
   const c = terrCanvas.getContext('2d');
   c.fillStyle = '#3a322a'; c.fillRect(0, 0, MW * TILE, MH * TILE);
@@ -313,7 +363,7 @@ function renderTerrain() {
     if (terr[i] === T.SLUDGE) {
       c.fillStyle = 'rgba(80,140,30,0.25)'; c.beginPath(); c.arc(X + 8 + hash(i) * 16, Y + 8 + hash(i * 3) * 16, 4 + hash(i * 5) * 6, 0, 7); c.fill();
       c.strokeStyle = 'rgba(160,220,80,0.15)'; c.beginPath(); c.moveTo(X + 4, Y + 10 + hash(i * 9) * 12); c.lineTo(X + 26, Y + 12 + hash(i * 9) * 12); c.stroke();
-    } else if (terr[i] === T.RUBBLE) {
+    } else if (terr[i] === T.RUBBLE && !blk.has(i)) {
       c.fillStyle = 'rgba(0,0,0,0.45)'; c.fillRect(X + 3, Y + 5, TILE, TILE);
       const n = 3 + Math.floor(hash(i) * 4);
       for (let k = 0; k < n; k++) {
@@ -327,9 +377,71 @@ function renderTerrain() {
     }
   }
   for (const d of decos) drawDeco(c, d);
+}
+function renderMiniBase() {
   miniBase = document.createElement('canvas'); miniBase.width = MW * 3; miniBase.height = MH * 3;
   const m = miniBase.getContext('2d');
   for (let i = 0; i < N; i++) { const t = terr[i]; m.fillStyle = t === T.RUBBLE ? '#6a625a' : t === T.SLUDGE ? '#2a4a18' : t === T.CRATER ? '#141010' : t === T.ROAD ? '#2a2a2c' : '#4a3e32'; m.fillRect((i % MW) * 3, ((i / MW) | 0) * 3, 3, 3); }
+}
+// ---------------- env art pass 1 (rts-loops/art/env/HANDOFF-env.md; envart.js + env-terrain.js) ----------------
+// G.env = { R: resolveMap() result, props (y-sorted blockers), fires, lights (static), stats }. Purely visual: every blocker
+// footprint lies on a tile that is already impassable in terr[] (asserted below, counted in stats.offGrid).
+const envEnabled = () => typeof EnvArt !== 'undefined' && !!EnvArt.env && !!G && !G.arena;
+function envSourceMap() {
+  if (G.mapSrc) return G.mapSrc;
+  // procedural map -> Dezi map format, so one resolver drives both. Only cosmetic choices here (ruin seeds, variants).
+  const rows = [], props = [], decoAt = new Map();
+  for (const d of decos) decoAt.set(d.ty * MW + d.tx, d);
+  for (let y = 0; y < MH; y++) { const r = []; for (let x = 0; x < MW; x++) {
+    const i = y * MW + x, t = terr[i], d = decoAt.get(i);
+    r.push(t === T.ROAD ? '=' : t === T.SLUDGE ? '~' : t === T.CRATER ? 'o' : t === T.RUBBLE ? (d && d.block ? (d.t === 'tree' ? 't' : 'c') : '#') : res[i] ? 'S' : '.');
+  } rows.push(r); }
+  const at = (x, y) => (x < MW && y < MH ? rows[y][x] : '');
+  for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) {
+    const i = y * MW + x, c = rows[y][x];
+    if (c === '#' && at(x + 1, y) === '#' && at(x, y + 1) === '#' && at(x + 1, y + 1) === '#' && hash(i * 53) < 0.35) { rows[y][x] = 'r'; props.push({ key: 'ruin', x, y }); }
+    else if (c === 'o') props.push({ key: 'craters', x, y });
+    const d = decoAt.get(i);
+    if (d && d.block) props.push({ key: d.t === 'tree' ? 'trees' : 'cars', v: d.v, x, y });
+    else if (d && terr[i] === T.GROUND) props.push({ key: 'decals', v: d.t === 'bones' ? 0 : d.t === 'skull' ? 1 : 2, x, y });
+  }
+  return { name: 'procedural', w: MW, h: MH, rows: rows.map(r => r.join('')), props };
+}
+function envPrepare() {
+  if (!envEnabled()) {
+    if (G && !G.arena && typeof EnvArt !== 'undefined' && EnvArt.state.mode === 'loading') { const g = G; EnvArt.onReady(() => { if (G === g && !G.env) { envPrepare(); } }); }
+    if (G) G.env = null;
+    return false;
+  }
+  const env = EnvArt.env, now = () => (typeof performance !== 'undefined' ? performance.now() : Date.now());
+  const t0 = now(), src = envSourceMap(), R = env.resolveMap(src), t1 = now();
+  let offGrid = 0;
+  for (const p of R.props.concat(R.groundProps)) { const f = env.frames.props[p.name]; if (!f || !f.footprint) continue;
+    for (let y = Math.round(p.ty); y < Math.round(p.ty) + f.footprint[1]; y++) for (let x = Math.round(p.tx); x < Math.round(p.tx) + f.footprint[0]; x++) if (x < 0 || y < 0 || x >= MW || y >= MH || !BLOCK[terr[y * MW + x]]) offGrid++; }
+  const cv = document.createElement('canvas'); cv.width = MW * TILE; cv.height = MH * TILE;
+  const c = cv.getContext('2d'); c.imageSmoothingEnabled = false;
+  env.bakeTerrain(c, R);
+  const t2 = now();
+  terrCanvas = cv;
+  // burning props (cosmetic, stable per tile): ~30% of cars, ~40% of ruins, a few tall trees
+  const fires = [], lights = [];
+  for (const p of R.props) {
+    const h = hash(Math.round(p.tx) * 7 + Math.round(p.ty) * 131 + 5), ruin = p.name.startsWith('ruin_');
+    const size = ruin ? (h < 0.4 ? 'l' : null) : p.src === 'cars' ? (h < 0.3 ? 'm' : null) : p.name === 'tree_tall' ? (h < 0.1 ? 's' : null) : null;
+    if (!size) continue;
+    const [fx, fy] = env.firePoint(p); p.burn = true;
+    fires.push({ size: 'fire_' + size, x: fx, y: fy, ph: h * 7 });
+    lights.push({ name: 'light_fire_' + size, x: fx, y: fy, phase: h * 13 });
+  }
+  // Angel Wreck fields ('A' tiles): one light_wreck per 8-connected cluster
+  if (src.rows) { const seen = new Uint8Array(N);
+    for (let i = 0; i < N; i++) { if (seen[i] || src.rows[(i / MW) | 0][i % MW] !== 'A') continue;
+      let sx = 0, sy = 0, n = 0; const q = [i]; seen[i] = 1;
+      while (q.length) { const k = q.pop(), x = k % MW, y = (k / MW) | 0; sx += x; sy += y; n++;
+        for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) { const X = x + dx, Y = y + dy, j = Y * MW + X; if (X >= 0 && Y >= 0 && X < MW && Y < MH && !seen[j] && src.rows[Y][X] === 'A') { seen[j] = 1; q.push(j); } } }
+      lights.push({ name: 'light_wreck', x: (sx / n + 0.5) * TILE, y: (sy / n + 0.5) * TILE, phase: i }); } }
+  G.env = { R, props: R.props, fires, lights, stats: { map: src.name, resolveMs: +(t1 - t0).toFixed(1), bakeMs: +(t2 - t1).toFixed(1), props: R.props.length, groundProps: R.groundProps.length, decals: R.decals.length, fires: fires.length, offGrid, missing: R.missing, resolved: R.stats, loadMs: EnvArt.state.loadMs, frame: {} } };
+  return true;
 }
 function drawDeco(c, d) {
   c.save(); c.translate(d.x, d.y); c.rotate(d.a); c.scale(d.s, d.s);
@@ -1575,9 +1687,16 @@ function render() {
   const ysort = [];
   for (const b of vb) { const k = (b.ty + b.h) * TILE; ysort.push({ k, b, o: 0 }); const P = plans.get(b); if (P && P.sel.top) ysort.push({ k, b, o: 1 }); }
   for (const u of vu) if (!u.d.fly) ysort.push({ k: u.y, u, o: 0 });
+  const EV = G.env, env = EV ? EnvArt.env : null, FS = EV ? EV.stats.frame : null;
+  if (EV) { // env blockers, culled to the view (+3 tiles for tall sprites), y-sorted by footprint bottom like buildings
+    const vx0 = cx / TILE - 3, vx1 = (cx + VW) / TILE + 1, vy0 = cy / TILE - 1, vy1 = (cy + VH) / TILE + 3; let n = 0;
+    for (const p of EV.props) { if (p.tx > vx1 || p.tx + 3 < vx0 || p.ty > vy1 || p.ty + 2 < vy0) continue; ysort.push({ k: env.sortKey(p) - 0.5, p, o: 0 }); n++; }
+    FS.props = n;
+  }
   ysort.sort((a, b) => (a.k - b.k) || (a.o - b.o));   // tops after every base on the same row
   for (const e of ysort) {
-    if (e.u) { drawUnit(ctx, e.u); continue; }
+    if (e.p) { env.drawPropShadow(ctx, e.p); env.drawProp(ctx, e.p); continue; }
+    if (e.u) { if (env && e.u.d.cat === 'vehicle') env.drawVehicleAO(ctx, e.u.x, e.u.y, e.u.r >= 14 ? 'm' : 's'); drawUnit(ctx, e.u); continue; }
     const b = e.b, P = plans.get(b);
     if (!P) { drawBld(ctx, b); continue; }
     if (e.o) { UnitArt.drawBuildingTop(ctx, P, { hit: b.hitT > 0 }); continue; }
@@ -1604,12 +1723,22 @@ function render() {
     if (blink) { ctx.beginPath(); ctx.moveTo(m.tx - 20, m.ty); ctx.lineTo(m.tx + 20, m.ty); ctx.moveTo(m.tx, m.ty - 20); ctx.lineTo(m.tx, m.ty + 20); ctx.stroke(); }
     ctx.fillStyle = m.side ? '#ff6a2a' : '#fffbe0'; circ(ctx, m.x, m.y, 6);
   }
+  if (EV) { // burning props (flames), then lights: additive 'lighter' sprites, capped at 24 by priority, before fog
+    let nf = 0;
+    for (const f of EV.fires) if (f.x > cx - 64 && f.x < cx + VW + 64 && f.y > cy - 64 && f.y < cy + VH + 96) { env.drawFlame(ctx, f.size, f.x, f.y, G.time, f.ph); nf++; }
+    const L = EV.lights.slice();
+    for (const u of vu) if (u.type === 'seraph') L.push({ name: 'light_halo', x: u.x, y: u.y - 28, phase: u.id }); else if (u.type === 'archangel') L.push({ name: 'light_archangel', x: u.x, y: u.y - 28, phase: u.id });
+    for (const b of vb) if (b.type === 'silo' && b.charge >= NUKE_CHARGE) L.push({ name: b.side ? 'light_hell_open' : 'light_nuke_open', x: (b.tx + 1) * TILE, y: (b.ty + 0.8) * TILE, phase: b.id });
+    FS.flames = nf; FS.lightsIn = L.length;
+    FS.lights = env.drawLights(ctx, L, G.time, { x0: cx, y0: cy, x1: cx + VW, y1: cy + VH }, 24);
+  }
   // health bars
   for (const u of vu) if ((u.hp < u.maxhp || G.sel.includes(u))) hpBar(ctx, u.x, u.y - u.r - (u.d.fly ? 18 : 7), Math.max(16, u.r * 2), u.hp / u.maxhp);
   for (const b of G.blds) if (!b.dead && (b.hp < b.maxhp || G.sel.includes(b)) && onScreen(b.x, b.y, 100) && (b.side === 0 || isVisible(b))) hpBar(ctx, b.x, b.ty * TILE - 6, b.w * TILE - 8, b.hp / b.maxhp);
   for (const u of vu) if (u.d.harv && u.side === 0 && (G.sel.includes(u) || u.blocked)) { const n = Salvage.pipsOf(u.load, u.d.cap); for (let k = 0; k < 5; k++) { ctx.fillStyle = '#000'; ctx.fillRect(u.x - 17 + k * 7, u.y - u.r - 4, 6, 4); ctx.fillStyle = k < n ? (u.blocked ? '#ffb347' : PAL.steel) : '#333333'; ctx.fillRect(u.x - 16.5 + k * 7, u.y - u.r - 3.5, 5, 3); } }
-  // fog
-  for (let ty = y0; ty <= y1; ty++) for (let tx = x0; tx <= x1; tx++) {
+  // fog: env = dual-grid edge tiles only, clipped to the view (bits 0 nothing, bits 15 one fillRect); else the per-tile loop
+  if (EV) FS.fogEdges = env.drawFog(ctx, { w: MW, h: MH, expl, vis, rim: 'ember' }, { x0, y0, x1, y1 });
+  else for (let ty = y0; ty <= y1; ty++) for (let tx = x0; tx <= x1; tx++) {
     const i = ty * MW + tx;
     if (!expl[i]) { ctx.fillStyle = '#000'; ctx.fillRect(tx * TILE, ty * TILE, TILE + 1, TILE + 1); }
     else if (!vis[i]) { ctx.fillStyle = 'rgba(0,0,0,0.45)'; ctx.fillRect(tx * TILE, ty * TILE, TILE, TILE); }
@@ -1627,8 +1756,13 @@ function render() {
   if (mouse.drag && mouse.down) { ctx.strokeStyle = '#7dff7d'; ctx.lineWidth = 1; ctx.strokeRect(mouse.dx, mouse.dy, mouse.wx - mouse.dx, mouse.wy - mouse.dy); }
   // screen-space atmosphere
   ctx.setTransform(1, 0, 0, 1, 0, 0);
-  const vg = ctx.createRadialGradient(VW / 2, VH / 2, Math.min(VW, VH) * 0.4, VW / 2, VH / 2, Math.max(VW, VH) * 0.75);
-  vg.addColorStop(0, 'rgba(60,10,0,0)'); vg.addColorStop(1, 'rgba(60,10,0,0.45)'); ctx.fillStyle = vg; ctx.fillRect(0, 0, VW, VH);
+  if (EV) { // env pass 1: ONE vignette over the pre-darkened palette (HANDOFF-env §6), cached per viewport size
+    if (!EV.vg || EV.vgW !== VW || EV.vgH !== VH) { EV.vg = ctx.createRadialGradient(VW / 2, VH / 2, Math.min(VW, VH) * 0.35, VW / 2, VH / 2, Math.max(VW, VH) * 0.72); EV.vg.addColorStop(0, 'rgba(14,6,2,0)'); EV.vg.addColorStop(1, 'rgba(14,6,2,0.55)'); EV.vgW = VW; EV.vgH = VH; }
+    ctx.fillStyle = EV.vg; ctx.fillRect(0, 0, VW, VH);
+  } else {
+    const vg = ctx.createRadialGradient(VW / 2, VH / 2, Math.min(VW, VH) * 0.4, VW / 2, VH / 2, Math.max(VW, VH) * 0.75);
+    vg.addColorStop(0, 'rgba(60,10,0,0)'); vg.addColorStop(1, 'rgba(60,10,0,0.45)'); ctx.fillStyle = vg; ctx.fillRect(0, 0, VW, VH);
+  }
   for (const a of ash) { ctx.fillStyle = a.e ? `rgba(255,${120 + a.s * 40},40,${0.6})` : 'rgba(200,190,180,0.35)'; ctx.fillRect(a.x, a.y, a.s, a.s); }
   if (G.flash) { ctx.fillStyle = `rgba(${G.flash.c},${Math.max(0, 1 - G.flash.t / 1.2)})`; ctx.fillRect(0, 0, VW, VH); }
 }
@@ -1939,8 +2073,11 @@ function updCamera(dt) {
 function togglePause() { if (!G || G.over) return; G.paused = !G.paused; showPanel(G.paused ? 'pausePanel' : null); $('bPause').textContent = G.paused ? 'Resume (P)' : 'Pause (P)'; }
 function toggleMute() { muted = !muted; $('bMute').textContent = 'Sound: ' + (muted ? 'Off' : 'On'); }
 function showPanel(id) { for (const p of document.querySelectorAll('.panel')) p.classList.toggle('show', p.id === id); $('overlay').classList.toggle('show', !!id); }
-function newGame(diffKey) {
+function newGame(diffKey, opts) {
+  opts = opts || {};
   const seed = (Math.random() * 1e9) | 0; rng = mulberry32(seed);
+  const dm = opts.map || (opts.map === undefined ? designMap : null);
+  setMapSize(dm ? dm.w : 80, dm ? dm.h : 80);
   idc = 0; bById.clear();
   if ($('msgs')) $('msgs').innerHTML = '';
   G = { seed, time: 0, diff: DIFF[diffKey] || DIFF.normal, diffKey, units: [], blds: [], proj: [], fx: [], decals: [], rad: [], missiles: [], rises: [], sel: [], groups: {},
@@ -1948,13 +2085,18 @@ function newGame(diffKey) {
     over: false, paused: false, started: false, mode: null, placing: null, ai: { t: 1, nextWave: 0, waveN: 0 }, fogT: 0, winT: 0, shakeA: 0,
     baseP: { x: 9, y: MH - 10 }, baseE: { x: MW - 10, y: 9 } };
   G.ai.nextWave = G.diff.firstWave;
-  genMap();
+  if (dm) { // starts are the HQ / Hive top-left tiles
+    const s1 = dm.starts.find(s => s.id === 1 || s.side === 'survivors'), s2 = dm.starts.find(s => s.id === 2 || s.side === 'horde');
+    G.baseP = { x: s1.x + 1, y: s1.y + 1 }; G.baseE = { x: s2.x + 1, y: s2.y + 1 }; G.mapName = dm.name;
+    applyDesignMap(dm);
+  } else genMap();
   SAL = makeSalvage();
   const P = G.baseP;
   for (const side of [0, 1]) {
     const place = (type, tx, ty) => { const d = BDEF[type]; if (side === 1) { tx = MW - tx - d.w; ty = MH - ty - d.h; } return makeBld(type, side, tx, ty); };
     // Loop 4 opening addendum: a bare start. Only the HQ / Hive; no starting units, no free Truck (player 2,500, AI 3,000 Credits)
-    place('hq', P.x - 1, P.y - 1);
+    if (dm && side === 1) makeBld('hq', 1, G.baseE.x - 1, G.baseE.y - 1);
+    else place('hq', P.x - 1, P.y - 1);
   }
   G.started = true;
   updFog();
@@ -1966,11 +2108,11 @@ function newGame(diffKey) {
 }
 // headless combat arena (CS automated matchups): open ground, no plague, no buildings, no AI
 function newArena(seed) {
-  rng = mulberry32(seed | 0); idc = 0; bById.clear();
+  rng = mulberry32(seed | 0); idc = 0; bById.clear(); setMapSize(80, 80);
   G = { seed, time: 0, diff: DIFF.normal, diffKey: 'normal', units: [], blds: [], proj: [], fx: [], decals: [], rad: [], missiles: [], rises: [], sel: [], groups: {},
     credits: [0, 0], queues: [mkQ(), mkQ()], rq: [mkRQ(), mkRQ()], research: [{}, {}], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0, risen: 0, purified: 0, crushed: 0, burned: 0, blessed: 0 },
     over: false, paused: false, started: true, mode: null, placing: null, ai: { t: 1e9, nextWave: 1e9, waveN: 0 }, fogT: 0, winT: 0, shakeA: 0, arena: true,
-    baseP: { x: 2, y: 2 }, baseE: { x: MW - 3, y: MH - 3 } };
+    baseP: { x: 2, y: 2 }, baseE: { x: MW - 3, y: MH - 3 }, mapSrc: null };
   terr = new Uint8Array(N); res = new Uint16Array(N); plague = new Uint8Array(N);
   bgrid = new Int32Array(N); vis = new Uint8Array(N); expl = new Uint8Array(N);
   plagueZones = []; craters = []; decos = [];
@@ -2038,6 +2180,16 @@ if (typeof UnitArt !== 'undefined') {
   if (q.get('team0')) team[0] = q.get('team0'); if (q.get('team1')) team[1] = q.get('team1');
   if (q.get('unitart') !== 'off') UnitArt.load({ team, baked: q.get('unitart') === 'baked' });
 }
+// env art pass 1: ?envart=off keeps the procedural ground (nothing fetched); atlas failure -> same fallback, one warning
+if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(location.search).get('envart') === 'off' });
+// design maps: ?map=crossroads | fallen-city | ash-ring (assets/maps/<name>.json). The Start button waits for it; a failed fetch keeps the procedural map.
+{ const mq = typeof URLSearchParams !== 'undefined' && typeof location !== 'undefined' ? new URLSearchParams(location.search).get('map') : null;
+  if (mq && /^[a-z0-9-]+$/.test(mq) && typeof fetch !== 'undefined') {
+    const bs = $('bStart'); bs.disabled = true;
+    fetch('assets/maps/' + mq + '.json').then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(m => { designMap = m; }, e => console.warn('[map] ' + mq + ': ' + e.message + ' - using the procedural map'))
+      .then(() => { bs.disabled = false; });
+  } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { MW, MH, TILE, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
+window.RTS = { get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
