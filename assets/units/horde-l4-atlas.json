@@ -235,9 +235,9 @@
    "dark": "#8E2418"
   },
   "violet": {
-   "light": "#D2B0FF",
-   "base": "#B07CFF",
-   "dark": "#7A48D0"
+   "light": "#DABCFF",
+   "base": "#BE90FF",
+   "dark": "#9060E8"
   }
  },
  "trim_mask": {
@@ -367,6 +367,5 @@
     ]
    }
   ]
- },
- "_backup": "v1 backup before the unit pass (Oct 28, 2026); image paths point at the -v1 files"
+ }
 }

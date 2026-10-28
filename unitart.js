@@ -60,7 +60,7 @@
   // HANDOFF §6 ramps. Survivors default blue, Horde default violet, red = alternate for either side.
   const RAMPS = {
     blue: { light: '#7FAEFF', base: '#3A7BFF', dark: '#1F4BB0' },
-    violet: { light: '#D2B0FF', base: '#B07CFF', dark: '#7A48D0' },   // art v3 (manifest team_ramps wins when present)
+    violet: { light: '#DABCFF', base: '#BE90FF', dark: '#9060E8' },   // art v4 unit pass (manifest team_ramps wins when present)
     red: { light: '#FF7E66', base: '#E8432F', dark: '#8E2418' },
   };
   const DEFAULT_TEAM = { 0: 'blue', 1: 'violet' };

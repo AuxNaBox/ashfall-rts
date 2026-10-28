@@ -23,7 +23,7 @@ test('art v3 atlases: frame counts, sizes from the manifest match the PNGs, half
   for (let k = 0; k < 16; k++) assert.ok(SUR.index.get(UA.fkey('scrap_truck', 'half', k * 22.5)));
   for (const f of 'ESNW') assert.ok(HOR.index.get(UA.fkey('scrap_eater', 'half', f)));
   // Horde default ramp = Artie's v3 violet, read from the manifest
-  assert.equal(h.default_team, 'violet'); assert.deepEqual(h.team_ramps.violet, { light: '#D2B0FF', base: '#B07CFF', dark: '#7A48D0' });
+  assert.equal(h.default_team, 'violet'); assert.deepEqual(h.team_ramps.violet, { light: '#DABCFF', base: '#BE90FF', dark: '#9060E8' });
   assert.deepEqual(HOR.ramps.violet, h.team_ramps.violet);
 });
 test('Scrap Eater half/full: 1.05x / 1.1x baked into the frame pixels (scale field), same ground anchor and shadow offset', () => {
@@ -178,7 +178,7 @@ test('recolourPixels rebuilds the trim ramp exactly and leaves non-trim pixels a
   const px = new Uint8ClampedArray([1, 2, 3, 255, 1, 2, 3, 255, 1, 2, 3, 255, 9, 9, 9, 255]);
   const mk = new Uint8ClampedArray([255, 255, 255, 255, 170, 170, 170, 255, 85, 85, 85, 255, 0, 0, 0, 0]);
   UA.recolourPixels(px, mk, UA.RAMPS.violet);
-  assert.deepEqual([...px], [0xD2, 0xB0, 0xFF, 255, 0xB0, 0x7C, 0xFF, 255, 0x7A, 0x48, 0xD0, 255, 9, 9, 9, 255]);
+  assert.deepEqual([...px], [0xDA, 0xBC, 0xFF, 255, 0xBE, 0x90, 0xFF, 255, 0x90, 0x60, 0xE8, 255, 9, 9, 9, 255]);
   assert.deepEqual(UA.hexToRgb('#3A7BFF'), [0x3A, 0x7B, 0xFF]);
   assert.equal(UA.DEFAULT_TEAM[0], 'blue'); assert.equal(UA.DEFAULT_TEAM[1], 'violet');
   // manifest ramps agree with the ones in code

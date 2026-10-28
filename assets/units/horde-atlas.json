@@ -1315,9 +1315,9 @@
    "dark": "#8E2418"
   },
   "violet": {
-   "light": "#D2B0FF",
-   "base": "#B07CFF",
-   "dark": "#7A48D0"
+   "light": "#DABCFF",
+   "base": "#BE90FF",
+   "dark": "#9060E8"
   }
  },
  "trim_mask": {
