@@ -217,7 +217,7 @@
           const q = queueOf(p); if (!q.includes(u)) q.push(u);
           if (q[0] !== u) { u.path = null; u.moving = false; break; } // wait our turn (FIFO, one pad)
           const dp = host.dockPoint(p), d = Math.hypot(u.x - dp.x, u.y - dp.y);
-          if (d < 6) { u.x = dp.x; u.y = dp.y; u.hs = 'unload'; u.path = null; u.moving = false; u.uAcc = 0; u.unloaded = 0; emit('unloadStart', { u, plant: p }); break; }
+          if (d < 6) { u.x = dp.x; u.y = dp.y; u.hs = 'unload'; u.path = null; u.moving = false; u.uAcc = 0; u.unloaded = 0; u.credited = 0; emit('unloadStart', { u, plant: p }); break; }
           if (!u.path) host.moveTo(u, dp.x, dp.y);
           if (host.followPath(u, h) && Math.hypot(u.x - dp.x, u.y - dp.y) >= 6) { if (++u.retry > 20) { u.retry = 0; u.x = dp.x; u.y = dp.y; } else host.moveTo(u, dp.x, dp.y); }
           break;
@@ -229,11 +229,15 @@
           const rate = p.type === 'hq' ? D.hqUnloadPerSec : D.unloadPerSec;
           u.uAcc = Math.min((u.uAcc || 0) + rate * h, rate);
           const mult = host.incomeMult(u.side), free = host.storageCap(u.side) - host.getCredits(u.side);
-          let amt = Math.min(Math.floor(u.uAcc), u.load, Math.max(0, Math.floor(free / mult + 1e-6)));
+          // Bug fix (Easy/Hard income mult != 1): the unload that fills storage rounds the cargo taken UP so Credits
+          // actually reach the cap (floor left the AI stuck at 1,999.x, never affording 2,000). The Credits added are
+          // clamped to the free space, so this never exceeds the cap or creates Credits; at most < 1 cargo unit of
+          // overflow is lost on that last tick, like any other over-cap Salvage.
+          let amt = Math.min(Math.floor(u.uAcc), u.load, Math.max(0, Math.ceil(free / mult - 1e-6)));
           if (amt > 0) {
-            const p0 = pipsOf(u.load, u.d.cap);
-            u.uAcc -= amt; u.load -= amt; u.unloaded += amt; host.addCredits(u.side, amt * mult);
-            emit('scripChanged', { side: u.side, amount: amt * mult, u });
+            const p0 = pipsOf(u.load, u.d.cap), gain = Math.min(amt * mult, free);
+            u.uAcc -= amt; u.load -= amt; u.unloaded += amt; u.credited = (u.credited || 0) + gain; host.addCredits(u.side, gain);
+            emit('scripChanged', { side: u.side, amount: gain, u });
             if (pipsOf(u.load, u.d.cap) !== p0) emit('loadChanged', { u, load: u.load });
             if (u.blocked) { u.blocked = false; emit('storageUnblocked', { u, plant: p }); }
           } else if (u.load > 0 && Math.floor(u.uAcc) > 0) {
@@ -242,8 +246,8 @@
           }
           if (u.load <= 0) {
             u.load = 0; u.blocked = false; leaveQueue(u);
-            emit('unload', { u, plant: p, amount: u.unloaded * mult, side: u.side });
-            u.unloaded = 0; seek(u);
+            emit('unload', { u, plant: p, amount: u.credited || 0, side: u.side });
+            u.unloaded = 0; u.credited = 0; seek(u);
           }
           break;
         }

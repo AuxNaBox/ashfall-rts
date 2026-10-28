@@ -149,6 +149,20 @@ test('income multiplier (AI difficulty) applies on deposit', () => {
   assert.ok(Math.abs(w.credits[1] - 135) < 1e-9);
 });
 
+test('bug fix: income mult != 1, the last unload rounds up so Credits reach the cap exactly, never above it', () => {
+  for (const [mult, start] of [[0.75, 1999.25], [1.35, 1999.2], [0.75, 1990], [1.35, 1985.15], [1, 1999]]) {
+    const w = world({ fieldTiles: [], mult: [1, mult], credits: [0, start], cap: [100000, 2000], plants: [{ tx: 10, ty: 10, side: 1 }] });
+    let max = start; const add = w.host.addCredits; w.host.addCredits = (s, n) => { add(s, n); max = Math.max(max, w.credits[s]); };
+    const p = w.blds[0], dp = w.host.dockPoint(p), u = w.addTruck(dp.x, dp.y + 30, 1);
+    u.load = 500; w.S.orderPlant(u, p); w.run(10);
+    assert.ok(Math.abs(w.credits[1] - 2000) < 1e-9, `mult ${mult} from ${start}: reached ${w.credits[1]}`);
+    assert.ok(max <= 2000 + 1e-9, `mult ${mult}: never above the cap (max ${max})`);
+    const taken = 500 - u.load, need = (2000 - start) / mult;
+    assert.ok(taken >= need - 1e-6 && taken < need + 1, `mult ${mult}: cargo taken ${taken} is the ceiling of ${need}`);
+    assert.equal(u.blocked, true, 'then holds the rest of the load on the pad');
+  }
+});
+
 test('regrowth in place: partly mined +25 per 15 s up to original', () => {
   const w = world({ fieldTiles: [[5, 5]] });
   const i = 5 * 20 + 5; w.res[i] = 450;

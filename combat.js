@@ -29,10 +29,10 @@
     reaper: { armor: 'heavy', dmgType: null },
     // Loop 4 (L4 "New units" + "The Horde in this loop"). Archangel "60 Holy" = Holy beam (Angel weapon type).
     flamer: { armor: 'light', dmgType: 'fire', splash: 0.6, cost: 250, time: 7, hp: 150, dmg: 18, rof: 0.6, range: 2.5, speed: 1.6, sight: 5 },
-    rocket: { armor: 'light', dmgType: 'shell', cost: 300, time: 8, hp: 110, dmg: 60, rof: 1.8, range: 6, /* tuning pass 1: 45/2.0/5.5 -> 60/1.8/6 */ speed: 1.5, sight: 6 },
+    rocket: { armor: 'light', dmgType: 'shell', cost: 300, time: 8, hp: 150, dmg: 60, rof: 1.8, range: 6, /* tuning pass 1: 45/2.0/5.5 -> 60/1.8/6; pass 2: hp 110 -> 150 */ speed: 1.5, sight: 6 },
     medic: { armor: 'light', dmgType: null, cost: 200, time: 6, hp: 90, heal: 10, range: 3, speed: 1.8, sight: 6 },
-    archangel: { armor: 'air', dmgType: 'beam', splash: 0.5, cost: 2500, time: 35, hp: 1400, dmg: 50, /* tuning pass 1: dmg 60 -> 50, splash 1.0 -> 0.5 */ rof: 1.5, range: 6, speed: 1.8, sight: 9, limit: 1 },
-    templar: { armor: 'heavy', dmgType: 'holy', splash: 0.3, /* tuning pass 1: 0.8 -> 0.3 */ cost: 1400, time: 25, hp: 1500, dmg: 70, rof: 1.4, range: 1.1, speed: 1.3, sight: 6, limit: 2 },
+    archangel: { armor: 'air', dmgType: 'beam', splash: 0.5, cost: 2500, time: 35, hp: 1300, dmg: 50, /* tuning pass 1: dmg 60 -> 50, splash 1.0 -> 0.5; pass 2: hp 1400 -> 1300 */ rof: 1.5, range: 6, speed: 1.8, sight: 9, limit: 1 },
+    templar: { armor: 'heavy', dmgType: 'holy', splash: 0.3, /* tuning pass 1: 0.8 -> 0.3 */ cost: 1400, time: 25, hp: 1400, /* pass 2: 1500 -> 1400 */ dmg: 70, rof: 1.4, range: 1.1, speed: 1.3, sight: 6, limit: 2 },
     demon: { armor: 'heavy', dmgType: 'fire', splash: 1.2, cost: 2500, time: 35, hp: 2100, /* tuning pass 1 step 2 (#11 still missed after 1-4): 2400 -> 2100 */ dmg: 50, rof: 1.5, range: 5, speed: 1.0, sight: 8, limit: 1 },
   };
   // Loop 4 research (L4 "Armory research", "Church research and units"). Effects are modifiers read at use time;
