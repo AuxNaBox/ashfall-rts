@@ -6,12 +6,32 @@ let MW = 80, MH = 80, N = MW * MH;   // env pass 1: design maps can be 64x64 (As
 const $ = id => document.getElementById(id);
 const view = $('view'), ctx = view.getContext('2d');
 const mini = $('mini'), mctx = mini.getContext('2d');
-let VW = 800, VH = 600;
+// view: SW x SH is the canvas in CSS px; VW x VH is the visible world (SW / ZOOM). DPR scales the backing store only.
+let VW = 800, VH = 600, SW = 800, SH = 600, DPR = 1, ZOOM = 1;
+// Job E: mouse-wheel zoom steps (nearest-neighbour, imageSmoothingEnabled false). The smallest step is clamped so the view never
+// shows more than the whole map (zoomMin)
+const ZOOMS = [0.5, 0.75, 1, 1.5, 2, 3];
 // mouse-over edge-scroll zone of the game view, in px, all four edges.
 // History: 14 (original) -> 17 (x1.2 = 16.8, rounded) -> 20 (ruling Oct 27, 2026).
 const EDGE_SCROLL_PX = 20;
-function resize() { const g = $('game'); VW = view.width = g.clientWidth; VH = view.height = g.clientHeight; }
+function resize() {
+  const g = $('game'); SW = Math.max(1, g.clientWidth || 0); SH = Math.max(1, g.clientHeight || 0);
+  DPR = Math.max(1, Math.min(3, (typeof window !== 'undefined' && window.devicePixelRatio) || 1));
+  view.width = Math.round(SW * DPR); view.height = Math.round(SH * DPR);
+  setZoom(ZOOM);
+}
 window.addEventListener('resize', resize);
+function zoomMin() { for (const z of ZOOMS) if (SW / z <= MW * TILE && SH / z <= MH * TILE) return z; return ZOOMS[ZOOMS.length - 1]; }
+// zoom to z (clamped to a step in [zoomMin, max]) keeping the world point under screen point (ax, ay) fixed (default: the view centre)
+function setZoom(z, ax, ay) {
+  if (ax === undefined) { ax = SW / 2; ay = SH / 2; }
+  const zmin = zoomMin(); let nz = ZOOMS.reduce((b, v) => Math.abs(v - z) < Math.abs(b - z) ? v : b, ZOOMS[0]); if (nz < zmin) nz = zmin;
+  const wx = ax / ZOOM + cam.x, wy = ay / ZOOM + cam.y;
+  ZOOM = nz; VW = SW / ZOOM; VH = SH / ZOOM;
+  cam.x = wx - ax / ZOOM; cam.y = wy - ay / ZOOM; clampCam(); updMouseWorld();
+  return ZOOM;
+}
+function zoomStep(dir, ax, ay) { const i = ZOOMS.indexOf(ZOOM), j = Math.max(0, Math.min(ZOOMS.length - 1, i + dir)); return setZoom(ZOOMS[j], ax, ay); }
 
 function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 let rng = Math.random;
@@ -1835,11 +1855,12 @@ function drawFx(c, f) {
   c.restore();
 }
 function render() {
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, VW, VH);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.imageSmoothingEnabled = false;
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, SW, SH);
   if (!G) return;
   let sx = 0, sy = 0; if (G.shakeA > 0.2) { sx = (Math.random() - 0.5) * G.shakeA; sy = (Math.random() - 0.5) * G.shakeA; }
-  const cx = Math.round(cam.x + sx), cy = Math.round(cam.y + sy);
+  const cx = Math.round((cam.x + sx) * ZOOM) / ZOOM, cy = Math.round((cam.y + sy) * ZOOM) / ZOOM; // whole screen px
+  ctx.setTransform(DPR * ZOOM, 0, 0, DPR * ZOOM, 0, 0);
   const sw = Math.min(VW, MW * TILE - Math.max(0, cx)), sh = Math.min(VH, MH * TILE - Math.max(0, cy));
   ctx.drawImage(terrCanvas, Math.max(0, cx), Math.max(0, cy), sw, sh, Math.max(0, -cx), Math.max(0, -cy), sw, sh);
   ctx.translate(-cx, -cy);
@@ -1957,9 +1978,9 @@ function render() {
   }
   if (G.mode === 'nuke') { ctx.strokeStyle = '#fff3b0'; ctx.lineWidth = 2; ctx.setLineDash([8, 6]); ctx.beginPath(); ctx.arc(mouse.wx, mouse.wy, NUKE_R * TILE, 0, 7); ctx.stroke(); ctx.setLineDash([]); }
   // drag box
-  if (mouse.drag && mouse.down) { ctx.strokeStyle = '#7dff7d'; ctx.lineWidth = 1; ctx.strokeRect(mouse.dx, mouse.dy, mouse.wx - mouse.dx, mouse.wy - mouse.dy); }
+  if (mouse.drag && mouse.down) { ctx.strokeStyle = '#7dff7d'; ctx.lineWidth = 1 / ZOOM; ctx.strokeRect(mouse.dx, mouse.dy, mouse.wx - mouse.dx, mouse.wy - mouse.dy); }
   // screen-space atmosphere
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0); { const VW = SW, VH = SH; // (screen px)
   if (EV) { // env pass 1: ONE vignette over the pre-darkened palette (HANDOFF-env §6), cached per viewport size
     if (!EV.vg || EV.vgW !== VW || EV.vgH !== VH) { EV.vg = ctx.createRadialGradient(VW / 2, VH / 2, Math.min(VW, VH) * 0.35, VW / 2, VH / 2, Math.max(VW, VH) * 0.72); EV.vg.addColorStop(0, 'rgba(14,6,2,0)'); EV.vg.addColorStop(1, 'rgba(14,6,2,0.55)'); EV.vgW = VW; EV.vgH = VH; }
     ctx.fillStyle = EV.vg; ctx.fillRect(0, 0, VW, VH);
@@ -1969,9 +1990,10 @@ function render() {
   }
   for (const a of ash) { ctx.fillStyle = a.e ? `rgba(255,${120 + a.s * 40},40,${0.6})` : 'rgba(200,190,180,0.35)'; ctx.fillRect(a.x, a.y, a.s, a.s); }
   if (G.flash) { ctx.fillStyle = `rgba(${G.flash.c},${Math.max(0, 1 - G.flash.t / 1.2)})`; ctx.fillRect(0, 0, VW, VH); }
+  }
 }
 const ash = []; for (let k = 0; k < 70; k++) ash.push({ x: Math.random() * 2000, y: Math.random() * 1200, s: 1 + Math.random() * 2, e: Math.random() < 0.3, v: 10 + Math.random() * 25 });
-function updAsh(dt) { for (const a of ash) { a.y += (a.e ? -a.v : a.v) * dt; a.x += Math.sin(a.y * 0.01) * 10 * dt + 6 * dt; if (a.y > VH) a.y = 0; if (a.y < 0) a.y = VH; if (a.x > VW) a.x = 0; } }
+function updAsh(dt) { for (const a of ash) { a.y += (a.e ? -a.v : a.v) * dt; a.x += Math.sin(a.y * 0.01) * 10 * dt + 6 * dt; if (a.y > SH) a.y = 0; if (a.y < 0) a.y = SH; if (a.x > SW) a.x = 0; } }
 function drawMini() {
   const s = mini.width / MW;
   mctx.drawImage(miniBase, 0, 0, mini.width, mini.height);
@@ -2163,7 +2185,7 @@ function startNuke() { if (!G || !readySilo(0)) return; G.mode = 'nuke'; G.placi
 const mouse = { x: 0, y: 0, wx: 0, wy: 0, in: false, down: false, drag: false, dx: 0, dy: 0, sx: 0, sy: 0 };
 const keys = {};
 let lastClick = { t: 0, type: null };
-function updMouseWorld() { mouse.wx = mouse.x + cam.x; mouse.wy = mouse.y + cam.y; }
+function updMouseWorld() { mouse.wx = mouse.x / ZOOM + cam.x; mouse.wy = mouse.y / ZOOM + cam.y; }
 function entityAt(wx, wy) {
   for (let i = G.units.length - 1; i >= 0; i--) { const u = G.units[i]; if (u.dead) continue; if (u.side === 1 && !vis[tileOf(u.y) * MW + tileOf(u.x)]) continue; const oy = u.d.fly ? -9 : 0; if (dist(wx, wy, u.x, u.y + oy) < u.r + 4) return u; }
   const tx = tileOf(wx), ty = tileOf(wy); if (tx < 0 || ty < 0 || tx >= MW || ty >= MH) return null;
@@ -2174,6 +2196,13 @@ view.addEventListener('mousemove', e => { const r = view.getBoundingClientRect()
 view.addEventListener('mouseleave', () => { mouse.in = false; });
 view.addEventListener('mouseenter', e => { const r = view.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; mouse.in = true; });
 view.addEventListener('contextmenu', e => e.preventDefault());
+// Job E: wheel zoom toward the cursor (the view only: the sidebar / minimap scroll or ignore the wheel); never scrolls the page
+view.addEventListener('wheel', e => {
+  e.preventDefault(); if (!G || !e.deltaY) return;
+  const r = view.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+  zoomStep(e.deltaY < 0 ? 1 : -1, mouse.x, mouse.y);
+}, { passive: false });
+mini.addEventListener('wheel', e => e.preventDefault(), { passive: false });
 view.addEventListener('mousedown', e => {
   if (!G || G.over) return; initAudio();
   { const r = view.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; }
@@ -2270,10 +2299,10 @@ window.addEventListener('keydown', e => {
 window.addEventListener('keyup', e => { keys[e.code] = false; });
 window.addEventListener('blur', () => { for (const k in keys) keys[k] = false; });
 function updCamera(dt) {
-  const sp = 800 * dt; let dx = 0, dy = 0;
+  const sp = 800 * dt / ZOOM; let dx = 0, dy = 0; // the same screen speed at every zoom
   if (keys.ArrowLeft || keys.KeyA) dx -= sp;
   if (keys.ArrowRight || keys.KeyD) dx += sp; if (keys.ArrowUp || keys.KeyW) dy -= sp; if (keys.ArrowDown || keys.KeyS) dy += sp;
-  if (mouse.in && !mouse.down && document.hasFocus()) { const m = EDGE_SCROLL_PX; if (mouse.x < m) dx -= sp; if (mouse.x > VW - m) dx += sp; if (mouse.y < m) dy -= sp; if (mouse.y > VH - m) dy += sp; }
+  if (mouse.in && !mouse.down && document.hasFocus()) { const m = EDGE_SCROLL_PX; if (mouse.x < m) dx -= sp; if (mouse.x > SW - m) dx += sp; if (mouse.y < m) dy -= sp; if (mouse.y > SH - m) dy += sp; }
   if (dx || dy) { cam.x += dx; cam.y += dy; clampCam(); updMouseWorld(); }
 }
 
@@ -2286,6 +2315,7 @@ function newGame(diffKey, opts) {
   const seed = (Math.random() * 1e9) | 0; rng = mulberry32(seed);
   const dm = opts.map || (opts.map === undefined ? designMap : null);
   setMapSize(dm ? dm.w : 80, dm ? dm.h : 80);
+  setZoom(ZOOM); // a smaller map can raise the minimum zoom
   idc = 0; bById.clear();
   if ($('msgs')) $('msgs').innerHTML = '';
   G = { seed, time: 0, diff: DIFF[diffKey] || DIFF.normal, diffKey, units: [], blds: [], proj: [], fx: [], decals: [], rad: [], missiles: [], rises: [], sel: [], groups: {},
@@ -2404,4 +2434,4 @@ if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(locati
   } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
+window.RTS = { get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM }; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };

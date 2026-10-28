@@ -1,9 +1,13 @@
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;overflow:hidden;background:#141311;color:#D8DCDF;font-family:"Trebuchet MS",Verdana,sans-serif;user-select:none}
+html,body{margin:0;height:100%;height:100dvh;overflow:hidden;background:#141311;color:#D8DCDF;font-family:"Trebuchet MS",Verdana,sans-serif;user-select:none}
 body{display:flex}
-#game{position:relative;flex:1;height:100%;overflow:hidden;cursor:crosshair}
+#game{position:relative;flex:1 1 auto;min-width:0;height:100%;overflow:hidden;cursor:crosshair}
 #view{display:block;width:100%;height:100%}
-#sidebar{width:260px;height:100%;background:linear-gradient(#2A2824,#1A1916);border-left:2px solid #8E959C;padding:8px 10px;display:flex;flex-direction:column;gap:6px;overflow-y:auto}
+#sidebar{flex:none;width:260px;height:100%;background:linear-gradient(#2A2824,#1A1916);border-left:2px solid #8E959C;padding:8px 10px;display:flex;flex-direction:column;gap:6px;overflow:hidden}
+/* Job E: the top (title, Credits, power, minimap, superweapon) and bottom (selection, controls) stay put; only the build / unit / research lists scroll */
+#sbTop,#sbBottom{flex:none;display:flex;flex-direction:column;gap:6px}
+#sbScroll{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:6px;padding-right:3px;scrollbar-width:thin;scrollbar-color:#8E959C #1A1916}
+#sbScroll::-webkit-scrollbar{width:6px}#sbScroll::-webkit-scrollbar-thumb{background:#8E959C}#sbScroll::-webkit-scrollbar-track{background:#1A1916}
 #title{font-weight:bold;letter-spacing:3px;color:#D8DCDF;text-align:center;font-size:18px;text-shadow:0 0 8px #9FE8FF88}
 #title span,h1 span{color:#9FE8FF;font-size:.7em;letter-spacing:2px}
 #credits{display:flex;justify-content:space-between;background:#000;border:1px solid #8E959C;padding:4px 8px;font-family:monospace;font-size:18px;color:#ffd36b}
@@ -18,7 +22,7 @@ body{display:flex}
 #power .meter div{height:100%;background:#9FE8FF}
 #power.low{color:#ff5a4a;animation:pulse 0.8s infinite}
 #power.low .meter div{background:#ff5a4a}
-#mini{width:236px;height:236px;border:1px solid #8E959C;background:#000;cursor:pointer;image-rendering:pixelated}
+#mini{width:236px;height:236px;align-self:center;border:1px solid #8E959C;background:#000;cursor:pointer;image-rendering:pixelated}
 .sect{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#8E959C;border-bottom:1px solid #3A3D40;padding-bottom:2px}
 .sect small{text-transform:none;color:#6E7378;letter-spacing:0}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
@@ -41,7 +45,7 @@ body{display:flex}
 #super .meter div{height:100%;background:linear-gradient(90deg,#DDF6FF,#9FE8FF)}
 #super .meter.enemy div{background:linear-gradient(90deg,#ff3a1a,#ffae3a)}
 #super button{background:#9FE8FF;color:#1A1916;border:none;font-weight:bold;cursor:pointer;padding:3px 6px;animation:pulse 1s infinite}
-#sel{background:#1A1916;border:1px solid #3A3D40;padding:5px;font-size:12px;min-height:60px;flex:1}
+#sel{background:#1A1916;border:1px solid #3A3D40;padding:5px;font-size:12px;height:64px;overflow:hidden}
 #sel .hp{height:6px;background:#300;margin:3px 0}
 #sel .hp div{height:100%;background:#4CD94C}
 #ctrls{display:flex;gap:4px}
@@ -52,7 +56,7 @@ body{display:flex}
 #modeHint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);padding:4px 10px;font-size:13px;color:#7dd4ff;display:none;pointer-events:none}
 #overlay{position:fixed;inset:0;background:rgba(10,10,9,.85);display:none;align-items:center;justify-content:center;z-index:10}
 #overlay.show{display:flex}
-.panel{display:none;max-width:720px;background:linear-gradient(#2A2824,#1A1916);border:2px solid #8E959C;padding:24px 30px;text-align:center;box-shadow:0 0 40px #9FE8FF33}
+.panel{display:none;max-width:min(720px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow-y:auto;background:linear-gradient(#2A2824,#1A1916);border:2px solid #8E959C;padding:24px 30px;text-align:center;box-shadow:0 0 40px #9FE8FF33}
 .panel.show{display:block}
 h1{margin:0 0 10px;letter-spacing:6px;color:#D8DCDF;text-shadow:0 0 14px #9FE8FF88}
 .lore{line-height:1.5;color:#C8CDD1}
@@ -67,3 +71,32 @@ h1{margin:0 0 10px;letter-spacing:6px;color:#D8DCDF;text-shadow:0 0 14px #9FE8FF
 .btn.done .cs{color:#7dff7d}
 .btn.done .bar{background:#4CD94C}
 .btn.limit .cs{color:#ffb060}
+
+/* Job E: short screens (laptops, 720p): a smaller minimap and scaled-down icons from the same art */
+@media (max-height:820px){
+  #sidebar{padding:6px 8px;gap:5px}
+  #sbTop,#sbBottom,#sbScroll{gap:5px}
+  #title{font-size:15px}
+  #credits{font-size:16px;padding:2px 8px}
+  #mini{width:180px;height:180px}
+  .btn{height:58px;padding-top:30px}
+  .btn canvas{transform:translateX(-50%) scale(.72);transform-origin:top center}
+  .btn .nm,.btn .cs{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 2px}
+  #sel{height:52px}
+  .panel{padding:16px 22px}
+  .help{margin-top:10px;line-height:1.5}
+}
+@media (max-height:680px){
+  #title{font-size:13px;letter-spacing:2px}
+  #mini{width:150px;height:150px}
+  #super{padding:3px;min-height:0;font-size:11px}
+  .btn{height:50px;padding-top:25px;font-size:9.5px}
+  .btn canvas{transform:translateX(-50%) scale(.6)}
+  #sel{height:44px;font-size:11px;padding:3px 5px}
+  #ctrls button{padding:3px 4px}
+  .panel{padding:12px 18px}
+  h1{font-size:1.6em;margin-bottom:6px}
+  .lore{line-height:1.35;margin:6px 0}
+  .help{font-size:11px;line-height:1.4}
+  .big{font-size:17px;padding:7px 30px}
+}
