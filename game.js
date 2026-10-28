@@ -1206,8 +1206,70 @@ function drawUnit(c, u) {
     c.fillStyle = '#8a2418'; circ(c, 6, 0, 6);
     c.fillStyle = '#e0d0b0'; c.beginPath(); c.moveTo(5, -5); c.quadraticCurveTo(2, -14, 10, -13); c.lineTo(7, -5); c.moveTo(5, 5); c.quadraticCurveTo(2, 14, 10, 13); c.lineTo(7, 5); c.fill();
     c.fillStyle = '#ffb020'; c.fillRect(9, -3, 2, 2); c.fillRect(9, 1, 2, 2);
-  }
+  } else drawUnitL4(c, u, t, A);
   c.restore();
+}
+// Loop 4 procedural sprites (no unit art yet; team colour kept on every one: Survivor blue #3A7BFF, Horde red)
+function drawUnitL4(c, u, t, A) {
+  const team = u.side ? '#d0342a' : '#3A7BFF';
+  if (t === 'flamer' || t === 'rocket' || t === 'medic') {
+    c.fillStyle = 'rgba(0,0,0,0.35)'; ell(c, 1, 4, 7, 3.5);
+    c.rotate(u.ang); const bob = u.moving ? Math.sin(A * 12) * 2 : 0;
+    c.fillStyle = '#2e281e'; c.fillRect(-3 + bob, -5, 4, 3); c.fillRect(-3 - bob, 2, 4, 3);
+    if (t === 'flamer') { // fuel tank on the back, stubby nozzle
+      c.fillStyle = '#8a3a1a'; c.fillRect(-8, -4, 4, 8); c.fillStyle = '#c2622d'; c.fillRect(-8, -4, 4, 2);
+      c.fillStyle = '#6e5a3c'; circ(c, 0, 0, 5.5); c.fillStyle = team; c.fillRect(-1.5, -5.5, 2, 11);
+      c.strokeStyle = '#2a2a2a'; c.lineWidth = 2.5; c.beginPath(); c.moveTo(2, 2.5); c.lineTo(9, 2.5); c.stroke();
+      c.fillStyle = `rgba(255,${140 + 60 * Math.sin(A * 20)},40,0.9)`; circ(c, 10, 2.5, 1.5);
+      c.fillStyle = '#c8b090'; circ(c, 1, 0, 3); c.fillStyle = '#333'; c.fillRect(2, -1.5, 2, 3); // mask
+    } else if (t === 'rocket') { // shoulder tube
+      c.fillStyle = '#5E6B34'; circ(c, 0, 0, 5.5); c.fillStyle = team; c.fillRect(-1.5, -5.5, 2, 11);
+      c.fillStyle = '#3a4220'; c.fillRect(-6, -5, 16, 3.5); c.fillStyle = '#222'; c.fillRect(9, -5.2, 2, 4);
+      c.fillStyle = '#d9b38c'; circ(c, 1, 0, 3);
+    } else { // Medic: white with a red cross
+      c.fillStyle = '#e8e8e2'; circ(c, 0, 0, 5.5); c.fillStyle = team; c.fillRect(-5.5, -1, 2, 2);
+      c.fillStyle = '#d02020'; c.fillRect(-3, -1, 6, 2); c.fillRect(-1, -3, 2, 6);
+      c.fillStyle = '#f4f0e8'; circ(c, 2.5, 0, 2.6);
+      if (u.healing) { c.globalAlpha = 0.5 + 0.3 * Math.sin(A * 10); c.fillStyle = '#7dff9a'; circ(c, 6, 0, 2); c.globalAlpha = 1; }
+    }
+  } else if (t === 'archangel') { // ~1.5x the Angel: big wings, halo, soft aura ring
+    const h = 12 + Math.sin(A * 2.5) * 2.5;
+    c.fillStyle = 'rgba(0,0,0,0.28)'; ell(c, 0, 8, 15, 6);
+    c.translate(0, -h);
+    const g = c.createRadialGradient(0, 0, 0, 0, 0, 32); g.addColorStop(0, 'rgba(221,246,255,0.5)'); g.addColorStop(1, 'rgba(159,232,255,0)'); c.fillStyle = g; circ(c, 0, 0, 32);
+    const f = Math.sin(A * 6) * 0.3;
+    for (const s of [-1, 1]) {
+      c.save(); c.scale(s * 1.5, 1.5); c.rotate(-f);
+      c.fillStyle = 'rgba(240,244,250,0.95)'; c.beginPath(); c.moveTo(2, -1); c.quadraticCurveTo(12, -15, 21, -9); c.quadraticCurveTo(15, -5, 18, 0); c.quadraticCurveTo(11, 0, 13, 4); c.quadraticCurveTo(6, 3, 2, 3); c.fill();
+      c.strokeStyle = team; c.lineWidth = 0.7; c.stroke(); c.restore();
+    }
+    c.fillStyle = '#E8E2D0'; c.beginPath(); c.moveTo(-6, -3); c.lineTo(6, -3); c.lineTo(7, 11); c.lineTo(-7, 11); c.fill();
+    c.fillStyle = team; c.fillRect(-6, 2, 12, 3);
+    c.fillStyle = '#f0d8a0'; circ(c, 0, -6, 4);
+    c.strokeStyle = '#FFE9A0'; c.lineWidth = 2; c.beginPath(); c.ellipse(0, -13, 6, 2, 0, 0, 7); c.stroke();
+    c.strokeStyle = '#DDF6FF'; c.lineWidth = 2; c.beginPath(); c.moveTo(8, -4); c.lineTo(8, 14); c.stroke();
+  } else if (t === 'templar') { // big knight on foot: plate, tabard cross, sword
+    c.fillStyle = 'rgba(0,0,0,0.4)'; ell(c, 1, 5, 11, 5);
+    c.rotate(u.ang); const bob = u.moving ? Math.sin(A * 8) * 2.5 : 0;
+    c.fillStyle = '#3a3a3a'; c.fillRect(-4 + bob, -8, 6, 4); c.fillRect(-4 - bob, 4, 6, 4);
+    c.fillStyle = '#B8B2A2'; circ(c, 0, 0, 8.5);
+    c.fillStyle = '#f2efe6'; c.fillRect(-5, -6, 9, 12); c.fillStyle = team; c.fillRect(-1.5, -6, 3, 12); c.fillRect(-5, -1.5, 9, 3);
+    c.fillStyle = '#8E959C'; circ(c, 2, 0, 4); c.fillStyle = '#222'; c.fillRect(4, -1, 2, 2);
+    const sw = u.cd > u.d.rof - 0.25 ? 0.9 : 0;
+    c.save(); c.translate(3, 7); c.rotate(-0.4 + sw); c.fillStyle = '#DDE3E8'; c.fillRect(0, -1.2, 15, 2.4); c.fillStyle = '#FFE9A0'; c.fillRect(-1, -3, 2, 6); c.restore();
+  } else if (t === 'demon') { // horned giant, ~2x a Hellbrute
+    c.fillStyle = 'rgba(0,0,0,0.45)'; ell(c, 3, 10, 28, 13);
+    c.rotate(u.ang); const sw = u.moving ? Math.sin(A * 3.5) * 5 : 0;
+    c.fillStyle = '#2a0606'; circ(c, 10 + sw, -22, 9); circ(c, 10 - sw, 22, 9);
+    c.fillStyle = '#4a0e0a'; ell(c, -2, 0, 20, 26);
+    c.fillStyle = '#6b1a12'; ell(c, 0, 0, 16, 21);
+    c.strokeStyle = '#ff7a20'; c.lineWidth = 1.5; c.beginPath(); c.moveTo(-10, -14); c.lineTo(-3, -4); c.lineTo(-12, 6); c.moveTo(2, 10); c.lineTo(-6, 18); c.moveTo(-4, -18); c.lineTo(4, -10); c.stroke();
+    c.fillStyle = '#8a2418'; circ(c, 11, 0, 10);
+    c.fillStyle = '#e8dcc0'; c.beginPath(); c.moveTo(9, -8); c.quadraticCurveTo(2, -26, 18, -26); c.lineTo(13, -8); c.moveTo(9, 8); c.quadraticCurveTo(2, 26, 18, 26); c.lineTo(13, 8); c.fill();
+    c.fillStyle = team; c.fillRect(-14, -3, 6, 6);
+    c.fillStyle = '#ffd040'; c.fillRect(17, -5, 3, 3); c.fillRect(17, 2, 3, 3);
+    c.fillStyle = `rgba(255,${120 + 80 * Math.sin(A * 6)},20,0.9)`; circ(c, 21, 0, 2.5 + Math.sin(A * 9));
+  } else { c.fillStyle = team; circ(c, 0, 0, u.r); }
 }
 // building art options for this frame: build progress (visual reveal), silo charge/launch, the game's actual dock pad tile
 function bldArtOpts(b) {
@@ -1224,6 +1286,7 @@ function bldArtOverlay(c, b, P) {
   }
   if (b.type === 'refinery' && b.side === 0 && b.dockQ && b.dockQ[0] && b.dockQ[0].hs === 'unload' && !b.dockQ[0].blocked && Math.random() < 0.3)
     G.fx.push({ k: 'smoke', x: b.tx * TILE + b.w * TILE - 12, y: P.oy + 6, t: 0, dur: 1.6 });
+  if (b.type === 'hq' && P.sel.p >= 1) drawHqTurret(c, b); // opening addendum: no turret-top art for the HQ yet
 }
 function drawBld(c, b) {
   const x = b.tx * TILE, y = b.ty * TILE, w = b.w * TILE, h = b.h * TILE, A = b.anim, ev = b.side === 1, t = b.type;
@@ -1325,8 +1388,68 @@ function drawBld(c, b) {
       c.strokeStyle = '#ff5a1a'; c.lineWidth = 3; c.beginPath(); c.arc(cx, cy, 23, -Math.PI / 2, -Math.PI / 2 + f * Math.PI * 2); c.stroke();
     }
   }
+  if (t === 'armory' || t === 'church' || t === 'altar') drawBldL4(c, b, x, y, w, h, cx, cy, A);
+  if (t === 'hq') drawHqTurret(c, b);
   if (b.hitT > 0) { c.fillStyle = 'rgba(255,255,255,0.2)'; c.fillRect(x, y, w, h); }
   c.restore();
+}
+// Loop 4 tech buildings, procedural (art pending: see ART_PENDING). Team trim from the base frame drawn above.
+function drawBldL4(c, b, x, y, w, h, cx, cy, A) {
+  const t = b.type, ev = b.side === 1, team = ev ? '#7a1a10' : '#3A7BFF';
+  if (t === 'armory') { // bunker with ammo crates and a gun rack
+    c.fillStyle = ev ? '#3a2224' : '#6E6A60'; c.fillRect(x + 5, y + 8, w - 10, h - 14);
+    c.fillStyle = ev ? '#2a1416' : '#5A564C'; c.beginPath(); c.moveTo(x + 4, y + 14); c.lineTo(x + 10, y + 5); c.lineTo(x + w - 10, y + 5); c.lineTo(x + w - 4, y + 14); c.fill();
+    for (let k = 0; k < 3; k++) { c.fillStyle = PAL.olive; c.fillRect(x + 8 + k * 16, y + h - 20, 13, 10); c.fillStyle = PAL.stencil; c.fillRect(x + 9 + k * 16, y + h - 16, 11, 1.5); }
+    c.strokeStyle = '#222'; c.lineWidth = 2.5; for (let k = 0; k < 4; k++) { c.beginPath(); c.moveTo(x + 14 + k * 10, y + 16); c.lineTo(x + 14 + k * 10, y + 32); c.stroke(); }
+    c.fillStyle = team; c.fillRect(cx - 10, y + 9, 20, 3);
+    if (G && G.rq && G.rq[b.side].armory.list.length) { c.globalAlpha = 0.5 + 0.4 * Math.sin(A * 6); c.fillStyle = '#ffe9a0'; circ(c, x + w - 9, y + 10, 3); c.globalAlpha = 1; }
+  } else if (t === 'church') { // white chapel, steeple and cross, stained glass
+    c.fillStyle = '#E8E2D0'; c.fillRect(x + 8, y + 22, w - 16, h - 28);
+    c.fillStyle = '#7a5a3a'; c.beginPath(); c.moveTo(x + 4, y + 26); c.lineTo(cx, y + 12); c.lineTo(x + w - 4, y + 26); c.fill();
+    c.fillStyle = '#d8d2c0'; c.fillRect(cx - 7, y + 4, 14, 30); c.fillStyle = '#6a4a30'; c.beginPath(); c.moveTo(cx - 9, y + 6); c.lineTo(cx, y - 8); c.lineTo(cx + 9, y + 6); c.fill();
+    c.fillStyle = '#FFE9A0'; c.fillRect(cx - 1, y - 18, 2, 11); c.fillRect(cx - 4, y - 15, 8, 2);
+    c.fillStyle = '#5a4030'; c.fillRect(cx - 6, y + h - 22, 12, 16);
+    for (const ox of [-18, 18]) { const g = c.createLinearGradient(0, y + 40, 0, y + 60); g.addColorStop(0, '#9FE8FF'); g.addColorStop(1, team); c.fillStyle = g; c.fillRect(cx + ox - 3, y + 40, 6, 18); }
+    c.globalAlpha = 0.15 + 0.1 * Math.sin(A * 2); c.fillStyle = '#DDF6FF'; circ(c, cx, cy, 30); c.globalAlpha = 1;
+  } else { // Dark Altar: obsidian slab, bone pillars, green plague fire
+    c.fillStyle = '#140a0c'; c.fillRect(x + 6, y + 10, w - 12, h - 16);
+    c.fillStyle = '#2a1a1c'; c.beginPath(); c.moveTo(x + 10, y + h - 10); c.lineTo(cx, y + 18); c.lineTo(x + w - 10, y + h - 10); c.fill();
+    c.fillStyle = '#d8ccb0'; for (const px of [x + 10, x + w - 14]) { c.fillRect(px, y + 12, 4, h - 26); c.beginPath(); c.moveTo(px - 2, y + 14); c.quadraticCurveTo(px - 4, y + 2, px + 4, y + 2); c.lineTo(px + 4, y + 14); c.fill(); }
+    for (let k = 3; k > 0; k--) { c.fillStyle = ['#d0ff7a', '#7adf3a', '#2a6a10'][k - 1]; c.globalAlpha = 0.85; c.beginPath(); c.ellipse(cx, cy + 6, 3 + k * 3 + Math.sin(A * 4 + k) * 1.5, 5 + k * 5, 0, 0, 7); c.fill(); }
+    c.globalAlpha = 1; c.fillStyle = team; c.fillRect(x + 6, y + h - 9, w - 12, 3);
+    c.fillStyle = '#ff2a10'; circ(c, cx - 6, y + 30, 1.5); circ(c, cx + 6, y + 30, 1.5);
+  }
+}
+// opening addendum: the HQ / Hive's small built-in turret (weaker-looking than a Turret / Bone Spire), drawn over art or procedural
+function drawHqTurret(c, b) {
+  const x = b.tx * TILE + b.w * TILE - 20, y = b.ty * TILE + 18, ev = b.side === 1, a = b.tang || 0;
+  c.save(); c.translate(x, y);
+  if (!ev) { c.fillStyle = '#3a3a36'; circ(c, 0, 0, 6.5); c.fillStyle = '#8E959C'; circ(c, 0, 0, 4.5); c.rotate(a); c.fillStyle = '#2a2a2a'; c.fillRect(2, -1.2, 9, 2.4); c.fillStyle = '#3A7BFF'; c.fillRect(-2, -1, 3, 2); }
+  else { c.fillStyle = '#3a1a18'; circ(c, 0, 0, 6.5); c.fillStyle = '#d8ccb0'; c.rotate(a); c.beginPath(); c.moveTo(-4, -4); c.lineTo(10, 0); c.lineTo(-4, 4); c.fill(); c.fillStyle = `rgba(255,${120 + 60 * Math.sin(b.anim * 6)},20,0.9)`; circ(c, 8, 0, 2); }
+  if (b.d && b.cd > b.d.rof - 0.1 && b.target) { c.fillStyle = ev ? 'rgba(255,140,40,0.9)' : 'rgba(255,240,180,0.9)'; circ(c, 12, 0, 3); } // muzzle flash / fire puff
+  c.restore();
+}
+// ground markers: HQ dock pad, Demon Lord plague aura, Holy Ground and Archangel aura rings, HQ / Turret range ring when selected
+function drawGroundL4(c, vb) {
+  for (const b of vb) if (b.type === 'hq' && b.pad !== undefined) {
+    const px = (b.pad % MW) * TILE, py = ((b.pad / MW) | 0) * TILE;
+    c.save(); c.globalAlpha = 0.75; c.strokeStyle = b.side ? '#8C3A5A' : '#E8D23A'; c.setLineDash([5, 4]); c.lineWidth = 2; c.strokeRect(px + 3, py + 3, 26, 26); c.setLineDash([]);
+    c.fillStyle = b.side ? '#8C3A5A' : '#E8D23A'; c.beginPath(); c.moveTo(px + 11, py + 10); c.lineTo(px + 21, py + 10); c.lineTo(px + 16, py + 18); c.fill(); c.restore();
+  }
+  for (const u of G.units) if (!u.dead && u.type === 'demon' && (u.side === 0 || vis[tileOf(u.y) * MW + tileOf(u.x)]) && onScreen(u.x, u.y, 140)) {
+    const R = (Combat.D.demonAuraTiles + 0.5) * TILE, g = c.createRadialGradient(u.x, u.y, R * 0.2, u.x, u.y, R);
+    g.addColorStop(0, 'rgba(120,220,40,0.05)'); g.addColorStop(0.85, 'rgba(110,210,40,0.2)'); g.addColorStop(1, 'rgba(90,180,30,0)'); c.fillStyle = g; circ(c, u.x, u.y, R);
+    c.strokeStyle = `rgba(150,255,70,${0.45 + 0.15 * Math.sin(G.time * 3)})`; c.lineWidth = 2; c.beginPath(); c.ellipse(u.x, u.y, R - 4, (R - 4) * 0.8, 0, 0, 7); c.stroke();
+  }
+  if (isDone(0, 'holyground')) for (const b of vb) if (b.type === 'church' && b.side === 0) {
+    c.save(); c.strokeStyle = 'rgba(159,232,255,0.35)'; c.setLineDash([12, 10]); c.lineWidth = 2; c.beginPath(); c.arc(b.x, b.y, Combat.D.holyGroundTiles * TILE, 0, 7); c.stroke(); c.setLineDash([]); c.restore();
+  }
+  for (const u of G.units) if (!u.dead && u.type === 'archangel' && (u.side === 0 || vis[tileOf(u.y) * MW + tileOf(u.x)]) && onScreen(u.x, u.y, 160)) {
+    c.strokeStyle = 'rgba(221,246,255,0.3)'; c.lineWidth = 1.5; c.beginPath(); c.ellipse(u.x, u.y, Combat.D.archangelHealTiles * TILE, Combat.D.archangelHealTiles * TILE * 0.8, 0, 0, 7); c.stroke();
+  }
+  for (const e of G.sel) if (!e.dead && e.kind === 'b' && (e.type === 'hq' || e.type === 'turret')) {
+    c.save(); c.strokeStyle = e.side ? 'rgba(255,90,90,0.5)' : 'rgba(125,255,125,0.45)'; c.setLineDash([6, 6]); c.lineWidth = 1.5; c.beginPath(); c.arc(e.x, e.y, rangeOf(e) * TILE, 0, 7); c.stroke(); c.setLineDash([]); c.restore();
+  }
 }
 function hpBar(c, x, y, w, f) {
   c.fillStyle = 'rgba(0,0,0,0.7)'; c.fillRect(x - w / 2 - 1, y - 1, w + 2, 5);
@@ -1375,13 +1498,17 @@ function drawFx(c, f) {
     case 'line': c.strokeStyle = f.c; c.lineWidth = f.w; c.globalAlpha = 1 - p; c.beginPath(); c.moveTo(f.x1, f.y1); c.lineTo(f.x2, f.y2); c.stroke(); break;
     case 'beam': c.globalAlpha = 1 - p; c.strokeStyle = f.c; c.lineWidth = 6 * (1 - p) + 1; c.globalCompositeOperation = 'lighter'; c.beginPath(); c.moveTo(f.x1, f.y1); c.lineTo(f.x2, f.y2); c.stroke(); c.strokeStyle = '#fff'; c.lineWidth = 1.5; c.stroke(); break;
     case 'spark': c.globalAlpha = 1 - p; c.fillStyle = f.c; for (let k = 0; k < 4; k++) circ(c, f.x + Math.cos(k * 1.6 + f.x) * p * 10, f.y + Math.sin(k * 1.6 + f.y) * p * 10, 1.5); break;
-    case 'slash': c.globalAlpha = 1 - p; c.strokeStyle = '#ffd0c0'; c.lineWidth = 2; c.beginPath(); c.arc(f.x, f.y, f.r, f.a - 1 + p, f.a + 0.2 + p); c.stroke(); break;
+    case 'flame': { c.globalCompositeOperation = 'lighter'; const a = Math.atan2(f.y2 - f.y1, f.x2 - f.x1), L = Math.hypot(f.x2 - f.x1, f.y2 - f.y1) + 8; c.translate(f.x1, f.y1); c.rotate(a);
+      for (let k = 0; k < 7; k++) { const q = (k / 7 + p) % 1, rr = 2 + q * 9; c.globalAlpha = (1 - p) * (1 - q * 0.6); c.fillStyle = q < 0.3 ? '#ffe080' : q < 0.65 ? '#ff8a20' : '#c03010'; circ(c, q * L, Math.sin(k * 2.3 + f.t * 30) * q * 5, rr); } break; }
+    case 'heal': c.globalAlpha = 1 - p; c.strokeStyle = '#7dff9a'; c.lineWidth = 2.5; c.globalCompositeOperation = 'lighter'; c.beginPath(); c.moveTo(f.x1, f.y1); c.lineTo(f.x2, f.y2); c.stroke(); c.strokeStyle = '#fff'; c.lineWidth = 1; c.stroke(); c.fillStyle = '#7dff9a'; c.fillRect(f.x2 - 1, f.y2 - 9 - p * 6, 2, 6); c.fillRect(f.x2 - 3, f.y2 - 7 - p * 6, 6, 2); break;
+    case 'holyburst': c.globalAlpha = 0.8 * (1 - p); c.globalCompositeOperation = 'lighter'; c.strokeStyle = '#DDF6FF'; c.lineWidth = 3 * (1 - p) + 1; c.beginPath(); c.arc(f.x, f.y, f.r * (0.4 + 0.6 * p), 0, 7); c.stroke(); break;
+    case 'slash': c.globalAlpha = 1 - p; c.strokeStyle = f.c || '#ffd0c0'; c.lineWidth = 2; c.beginPath(); c.arc(f.x, f.y, f.r, f.a - 1 + p, f.a + 0.2 + p); c.stroke(); break;
     case 'boom': { c.globalCompositeOperation = 'lighter'; const r = f.r * (0.4 + p); const g = c.createRadialGradient(f.x, f.y, 0, f.x, f.y, r); g.addColorStop(0, `rgba(255,240,200,${1 - p})`); g.addColorStop(0.4, f.c); g.addColorStop(1, 'rgba(80,20,0,0)'); c.globalAlpha = 1 - p * 0.8; c.fillStyle = g; circ(c, f.x, f.y, r); break; }
     case 'ember': c.globalAlpha = 1 - p; c.fillStyle = f.c; circ(c, f.x + f.vx * f.t, f.y + f.vy * f.t, 2); break;
     case 'smoke': c.globalAlpha = 0.35 * (1 - p); c.fillStyle = '#222'; circ(c, f.x + p * 10, f.y - p * 40, 6 + p * 12); break;
     case 'blood': c.globalAlpha = 1 - p; c.fillStyle = f.c; for (let k = 0; k < 6; k++) circ(c, f.x + Math.cos(k) * p * 12, f.y + Math.sin(k * 1.3) * p * 12, 2); break;
     case 'purify': c.globalAlpha = 1 - p; c.strokeStyle = '#ffffff'; c.lineWidth = 3 * (1 - p) + 1; c.beginPath(); c.arc(f.x, f.y, 4 + p * 26, 0, 7); c.stroke(); c.fillStyle = `rgba(255,255,255,${0.7 * (1 - p)})`; circ(c, f.x, f.y, 10 * (1 - p) + 2); c.fillRect(f.x - 1, f.y - 30 * (1 - p) - 4, 2, 30 * (1 - p)); break;
-    case 'mote': { c.globalAlpha = p < 0.2 ? p * 5 : 1 - p; c.fillStyle = '#9fe07a'; const rr = 16 * (1 - p); for (let k = 0; k < 3; k++) circ(c, f.x + Math.cos(f.a + k * 2.1) * rr, f.y + Math.sin(f.a + k * 2.1) * rr * 0.6 - p * 6, 1.6); break; }
+    case 'mote': { c.globalAlpha = p < 0.2 ? p * 5 : 1 - p; c.fillStyle = f.c || '#9fe07a'; const rr = 16 * (1 - p); for (let k = 0; k < 3; k++) circ(c, f.x + Math.cos(f.a + k * 2.1) * rr, f.y + Math.sin(f.a + k * 2.1) * rr * 0.6 - p * 6, 1.6); break; }
     case 'rise': c.globalAlpha = 1 - p; c.fillStyle = '#7aff4a'; c.globalCompositeOperation = 'lighter'; circ(c, f.x, f.y, 6 + p * 18); break;
     case 'dust': c.globalAlpha = 0.5 * (1 - p); c.fillStyle = '#8a8276'; for (let k = 0; k < 4; k++) circ(c, f.x + Math.cos(k * 1.7) * p * 10, f.y - p * 8 + Math.sin(k * 1.7) * p * 4, 2 + p * 4); break;
     case 'pop': { const txt = f.txt || '+' + f.n; c.globalAlpha = p < 0.7 ? 1 : (1 - p) / 0.3; c.font = 'bold 14px monospace'; c.textAlign = 'center'; c.lineWidth = 3; c.strokeStyle = '#000'; c.strokeText(txt, f.x, f.y - p * 26); c.fillStyle = f.side ? '#ff8a6a' : PAL.gold; c.fillText(txt, f.x, f.y - p * 26); break; }
@@ -1412,10 +1539,12 @@ function render() {
   for (const d of G.decals) {
     if (!onScreen(d.x, d.y, 200)) continue;
     if (d.k === 'scorch') { const g = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, d.r); g.addColorStop(0, 'rgba(0,0,0,0.6)'); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = g; circ(ctx, d.x, d.y, d.r); }
+    else if (d.k === 'burn') { ctx.fillStyle = 'rgba(20,14,10,0.7)'; ell(ctx, d.x, d.y + 2, d.r, d.r * 0.6); ctx.fillStyle = 'rgba(255,120,30,0.25)'; for (let k = 0; k < 3; k++) circ(ctx, d.x + Math.cos(d.a + k * 2) * d.r * 0.5, d.y + 2 + Math.sin(d.a + k * 2) * d.r * 0.3, 1.2); }
     else if (d.k === 'blood') { ctx.fillStyle = d.c; ctx.globalAlpha = 0.6; ell(ctx, d.x, d.y, 5, 3); ctx.globalAlpha = 1; }
     else if (d.k === 'ruin') { if (!bgrid[d.y / TILE * MW + d.x / TILE]) { ctx.fillStyle = 'rgba(40,34,30,0.7)'; for (let k = 0; k < d.w * d.h * 2; k++) ctx.fillRect(d.x + hash(k + d.x) * d.w * TILE, d.y + hash(k * 3 + d.y) * d.h * TILE, 6, 4); } }
   }
   drawResources(ctx, x0, y0, x1, y1);
+  drawGroundL4(ctx, G.blds.filter(b => !b.dead && onScreen(b.x, b.y, 300) && (b.side === 0 || isVisible(b))));
   // plague & radiation
   for (const z of plagueZones) {
     if (!onScreen(z.x, z.y, z.r)) continue;
@@ -1463,7 +1592,8 @@ function render() {
     // projectiles aimed at air arc up toward the lifted sprite
     let py = p.y; if (p.air) { const tot = Math.hypot(p.tx - p.sx, p.ty - p.sy) || 1, left = Math.hypot(p.tx - p.x, p.ty - p.y); py -= Math.sin(Math.PI * clamp(1 - left / tot, 0, 1)) * 14; }
     if (p.bolt) { ctx.save(); ctx.translate(p.x, py); ctx.rotate(p.a || 0); ctx.fillStyle = '#e8dcc0'; ctx.fillRect(-7, -1.5, 9, 3); ctx.fillStyle = '#ff7a20'; ctx.beginPath(); ctx.moveTo(2, -3); ctx.lineTo(9, 0); ctx.lineTo(2, 3); ctx.fill(); ctx.fillStyle = 'rgba(255,90,20,0.5)'; ctx.fillRect(-14, -1, 7, 2); ctx.restore(); }
-    else if (p.w === 'fire') { ctx.fillStyle = '#ff7a20'; circ(ctx, p.x, py, 4); ctx.fillStyle = '#ffe080'; circ(ctx, p.x, py, 2); }
+    else if (p.rocket) { const a = Math.atan2(p.ty - p.sy, p.tx - p.sx); ctx.save(); ctx.translate(p.x, py); ctx.rotate(a); ctx.fillStyle = '#5E6B34'; ctx.fillRect(-6, -1.5, 9, 3); ctx.fillStyle = '#ddd'; ctx.fillRect(3, -1.5, 2, 3); ctx.fillStyle = 'rgba(255,170,60,0.9)'; ctx.fillRect(-10, -1, 4, 2); ctx.restore(); }
+    else if (p.w === 'fire') { const r = p.big ? 7 : 4; ctx.fillStyle = '#ff7a20'; circ(ctx, p.x, py, r); ctx.fillStyle = '#ffe080'; circ(ctx, p.x, py, r / 2); }
     else { ctx.fillStyle = '#8E959C'; circ(ctx, p.x, py, 2.5); }
   }
   for (const f of G.fx) if (onScreen(f.x !== undefined ? f.x : f.x1, f.y !== undefined ? f.y : f.y1, 300)) drawFx(ctx, f);
@@ -1545,6 +1675,7 @@ function sfx(k, x, y) {
     case 'rise': tone(90, 50, 0.6, 'sawtooth', 0.08); break;
     case 'clank': noise(0.08, 1800, 'bandpass', 0.06); tone(320, 260, 0.08, 'square', 0.02); break;
     case 'chime': tone(1320, 1320, 0.08, 'triangle', 0.06); tone(1760, 1760, 0.14, 'triangle', 0.06, 0.08); break;
+    case 'horn': tone(110, 104, 1.2, 'sawtooth', 0.09); tone(165, 156, 1.2, 'sawtooth', 0.05); tone(82, 78, 1.4, 'triangle', 0.08, 0.1); break;
   }
 }
 
@@ -1584,6 +1715,36 @@ function buildSidebar() {
       grid.appendChild(b); btns[type] = b;
     }
   }
+  // Loop 4 research (Armory / Church): click to queue, right-click to cancel
+  const rg = $('rGrid'); if (!rg) return; rg.innerHTML = '';
+  for (const at of ['armory', 'church']) for (const id of Combat.RORDER[at]) {
+    const R = Combat.RESEARCH[id], b = document.createElement('div'); b.className = 'btn rbtn';
+    b.appendChild(researchIcon(id));
+    b.insertAdjacentHTML('beforeend', `<span class="nm">${R.name}</span><span class="cs">$${R.cost}</span><div class="bar"></div><span class="cnt"></span>`);
+    b.title = `${R.name} (${BDEF[at].name[0]}): ${R.desc}. Cost ${R.cost}, ${R.time}s.`;
+    b.addEventListener('click', () => { if (G && !G.over) { initAudio(); queueResearch(0, id); } });
+    b.addEventListener('contextmenu', e => { e.preventDefault(); if (G) cancelResearch(0, id); });
+    rg.appendChild(b); rbtns[id] = b;
+  }
+}
+const rbtns = {};
+// procedural research icons (art pending): a glyph on the research building's colours
+function researchIcon(id) {
+  const cv = document.createElement('canvas'); cv.width = 56; cv.height = 38; const c = cv.getContext('2d');
+  const at = Combat.RESEARCH[id].at, holy = at === 'church';
+  c.fillStyle = holy ? '#E8E2D0' : '#5E6B34'; c.beginPath(); c.arc(28, 19, 16, 0, 7); c.fill();
+  c.strokeStyle = holy ? '#9FE8FF' : '#E8D23A'; c.lineWidth = 2; c.stroke();
+  c.fillStyle = holy ? '#3A7BFF' : '#E8D23A'; c.strokeStyle = c.fillStyle;
+  switch (id) {
+    case 'hollow': for (const ox of [-6, 0, 6]) { c.fillRect(25 + ox, 13, 5, 10); c.beginPath(); c.arc(27.5 + ox, 13, 2.5, Math.PI, 0); c.fill(); } break;
+    case 'plating': c.beginPath(); c.moveTo(28, 8); c.lineTo(38, 12); c.lineTo(36, 24); c.lineTo(28, 30); c.lineTo(20, 24); c.lineTo(18, 12); c.fill(); break;
+    case 'rockets': c.save(); c.translate(28, 19); c.rotate(-0.8); c.fillRect(-10, -2.5, 16, 5); c.beginPath(); c.moveTo(6, -3); c.lineTo(12, 0); c.lineTo(6, 3); c.fill(); c.fillStyle = '#ff7a20'; c.fillRect(-14, -1.5, 4, 3); c.restore(); break;
+    case 'barrels': c.fillRect(16, 16, 24, 6); c.fillRect(22, 22, 5, 7); c.fillStyle = '#ff7a20'; c.beginPath(); c.arc(42, 19, 3, 0, 7); c.fill(); break;
+    case 'blessed': c.fillRect(26, 9, 4, 20); c.fillRect(20, 14, 16, 4); break;
+    case 'halo': c.lineWidth = 3; c.beginPath(); c.ellipse(28, 19, 11, 5, 0, 0, 7); c.stroke(); break;
+    case 'holyground': c.lineWidth = 2; for (const r of [5, 10]) { c.beginPath(); c.arc(28, 19, r, 0, 7); c.stroke(); } c.fillRect(27, 15, 2, 8); c.fillRect(25, 17, 6, 2); break;
+  }
+  return cv;
 }
 function onBuildBtn(type) {
   if (!G || G.over) return; initAudio();
@@ -1610,7 +1771,17 @@ function updSidebar() {
     const n = q.list.filter(t => t === type).length;
     b.querySelector('.cnt').textContent = n > (cat === 'structure' ? 1 : 0) || (cat !== 'structure' && n) ? n : '';
     b.querySelector('.bar').style.width = q.list[0] === type ? (100 * q.prog / timeOf(type)) + '%' : '0';
-    b.querySelector('.cs').textContent = q.ready === type ? 'READY' : locked ? 'Needs ' + missingReq(0, type) : '$' + costOf(type);
+    const lim = UDEF[type] && UDEF[type].limit, full = lim && atLimit(0, type);
+    b.classList.toggle('limit', !!full);
+    b.querySelector('.cs').textContent = q.ready === type ? 'READY' : locked ? 'Needs ' + missingReq(0, type) : full ? `Limit ${lim}` : '$' + costOf(type);
+  }
+  for (const id in rbtns) {
+    const b = rbtns[id], R = Combat.RESEARCH[id], st = researchState(0, id), q = G.rq[0][R.at];
+    b.classList.toggle('locked', st === 'locked'); b.classList.toggle('done', st === 'done');
+    b.classList.toggle('poor', st === 'ready' && G.credits[0] < R.cost);
+    b.querySelector('.bar').style.width = st === 'active' ? (100 * q.prog / R.time) + '%' : st === 'done' ? '100%' : '0';
+    b.querySelector('.cnt').textContent = st === 'queued' ? (q.list.indexOf(id) + 1) : '';
+    b.querySelector('.cs').textContent = st === 'done' ? 'DONE' : st === 'active' ? Math.floor(100 * q.prog / R.time) + '%' : st === 'queued' ? 'QUEUED' : st === 'locked' ? 'Needs ' + researchMissing(0, id) : '$' + R.cost;
   }
   // superweapons
   let h = '';
@@ -1628,7 +1799,13 @@ function updSidebar() {
     s = `<b style="color:${SIDES[e.side].ui}">${ename(e)}</b> <small>${e.side ? '(enemy)' : ''}</small><div class="hp"><div style="width:${100 * e.hp / e.maxhp}%"></div></div>HP ${Math.ceil(e.hp)}/${e.maxhp}<br><small>${e.kind === 'u' ? e.d.desc : e.d.desc}</small>`;
     if (e.kind === 'u' && e.d.harv) s += `<br>Load: ${e.load}/${e.d.cap} · ${e.blocked ? 'storage full, waiting at dock' : ({ seek: 'looking for Salvage', toField: 'heading to a Scrap Pile', gather: 'gathering', toPlant: 'returning to ' + bname(e.dock && e.dock.type === 'hq' ? 'hq' : 'refinery', e.side), queue: 'waiting for the dock', unload: 'unloading', idle: 'no Salvage found', noPlant: 'no ' + bname('refinery', e.side) + ' to unload at', parked: 'parked (right-click a Scrap Pile to resume)' })[e.hs] || ''}`;
     if (e.kind === 'b' && (e.type === 'refinery' || e.type === 'hq') && e.dockQ) s += `<br>Dock: ${e.dockQ.length ? e.dockQ.length + ' truck(s), 1 unloading at a time' : 'free'}`;
-    if (e.kind === 'b' && e.side === 0 && ['hq', 'barracks', 'factory'].includes(e.type)) s += '<br><small>Right-click the ground to set a rally point.</small>';
+    if (e.kind === 'b' && e.side === 0 && ['hq', 'barracks', 'factory', 'church'].includes(e.type)) s += '<br><small>Right-click the ground to set a rally point.</small>';
+    if (e.kind === 'b' && Combat.RORDER[e.type] && (e.side === 0 || isVisible(e))) {
+      const q = G.rq[e.side][e.type];
+      s += '<br>Research: ' + Combat.RORDER[e.type].map(id => { const st = researchState(e.side, id), R = Combat.RESEARCH[id]; return `<span style="color:${st === 'done' ? '#7dff7d' : st === 'active' ? '#9FE8FF' : '#8a8e92'}">${R.name}${st === 'done' ? ' ✓' : st === 'active' ? ' ' + Math.floor(100 * q.prog / R.time) + '%' : st === 'queued' ? ' (queued)' : ''}</span>`; }).join(' · ');
+    }
+    if (e.kind === 'u' && e.d.limit) s += `<br><small>Limit ${e.d.limit} alive (${aliveOf(e.side, e.type)}/${e.d.limit})</small>`;
+    if (e.kind === 'b' && e.type === 'hq') s += `<br><small>Built-in turret: ${Combat.TOWERS.hq.dmg} dmg, range ${Combat.TOWERS.hq.range} tiles, hits air, no power.</small>`;
   } else if (sel.length > 1) {
     const c = {}; for (const e of sel) c[ename(e)] = (c[ename(e)] || 0) + 1;
     s = `<b>${sel.length} selected</b><br>` + Object.entries(c).map(([k, v]) => `${v} × ${k}`).join('<br>');

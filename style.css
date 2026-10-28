@@ -63,3 +63,7 @@ h1{margin:0 0 10px;letter-spacing:6px;color:#D8DCDF;text-shadow:0 0 14px #9FE8FF
 .help b{color:#9FE8FF}
 .help .tip{color:#9fe07a;margin-top:6px}
 #endStats{margin:10px 0 16px;font-family:monospace;color:#C8CDD1;white-space:pre;text-align:left;display:inline-block}
+.btn.done{border-color:#4a7a4a}
+.btn.done .cs{color:#7dff7d}
+.btn.done .bar{background:#4CD94C}
+.btn.limit .cs{color:#ffb060}
