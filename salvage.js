@@ -20,6 +20,7 @@
     haulerCapacity:      { v: 500,  src: 'L1 + DIR ruling 1 (not live 300)' },
     gatherPerSec:        { v: 25,   src: 'L1 (~20 s to fill)' },
     unloadPerSec:        { v: 100,  src: 'L1 (5 s to empty)' },
+    hqUnloadPerSec:      { v: 50,   src: 'Loop 4 opening addendum: the HQ is a slow temporary drop-off (half a Scrap Yard)' },
     loadPips:            { v: 5,    src: 'L1 art notes rev 3' },
     cargoHalfPips:       { v: 1,    src: 'Dezi ruling Oct 27, 2026 (option C): cargo sprite stage from the pip bar, half at 1-3 pips' },
     cargoFullPips:       { v: 4,    src: 'Dezi ruling Oct 27, 2026 (option C): cargo sprite stage from the pip bar, full at 4-5 pips' },
@@ -50,6 +51,9 @@
     depotPower:          { v: -10,  src: 'PLACEHOLDER (DIR Oct 27, for playtest; ADD §3 said no power use)' },
     barracksPower:       { v: -20,  src: 'PLACEHOLDER (DIR Oct 27, for playtest)' },
     siloPower:           { v: -50,  src: 'PLACEHOLDER (DIR Oct 27, for playtest)' },
+    armoryPower:         { v: -30,  src: 'Loop 4 tech spec (Armory)' },
+    churchPower:         { v: -40,  src: 'Loop 4 tech spec (Church)' },
+    altarPower:          { v: -40,  src: 'Loop 4 tech spec (Dark Altar)' },
     otherPower:          { v: 0,    src: 'fallback for unlisted types (none today)' },
     lowPowerMult:        { v: 0.5,  src: 'ADD §1 (production and build speed halved below 0)' },
     depotCost:           { v: 300,  src: 'ADD §3' },
@@ -78,7 +82,7 @@
   const stageOf = a => a <= 0 ? 0 : Math.min(D.stageCount, Math.ceil(a / STAGE_SIZE));
   const pipsOf = (load, cap) => load <= 0 ? 0 : Math.min(D.loadPips, Math.ceil(load / cap * D.loadPips));
   const storageCap = c => (c.hq || 0) * D.hqStorage + (c.refinery || 0) * D.plantStorage + (c.depot || 0) * D.depotStorage;
-  const POWER_KEY = { power: 'powerPlantPower', refinery: 'plantPower', factory: 'factoryPower', silo: 'siloPower', hq: 'hqPower', turret: 'turretPower', depot: 'depotPower', barracks: 'barracksPower' };
+  const POWER_KEY = { power: 'powerPlantPower', refinery: 'plantPower', factory: 'factoryPower', silo: 'siloPower', hq: 'hqPower', turret: 'turretPower', depot: 'depotPower', barracks: 'barracksPower', armory: 'armoryPower', church: 'churchPower', altar: 'altarPower' };
   const powerOfType = t => D[POWER_KEY[t] || 'otherPower'];
   const powerBalance = types => { let made = 0, used = 0; for (const t of types) { const p = powerOfType(t); if (p > 0) made += p; else used -= p; } return { made, used, net: made - used }; };
 
@@ -222,7 +226,8 @@
           u.moving = false; u.path = null;
           const p = u.dock; if (!p || p.dead) { leaveQueue(u); returnToPlant(u); break; }
           const dp = host.dockPoint(p); u.x = dp.x; u.y = dp.y; // the pad holds the Hauler in place
-          u.uAcc = Math.min((u.uAcc || 0) + D.unloadPerSec * h, D.unloadPerSec);
+          const rate = p.type === 'hq' ? D.hqUnloadPerSec : D.unloadPerSec;
+          u.uAcc = Math.min((u.uAcc || 0) + rate * h, rate);
           const mult = host.incomeMult(u.side), free = host.storageCap(u.side) - host.getCredits(u.side);
           let amt = Math.min(Math.floor(u.uAcc), u.load, Math.max(0, Math.floor(free / mult + 1e-6)));
           if (amt > 0) {

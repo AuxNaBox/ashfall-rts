@@ -13,6 +13,8 @@ const RAW = { survivors: J('survivors-buildings-atlas.json'), horde: J('horde-bu
 const MAN = { survivors: UA.parseBuildingManifest(RAW.survivors), horde: UA.parseBuildingManifest(RAW.horde) };
 const pngSize = f => { const b = fs.readFileSync(path.join(DIR, f)); return [b.readUInt32BE(16), b.readUInt32BE(20)]; };
 const { RTS } = load(); const BDEF = RTS.BDEF;
+// Loop 4: types with no building art yet (procedural drawBld fallback) are not in the atlases or BLD_MAP
+const ART_TYPES = Object.keys(BDEF).filter(t => !RTS.ART_PENDING.includes(t));
 const TYPES = ['hq', 'power', 'refinery', 'depot', 'barracks', 'turret', 'factory', 'silo'];
 const B = (type, extra) => Object.assign({ type, side: 0, tx: 10, ty: 20, w: BDEF[type] ? BDEF[type].w : 1, h: BDEF[type] ? BDEF[type].h : 1, hp: 100, maxhp: 100, charge: 0, tang: 0, target: null }, extra || {});
 const D = Math.PI / 180;
@@ -20,7 +22,7 @@ const D = Math.PI / 180;
 // expected frame set, derived from the HANDOFF structure (not hard-coded totals): per faction every BDEF type has idle/damaged/construct,
 // silos closed/open/damaged/damaged_open/construct instead of idle/damaged, + 16 turret-top headings + 1 dock pad; one baked copy per team
 const STATES = t => t === 'silo' ? ['closed', 'open', 'damaged', 'damaged_open', 'construct'] : ['idle', 'damaged', 'construct'];
-const NEUTRAL = Object.keys(BDEF).reduce((n, t) => n + STATES(t).length, 0) + 16 + 1;
+const NEUTRAL = ART_TYPES.reduce((n, t) => n + STATES(t).length, 0) + 16 + 1;
 test('building atlases: frame counts derived from the manifests (neutral x teams), 1024x512 PNGs, every file present, no backups shipped', () => {
   for (const [fac, m] of Object.entries(RAW)) {
     assert.equal(m.neutral.frames.length, NEUTRAL, fac); assert.equal(m.frames.length, m.neutral.frames.length * m.teams.length, fac);
@@ -50,7 +52,9 @@ test('parseBuildingManifest: indexes base/top/pad by code type; rejects bad mani
 
 test('BDEF type -> building id per faction (HANDOFF §3), and every manifest footprint matches game.js BDEF', () => {
   const want = { hq: ['hq', 'hive'], power: ['power_plant', 'power_plant'], refinery: ['scrap_yard', 'grinder_pit'], depot: ['depot', 'depot'], barracks: ['barracks', 'spawning_pit'], factory: ['factory', 'factory'], turret: ['turret', 'bone_spire'], silo: ['nuke_silo', 'hell_silo'] };
-  assert.deepEqual(Object.keys(UA.BLD_MAP).sort(), Object.keys(BDEF).sort());
+  assert.deepEqual(Object.keys(UA.BLD_MAP).sort(), ART_TYPES.sort());
+  assert.deepEqual([...RTS.ART_PENDING].sort(), ['altar', 'armory', 'church']);
+  for (const t of RTS.ART_PENDING) assert.equal(UA.BLD_MAP[t], undefined, t);
   for (const [t, [s, h]] of Object.entries(want)) {
     assert.equal(UA.BLD_MAP[t].survivors, s); assert.equal(UA.BLD_MAP[t].horde, h);
     assert.equal(UA.selectBuilding(MAN.survivors, B(t)).base.building, s); assert.equal(UA.selectBuilding(MAN.horde, B(t, { side: 1 })).base.building, h);
@@ -93,6 +97,9 @@ test('dock pad: manifest tile [1,2] = game.js padTile(b) (tx+1, ty+h); 1-tile fr
   }
   // the real game: every starting refinery's pad (open ground) is exactly the manifest's tile [1,2] = (tx+1, ty+h)
   RTS.newGame('normal'); let n = 0;
+  // Loop 4 opening addendum: no starting Scrap Yard any more, so place one on open ground next to the player's HQ (same intent)
+  { const hq = RTS.G.blds.find(b => b.side === 0 && b.type === 'hq'); let done = false;
+    for (let r = 1; r < 10 && !done; r++) for (let dy = -r; dy <= r && !done; dy++) for (let dx = -r; dx <= r && !done; dx++) { const tx = hq.tx + dx, ty = hq.ty + dy; if (RTS.canPlace(0, 'refinery', tx, ty, 1)) { RTS.makeBld('refinery', 0, tx, ty); done = true; } } }
   for (const b of RTS.G.blds) if (b.type === 'refinery') {
     const base = MAN[b.side ? 'horde' : 'survivors'].index.get(UA.bkey('refinery', 'base', 'idle')), d = RTS.dockPoint(b);
     assert.deepEqual([Math.floor(d.x / 32), Math.floor(d.y / 32)], UA.padTileOf(base, b.tx, b.ty)); n++;

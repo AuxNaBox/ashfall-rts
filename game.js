@@ -37,14 +37,24 @@ const UDEF = {
   zombie: { side: 1, name: 'Zombie', desc: 'Cheap melee swarm. Cannot hit air. Heals in plague', cost: 60, time: 2.5, hp: 120, speed: 36, r: 7, sight: 5, dmg: 13, rof: 1, range: 0.8, inf: true, melee: true, cat: 'infantry', from: ['barracks'], weapon: 'claw' },
   imp: { side: 1, name: 'Imp', desc: 'Ranged fire demon. Hits air', cost: 200, time: 6, hp: 110, speed: 70, r: 8, sight: 6, dmg: 20, rof: 1.3, range: 4.5, inf: true, cat: 'infantry', from: ['barracks'], weapon: 'fireball' },
   brute: { side: 1, name: 'Hellbrute', desc: 'Huge demon, cleaving melee. Cannot hit air', cost: 900, time: 14, hp: 1000, speed: 36, r: 15, sight: 6, dmg: 70, rof: 1.6, range: 1.1, splash: 0.9, melee: true, heavy: true, cat: 'vehicle', from: ['factory'], weapon: 'cleave' },
+  // Loop 4 (stats from combat.js UNITS). reqBld / reqRes: extra requirements on top of the producing building (from)
+  flamer: { side: 0, name: 'Flamer', desc: 'Anti-swarm fire infantry. Its kills burn and never rise', r: 7, inf: true, cat: 'infantry', from: ['barracks'], reqBld: ['armory'], flame: true },
+  rocket: { side: 0, name: 'Rocket Soldier', desc: 'Anti-heavy rocket infantry. Cannot hit air', r: 7, inf: true, cat: 'infantry', from: ['barracks'], reqRes: ['rockets'], rocket: true },
+  medic: { side: 0, name: 'Medic', desc: 'Unarmed. Heals one infantry unit at a time (never vehicles)', r: 7, inf: true, cat: 'infantry', from: ['barracks'], reqBld: ['church'] },
+  archangel: { side: 0, name: 'Archangel', desc: 'Big flying unit, holy beam hits several targets. Heals allies within 4 tiles, stops the dead rising within 6. Plague-immune. One alive at a time', r: 16, fly: true, cat: 'church', from: ['church'], big: true, plagueImmune: true },
+  templar: { side: 0, name: 'Templar', desc: 'Big holy knight on foot. Plague-immune, its kills never rise. Two alive at a time', r: 11, inf: true, melee: true, heavy: true, cat: 'church', from: ['church'], big: true, plagueImmune: true },
+  demon: { side: 1, name: 'Demon Lord', desc: 'Horned giant. Fire hits air. Plague aura (3 tiles). One alive at a time', r: 22, heavy: true, cat: 'altar', from: ['altar'], big: true },
 };
 // Loop 3: armor / damage type / hitsAir and spec stats come from combat.js (CS balance table)
 for (const k in UDEF) {
   const c = Combat.UNITS[k], u = UDEF[k]; u.armor = c.armor; u.weapon = c.dmgType || undefined; u.hitsAir = !!c.dmgType && Combat.hitsAir(c.dmgType);
-  if (c.dmgType) Object.assign(u, { cost: c.cost, time: c.time, hp: c.hp, dmg: c.dmg, rof: c.rof, range: c.range, speed: c.speed * 32, sight: c.sight, splash: c.splash || 0 });
+  if (c.dmgType || c.heal) Object.assign(u, { cost: c.cost, time: c.time, hp: c.hp, dmg: c.dmg || 0, rof: c.rof || 0, range: c.range, speed: c.speed * 32, sight: c.sight, splash: c.splash || 0 });
+  if (c.heal) u.heal = c.heal;
+  if (c.limit) u.limit = c.limit;
 }
 const BDEF = {
-  hq: { name: ['HQ', 'Hive'], desc: 'Headquarters. Trains Scrap Trucks. Stores 2,000 Credits', w: 3, h: 3, hp: 2200, cost: 0, time: 0, sight: 8 },
+  hq: { name: ['HQ', 'Hive'], desc: 'Headquarters. Trains Scrap Trucks only. Slow drop-off (one dock pad) until a Scrap Yard exists. Stores 2,000 Credits. Built-in turret (5 tiles, hits air)', w: 3, h: 3, hp: 2200, cost: 0, time: 0, sight: 8,
+    dmg: Combat.TOWERS.hq.dmg, rof: Combat.TOWERS.hq.rof, range: Combat.TOWERS.hq.range, dmgType: Combat.TOWERS.hq.dmgType, hitsAir: true, power: 0 },
   power: { name: ['Power Plant', 'Power Plant'], desc: 'Makes +100 power', w: 2, h: 2, hp: SD.powerPlantHp, cost: SD.powerPlantCost, time: SD.powerPlantBuildTime, req: ['hq'], sight: 4 },
   refinery: { name: ['Scrap Yard', 'Grinder Pit'], desc: 'Salvage drop-off with one dock pad. Stores 2,000 Credits. Comes with a free truck. Uses 30 power', w: 3, h: 2, hp: SD.plantHp, cost: SD.plantCost, time: SD.plantBuildTime, req: ['power'], sight: 5 },
   depot: { name: ['Depot', 'Depot'], desc: 'Stores 1,500 more Credits. Uses 10 power', w: 2, h: 1, hp: SD.depotHp, cost: SD.depotCost, time: SD.depotBuildTime, req: ['refinery'], sight: 4 },
@@ -52,17 +62,25 @@ const BDEF = {
   turret: { name: ['Turret', 'Bone Spire'], desc: 'Defense tower. Hits air. Uses 20 power', w: 1, h: 1, hp: 650, cost: 600, time: 9, req: ['barracks'], sight: 7, dmg: 28, rof: 0.9, range: 6.5 },
   factory: { name: ['Factory', 'Factory'], desc: 'Builds heavy units. Uses 40 power', w: 3, h: 3, hp: 1200, cost: 2000, time: 15, req: ['refinery'], sight: 5 },
   silo: { name: ['Nuke Silo', 'Hell Silo'], desc: 'Superweapon. Charges a nuke. Uses 50 power', w: 2, h: 2, hp: 1000, cost: 2500, time: 22, req: ['factory'], sight: 5 },
+  // Loop 4 tech buildings (L4 "Tech path"); side = the only faction that can build it
+  armory: { name: ['Armory', 'Armory'], desc: 'Military research. Unlocks the Flamer. Uses 30 power', w: 2, h: 2, hp: 900, cost: 1200, time: 12, req: ['barracks', 'refinery'], sight: 5, side: 0, research: true },
+  church: { name: ['Church', 'Church'], desc: 'Holy research. Unlocks the Medic; trains the Archangel and Templar. Uses 40 power', w: 2, h: 3, hp: 1000, cost: 1500, time: 15, req: ['armory'], sight: 6, side: 0, research: true },
+  altar: { name: ['Dark Altar', 'Dark Altar'], desc: 'Trains the Demon Lord. Uses 40 power', w: 2, h: 3, hp: 1000, cost: 1500, time: 15, req: ['factory'], sight: 5, side: 1 },
 };
+// Loop 4 buildings without art yet: drawn by the procedural drawBld (unitart.js BLD_MAP has no entry)
+const ART_PENDING = ['armory', 'church', 'altar'];
 for (const k in BDEF) BDEF[k].armor = 'structure';
-const BORDER = ['refinery', 'barracks', 'turret', 'factory', 'silo', 'power', 'depot'];
-const UORDER = [['gleaner', 'survivor', 'seraph', 'ark'], ['reaper', 'zombie', 'imp', 'brute']];
+const BORDER = ['refinery', 'barracks', 'turret', 'factory', 'silo', 'power', 'depot', 'armory', 'church'];
+const UORDER = [['gleaner', 'survivor', 'seraph', 'ark', 'flamer', 'rocket', 'medic', 'archangel', 'templar'], ['reaper', 'zombie', 'imp', 'brute', 'demon']];
+const QCATS = ['structure', 'infantry', 'vehicle', 'church', 'altar'];
 const NUKE_CHARGE = 200, NUKE_R = 4.5;
 // visual only: newly placed buildings play the art's scaffold + bottom-up reveal over this many seconds (fully functional at once)
 const BUILD_REVEAL_S = 2;
 const DIFF = {
-  easy: { name: 'Easy', inc: 0.75, prod: 0.85, firstWave: 300, waveGap: 150, minWave: 5, siloTime: 600 },
-  normal: { name: 'Normal', inc: 1.0, prod: 1.0, firstWave: 220, waveGap: 120, minWave: 6, siloTime: 420 },
-  hard: { name: 'Hard', inc: 1.35, prod: 1.2, firstWave: 160, waveGap: 95, minWave: 8, siloTime: 300 },
+  // firstWave / wave1: Loop 4 opening addendum overrides (wave 1 is a fixed group; later waves use minWave + 2 per wave)
+  easy: { name: 'Easy', inc: 0.75, prod: 0.85, firstWave: 390, wave1: { zombie: 3 }, waveGap: 150, minWave: 5, siloTime: 600, altarTime: 720 },
+  normal: { name: 'Normal', inc: 1.0, prod: 1.0, firstWave: 300, wave1: { zombie: 4, imp: 1 }, waveGap: 120, minWave: 6, siloTime: 420, altarTime: 540 },
+  hard: { name: 'Hard', inc: 1.35, prod: 1.2, firstWave: 240, wave1: { zombie: 5, imp: 1 }, waveGap: 95, minWave: 8, siloTime: 300, altarTime: 420 },
 };
 const bname = (type, side) => BDEF[type].name[side];
 const ename = e => e.kind === 'u' ? e.d.name : bname(e.type, e.side);
@@ -323,9 +341,18 @@ function drawDeco(c, d) {
   c.restore();
 }
 // ---------------- entities ----------------
+// ---------------- Loop 4 research modifiers (never mutate UDEF / BDEF) ----------------
+const doneOf = side => (G && G.research && G.research[side]) || null;
+const isDone = (side, id) => !!(doneOf(side) && doneOf(side)[id]);
+const kindOf = e => e.kind === 'b' ? 'blds' : 'units';
+const dmgOf = e => e.d.dmg * Combat.modifier(doneOf(e.side), 'dmgMult', kindOf(e), e.type);
+const rangeOf = e => e.d.range + Combat.modifier(doneOf(e.side), 'rangeAdd', kindOf(e), e.type);
+const speedOf = u => u.d.speed * Combat.modifier(doneOf(u.side), 'speedMult', 'units', u.type);
+const maxHpOf = (type, side) => Math.round(UDEF[type].hp * Combat.modifier(doneOf(side), 'hpMult', 'units', type));
+const aliveOf = (side, type) => G.units.filter(u => u.side === side && u.type === type && !u.dead).length;
 function makeUnit(type, side, x, y) {
-  const d = UDEF[type];
-  const u = { id: ++idc, kind: 'u', type, side, d, x, y, hp: d.hp, maxhp: d.hp, r: d.r, ang: side ? 2.4 : -0.8, tang: side ? 2.4 : -0.8,
+  const d = UDEF[type], mhp = maxHpOf(type, side);
+  const u = { id: ++idc, kind: 'u', type, side, d, x, y, hp: mhp, maxhp: mhp, r: d.r, ang: side ? 2.4 : -0.8, tang: side ? 2.4 : -0.8,
     order: 'idle', path: null, pi: 0, dest: null, target: null, tmode: null, cd: Math.random() * 0.5, scan: Math.random() * 0.3,
     repath: 0, load: 0, hs: 'seek', htile: -1, ht: 0, anim: Math.random() * 10, moving: false, stuckT: 0, sx: x, sy: y, hitT: 0, dead: false };
   G.units.push(u); return u;
@@ -333,7 +360,7 @@ function makeUnit(type, side, x, y) {
 function makeBld(type, side, tx, ty) {
   const d = BDEF[type];
   const b = { id: ++idc, kind: 'b', type, side, d, tx, ty, w: d.w, h: d.h, x: (tx + d.w / 2) * TILE, y: (ty + d.h / 2) * TILE, r: Math.max(d.w, d.h) * TILE / 2,
-    hp: d.hp, maxhp: d.hp, cd: 0, target: null, weapon: type === 'turret' ? Combat.TOWERS.turret.dmgType[side] : null, armed: type === 'turret', charge: 0, rally: null, anim: Math.random() * 10, tang: 0, hitT: 0, dead: false, smokeT: 0, bornT: G.started ? G.time : -1e9 };
+    hp: d.hp, maxhp: d.hp, cd: 0, target: null, weapon: Combat.TOWERS[type] ? Combat.TOWERS[type].dmgType[side] : null, armed: !!Combat.TOWERS[type], charge: 0, rally: null, anim: Math.random() * 10, tang: 0, hitT: 0, dead: false, smokeT: 0, bornT: G.started ? G.time : -1e9 };
   for (let y = ty; y < ty + d.h; y++) for (let x = tx; x < tx + d.w; x++) bgrid[y * MW + x] = b.id;
   bById.set(b.id, b);
   G.blds.push(b);
@@ -341,11 +368,12 @@ function makeBld(type, side, tx, ty) {
   for (const u of G.units) if (!u.d.fly && tileOf(u.x) >= tx && tileOf(u.x) < tx + d.w && tileOf(u.y) >= ty && tileOf(u.y) < ty + d.h) {
     const n = nearestWalkable(tileOf(u.x), tileOf(u.y)); if (n) { u.x = n[0] * TILE + 16; u.y = n[1] * TILE + 16; u.path = null; }
   }
+  if (type === 'hq') { b.pad = padTile(b); b.dockQ = []; } // opening addendum: HQ dock pad (no free Truck)
   if (type === 'refinery') { b.pad = padTile(b); b.dockQ = []; const s = dockPoint(b); const h = makeUnit(side ? 'reaper' : 'gleaner', side, s.x, s.y + 20); h.hs = 'seek'; if (G.started && SAL) salvageEvent('haulerSpawned', { u: h, plant: b }); }
   if (type === 'silo' && side === 1 && G.started) msg('WARNING: The Horde has raised a Hell Silo!', '#ff6a3d', b.x, b.y);
   return b;
 }
-// one-pad dock directly under the bottom-centre of a Scrap Yard / Grinder Pit
+// one-pad dock directly under the bottom-centre of a Scrap Yard / Grinder Pit (and the HQ / Hive)
 function padTile(b) { const n = nearestWalkable(b.tx + 1, b.ty + b.h, b.tx + 1, b.ty + b.h) || [b.tx + 1, b.ty + b.h]; return n[1] * MW + n[0]; }
 function dockPoint(b) { if (b.pad === undefined) b.pad = padTile(b); return { x: (b.pad % MW) * TILE + 16, y: ((b.pad / MW) | 0) * TILE + 16 }; }
 function removeBld(b) { for (let y = b.ty; y < b.ty + b.h; y++) for (let x = b.tx; x < b.tx + b.w; x++) if (bgrid[y * MW + x] === b.id) bgrid[y * MW + x] = 0; bById.delete(b.id); }
@@ -380,7 +408,7 @@ function followPath(u, dt) {
   if (!u.d.fly && u.pi < u.path.length && !walk(tileOf(wp.x), tileOf(wp.y))) { const f = u.path[u.path.length - 1]; moveTo(u, f.x, f.y); if (!u.path) return true; }
   const w = u.path[u.pi]; if (!w) return true;
   const dx = w.x - u.x, dy = w.y - u.y, d = Math.hypot(dx, dy);
-  let sp = u.d.speed; if (!u.d.fly && terr[tileOf(u.y) * MW + tileOf(u.x)] === T.ROAD) sp *= 1.2;
+  let sp = speedOf(u); if (!u.d.fly && terr[tileOf(u.y) * MW + tileOf(u.x)] === T.ROAD) sp *= 1.2;
   const step = sp * dt;
   u.moving = true;
   if (d > 0.01) { u.ang = Math.atan2(dy, dx); if (!u.target) u.tang = u.ang; }
@@ -451,6 +479,7 @@ function findEnemy(e, range, side) {
 function updUnit(u, dt) {
   u.cd -= dt; u.anim += dt; u.hitT -= dt;
   if (u.d.harv) return; // Scrap Trucks run on the salvage fixed step (SAL.update)
+  if (u.d.heal) { updMedic(u, dt); return; }
   if (u.target && u.target.dead) {
     u.target = null;
     if (u.order === 'attack') u.order = 'idle';
@@ -467,8 +496,32 @@ function updUnit(u, dt) {
   if (u.order === 'attackmove') { if (followPath(u, dt)) { u.order = 'idle'; u.path = null; } }
   else u.moving = false;
 }
+// Medic (L4): unarmed; heals the most hurt friendly infantry in sight (one target, 10 HP/s, range 3); move orders come first
+function updMedic(u, dt) {
+  if (u.order === 'move') { u.heal = null; if (followPath(u, dt)) { u.order = 'idle'; u.path = null; } return; }
+  const ok = t => t && !t.dead && t !== u && t.side === u.side && t.kind === 'u' && t.d.inf && t.hp < t.maxhp;
+  u.scan -= dt;
+  if (!ok(u.heal) || u.scan <= 0) {
+    u.scan = 0.3 + Math.random() * 0.1;
+    let best = null, bf = 2, bd = 1e9; const sr = u.d.sight * TILE;
+    for (const o of G.units) { if (!ok(o)) continue; const d = dist(u.x, u.y, o.x, o.y); if (d > sr) continue; const f = o.hp / o.maxhp; if (f < bf - 1e-6 || (Math.abs(f - bf) <= 1e-6 && d < bd)) { best = o; bf = f; bd = d; } }
+    if (best !== u.heal) { u.heal = best; u.repath = 0; }
+  }
+  const t = u.heal;
+  if (!t) { u.healing = false; if (u.order === 'attackmove') { if (followPath(u, dt)) { u.order = 'idle'; u.path = null; } } else u.moving = false; return; }
+  const d = edgeDist(u.x, u.y, t);
+  if (d <= rangeOf(u) * TILE) {
+    u.moving = false; u.path = null; u.healing = true; u.ang = u.tang = Math.atan2(t.y - u.y, t.x - u.x);
+    t.hp = Math.min(t.maxhp, t.hp + Combat.D.medicHealDps * dt);
+    u.fxT = (u.fxT || 0) - dt; if (u.fxT <= 0) { u.fxT = 0.25; G.fx.push({ k: 'heal', x1: u.x, y1: u.y - 3, x2: t.x, y2: t.y - 3, t: 0, dur: 0.25 }); }
+  } else {
+    u.healing = false; u.repath -= dt;
+    if (!u.path || u.repath <= 0 || u.pi >= u.path.length) { u.repath = 0.7 + Math.random() * 0.4; const keep = u.dest; moveTo(u, t.x, t.y); if (u.order === 'attackmove') u.dest = keep; }
+    followPath(u, dt);
+  }
+}
 function engage(u, dt) {
-  const t = u.target, rng = u.d.range * TILE;
+  const t = u.target, rng = rangeOf(u) * TILE;
   if (!canAttack(u, t)) { u.target = null; if (u.order === 'attack') u.order = 'idle'; return; }
   const ed = edgeDist(u.x, u.y, t) - u.r * 0.5;
   if (ed <= rng) {
@@ -490,17 +543,27 @@ function engage(u, dt) {
 function fire(s, t) {
   const side = s.side;
   const w = weaponOf(s), air = t.kind === 'u' && t.d.fly ? Combat.D.projArcPx : 0;
-  const dmg = s.d.dmg;
+  const dmg = dmgOf(s);
   const ox = s.x + Math.cos(s.tang) * (s.r * 0.8), oy = s.y + Math.sin(s.tang) * (s.r * 0.8) - (s.d.fly ? 9 : s.kind === 'b' ? 14 : 0);
   if (w === 'bullet') { const hx = t.x + (Math.random() - 0.5) * 6, hy = t.y - air + (Math.random() - 0.5) * 6; G.fx.push({ k: 'line', x1: ox, y1: oy, x2: hx, y2: hy, c: s.kind === 'b' ? '#DDF6FF' : '#ffe9a0', w: s.kind === 'b' ? 2 : 1.5, t: 0, dur: 0.07 }); G.fx.push({ k: 'spark', x: hx, y: hy, c: '#ffe9a0', t: 0, dur: 0.15 }); damage(t, dmg, s, w); sfx('shot', s.x, s.y); }
-  else if (w === 'beam') { G.fx.push({ k: 'beam', x1: ox, y1: oy, x2: t.x, y2: t.y - air, c: side ? '#ff5030' : '#9FE8FF', t: 0, dur: 0.18 }); G.fx.push({ k: 'spark', x: t.x, y: t.y, c: '#fff6c0', t: 0, dur: 0.3 }); damage(t, dmg, s, w); sfx('beam', s.x, s.y); }
-  else if (w === 'claw' || w === 'cleave') {
-    G.fx.push({ k: 'slash', x: t.x, y: t.y, a: s.ang, r: w === 'cleave' ? 18 : 9, t: 0, dur: 0.2 });
-    if (w === 'cleave') areaDamage(t.x, t.y, s.d.splash * TILE, dmg, s, w); else damage(t, dmg, s, w);
+  else if (w === 'beam') {
+    const big = s.kind === 'u' && s.type === 'archangel';
+    G.fx.push({ k: 'beam', x1: ox, y1: oy - (big ? 6 : 0), x2: t.x, y2: t.y - air, c: side ? '#ff5030' : '#9FE8FF', t: 0, dur: big ? 0.3 : 0.18, w: big ? 2 : 1 }); G.fx.push({ k: 'spark', x: t.x, y: t.y, c: '#fff6c0', t: 0, dur: 0.3 });
+    if (s.kind === 'u' && s.d.splash) { areaDamage(t.x, t.y, s.d.splash * TILE, dmg, s, w); G.fx.push({ k: 'holyburst', x: t.x, y: t.y - air, r: s.d.splash * TILE, t: 0, dur: 0.35 }); } else damage(t, dmg, s, w);
+    sfx('beam', s.x, s.y);
+  }
+  else if (w === 'claw' || w === 'cleave' || w === 'holy') {
+    G.fx.push({ k: 'slash', x: t.x, y: t.y, a: s.ang, r: w === 'claw' ? 9 : 18, c: w === 'holy' ? '#DDF6FF' : undefined, t: 0, dur: 0.2 });
+    if (w !== 'claw' && s.d.splash) areaDamage(t.x, t.y, s.d.splash * TILE, dmg, s, w); else damage(t, dmg, s, w);
     sfx('claw', s.x, s.y);
+  } else if (s.kind === 'u' && s.d.flame) { // Flamer (L4): short flame cone, splash at the target, no projectile
+    G.fx.push({ k: 'flame', x1: ox, y1: oy, x2: t.x, y2: t.y - air, t: 0, dur: 0.3 });
+    areaDamage(t.x, t.y, s.d.splash * TILE, dmg, s, w);
+    sfx('fire', s.x, s.y);
   } else {
     const bolt = w === 'fire' && s.kind === 'b'; // Bone Spire fire bolt (Imp throws a fireball)
-    G.proj.push({ x: ox, y: oy, sx: ox, sy: oy, t, tx: t.x, ty: t.y - air, air, sp: w === 'shell' ? 320 : bolt ? 380 : 220, w, bolt, dmg, s, side, splash: s.kind === 'b' ? 0 : (s.d.splash || 0) });
+    const rocket = s.kind === 'u' && !!s.d.rocket, big = s.kind === 'u' && s.type === 'demon';
+    G.proj.push({ x: ox, y: oy, sx: ox, sy: oy, t, tx: t.x, ty: t.y - air, air, sp: rocket ? 280 : w === 'shell' ? 320 : bolt ? 380 : 220, w, bolt, rocket, big, dmg, s, side, splash: s.kind === 'b' ? 0 : (s.d.splash || 0) });
     sfx(w === 'fire' ? 'fire' : 'shot', s.x, s.y);
   }
 }
@@ -508,12 +571,13 @@ function updProj(dt) {
   for (const p of G.proj) {
     if (p.t && !p.t.dead) { p.tx = p.t.x; p.ty = p.t.y - (p.air || 0); }
     const dx = p.tx - p.x, dy = p.ty - p.y, d = Math.hypot(dx, dy), st = p.sp * dt;
-    if (p.w === 'fire' && Math.random() < 0.6) G.fx.push({ k: 'ember', x: p.x, y: p.y, vx: (Math.random() - 0.5) * 20, vy: (Math.random() - 0.5) * 20, c: '#ff9a30', t: 0, dur: 0.35 });
+    if (p.rocket && Math.random() < 0.7) G.fx.push({ k: 'smoke', x: p.x, y: p.y, t: 0, dur: 0.6, s: 0.4 });
+    if (p.w === 'fire' && Math.random() < (p.big ? 1 : 0.6)) G.fx.push({ k: 'ember', x: p.x, y: p.y, vx: (Math.random() - 0.5) * 20, vy: (Math.random() - 0.5) * 20, c: '#ff9a30', t: 0, dur: 0.35 });
     if (d <= st) {
       p.done = true;
       if (p.splash) areaDamage(p.tx, p.ty + (p.air || 0), p.splash * TILE, p.dmg, p.s, p.w);
       else if (p.t && !p.t.dead) damage(p.t, p.dmg, p.s, p.w);
-      G.fx.push({ k: 'boom', x: p.tx, y: p.ty, r: p.w === 'shell' ? 16 : 9, c: p.bolt ? '#ffb040' : '#ff8a30', t: 0, dur: 0.35 });
+      G.fx.push({ k: 'boom', x: p.tx, y: p.ty, r: p.big ? 30 : p.w === 'shell' ? 16 : 9, c: p.bolt ? '#ffb040' : '#ff8a30', t: 0, dur: 0.35 });
       if (p.w === 'shell') sfx('boom', p.tx, p.ty);
     } else { p.x += dx / d * st; p.y += dy / d * st; p.a = Math.atan2(dy, dx); }
   }
@@ -557,15 +621,27 @@ function kill(t, src, w) {
     else { G.fx.push({ k: 'boom', x: t.x, y: t.y, r: 26, c: '#ffa040', t: 0, dur: 0.6 }); G.decals.push({ k: 'scorch', x: t.x, y: t.y, r: 18, t: 0 }); sfx('boom', t.x, t.y); }
     // the dead rise
     if (t.d.harv && t.load > 0) dropCargo(t);
-    if (Combat.riseEligible(t.type, t.side, w) && Combat.purified(t.x, t.y, G.units.filter(a => a.side === 0 && a.type === 'seraph'), TILE)) {
+    // L4: bodies killed by fire are marked burned (burn decal) and never rise; holy (Templar) kills never rise either
+    if (w === 'fire') { t.burned = true; G.decals.push({ k: 'burn', x: t.x, y: t.y, r: t.d.big ? 16 : 7, a: Math.random() * 6, t: 0 }); G.stats.burned = (G.stats.burned || 0) + 1; }
+    if (w === 'holy') t.hallowed = true;
+    const eligible = Combat.riseEligible(t.type, t.side, w) && !t.burned && !t.hallowed;
+    if (eligible && Combat.noRiseBy(doneOf(t.side), t.type)) {
+      G.stats.blessed = (G.stats.blessed || 0) + 1; G.fx.push({ k: 'purify', x: t.x, y: t.y, t: 0, dur: 0.7 });   // Blessed Rounds
+    } else if (eligible && (Combat.purified(t.x, t.y, G.units.filter(a => a.side === 0 && a.type === 'seraph'), TILE) ||
+        G.units.some(a => a.side === 0 && a.type === 'archangel' && !a.dead && dist(a.x, a.y, t.x, t.y) <= Combat.D.archangelNoRiseTiles * TILE))) {
       G.stats.purified = (G.stats.purified || 0) + 1; G.fx.push({ k: 'purify', x: t.x, y: t.y, t: 0, dur: 0.7 });
-    } else if (Combat.riseEligible(t.type, t.side, w)) {
+    } else if (eligible) {
       G.rises.push({ x: t.x, y: t.y, t: Combat.D.riseDelay });
       if (!G.riseMsg) { G.riseMsg = true; msg('The dead rise! Fallen infantry return as zombies.', '#9fe07a', t.x, t.y); }
+    }
+    if (t.type === 'archangel' || t.type === 'demon') { // L4 big units: a horn for both sides
+      sfx('horn'); msg(t.type === 'archangel' ? (t.side ? 'The enemy Archangel has fallen.' : 'The Archangel has fallen!') : (t.side ? 'The Demon Lord is slain!' : 'Our Demon Lord is slain.'), t.type === 'archangel' ? '#9FE8FF' : '#ff8a5a', t.x, t.y);
+      if (t.type === 'demon' && t.side === 1 && G.ai) G.ai.demonDiedAt = G.time;
     }
   } else {
     removeBld(t);
     if (t.side === 1) st.bKills++; else st.bLost++;
+    if (t.d.research) loseResearch(t.side, t.type);
     if (t.type === 'refinery' || t.type === 'depot' || t.type === 'hq') { const cap = storageCapOf(t.side); if (G.credits[t.side] > cap) { const lost = Math.floor(G.credits[t.side] - cap); G.credits[t.side] = cap; if (t.side === 0) msg(`Storage lost: ${lost} Credits destroyed.`, '#ff6a3d', t.x, t.y); } }
     for (let k = 0; k < 6; k++) G.fx.push({ k: 'boom', x: t.tx * TILE + Math.random() * t.w * TILE, y: t.ty * TILE + Math.random() * t.h * TILE, r: 22 + Math.random() * 18, c: '#ffa040', t: -k * 0.08, dur: 0.7 });
     G.decals.push({ k: 'scorch', x: t.x, y: t.y, r: t.w * 20, t: 0 });
@@ -614,7 +690,7 @@ function makeSalvage() {
   const S = Salvage.create({
     MW, MH, TILE, res,
     units: () => G.units,
-    plants: side => G.blds.filter(b => b.side === side && b.type === 'refinery' && !b.dead),
+    plants: dropOffs,
     dockPoint, moveTo, followPath,
     getCredits: side => G.credits[side],
     addCredits: (side, n) => { G.credits[side] += n; if (side === 0) G.stats.salvage += n; },
@@ -637,25 +713,41 @@ function salvageEvent(ev, e) {
     case 'haulerSpawned': if (u.side === 0) G.fx.push({ k: 'pop', x: u.x, y: u.y - 20, txt: 'Free Scrap Truck', side: 0, t: 0, dur: 1.6 }); break;
   }
 }
+// drop-offs (opening addendum): Scrap Yards; the HQ / Hive is the temporary drop-off only while the side has no Scrap Yard
+// (a Truck can still be sent to the HQ by right-click)
+function dropOffs(side) {
+  const yards = G.blds.filter(b => b.side === side && b.type === 'refinery' && !b.dead);
+  return yards.length ? yards : G.blds.filter(b => b.side === side && b.type === 'hq' && !b.dead);
+}
 const ownsNearby = (side, x, y) => G.units.some(u => u.side === side && u.d.harv && !u.dead && dist(u.x, u.y, x, y) < 6 * TILE);
 
 // ---------------- production ----------------
-const mkQ = () => ({ structure: { list: [], prog: 0, ready: null }, infantry: { list: [], prog: 0 }, vehicle: { list: [], prog: 0 } });
+const mkQ = () => ({ structure: { list: [], prog: 0, ready: null }, infantry: { list: [], prog: 0 }, vehicle: { list: [], prog: 0 }, church: { list: [], prog: 0 }, altar: { list: [], prog: 0 } });
+// L4 research queues, one per research building type: G.rq[side][at] = { list, prog }; finished ids in G.research[side]
+const mkRQ = () => ({ armory: { list: [], prog: 0 }, church: { list: [], prog: 0 } });
 function catOf(type) { return BDEF[type] ? 'structure' : UDEF[type].cat; }
 function costOf(type) { return BDEF[type] ? BDEF[type].cost : UDEF[type].cost; }
 function timeOf(type) { return BDEF[type] ? BDEF[type].time : UDEF[type].time; }
 function prereqOk(side, type) {
-  if (BDEF[type]) return (BDEF[type].req || []).every(r => hasBld(side, r));
-  return UDEF[type].from.some(f => hasBld(side, f));
+  if (BDEF[type]) return (BDEF[type].side === undefined || BDEF[type].side === side) && (BDEF[type].req || []).every(r => hasBld(side, r));
+  const d = UDEF[type];
+  return d.from.some(f => hasBld(side, f)) && (d.reqBld || []).every(r => hasBld(side, r)) && (d.reqRes || []).every(r => isDone(side, r));
 }
 function missingReq(side, type) {
   if (BDEF[type]) { const m = (BDEF[type].req || []).find(r => !hasBld(side, r)); return m ? bname(m, side) : null; }
-  return UDEF[type].from.some(f => hasBld(side, f)) ? null : bname(UDEF[type].from[UDEF[type].from.length - 1], side);
+  const d = UDEF[type];
+  if (!d.from.some(f => hasBld(side, f))) return bname(d.from[d.from.length - 1], side);
+  const mb = (d.reqBld || []).find(r => !hasBld(side, r)); if (mb) return bname(mb, side);
+  const mr = (d.reqRes || []).find(r => !isDone(side, r)); return mr ? Combat.RESEARCH[mr].name + ' research' : null;
 }
+// L4 unit limits (Archangel 1, Templar 2, Demon Lord 1): alive + queued count against the limit
+const inQueue = (side, type) => G.queues[side][catOf(type)].list.filter(t => t === type).length;
+const atLimit = (side, type) => !!UDEF[type] && !!UDEF[type].limit && aliveOf(side, type) + inQueue(side, type) >= UDEF[type].limit;
 function queueItem(side, type) {
   const q = G.queues[side][catOf(type)];
   if (!prereqOk(side, type)) { if (side === 0) msg('Requires ' + missingReq(side, type), '#ffb060'); return false; }
   if (q.ready && side === 0) { msg('Place the finished structure first.', '#ffb060'); return false; }
+  if (atLimit(side, type)) { if (side === 0) { msg(`Limit reached: ${UDEF[type].limit} ${UDEF[type].name}${UDEF[type].limit > 1 ? 's' : ''} at a time.`, '#ffb060'); sfx('err'); } return false; }
   if (q.list.length >= 5) return false;
   const c = costOf(type);
   if (G.credits[side] < c) { if (side === 0) { msg('Insufficient Credits.', '#ff6a5a'); sfx('err'); } return false; }
@@ -671,10 +763,11 @@ function cancelItem(side, type) {
 function updProduction(dt) {
   for (let side = 0; side < 2; side++) {
     const Q = G.queues[side], mult = (side === 1 ? G.diff.prod : 1) * (powerOf(side).net < 0 ? SD.lowPowerMult : 1);
-    for (const cat of ['structure', 'infantry', 'vehicle']) {
+    for (const cat of QCATS) {
       const q = Q[cat]; if (!q.list.length || q.ready) continue;
       const type = q.list[0];
       if (!prereqOk(side, type)) continue;
+      if (UDEF[type] && UDEF[type].limit && aliveOf(side, type) >= UDEF[type].limit) continue; // hold at the limit (checked again at spawn)
       q.prog += dt * mult;
       if (q.prog >= timeOf(type)) {
         q.prog = 0; q.list.shift();
@@ -684,6 +777,8 @@ function updProduction(dt) {
           const b = from.find(b => b.type !== 'hq') || from[0];
           const sp = spawnPoint(b); const u = makeUnit(type, side, sp.x, sp.y);
           if (side === 0) G.stats.built++;
+          if (type === 'archangel') { msg(side ? 'An enemy Archangel descends.' : 'The Archangel descends.', '#DDF6FF', u.x, u.y); sfx('ready'); }
+          if (type === 'demon') { msg(side ? 'A Demon Lord rises!' : 'Our Demon Lord rises.', '#ff8a5a', u.x, u.y); sfx('horn'); if (side === 0) G.lastAlert = { x: u.x, y: u.y }; }
           if (u.d.harv) u.hs = 'seek';
           else if (b.rally) issueMove([u], b.rally.x, b.rally.y, false);
           else issueMove([u], sp.x + (Math.random() - 0.5) * 60, sp.y + 30 + Math.random() * 30, false);
@@ -691,6 +786,65 @@ function updProduction(dt) {
       }
     }
   }
+}
+// ---------------- research (L4) ----------------
+function researchState(side, id) {
+  const R = Combat.RESEARCH[id], q = G.rq[side][R.at];
+  if (isDone(side, id)) return 'done';
+  if (q.list[0] === id) return 'active';
+  if (q.list.includes(id)) return 'queued';
+  return researchMissing(side, id) ? 'locked' : 'ready';
+}
+function researchMissing(side, id) {
+  const R = Combat.RESEARCH[id];
+  if (!hasBld(side, R.at)) return bname(R.at, side);
+  const mb = (R.reqBld || []).find(b => !hasBld(side, b)); if (mb) return bname(mb, side);
+  const mr = (R.reqRes || []).find(r => !isDone(side, r)); return mr ? Combat.RESEARCH[mr].name : null;
+}
+function queueResearch(side, id) {
+  const R = Combat.RESEARCH[id]; if (!R) return false;
+  const q = G.rq[side][R.at];
+  if (isDone(side, id) || q.list.includes(id)) return false;
+  const miss = (R.reqRes || []).filter(r => !isDone(side, r) && !q.list.includes(r)); // a queued prerequisite counts: it finishes first
+  if (!hasBld(side, R.at) || (R.reqBld || []).some(b => !hasBld(side, b)) || miss.length) { if (side === 0) msg('Requires ' + (miss.length ? Combat.RESEARCH[miss[0]].name : researchMissing(side, id)), '#ffb060'); return false; }
+  if (q.list.length >= 5) return false;
+  if (G.credits[side] < R.cost) { if (side === 0) { msg('Insufficient Credits.', '#ff6a5a'); sfx('err'); } return false; }
+  G.credits[side] -= R.cost; q.list.push(id); if (side === 0) sfx('click');
+  return true;
+}
+function cancelResearch(side, id) {
+  const R = Combat.RESEARCH[id]; if (!R) return;
+  const q = G.rq[side][R.at], i = q.list.indexOf(id); if (i < 0) return;
+  // cancelling a prerequisite also cancels anything queued that needs it
+  const drop = [id, ...q.list.filter(x => (Combat.RESEARCH[x].reqRes || []).includes(id))];
+  for (const x of drop) { const j = q.list.indexOf(x); if (j < 0) continue; q.list.splice(j, 1); if (j === 0) q.prog = 0; G.credits[side] += Combat.RESEARCH[x].cost; }
+  if (side === 0) sfx('click');
+}
+function applyResearch(side, id) {
+  G.research[side][id] = true;
+  const hp = Combat.RESEARCH[id].effect.hpMult;
+  if (hp) for (const u of G.units) if (u.side === side && !u.dead && hp.units.includes(u.type)) { const m = maxHpOf(u.type, side), gain = m - u.maxhp; u.maxhp = m; u.hp = Math.min(m, u.hp + gain); }
+}
+function updResearch(dt) {
+  for (let side = 0; side < 2; side++) {
+    const mult = powerOf(side).net < 0 ? SD.lowPowerMult : 1;
+    for (const at in G.rq[side]) {
+      const q = G.rq[side][at]; if (!q.list.length || !hasBld(side, at)) continue;
+      const id = q.list[0], R = Combat.RESEARCH[id];
+      if ((R.reqBld || []).some(b => !hasBld(side, b)) || (R.reqRes || []).some(r => !isDone(side, r))) continue;
+      q.prog += dt * mult;
+      if (q.prog >= R.time) { q.prog = 0; q.list.shift(); applyResearch(side, id); if (side === 0) { msg(R.name + ' research complete.', '#7dff7d'); sfx('ready'); } }
+    }
+  }
+}
+// last research building of a type destroyed: the item in progress is lost (no refund), queued items are refunded; finished research is kept
+function loseResearch(side, at) {
+  if (hasBld(side, at) || !G.rq[side][at]) return;
+  const q = G.rq[side][at]; if (!q.list.length) return;
+  const [cur, ...rest] = q.list; let back = 0;
+  for (const id of rest) back += Combat.RESEARCH[id].cost;
+  G.credits[side] += back; q.list = []; q.prog = 0;
+  if (side === 0) msg(`${Combat.RESEARCH[cur].name} research lost${back ? `; ${back} Credits refunded for queued research` : ''}.`, '#ff6a3d');
 }
 function canPlace(side, type, tx, ty, margin) {
   const d = BDEF[type];
@@ -710,7 +864,7 @@ function canPlace(side, type, tx, ty, margin) {
   }
   return false;
 }
-const isPad = i => G.blds.some(b => b.type === 'refinery' && !b.dead && b.pad === i);
+const isPad = i => G.blds.some(b => (b.type === 'refinery' || b.type === 'hq') && !b.dead && b.pad === i);
 function placeBld(side, type, tx, ty) {
   const q = G.queues[side].structure; if (q.ready !== type) return false;
   if (!canPlace(side, type, tx, ty, 0)) return false;
@@ -755,14 +909,19 @@ function updEnv(dt) {
   G.envT = (G.envT || 0) + dt;
   if (G.envT >= 0.5) {
     G.envT -= 0.5;
+    const demons = G.units.filter(d => d.type === 'demon' && !d.dead), arch = G.units.filter(a => a.type === 'archangel' && !a.dead);
     for (const u of G.units) {
       if (u.dead) continue;
       const i = tileOf(u.y) * MW + tileOf(u.x);
-      if (plague[i] && !u.d.fly) {
+      if (!u.d.fly && !u.d.plagueImmune && inPlague(u, i, demons) && !holyGround(u.x, u.y)) {
         if (u.side === 0) { damage(u, -Combat.plagueTick(0, u.d.armor, 0.5), null, 'plague'); if (!G.plagueMsg) { G.plagueMsg = true; msg('Plague zone! It eats our ground units and heals the Horde.', '#9fe07a', u.x, u.y); } }
         else { if (u.hp < u.maxhp && Math.random() < 0.5) G.fx.push({ k: 'mote', x: u.x, y: u.y, t: 0, dur: 0.9, a: Math.random() * 6.28 }); u.hp = Math.min(u.maxhp, u.hp + Combat.plagueTick(1, u.d.armor, 0.5)); }
       }
       for (const r of G.rad) if (dist(u.x, u.y, r.x, r.y) < r.r) damage(u, 8 * (r.t / r.max) + 2, null, 'plague');
+    }
+    // Archangel aura (L4): allies within 4 tiles (not itself) heal 5 HP/s
+    for (const a of arch) for (const u of G.units) if (!u.dead && u !== a && u.side === a.side && u.hp < u.maxhp && dist(u.x, u.y, a.x, a.y) <= Combat.D.archangelHealTiles * TILE) {
+      u.hp = Math.min(u.maxhp, u.hp + Combat.D.archangelHealDps * 0.5); if (Math.random() < 0.3) G.fx.push({ k: 'mote', x: u.x, y: u.y, t: 0, dur: 0.9, a: Math.random() * 6.28, c: '#DDF6FF' });
     }
   }
   for (const r of G.rad) r.t -= dt;
@@ -770,12 +929,26 @@ function updEnv(dt) {
   for (const r of G.rises) { r.t -= dt; if (r.t <= 0) { r.done = true; const z = makeUnit('zombie', 1, r.x, r.y); z.order = 'idle'; z.risen = true; G.stats.risen = (G.stats.risen || 0) + 1; G.fx.push({ k: 'rise', x: r.x, y: r.y, t: 0, dur: 0.8 }); sfx('rise', r.x, r.y); } }
   G.rises = G.rises.filter(r => !r.done);
 }
+// plague (L4): a static plague tile, or within 3 tiles of a living Demon Lord (its moving plague aura; it acts like a plague tile, but the Demon Lord does not heal from its own aura)
+function inPlague(u, i, demons) {
+  if (plague[i]) return true;
+  const tx = tileOf(u.x), ty = tileOf(u.y), R = Combat.D.demonAuraTiles;
+  for (const d of demons || G.units.filter(d => d.type === 'demon' && !d.dead)) if (d !== u && Math.hypot(tileOf(d.x) - tx, tileOf(d.y) - ty) <= R) return true;
+  return false;
+}
+// Holy Ground (L4): within 7 tiles of a Survivor Church once researched, plague neither hurts Survivors nor heals the Horde
+function holyGround(x, y) {
+  if (!isDone(0, 'holyground')) return false;
+  const R = Combat.D.holyGroundTiles * TILE;
+  return G.blds.some(b => b.side === 0 && b.type === 'church' && !b.dead && dist(b.x, b.y, x, y) <= R);
+}
 function updBld(b, dt) {
   b.anim += dt; b.hitT -= dt;
   if (b.type === 'silo' && b.charge < NUKE_CHARGE) { b.charge += dt; if (b.charge >= NUKE_CHARGE && b.side === 0) { msg('Nuke Silo charged! Press N or click LAUNCH.', '#fff3b0'); sfx('ready'); } }
-  if (b.type === 'turret') {
+  if (b.type === 'turret' || b.type === 'hq') { // the HQ turret needs no power
     b.cd -= dt;
-    if (!b.target || b.target.dead || edgeDist(b.x, b.y, b.target) > b.d.range * TILE) { b.target = null; b.scanT = (b.scanT || 0) - dt; if (b.scanT <= 0) { b.scanT = 0.3; b.target = findEnemy(b, b.d.range * TILE, b.side); } }
+    const rr = rangeOf(b) * TILE;
+    if (!b.target || b.target.dead || edgeDist(b.x, b.y, b.target) > rr) { b.target = null; b.scanT = (b.scanT || 0) - dt; if (b.scanT <= 0) { b.scanT = 0.3; b.target = findEnemy(b, rr, b.side); } }
     if (b.target) { b.tang = Math.atan2(b.target.y - b.y, b.target.x - b.x); if (b.cd <= 0) { fire(b, b.target); b.cd = b.d.rof; } }
   }
   if (b.hp < b.maxhp * 0.5) { b.smokeT -= dt; if (b.smokeT <= 0) { b.smokeT = 0.25; G.fx.push({ k: 'smoke', x: b.x + (Math.random() - 0.5) * b.w * 20, y: b.y + (Math.random() - 0.5) * b.h * 20, t: 0, dur: 2 }); } }
@@ -794,14 +967,16 @@ function updFog() {
 }
 const isVisible = e => { if (e.kind === 'b') { for (let y = e.ty; y < e.ty + e.h; y++) for (let x = e.tx; x < e.tx + e.w; x++) if (expl[y * MW + x]) return true; return false; } return !!vis[tileOf(e.y) * MW + tileOf(e.x)]; };
 // ---------------- enemy AI (the Horde) ----------------
-const AI_ORDER = ['power', 'refinery', 'barracks', 'turret', 'factory', 'turret', 'barracks', 'depot', 'power', 'refinery', 'silo', 'turret', 'turret', 'turret'];
+// opening addendum: the Hive first trains a Scrap Eater (updAI), then Power Plant, Grinder Pit, Spawning Pit, then the rest.
+// Loop 4: the Dark Altar after the first Factory, held until DIFF.altarTime unless the player has built a Church
+const AI_ORDER = ['power', 'refinery', 'barracks', 'turret', 'factory', 'altar', 'turret', 'barracks', 'depot', 'power', 'refinery', 'silo', 'turret', 'turret', 'turret'];
 function aiNextBuild() {
   const cnt = {}; for (const b of G.blds) if (b.side === 1 && !b.dead) cnt[b.type] = (cnt[b.type] || 0) + 1;
   const q = G.queues[1].structure; for (const t of q.list) cnt[t] = (cnt[t] || 0) + 1; if (q.ready) cnt[q.ready] = (cnt[q.ready] || 0) + 1;
   const need = {};
   for (const t of AI_ORDER) {
     need[t] = (need[t] || 0) + 1;
-    if ((cnt[t] || 0) < need[t]) { if (t === 'silo' && G.time < G.diff.siloTime) continue; if (t !== 'power' && aiPowerAfter(cnt, t) < 0) return 'power'; return t; }
+    if ((cnt[t] || 0) < need[t]) { if (t === 'silo' && G.time < G.diff.siloTime) continue; if (t === 'altar' && G.time < G.diff.altarTime && !G.ai.churchSeen) continue; if (t !== 'power' && aiPowerAfter(cnt, t) < 0) return 'power'; return t; }
   }
   return null;
 }
@@ -831,28 +1006,46 @@ function nearestPlayerTarget(x, y) {
   for (const b of G.blds) if (b.side === 0 && !b.dead) { const d = dist(b.x, b.y, x, y); if (d < bd) { bd = d; best = b; } }
   return best;
 }
+// L4: the player's most valuable unit group (unit cost summed within 6 tiles); returns its centroid, or null
+function valuableGroup() {
+  const P = G.units.filter(u => u.side === 0 && !u.dead && !u.d.harv);
+  let best = null, bv = 0;
+  for (const u of P) { let v = 0, x = 0, y = 0; for (const o of P) if (dist(u.x, u.y, o.x, o.y) <= 6 * TILE) { const c = o.d.cost || 0; v += c; x += o.x * c; y += o.y * c; } if (v > bv) { bv = v; best = { x: x / v, y: y / v, value: v }; } }
+  return best;
+}
 function updAI(dt) {
   const A = G.ai; A.t -= dt; if (A.t > 0) return; A.t = 0.5;
   const side = 1, Q = G.queues[1], cr = () => G.credits[1];
   if (!G.blds.some(b => b.side === 1 && !b.dead)) return;
+  if (hasBld(0, 'church')) A.churchSeen = true; // L4: sticky, the Altar may come early
+  // opening addendum: the first Scrap Eater comes from the Hive before anything else
+  const harv = G.units.filter(u => u.side === 1 && u.d.harv && !u.dead).length + Q.vehicle.list.filter(t => t === 'reaper').length;
+  if (harv === 0 && Q.vehicle.list.length === 0 && cr() >= costOf('reaper') && prereqOk(1, 'reaper')) queueItem(1, 'reaper');
+  const firstEater = harv === 0 ? costOf('reaper') : 0;
   // structures
   const next = aiNextBuild();
-  // harvesters: once the first Grinder Pit stands, hold back the cost of the 2nd Scrap Eater before spending on anything else
-  const harv = G.units.filter(u => u.side === 1 && u.d.harv && !u.dead).length + Q.vehicle.list.filter(t => t === 'reaper').length;
-  const eaterReserve = hasBld(1, 'refinery') && harv < 2 ? SD.aiGorgerReserve : 0;
+  // harvesters: hold back the cost of the 2nd Scrap Eater (2 by 3:00; the Grinder Pit's free one counts) before spending on anything else
+  const eaterReserve = firstEater || (harv < 2 && next !== 'refinery' ? SD.aiGorgerReserve : 0);
   const econBuild = next === 'power' || next === 'refinery';
+  // L4 Demon Lord: once the Dark Altar stands, save 2,500 while none is alive or queued
+  const demonUp = aliveOf(1, 'demon') + inQueue(1, 'demon') > 0, demonWait = A.demonDiedAt !== undefined && G.time - A.demonDiedAt < Combat.D.demonRebuildS;
+  const demonReserve = hasBld(1, 'altar') && !demonUp ? costOf('demon') : 0;
+  if (hasBld(1, 'altar') && !demonUp && !demonWait && cr() >= costOf('demon')) queueItem(1, 'demon');
   if (Q.structure.ready) {
     const spot = aiFindSpot(Q.structure.ready);
     if (spot) placeBld(1, Q.structure.ready, spot[0], spot[1]); else cancelItem(1, Q.structure.ready);
-  } else if (next && !Q.structure.list.length && prereqOk(1, next) && cr() - (econBuild ? 0 : eaterReserve) >= BDEF[next].cost) queueItem(1, next);
-  const reserve = (next && !Q.structure.list.length && !Q.structure.ready ? BDEF[next].cost : 0) + eaterReserve;
+  } else if (next && !Q.structure.list.length && prereqOk(1, next) && cr() - (econBuild ? firstEater : eaterReserve + demonReserve) >= BDEF[next].cost) queueItem(1, next);
+  const reserve = (next && !Q.structure.list.length && !Q.structure.ready ? BDEF[next].cost : 0) + eaterReserve + demonReserve;
   const want = Math.min(5, Math.max(1, countBld(1, 'refinery')) * 2);
   if (hasBld(1, 'refinery') && harv < want && Q.vehicle.list.length === 0 && cr() >= costOf('reaper') && prereqOk(1, 'reaper')) { if (queueItem(1, 'reaper') && harv === 1) G.ai.eater2At = G.time; }
   // army (capped so waves stay beatable; the cap grows with every wave)
   const armyN = G.units.filter(u => u.side === 1 && !u.d.harv && !u.dead).length;
   const cap = Math.min(45, Math.round((10 + 5 * A.waveN) * G.diff.inc) + (G.credits[1] > 3000 ? 8 : 0));
   if (armyN < cap && hasBld(1, 'barracks') && Q.infantry.list.length < 2) {
-    const t = rng() < (G.time > 240 ? 0.4 : 0.25) ? 'imp' : 'zombie';
+    let t = rng() < (G.time > 240 ? 0.4 : 0.25) ? 'imp' : 'zombie';
+    if (A.waveN === 0 && G.diff.wave1) { // build the fixed wave-1 group first (addendum)
+      const short = Object.keys(G.diff.wave1).find(k => aliveOf(1, k) + inQueue(1, k) < G.diff.wave1[k]); if (short) t = short;
+    }
     if (cr() - UDEF[t].cost >= reserve) queueItem(1, t);
   }
   if (armyN < cap && hasBld(1, 'factory') && Q.vehicle.list.length === 0 && harv >= want && cr() - 900 >= reserve) queueItem(1, 'brute');
@@ -868,15 +1061,35 @@ function updAI(dt) {
   const idle = army.filter(u => !u.target && u.order !== 'attackmove' && u.order !== 'attack');
   const hq = G.blds.find(b => b.side === 1 && b.type === 'hq' && !b.dead) || G.blds.find(b => b.side === 1 && !b.dead);
   if (G.time >= A.nextWave) {
-    const need = Math.min(26, G.diff.minWave + A.waveN * 2);
-    if (idle.length >= need) {
-      const keep = idle.length > 10 ? 3 : 0;
-      const send = idle.slice(keep, keep + need + 4);
+    const w1 = A.waveN === 0 && G.diff.wave1;
+    const need = w1 ? Object.values(w1).reduce((a, b) => a + b, 0) : Math.min(26, G.diff.minWave + A.waveN * 2);
+    let send = null;
+    if (w1) { // wave 1 override: exactly the listed group
+      const pick = []; for (const k in w1) pick.push(...idle.filter(u => u.type === k).slice(0, w1[k]));
+      if (pick.length >= need) send = pick;
+    } else if (idle.length >= need) { const keep = idle.length > 10 ? 3 : 0; send = idle.slice(keep, keep + need + 4); }
+    // L4: the Demon Lord leads the next wave (even while busy defending)
+    const dl = G.units.find(u => u.side === 1 && u.type === 'demon' && !u.dead);
+    if (send && dl && !send.includes(dl)) send.unshift(dl);
+    if (send) {
+      // L4 wave bonus while the player has a Church: 2 free Imps, plus 1 free Hellbrute until the Dark Altar exists
+      if (hasBld(0, 'church') && hq) {
+        const bonus = []; for (let k = 0; k < Combat.D.waveBonusImps; k++) bonus.push('imp');
+        if (!hasBld(1, 'altar')) for (let k = 0; k < Combat.D.waveBonusBrutes; k++) bonus.push('brute');
+        for (const t of bonus) { const sp = spawnPoint(hq); send.push(makeUnit(t, 1, sp.x + (rng() - 0.5) * 40, sp.y + (rng() - 0.5) * 40)); }
+        G.stats.waveBonus = (G.stats.waveBonus || 0) + bonus.length;
+      }
       let cx = 0, cy = 0; for (const u of send) { cx += u.x; cy += u.y; } cx /= send.length; cy /= send.length;
-      const tgt = nearestPlayerTarget(cx, cy);
-      if (tgt) { issueMove(send, tgt.x, tgt.y, true); A.waveN++; msg(A.waveN === 1 ? 'Scouts report: a Horde wave is marching on our base!' : `Horde wave ${A.waveN} incoming!`, '#ff6a3d'); sfx('alert'); }
+      const grp = dl ? valuableGroup() : null;
+      const tgt = grp || nearestPlayerTarget(cx, cy);
+      if (tgt) { issueMove(send, tgt.x, tgt.y, true); A.waveN++; if (A.waveN === 1) A.wave1At = G.time; (A.waveLog || (A.waveLog = [])).push({ t: G.time, n: send.length }); msg(A.waveN === 1 ? 'Scouts report: a Horde wave is marching on our base!' : `Horde wave ${A.waveN} incoming!`, '#ff6a3d'); sfx('alert'); }
       A.nextWave = G.time + G.diff.waveGap;
     } else A.nextWave = G.time + 10;
+  }
+  // L4 Demon Lord: goes after a player Archangel in sight first
+  for (const dl of G.units) if (dl.side === 1 && dl.type === 'demon' && !dl.dead) {
+    const arc = G.units.find(u => u.side === 0 && u.type === 'archangel' && !u.dead && dist(u.x, u.y, dl.x, dl.y) <= dl.d.sight * TILE);
+    if (arc && dl.target !== arc) orderAttack([dl], arc);
   }
   // defense: respond to intruders near the Horde base
   A.defT = (A.defT || 0) - 0.5;
@@ -1413,8 +1626,8 @@ function updSidebar() {
   if (sel.length === 1) {
     const e = sel[0];
     s = `<b style="color:${SIDES[e.side].ui}">${ename(e)}</b> <small>${e.side ? '(enemy)' : ''}</small><div class="hp"><div style="width:${100 * e.hp / e.maxhp}%"></div></div>HP ${Math.ceil(e.hp)}/${e.maxhp}<br><small>${e.kind === 'u' ? e.d.desc : e.d.desc}</small>`;
-    if (e.kind === 'u' && e.d.harv) s += `<br>Load: ${e.load}/${e.d.cap} · ${e.blocked ? 'storage full, waiting at dock' : ({ seek: 'looking for Salvage', toField: 'heading to a Scrap Pile', gather: 'gathering', toPlant: 'returning to ' + bname('refinery', e.side), queue: 'waiting for the dock', unload: 'unloading', idle: 'no Salvage found', noPlant: 'no ' + bname('refinery', e.side) + ' to unload at', parked: 'parked (right-click a Scrap Pile to resume)' })[e.hs] || ''}`;
-    if (e.kind === 'b' && e.type === 'refinery' && e.dockQ) s += `<br>Dock: ${e.dockQ.length ? e.dockQ.length + ' truck(s), 1 unloading at a time' : 'free'}`;
+    if (e.kind === 'u' && e.d.harv) s += `<br>Load: ${e.load}/${e.d.cap} · ${e.blocked ? 'storage full, waiting at dock' : ({ seek: 'looking for Salvage', toField: 'heading to a Scrap Pile', gather: 'gathering', toPlant: 'returning to ' + bname(e.dock && e.dock.type === 'hq' ? 'hq' : 'refinery', e.side), queue: 'waiting for the dock', unload: 'unloading', idle: 'no Salvage found', noPlant: 'no ' + bname('refinery', e.side) + ' to unload at', parked: 'parked (right-click a Scrap Pile to resume)' })[e.hs] || ''}`;
+    if (e.kind === 'b' && (e.type === 'refinery' || e.type === 'hq') && e.dockQ) s += `<br>Dock: ${e.dockQ.length ? e.dockQ.length + ' truck(s), 1 unloading at a time' : 'free'}`;
     if (e.kind === 'b' && e.side === 0 && ['hq', 'barracks', 'factory'].includes(e.type)) s += '<br><small>Right-click the ground to set a rally point.</small>';
   } else if (sel.length > 1) {
     const c = {}; for (const e of sel) c[ename(e)] = (c[ename(e)] || 0) + 1;
@@ -1494,11 +1707,11 @@ function command(wx, wy) {
   const harv = units.filter(u => u.d.harv), rest = units.filter(u => !u.d.harv);
   for (const h of harv) {
     if (ti >= 0 && ti < N && res[ti] > 0) orderHarvest(h, ti);
-    else if (t && t.kind === 'b' && t.side === 0 && t.type === 'refinery') orderDock(h, t);
+    else if (t && t.kind === 'b' && t.side === 0 && (t.type === 'refinery' || t.type === 'hq')) orderDock(h, t);
     else orderMove(h, wx, wy);
   }
-  if (harv.length && ((ti >= 0 && ti < N && res[ti] > 0) || (t && t.kind === 'b' && t.side === 0 && t.type === 'refinery'))) {
-    const dp = t && t.type === 'refinery' ? dockPoint(t) : { x: (ti % MW) * TILE + 16, y: ((ti / MW) | 0) * TILE + 16 };
+  if (harv.length && ((ti >= 0 && ti < N && res[ti] > 0) || (t && t.kind === 'b' && t.side === 0 && (t.type === 'refinery' || t.type === 'hq')))) {
+    const dp = t && (t.type === 'refinery' || t.type === 'hq') ? dockPoint(t) : { x: (ti % MW) * TILE + 16, y: ((ti / MW) | 0) * TILE + 16 };
     G.fx.push({ k: 'arrow', x: dp.x, y: dp.y, t: 0, dur: 0.8 });
     if (!rest.length) { sfx('click'); return; }
   }
@@ -1554,7 +1767,7 @@ function newGame(diffKey) {
   idc = 0; bById.clear();
   if ($('msgs')) $('msgs').innerHTML = '';
   G = { seed, time: 0, diff: DIFF[diffKey] || DIFF.normal, diffKey, units: [], blds: [], proj: [], fx: [], decals: [], rad: [], missiles: [], rises: [], sel: [], groups: {},
-    credits: [SD.startScripPlayer, SD.startScripAI], queues: [mkQ(), mkQ()], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0 },
+    credits: [SD.startScripPlayer, SD.startScripAI], queues: [mkQ(), mkQ()], rq: [mkRQ(), mkRQ()], research: [{}, {}], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0 },
     over: false, paused: false, started: false, mode: null, placing: null, ai: { t: 1, nextWave: 0, waveN: 0 }, fogT: 0, winT: 0, shakeA: 0,
     baseP: { x: 9, y: MH - 10 }, baseE: { x: MW - 10, y: 9 } };
   G.ai.nextWave = G.diff.firstWave;
@@ -1563,11 +1776,8 @@ function newGame(diffKey) {
   const P = G.baseP;
   for (const side of [0, 1]) {
     const place = (type, tx, ty) => { const d = BDEF[type]; if (side === 1) { tx = MW - tx - d.w; ty = MH - ty - d.h; } return makeBld(type, side, tx, ty); };
-    const hq = place('hq', P.x - 1, P.y - 1);
-    // Survivors start with a Power Plant + Scrap Yard (2,500 cannot buy both); the AI builds its own from 3,000 (ADD §2)
-    if (side === 0) { place('power', P.x + 3, P.y - 2); place('refinery', P.x + 3, P.y + 1); }
-    const types = side ? ['zombie', 'zombie', 'zombie', 'zombie', 'imp'] : ['survivor', 'survivor', 'survivor', 'survivor', 'seraph'];
-    types.forEach((t, k) => { const tx = side ? MW - 1 - (P.x + 3 + (k % 3)) : P.x + 3 + (k % 3), ty = side ? MH - 1 - (P.y - 4 - Math.floor(k / 3)) : P.y - 4 - Math.floor(k / 3); const n = nearestWalkable(tx, ty); makeUnit(t, side, n[0] * TILE + 16, n[1] * TILE + 16); });
+    // Loop 4 opening addendum: a bare start. Only the HQ / Hive; no starting units, no free Truck (player 2,500, AI 3,000 Credits)
+    place('hq', P.x - 1, P.y - 1);
   }
   G.started = true;
   updFog();
@@ -1581,7 +1791,7 @@ function newGame(diffKey) {
 function newArena(seed) {
   rng = mulberry32(seed | 0); idc = 0; bById.clear();
   G = { seed, time: 0, diff: DIFF.normal, diffKey: 'normal', units: [], blds: [], proj: [], fx: [], decals: [], rad: [], missiles: [], rises: [], sel: [], groups: {},
-    credits: [0, 0], queues: [mkQ(), mkQ()], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0, risen: 0, purified: 0, crushed: 0 },
+    credits: [0, 0], queues: [mkQ(), mkQ()], rq: [mkRQ(), mkRQ()], research: [{}, {}], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0, risen: 0, purified: 0, crushed: 0, burned: 0, blessed: 0 },
     over: false, paused: false, started: true, mode: null, placing: null, ai: { t: 1e9, nextWave: 1e9, waveN: 0 }, fogT: 0, winT: 0, shakeA: 0, arena: true,
     baseP: { x: 2, y: 2 }, baseE: { x: MW - 3, y: MH - 3 } };
   terr = new Uint8Array(N); res = new Uint16Array(N); plague = new Uint8Array(N);
@@ -1592,7 +1802,7 @@ function newArena(seed) {
 }
 function step(dt) {
   G.time += dt;
-  if (!G.arena) { updProduction(dt); updAI(dt); }
+  if (!G.arena) { updProduction(dt); updResearch(dt); updAI(dt); }
   SAL.update(dt); // fixed-step salvage sim (accumulator)
   for (const u of G.units) if (!u.dead) updUnit(u, dt);
   updCrush();
@@ -1653,4 +1863,4 @@ if (typeof UnitArt !== 'undefined') {
 }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, dockPoint, command, step, newGame, UDEF, BDEF, queueItem, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
+window.RTS = { get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
