@@ -20,8 +20,8 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    662,
-    273,
+    398,
+    340,
     32,
     33
    ],
@@ -63,8 +63,8 @@
    "state": "construct",
    "team": "violet",
    "rect": [
-    696,
-    273,
+    432,
+    340,
     32,
     33
    ],
@@ -106,8 +106,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    730,
-    273,
+    466,
+    340,
     32,
     33
    ],
@@ -149,8 +149,8 @@
    "state": "damaged",
    "team": "violet",
    "rect": [
-    764,
-    273,
+    500,
+    340,
     32,
     33
    ],
@@ -192,8 +192,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    798,
-    273,
+    534,
+    340,
     32,
     33
    ],
@@ -234,8 +234,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    832,
-    273,
+    568,
+    340,
     32,
     33
    ],
@@ -276,8 +276,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    722,
-    335,
+    510,
+    377,
     33,
     21
    ],
@@ -298,8 +298,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    757,
-    335,
+    545,
+    377,
     33,
     21
    ],
@@ -320,8 +320,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    454,
-    335,
+    242,
+    377,
     32,
     22
    ],
@@ -342,8 +342,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    488,
-    335,
+    276,
+    377,
     32,
     22
    ],
@@ -364,8 +364,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    214,
-    335,
+    2,
+    377,
     28,
     28
    ],
@@ -386,8 +386,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    244,
-    335,
+    32,
+    377,
     28,
     28
    ],
@@ -408,8 +408,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    118,
-    335,
+    926,
+    340,
     22,
     31
    ],
@@ -430,8 +430,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    142,
-    335,
+    950,
+    340,
     22,
     31
    ],
@@ -452,8 +452,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    866,
-    273,
+    602,
+    340,
     21,
     33
    ],
@@ -474,8 +474,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    889,
-    273,
+    625,
+    340,
     21,
     33
    ],
@@ -496,8 +496,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    958,
-    273,
+    694,
+    340,
     22,
     32
    ],
@@ -518,8 +518,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    982,
-    273,
+    718,
+    340,
     22,
     32
    ],
@@ -540,8 +540,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    274,
-    335,
+    62,
+    377,
     28,
     28
    ],
@@ -562,8 +562,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    304,
-    335,
+    92,
+    377,
     28,
     28
    ],
@@ -584,8 +584,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    590,
-    335,
+    378,
+    377,
     31,
     22
    ],
@@ -606,8 +606,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    623,
-    335,
+    411,
+    377,
     31,
     22
    ],
@@ -628,8 +628,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    792,
-    335,
+    580,
+    377,
     33,
     21
    ],
@@ -650,8 +650,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    827,
-    335,
+    615,
+    377,
     33,
     21
    ],
@@ -672,8 +672,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    522,
-    335,
+    310,
+    377,
     32,
     22
    ],
@@ -694,8 +694,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    556,
-    335,
+    344,
+    377,
     32,
     22
    ],
@@ -716,8 +716,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    334,
-    335,
+    122,
+    377,
     28,
     28
    ],
@@ -738,8 +738,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    364,
-    335,
+    152,
+    377,
     28,
     28
    ],
@@ -760,8 +760,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    166,
-    335,
+    974,
+    340,
     22,
     31
    ],
@@ -782,8 +782,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    190,
-    335,
+    998,
+    340,
     22,
     31
    ],
@@ -804,8 +804,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    912,
-    273,
+    648,
+    340,
     21,
     33
    ],
@@ -826,8 +826,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    935,
-    273,
+    671,
+    340,
     21,
     33
    ],
@@ -848,8 +848,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    2,
-    335,
+    742,
+    340,
     22,
     32
    ],
@@ -870,8 +870,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    26,
-    335,
+    766,
+    340,
     22,
     32
    ],
@@ -892,8 +892,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    394,
-    335,
+    182,
+    377,
     28,
     28
    ],
@@ -914,8 +914,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    424,
-    335,
+    212,
+    377,
     28,
     28
    ],
@@ -936,8 +936,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    656,
-    335,
+    444,
+    377,
     31,
     22
    ],
@@ -958,8 +958,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    689,
-    335,
+    477,
+    377,
     31,
     22
    ],
@@ -973,6 +973,540 @@
    "shadow": null
   },
   {
+   "name": "dark_altar-construct-red",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "base",
+   "state": "construct",
+   "team": "red",
+   "rect": [
+    2,
+    2,
+    64,
+    100
+   ],
+   "outline": "silhouette2",
+   "scale": 0.09662,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    32.0,
+    100
+   ],
+   "footprint_origin": [
+    0.0,
+    4
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "dark_altar-construct-violet",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "base",
+   "state": "construct",
+   "team": "violet",
+   "rect": [
+    68,
+    2,
+    64,
+    100
+   ],
+   "outline": "silhouette2",
+   "scale": 0.09662,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    32.0,
+    100
+   ],
+   "footprint_origin": [
+    0.0,
+    4
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "dark_altar-damaged-red",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "base",
+   "state": "damaged",
+   "team": "red",
+   "rect": [
+    134,
+    2,
+    64,
+    100
+   ],
+   "outline": "silhouette2",
+   "scale": 0.09662,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    32.0,
+    100
+   ],
+   "footprint_origin": [
+    0.0,
+    4
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "damaged_of": "idle"
+  },
+  {
+   "name": "dark_altar-damaged-violet",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "base",
+   "state": "damaged",
+   "team": "violet",
+   "rect": [
+    200,
+    2,
+    64,
+    100
+   ],
+   "outline": "silhouette2",
+   "scale": 0.09662,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    32.0,
+    100
+   ],
+   "footprint_origin": [
+    0.0,
+    4
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "damaged_of": "idle"
+  },
+  {
+   "name": "dark_altar-destroyed-red",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "base",
+   "state": "destroyed",
+   "team": "red",
+   "rect": [
+    590,
+    104,
+    67,
+    94
+   ],
+   "outline": "silhouette2",
+   "scale": 0.09662,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    33.0,
+    94
+   ],
+   "footprint_origin": [
+    1.0,
+    -2
+   ],
+   "shadow": null,
+   "destroyed": "loop 4 rubble left after the building dies; no team trim, no shadow (it is ground-level)"
+  },
+  {
+   "name": "dark_altar-destroyed-violet",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "base",
+   "state": "destroyed",
+   "team": "violet",
+   "rect": [
+    659,
+    104,
+    67,
+    94
+   ],
+   "outline": "silhouette2",
+   "scale": 0.09662,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    33.0,
+    94
+   ],
+   "footprint_origin": [
+    1.0,
+    -2
+   ],
+   "shadow": null,
+   "destroyed": "loop 4 rubble left after the building dies; no team trim, no shadow (it is ground-level)"
+  },
+  {
+   "name": "dark_altar-idle-red",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "base",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    266,
+    2,
+    64,
+    100
+   ],
+   "outline": "silhouette2",
+   "scale": 0.09662,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    32.0,
+    100
+   ],
+   "footprint_origin": [
+    0.0,
+    4
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "dark_altar-idle-violet",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "base",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    332,
+    2,
+    64,
+    100
+   ],
+   "outline": "silhouette2",
+   "scale": 0.09662,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    32.0,
+    100
+   ],
+   "footprint_origin": [
+    0.0,
+    4
+   ],
+   "shadow": {
+    "shape": "ellipse",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "dark_altar-research_0-red",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "overlay",
+   "state": "research",
+   "team": "red",
+   "rect": [
+    860,
+    278,
+    31,
+    36
+   ],
+   "outline": "none",
+   "scale": 0.09662,
+   "frame": 0,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    17.0,
+    64
+   ],
+   "footprint_origin": [
+    -15.0,
+    -32
+   ],
+   "shadow": null
+  },
+  {
+   "name": "dark_altar-research_0-violet",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "overlay",
+   "state": "research",
+   "team": "violet",
+   "rect": [
+    893,
+    278,
+    31,
+    36
+   ],
+   "outline": "none",
+   "scale": 0.09662,
+   "frame": 0,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    17.0,
+    64
+   ],
+   "footprint_origin": [
+    -15.0,
+    -32
+   ],
+   "shadow": null
+  },
+  {
+   "name": "dark_altar-research_1-red",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "overlay",
+   "state": "research",
+   "team": "red",
+   "rect": [
+    794,
+    278,
+    31,
+    37
+   ],
+   "outline": "none",
+   "scale": 0.09662,
+   "frame": 1,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    17.0,
+    65
+   ],
+   "footprint_origin": [
+    -15.0,
+    -31
+   ],
+   "shadow": null
+  },
+  {
+   "name": "dark_altar-research_1-violet",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "overlay",
+   "state": "research",
+   "team": "violet",
+   "rect": [
+    827,
+    278,
+    31,
+    37
+   ],
+   "outline": "none",
+   "scale": 0.09662,
+   "frame": 1,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    17.0,
+    65
+   ],
+   "footprint_origin": [
+    -15.0,
+    -31
+   ],
+   "shadow": null
+  },
+  {
+   "name": "dark_altar-research_2-red",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "overlay",
+   "state": "research",
+   "team": "red",
+   "rect": [
+    728,
+    278,
+    31,
+    40
+   ],
+   "outline": "none",
+   "scale": 0.09662,
+   "frame": 2,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    17.0,
+    68
+   ],
+   "footprint_origin": [
+    -15.0,
+    -28
+   ],
+   "shadow": null
+  },
+  {
+   "name": "dark_altar-research_2-violet",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "overlay",
+   "state": "research",
+   "team": "violet",
+   "rect": [
+    761,
+    278,
+    31,
+    40
+   ],
+   "outline": "none",
+   "scale": 0.09662,
+   "frame": 2,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    17.0,
+    68
+   ],
+   "footprint_origin": [
+    -15.0,
+    -28
+   ],
+   "shadow": null
+  },
+  {
+   "name": "dark_altar-research_3-red",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "overlay",
+   "state": "research",
+   "team": "red",
+   "rect": [
+    926,
+    278,
+    31,
+    36
+   ],
+   "outline": "none",
+   "scale": 0.09662,
+   "frame": 3,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    17.0,
+    64
+   ],
+   "footprint_origin": [
+    -15.0,
+    -32
+   ],
+   "shadow": null
+  },
+  {
+   "name": "dark_altar-research_3-violet",
+   "building": "dark_altar",
+   "code_type": "altar",
+   "part": "overlay",
+   "state": "research",
+   "team": "violet",
+   "rect": [
+    959,
+    278,
+    31,
+    36
+   ],
+   "outline": "none",
+   "scale": 0.09662,
+   "frame": 3,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    17.0,
+    64
+   ],
+   "footprint_origin": [
+    -15.0,
+    -32
+   ],
+   "shadow": null
+  },
+  {
    "name": "depot-construct-red",
    "building": "depot",
    "code_type": "depot",
@@ -980,8 +1514,8 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    266,
-    273,
+    2,
+    340,
     64,
     35
    ],
@@ -1018,8 +1552,8 @@
    "state": "construct",
    "team": "violet",
    "rect": [
-    332,
-    273,
+    68,
+    340,
     64,
     35
    ],
@@ -1056,8 +1590,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    398,
-    273,
+    134,
+    340,
     64,
     35
    ],
@@ -1094,8 +1628,8 @@
    "state": "damaged",
    "team": "violet",
    "rect": [
-    464,
-    273,
+    200,
+    340,
     64,
     35
    ],
@@ -1132,8 +1666,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    530,
-    273,
+    266,
+    340,
     64,
     35
    ],
@@ -1169,8 +1703,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    596,
-    273,
+    332,
+    340,
     64,
     35
    ],
@@ -1206,7 +1740,7 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    2,
+    398,
     2,
     96,
     98
@@ -1244,7 +1778,7 @@
    "state": "construct",
    "team": "violet",
    "rect": [
-    100,
+    496,
     2,
     96,
     98
@@ -1282,7 +1816,7 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    198,
+    594,
     2,
     96,
     98
@@ -1320,7 +1854,7 @@
    "state": "damaged",
    "team": "violet",
    "rect": [
-    296,
+    692,
     2,
     96,
     98
@@ -1358,7 +1892,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    394,
+    790,
     2,
     96,
     98
@@ -1395,7 +1929,7 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    492,
+    888,
     2,
     96,
     98
@@ -1432,8 +1966,8 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    198,
-    102,
+    728,
+    104,
     96,
     76
    ],
@@ -1478,8 +2012,8 @@
    "state": "construct",
    "team": "violet",
    "rect": [
-    296,
-    102,
+    826,
+    104,
     96,
     76
    ],
@@ -1524,8 +2058,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    394,
-    102,
+    924,
+    104,
     96,
     76
    ],
@@ -1570,8 +2104,8 @@
    "state": "damaged",
    "team": "violet",
    "rect": [
-    492,
-    102,
+    2,
+    200,
     96,
     76
    ],
@@ -1616,8 +2150,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    590,
-    102,
+    100,
+    200,
     96,
     76
    ],
@@ -1661,8 +2195,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    688,
-    102,
+    198,
+    200,
     96,
     76
    ],
@@ -1706,8 +2240,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    50,
-    335,
+    790,
+    340,
     32,
     31
    ],
@@ -1731,8 +2265,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    84,
-    335,
+    824,
+    340,
     32,
     31
    ],
@@ -1756,8 +2290,8 @@
    "state": "closed",
    "team": "red",
    "rect": [
+    692,
     200,
-    198,
     64,
     60
    ],
@@ -1793,8 +2327,8 @@
    "state": "closed",
    "team": "violet",
    "rect": [
-    266,
-    198,
+    758,
+    200,
     64,
     60
    ],
@@ -1830,8 +2364,8 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    332,
-    198,
+    824,
+    200,
     64,
     60
    ],
@@ -1868,8 +2402,8 @@
    "state": "construct",
    "team": "violet",
    "rect": [
-    398,
-    198,
+    890,
+    200,
     64,
     60
    ],
@@ -1906,8 +2440,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    464,
-    198,
+    956,
+    200,
     64,
     60
    ],
@@ -1944,8 +2478,8 @@
    "state": "damaged",
    "team": "violet",
    "rect": [
-    530,
-    198,
+    2,
+    278,
     64,
     60
    ],
@@ -1982,8 +2516,8 @@
    "state": "damaged_open",
    "team": "red",
    "rect": [
-    596,
-    198,
+    68,
+    278,
     64,
     60
    ],
@@ -2020,8 +2554,8 @@
    "state": "damaged_open",
    "team": "violet",
    "rect": [
-    662,
-    198,
+    134,
+    278,
     64,
     60
    ],
@@ -2058,8 +2592,8 @@
    "state": "open",
    "team": "red",
    "rect": [
-    728,
-    198,
+    200,
+    278,
     64,
     60
    ],
@@ -2095,8 +2629,8 @@
    "state": "open",
    "team": "violet",
    "rect": [
-    794,
-    198,
+    266,
+    278,
     64,
     60
    ],
@@ -2132,8 +2666,8 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    590,
     2,
+    104,
     96,
     94
    ],
@@ -2160,6 +2694,25 @@
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
    },
+   "turret_mount": [
+    47.69,
+    17.62
+   ],
+   "top": "hive_spout",
+   "top_fx": "hive_fire_puff",
+   "dock_pad": {
+    "tile": [
+     1,
+     3
+    ],
+    "frame": "hive_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "dock": [
+    48.0,
+    110.0
+   ],
+   "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data",
    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
   },
   {
@@ -2170,8 +2723,8 @@
    "state": "construct",
    "team": "violet",
    "rect": [
-    688,
-    2,
+    100,
+    104,
     96,
     94
    ],
@@ -2198,6 +2751,25 @@
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
    },
+   "turret_mount": [
+    47.69,
+    17.62
+   ],
+   "top": "hive_spout",
+   "top_fx": "hive_fire_puff",
+   "dock_pad": {
+    "tile": [
+     1,
+     3
+    ],
+    "frame": "hive_pad-idle-violet",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "dock": [
+    48.0,
+    110.0
+   ],
+   "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data",
    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
   },
   {
@@ -2208,8 +2780,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    786,
-    2,
+    198,
+    104,
     96,
     94
    ],
@@ -2236,6 +2808,25 @@
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
    },
+   "turret_mount": [
+    47.69,
+    17.62
+   ],
+   "top": "hive_spout",
+   "top_fx": "hive_fire_puff",
+   "dock_pad": {
+    "tile": [
+     1,
+     3
+    ],
+    "frame": "hive_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "dock": [
+    48.0,
+    110.0
+   ],
+   "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data",
    "damaged_of": "idle"
   },
   {
@@ -2246,8 +2837,8 @@
    "state": "damaged",
    "team": "violet",
    "rect": [
-    884,
-    2,
+    296,
+    104,
     96,
     94
    ],
@@ -2274,6 +2865,25 @@
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
    },
+   "turret_mount": [
+    47.69,
+    17.62
+   ],
+   "top": "hive_spout",
+   "top_fx": "hive_fire_puff",
+   "dock_pad": {
+    "tile": [
+     1,
+     3
+    ],
+    "frame": "hive_pad-idle-violet",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "dock": [
+    48.0,
+    110.0
+   ],
+   "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data",
    "damaged_of": "idle"
   },
   {
@@ -2284,8 +2894,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    2,
-    102,
+    394,
+    104,
     96,
     94
    ],
@@ -2311,7 +2921,26 @@
     "h": 92,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "turret_mount": [
+    47.69,
+    17.62
+   ],
+   "top": "hive_spout",
+   "top_fx": "hive_fire_puff",
+   "dock_pad": {
+    "tile": [
+     1,
+     3
+    ],
+    "frame": "hive_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "dock": [
+    48.0,
+    110.0
+   ],
+   "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data"
   },
   {
    "name": "hive-idle-violet",
@@ -2321,8 +2950,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    100,
-    102,
+    492,
+    104,
     96,
     94
    ],
@@ -2348,7 +2977,1092 @@
     "h": 92,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "turret_mount": [
+    47.69,
+    17.62
+   ],
+   "top": "hive_spout",
+   "top_fx": "hive_fire_puff",
+   "dock_pad": {
+    "tile": [
+     1,
+     3
+    ],
+    "frame": "hive_pad-idle-violet",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "dock": [
+    48.0,
+    110.0
+   ],
+   "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data"
+  },
+  {
+   "name": "hive_fire_puff-0-red",
+   "building": "hive_fire_puff",
+   "code_type": "hq",
+   "part": "fx",
+   "state": "fire_puff",
+   "team": "red",
+   "rect": [
+    175,
+    407,
+    3,
+    3
+   ],
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 0,
+   "fx": "Hive spout fire puff, 4 frames @ ~16 fps on each shot (hellfire ramp); drawn pointing east at the top frame muzzle point, rotated to the top heading",
+   "anchor": [
+    0,
+    1
+   ],
+   "shadow": null
+  },
+  {
+   "name": "hive_fire_puff-0-violet",
+   "building": "hive_fire_puff",
+   "code_type": "hq",
+   "part": "fx",
+   "state": "fire_puff",
+   "team": "violet",
+   "rect": [
+    180,
+    407,
+    3,
+    3
+   ],
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 0,
+   "fx": "Hive spout fire puff, 4 frames @ ~16 fps on each shot (hellfire ramp); drawn pointing east at the top frame muzzle point, rotated to the top heading",
+   "anchor": [
+    0,
+    1
+   ],
+   "shadow": null
+  },
+  {
+   "name": "hive_fire_puff-1-red",
+   "building": "hive_fire_puff",
+   "code_type": "hq",
+   "part": "fx",
+   "state": "fire_puff",
+   "team": "red",
+   "rect": [
+    157,
+    407,
+    7,
+    5
+   ],
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 1,
+   "fx": "Hive spout fire puff, 4 frames @ ~16 fps on each shot (hellfire ramp); drawn pointing east at the top frame muzzle point, rotated to the top heading",
+   "anchor": [
+    0,
+    2
+   ],
+   "shadow": null
+  },
+  {
+   "name": "hive_fire_puff-1-violet",
+   "building": "hive_fire_puff",
+   "code_type": "hq",
+   "part": "fx",
+   "state": "fire_puff",
+   "team": "violet",
+   "rect": [
+    166,
+    407,
+    7,
+    5
+   ],
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 1,
+   "fx": "Hive spout fire puff, 4 frames @ ~16 fps on each shot (hellfire ramp); drawn pointing east at the top frame muzzle point, rotated to the top heading",
+   "anchor": [
+    0,
+    2
+   ],
+   "shadow": null
+  },
+  {
+   "name": "hive_fire_puff-2-red",
+   "building": "hive_fire_puff",
+   "code_type": "hq",
+   "part": "fx",
+   "state": "fire_puff",
+   "team": "red",
+   "rect": [
+    117,
+    407,
+    9,
+    7
+   ],
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 2,
+   "fx": "Hive spout fire puff, 4 frames @ ~16 fps on each shot (hellfire ramp); drawn pointing east at the top frame muzzle point, rotated to the top heading",
+   "anchor": [
+    0,
+    3
+   ],
+   "shadow": null
+  },
+  {
+   "name": "hive_fire_puff-2-violet",
+   "building": "hive_fire_puff",
+   "code_type": "hq",
+   "part": "fx",
+   "state": "fire_puff",
+   "team": "violet",
+   "rect": [
+    128,
+    407,
+    9,
+    7
+   ],
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 2,
+   "fx": "Hive spout fire puff, 4 frames @ ~16 fps on each shot (hellfire ramp); drawn pointing east at the top frame muzzle point, rotated to the top heading",
+   "anchor": [
+    0,
+    3
+   ],
+   "shadow": null
+  },
+  {
+   "name": "hive_fire_puff-3-red",
+   "building": "hive_fire_puff",
+   "code_type": "hq",
+   "part": "fx",
+   "state": "fire_puff",
+   "team": "red",
+   "rect": [
+    139,
+    407,
+    7,
+    7
+   ],
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 3,
+   "fx": "Hive spout fire puff, 4 frames @ ~16 fps on each shot (hellfire ramp); drawn pointing east at the top frame muzzle point, rotated to the top heading",
+   "anchor": [
+    -4,
+    3
+   ],
+   "shadow": null
+  },
+  {
+   "name": "hive_fire_puff-3-violet",
+   "building": "hive_fire_puff",
+   "code_type": "hq",
+   "part": "fx",
+   "state": "fire_puff",
+   "team": "violet",
+   "rect": [
+    148,
+    407,
+    7,
+    7
+   ],
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 3,
+   "fx": "Hive spout fire puff, 4 frames @ ~16 fps on each shot (hellfire ramp); drawn pointing east at the top frame muzzle point, rotated to the top heading",
+   "anchor": [
+    -4,
+    3
+   ],
+   "shadow": null
+  },
+  {
+   "name": "hive_pad-idle-red",
+   "building": "hive_pad",
+   "code_type": "hq",
+   "part": "pad",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    858,
+    340,
+    32,
+    31
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03825,
+   "anchor": [
+    16.0,
+    15.5
+   ],
+   "shadow": null,
+   "footprint": [
+    1,
+    1
+   ]
+  },
+  {
+   "name": "hive_pad-idle-violet",
+   "building": "hive_pad",
+   "code_type": "hq",
+   "part": "pad",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    892,
+    340,
+    32,
+    31
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03825,
+   "anchor": [
+    16.0,
+    15.5
+   ],
+   "shadow": null,
+   "footprint": [
+    1,
+    1
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r0000-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    938,
+    377,
+    15,
+    12
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 0.0,
+   "anchor": [
+    5.89,
+    5.97
+   ],
+   "shadow": null,
+   "muzzle": [
+    13.98,
+    6.08
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r0000-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    955,
+    377,
+    15,
+    12
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 0.0,
+   "anchor": [
+    5.89,
+    5.97
+   ],
+   "shadow": null,
+   "muzzle": [
+    13.98,
+    6.08
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r0225-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    53,
+    407,
+    14,
+    12
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 22.5,
+   "anchor": [
+    6.29,
+    6.08
+   ],
+   "shadow": null,
+   "muzzle": [
+    13.99,
+    9.26
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r0225-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    69,
+    407,
+    14,
+    12
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 22.5,
+   "anchor": [
+    6.29,
+    6.08
+   ],
+   "shadow": null,
+   "muzzle": [
+    13.99,
+    9.26
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r0450-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    818,
+    377,
+    13,
+    13
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 45.0,
+   "anchor": [
+    6.23,
+    6.09
+   ],
+   "shadow": null,
+   "muzzle": [
+    11.95,
+    11.89
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r0450-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    833,
+    377,
+    13,
+    13
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 45.0,
+   "anchor": [
+    6.23,
+    6.09
+   ],
+   "shadow": null,
+   "muzzle": [
+    11.95,
+    11.89
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r0675-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    650,
+    377,
+    12,
+    15
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 67.5,
+   "anchor": [
+    6.16,
+    6.24
+   ],
+   "shadow": null,
+   "muzzle": [
+    9.15,
+    13.96
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r0675-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    664,
+    377,
+    12,
+    15
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 67.5,
+   "anchor": [
+    6.16,
+    6.24
+   ],
+   "shadow": null,
+   "muzzle": [
+    9.15,
+    13.96
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r0900-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    678,
+    377,
+    12,
+    15
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 90.0,
+   "anchor": [
+    6.03,
+    5.89
+   ],
+   "shadow": null,
+   "muzzle": [
+    5.92,
+    13.98
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r0900-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    692,
+    377,
+    12,
+    15
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 90.0,
+   "anchor": [
+    6.03,
+    5.89
+   ],
+   "shadow": null,
+   "muzzle": [
+    5.92,
+    13.98
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r1125-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    762,
+    377,
+    12,
+    14
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 112.5,
+   "anchor": [
+    5.92,
+    6.29
+   ],
+   "shadow": null,
+   "muzzle": [
+    2.74,
+    13.99
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r1125-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    776,
+    377,
+    12,
+    14
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 112.5,
+   "anchor": [
+    5.92,
+    6.29
+   ],
+   "shadow": null,
+   "muzzle": [
+    2.74,
+    13.99
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r1350-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    848,
+    377,
+    13,
+    13
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 135.0,
+   "anchor": [
+    6.91,
+    6.23
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.11,
+    11.95
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r1350-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    863,
+    377,
+    13,
+    13
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 135.0,
+   "anchor": [
+    6.91,
+    6.23
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.11,
+    11.95
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r1575-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    972,
+    377,
+    15,
+    12
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 157.5,
+   "anchor": [
+    8.76,
+    6.16
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.04,
+    9.15
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r1575-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    989,
+    377,
+    15,
+    12
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 157.5,
+   "anchor": [
+    8.76,
+    6.16
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.04,
+    9.15
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r1800-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    1006,
+    377,
+    15,
+    12
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 180.0,
+   "anchor": [
+    9.11,
+    6.03
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.02,
+    5.92
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r1800-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    2,
+    407,
+    15,
+    12
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 180.0,
+   "anchor": [
+    9.11,
+    6.03
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.02,
+    5.92
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r2025-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    85,
+    407,
+    14,
+    12
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 202.5,
+   "anchor": [
+    7.71,
+    5.92
+   ],
+   "shadow": null,
+   "muzzle": [
+    0.01,
+    2.74
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r2025-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    101,
+    407,
+    14,
+    12
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 202.5,
+   "anchor": [
+    7.71,
+    5.92
+   ],
+   "shadow": null,
+   "muzzle": [
+    0.01,
+    2.74
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r2250-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    878,
+    377,
+    13,
+    13
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 225.0,
+   "anchor": [
+    6.77,
+    6.91
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.05,
+    1.11
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r2250-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    893,
+    377,
+    13,
+    13
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 225.0,
+   "anchor": [
+    6.77,
+    6.91
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.05,
+    1.11
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r2475-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    706,
+    377,
+    12,
+    15
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 247.5,
+   "anchor": [
+    5.84,
+    8.76
+   ],
+   "shadow": null,
+   "muzzle": [
+    2.85,
+    1.04
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r2475-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    720,
+    377,
+    12,
+    15
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 247.5,
+   "anchor": [
+    5.84,
+    8.76
+   ],
+   "shadow": null,
+   "muzzle": [
+    2.85,
+    1.04
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r2700-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    734,
+    377,
+    12,
+    15
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 270.0,
+   "anchor": [
+    5.97,
+    9.11
+   ],
+   "shadow": null,
+   "muzzle": [
+    6.08,
+    1.02
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r2700-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    748,
+    377,
+    12,
+    15
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 270.0,
+   "anchor": [
+    5.97,
+    9.11
+   ],
+   "shadow": null,
+   "muzzle": [
+    6.08,
+    1.02
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r2925-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    790,
+    377,
+    12,
+    14
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 292.5,
+   "anchor": [
+    6.08,
+    7.71
+   ],
+   "shadow": null,
+   "muzzle": [
+    9.26,
+    0.01
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r2925-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    804,
+    377,
+    12,
+    14
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 292.5,
+   "anchor": [
+    6.08,
+    7.71
+   ],
+   "shadow": null,
+   "muzzle": [
+    9.26,
+    0.01
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r3150-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    908,
+    377,
+    13,
+    13
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 315.0,
+   "anchor": [
+    6.09,
+    6.77
+   ],
+   "shadow": null,
+   "muzzle": [
+    11.89,
+    1.05
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r3150-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    923,
+    377,
+    13,
+    13
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 315.0,
+   "anchor": [
+    6.09,
+    6.77
+   ],
+   "shadow": null,
+   "muzzle": [
+    11.89,
+    1.05
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r3375-red",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    19,
+    407,
+    15,
+    12
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 337.5,
+   "anchor": [
+    6.24,
+    5.84
+   ],
+   "shadow": null,
+   "muzzle": [
+    13.96,
+    2.85
+   ]
+  },
+  {
+   "name": "hive_spout-idle-r3375-violet",
+   "building": "hive_spout",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "violet",
+   "rect": [
+    36,
+    407,
+    15,
+    12
+   ],
+   "outline": "silhouette1",
+   "scale": 0.02227,
+   "facing": 337.5,
+   "anchor": [
+    6.24,
+    5.84
+   ],
+   "shadow": null,
+   "muzzle": [
+    13.96,
+    2.85
+   ]
   },
   {
    "name": "power_plant-construct-red",
@@ -2358,8 +4072,8 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    786,
-    102,
+    296,
+    200,
     64,
     73
    ],
@@ -2396,8 +4110,8 @@
    "state": "construct",
    "team": "violet",
    "rect": [
-    852,
-    102,
+    362,
+    200,
     64,
     73
    ],
@@ -2434,8 +4148,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    918,
-    102,
+    428,
+    200,
     64,
     73
    ],
@@ -2472,8 +4186,8 @@
    "state": "damaged",
    "team": "violet",
    "rect": [
-    2,
-    198,
+    494,
+    200,
     64,
     73
    ],
@@ -2510,8 +4224,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    68,
-    198,
+    560,
+    200,
     64,
     73
    ],
@@ -2547,8 +4261,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    134,
-    198,
+    626,
+    200,
     64,
     73
    ],
@@ -2584,8 +4298,8 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    860,
-    198,
+    332,
+    278,
     64,
     60
    ],
@@ -2622,8 +4336,8 @@
    "state": "construct",
    "team": "violet",
    "rect": [
-    926,
-    198,
+    398,
+    278,
     64,
     60
    ],
@@ -2660,8 +4374,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    2,
-    273,
+    464,
+    278,
     64,
     60
    ],
@@ -2698,8 +4412,8 @@
    "state": "damaged",
    "team": "violet",
    "rect": [
-    68,
-    273,
+    530,
+    278,
     64,
     60
    ],
@@ -2736,8 +4450,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    134,
-    273,
+    596,
+    278,
     64,
     60
    ],
@@ -2773,8 +4487,8 @@
    "state": "idle",
    "team": "violet",
    "rect": [
-    200,
-    273,
+    662,
+    278,
     64,
     60
    ],
@@ -2873,8 +4587,8 @@
     "top": "bone_spire_top",
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     794,
-     102,
+     233,
+     182,
      32,
      33
     ]
@@ -2915,8 +4629,8 @@
     "top": "bone_spire_top",
     "damaged_of": "idle",
     "rect": [
-     828,
-     102,
+     267,
+     182,
      32,
      33
     ]
@@ -2956,8 +4670,8 @@
     ],
     "top": "bone_spire_top",
     "rect": [
-     862,
-     102,
+     301,
+     182,
      32,
      33
     ]
@@ -2977,8 +4691,8 @@
     ],
     "shadow": null,
     "rect": [
-     304,
-     177,
+     799,
+     182,
      33,
      21
     ]
@@ -2998,8 +4712,8 @@
     ],
     "shadow": null,
     "rect": [
-     170,
-     177,
+     665,
+     182,
      32,
      22
     ]
@@ -3019,8 +4733,8 @@
     ],
     "shadow": null,
     "rect": [
-     50,
-     177,
+     545,
+     182,
      28,
      28
     ]
@@ -3040,8 +4754,8 @@
     ],
     "shadow": null,
     "rect": [
-     2,
-     177,
+     497,
+     182,
      22,
      31
     ]
@@ -3061,8 +4775,8 @@
     ],
     "shadow": null,
     "rect": [
-     896,
-     102,
+     335,
+     182,
      21,
      33
     ]
@@ -3082,8 +4796,8 @@
     ],
     "shadow": null,
     "rect": [
-     942,
-     102,
+     381,
+     182,
      22,
      32
     ]
@@ -3103,8 +4817,8 @@
     ],
     "shadow": null,
     "rect": [
-     80,
-     177,
+     575,
+     182,
      28,
      28
     ]
@@ -3124,8 +4838,8 @@
     ],
     "shadow": null,
     "rect": [
-     238,
-     177,
+     733,
+     182,
      31,
      22
     ]
@@ -3145,8 +4859,8 @@
     ],
     "shadow": null,
     "rect": [
-     339,
-     177,
+     834,
+     182,
      33,
      21
     ]
@@ -3166,8 +4880,8 @@
     ],
     "shadow": null,
     "rect": [
-     204,
-     177,
+     699,
+     182,
      32,
      22
     ]
@@ -3187,8 +4901,8 @@
     ],
     "shadow": null,
     "rect": [
-     110,
-     177,
+     605,
+     182,
      28,
      28
     ]
@@ -3208,8 +4922,8 @@
     ],
     "shadow": null,
     "rect": [
-     26,
-     177,
+     521,
+     182,
      22,
      31
     ]
@@ -3229,8 +4943,8 @@
     ],
     "shadow": null,
     "rect": [
-     919,
-     102,
+     358,
+     182,
      21,
      33
     ]
@@ -3250,8 +4964,8 @@
     ],
     "shadow": null,
     "rect": [
-     966,
-     102,
+     405,
+     182,
      22,
      32
     ]
@@ -3271,8 +4985,8 @@
     ],
     "shadow": null,
     "rect": [
-     140,
-     177,
+     635,
+     182,
      28,
      28
     ]
@@ -3292,10 +5006,269 @@
     ],
     "shadow": null,
     "rect": [
-     271,
-     177,
+     766,
+     182,
      31,
      22
+    ]
+   },
+   {
+    "name": "dark_altar-construct",
+    "building": "dark_altar",
+    "code_type": "altar",
+    "part": "base",
+    "state": "construct",
+    "outline": "silhouette2",
+    "scale": 0.09662,
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     32.0,
+     100
+    ],
+    "footprint_origin": [
+     0.0,
+     4
+    ],
+    "shadow": {
+     "shape": "ellipse",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 92,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
+    "rect": [
+     2,
+     2,
+     64,
+     100
+    ]
+   },
+   {
+    "name": "dark_altar-damaged",
+    "building": "dark_altar",
+    "code_type": "altar",
+    "part": "base",
+    "state": "damaged",
+    "outline": "silhouette2",
+    "scale": 0.09662,
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     32.0,
+     100
+    ],
+    "footprint_origin": [
+     0.0,
+     4
+    ],
+    "shadow": {
+     "shape": "ellipse",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 92,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "damaged_of": "idle",
+    "rect": [
+     68,
+     2,
+     64,
+     100
+    ]
+   },
+   {
+    "name": "dark_altar-destroyed",
+    "building": "dark_altar",
+    "code_type": "altar",
+    "part": "base",
+    "state": "destroyed",
+    "outline": "silhouette2",
+    "scale": 0.09662,
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     33.0,
+     94
+    ],
+    "footprint_origin": [
+     1.0,
+     -2
+    ],
+    "shadow": null,
+    "destroyed": "loop 4 rubble left after the building dies; no team trim, no shadow (it is ground-level)",
+    "rect": [
+     788,
+     2,
+     67,
+     94
+    ]
+   },
+   {
+    "name": "dark_altar-idle",
+    "building": "dark_altar",
+    "code_type": "altar",
+    "part": "base",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.09662,
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     32.0,
+     100
+    ],
+    "footprint_origin": [
+     0.0,
+     4
+    ],
+    "shadow": {
+     "shape": "ellipse",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 92,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     134,
+     2,
+     64,
+     100
+    ]
+   },
+   {
+    "name": "dark_altar-research_0",
+    "building": "dark_altar",
+    "code_type": "altar",
+    "part": "overlay",
+    "state": "research",
+    "outline": "none",
+    "scale": 0.09662,
+    "frame": 0,
+    "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     17.0,
+     64
+    ],
+    "footprint_origin": [
+     -15.0,
+     -32
+    ],
+    "shadow": null,
+    "rect": [
+     990,
+     104,
+     31,
+     36
+    ]
+   },
+   {
+    "name": "dark_altar-research_1",
+    "building": "dark_altar",
+    "code_type": "altar",
+    "part": "overlay",
+    "state": "research",
+    "outline": "none",
+    "scale": 0.09662,
+    "frame": 1,
+    "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     17.0,
+     65
+    ],
+    "footprint_origin": [
+     -15.0,
+     -31
+    ],
+    "shadow": null,
+    "rect": [
+     957,
+     104,
+     31,
+     37
+    ]
+   },
+   {
+    "name": "dark_altar-research_2",
+    "building": "dark_altar",
+    "code_type": "altar",
+    "part": "overlay",
+    "state": "research",
+    "outline": "none",
+    "scale": 0.09662,
+    "frame": 2,
+    "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     17.0,
+     68
+    ],
+    "footprint_origin": [
+     -15.0,
+     -28
+    ],
+    "shadow": null,
+    "rect": [
+     924,
+     104,
+     31,
+     40
+    ]
+   },
+   {
+    "name": "dark_altar-research_3",
+    "building": "dark_altar",
+    "code_type": "altar",
+    "part": "overlay",
+    "state": "research",
+    "outline": "none",
+    "scale": 0.09662,
+    "frame": 3,
+    "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     17.0,
+     64
+    ],
+    "footprint_origin": [
+     -15.0,
+     -32
+    ],
+    "shadow": null,
+    "rect": [
+     2,
+     182,
+     31,
+     36
     ]
    },
    {
@@ -3329,8 +5302,8 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     596,
-     102,
+     35,
+     182,
      64,
      35
     ]
@@ -3366,8 +5339,8 @@
     },
     "damaged_of": "idle",
     "rect": [
-     662,
-     102,
+     101,
+     182,
      64,
      35
     ]
@@ -3402,8 +5375,8 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     728,
-     102,
+     167,
+     182,
      64,
      35
     ]
@@ -3439,7 +5412,7 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     2,
+     200,
      2,
      96,
      98
@@ -3476,7 +5449,7 @@
     },
     "damaged_of": "idle",
     "rect": [
-     100,
+     298,
      2,
      96,
      98
@@ -3512,7 +5485,7 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     198,
+     396,
      2,
      96,
      98
@@ -3557,7 +5530,7 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     590,
+     857,
      2,
      96,
      76
@@ -3602,8 +5575,8 @@
     },
     "damaged_of": "idle",
     "rect": [
-     688,
      2,
+     104,
      96,
      76
     ]
@@ -3646,8 +5619,8 @@
      "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
     },
     "rect": [
-     786,
-     2,
+     100,
+     104,
      96,
      76
     ]
@@ -3670,8 +5643,8 @@
      1
     ],
     "rect": [
-     990,
-     102,
+     429,
+     182,
      32,
      31
     ]
@@ -3706,8 +5679,8 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     68,
-     102,
+     396,
+     104,
      64,
      60
     ]
@@ -3743,8 +5716,8 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     134,
-     102,
+     462,
+     104,
      64,
      60
     ]
@@ -3780,8 +5753,8 @@
     },
     "damaged_of": "closed",
     "rect": [
-     200,
-     102,
+     528,
+     104,
      64,
      60
     ]
@@ -3817,8 +5790,8 @@
     },
     "damaged_of": "open",
     "rect": [
-     266,
-     102,
+     594,
+     104,
      64,
      60
     ]
@@ -3853,8 +5826,8 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     332,
-     102,
+     660,
+     104,
      64,
      60
     ]
@@ -3888,9 +5861,28 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "turret_mount": [
+     47.69,
+     17.62
+    ],
+    "top": "hive_spout",
+    "top_fx": "hive_fire_puff",
+    "dock_pad": {
+     "tile": [
+      1,
+      3
+     ],
+     "frame": "hive_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "dock": [
+     48.0,
+     110.0
+    ],
+    "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data",
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     296,
+     494,
      2,
      96,
      94
@@ -3925,9 +5917,28 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "turret_mount": [
+     47.69,
+     17.62
+    ],
+    "top": "hive_spout",
+    "top_fx": "hive_fire_puff",
+    "dock_pad": {
+     "tile": [
+      1,
+      3
+     ],
+     "frame": "hive_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "dock": [
+     48.0,
+     110.0
+    ],
+    "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data",
     "damaged_of": "idle",
     "rect": [
-     394,
+     592,
      2,
      96,
      94
@@ -3962,11 +5973,542 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "turret_mount": [
+     47.69,
+     17.62
+    ],
+    "top": "hive_spout",
+    "top_fx": "hive_fire_puff",
+    "dock_pad": {
+     "tile": [
+      1,
+      3
+     ],
+     "frame": "hive_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "dock": [
+     48.0,
+     110.0
+    ],
+    "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data",
     "rect": [
-     492,
+     690,
      2,
      96,
      94
+    ]
+   },
+   {
+    "name": "hive_fire_puff-0",
+    "building": "hive_fire_puff",
+    "code_type": "hq",
+    "part": "fx",
+    "state": "fire_puff",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 0,
+    "fx": "Hive spout fire puff, 4 frames @ ~16 fps on each shot (hellfire ramp); drawn pointing east at the top frame muzzle point, rotated to the top heading",
+    "anchor": [
+     0,
+     1
+    ],
+    "shadow": null,
+    "rect": [
+     131,
+     220,
+     3,
+     3
+    ]
+   },
+   {
+    "name": "hive_fire_puff-1",
+    "building": "hive_fire_puff",
+    "code_type": "hq",
+    "part": "fx",
+    "state": "fire_puff",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 1,
+    "fx": "Hive spout fire puff, 4 frames @ ~16 fps on each shot (hellfire ramp); drawn pointing east at the top frame muzzle point, rotated to the top heading",
+    "anchor": [
+     0,
+     2
+    ],
+    "shadow": null,
+    "rect": [
+     122,
+     220,
+     7,
+     5
+    ]
+   },
+   {
+    "name": "hive_fire_puff-2",
+    "building": "hive_fire_puff",
+    "code_type": "hq",
+    "part": "fx",
+    "state": "fire_puff",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 2,
+    "fx": "Hive spout fire puff, 4 frames @ ~16 fps on each shot (hellfire ramp); drawn pointing east at the top frame muzzle point, rotated to the top heading",
+    "anchor": [
+     0,
+     3
+    ],
+    "shadow": null,
+    "rect": [
+     102,
+     220,
+     9,
+     7
+    ]
+   },
+   {
+    "name": "hive_fire_puff-3",
+    "building": "hive_fire_puff",
+    "code_type": "hq",
+    "part": "fx",
+    "state": "fire_puff",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 3,
+    "fx": "Hive spout fire puff, 4 frames @ ~16 fps on each shot (hellfire ramp); drawn pointing east at the top frame muzzle point, rotated to the top heading",
+    "anchor": [
+     -4,
+     3
+    ],
+    "shadow": null,
+    "rect": [
+     113,
+     220,
+     7,
+     7
+    ]
+   },
+   {
+    "name": "hive_pad-idle",
+    "building": "hive_pad",
+    "code_type": "hq",
+    "part": "pad",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03825,
+    "anchor": [
+     16.0,
+     15.5
+    ],
+    "shadow": null,
+    "footprint": [
+     1,
+     1
+    ],
+    "rect": [
+     463,
+     182,
+     32,
+     31
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r0000",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 0.0,
+    "anchor": [
+     5.89,
+     5.97
+    ],
+    "shadow": null,
+    "muzzle": [
+     13.98,
+     6.08
+    ],
+    "rect": [
+     2,
+     220,
+     15,
+     12
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r0225",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 22.5,
+    "anchor": [
+     6.29,
+     6.08
+    ],
+    "shadow": null,
+    "muzzle": [
+     13.99,
+     9.26
+    ],
+    "rect": [
+     70,
+     220,
+     14,
+     12
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r0450",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 45.0,
+    "anchor": [
+     6.23,
+     6.09
+    ],
+    "shadow": null,
+    "muzzle": [
+     11.95,
+     11.89
+    ],
+    "rect": [
+     953,
+     182,
+     13,
+     13
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r0675",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 67.5,
+    "anchor": [
+     6.16,
+     6.24
+    ],
+    "shadow": null,
+    "muzzle": [
+     9.15,
+     13.96
+    ],
+    "rect": [
+     869,
+     182,
+     12,
+     15
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r0900",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 90.0,
+    "anchor": [
+     6.03,
+     5.89
+    ],
+    "shadow": null,
+    "muzzle": [
+     5.92,
+     13.98
+    ],
+    "rect": [
+     883,
+     182,
+     12,
+     15
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r1125",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 112.5,
+    "anchor": [
+     5.92,
+     6.29
+    ],
+    "shadow": null,
+    "muzzle": [
+     2.74,
+     13.99
+    ],
+    "rect": [
+     925,
+     182,
+     12,
+     14
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r1350",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 135.0,
+    "anchor": [
+     6.91,
+     6.23
+    ],
+    "shadow": null,
+    "muzzle": [
+     1.11,
+     11.95
+    ],
+    "rect": [
+     968,
+     182,
+     13,
+     13
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r1575",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 157.5,
+    "anchor": [
+     8.76,
+     6.16
+    ],
+    "shadow": null,
+    "muzzle": [
+     1.04,
+     9.15
+    ],
+    "rect": [
+     19,
+     220,
+     15,
+     12
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r1800",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 180.0,
+    "anchor": [
+     9.11,
+     6.03
+    ],
+    "shadow": null,
+    "muzzle": [
+     1.02,
+     5.92
+    ],
+    "rect": [
+     36,
+     220,
+     15,
+     12
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r2025",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 202.5,
+    "anchor": [
+     7.71,
+     5.92
+    ],
+    "shadow": null,
+    "muzzle": [
+     0.01,
+     2.74
+    ],
+    "rect": [
+     86,
+     220,
+     14,
+     12
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r2250",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 225.0,
+    "anchor": [
+     6.77,
+     6.91
+    ],
+    "shadow": null,
+    "muzzle": [
+     1.05,
+     1.11
+    ],
+    "rect": [
+     983,
+     182,
+     13,
+     13
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r2475",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 247.5,
+    "anchor": [
+     5.84,
+     8.76
+    ],
+    "shadow": null,
+    "muzzle": [
+     2.85,
+     1.04
+    ],
+    "rect": [
+     897,
+     182,
+     12,
+     15
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r2700",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 270.0,
+    "anchor": [
+     5.97,
+     9.11
+    ],
+    "shadow": null,
+    "muzzle": [
+     6.08,
+     1.02
+    ],
+    "rect": [
+     911,
+     182,
+     12,
+     15
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r2925",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 292.5,
+    "anchor": [
+     6.08,
+     7.71
+    ],
+    "shadow": null,
+    "muzzle": [
+     9.26,
+     0.01
+    ],
+    "rect": [
+     939,
+     182,
+     12,
+     14
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r3150",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 315.0,
+    "anchor": [
+     6.09,
+     6.77
+    ],
+    "shadow": null,
+    "muzzle": [
+     11.89,
+     1.05
+    ],
+    "rect": [
+     998,
+     182,
+     13,
+     13
+    ]
+   },
+   {
+    "name": "hive_spout-idle-r3375",
+    "building": "hive_spout",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.02227,
+    "facing": 337.5,
+    "anchor": [
+     6.24,
+     5.84
+    ],
+    "shadow": null,
+    "muzzle": [
+     13.96,
+     2.85
+    ],
+    "rect": [
+     53,
+     220,
+     15,
+     12
     ]
    },
    {
@@ -4000,8 +6542,8 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     884,
-     2,
+     198,
+     104,
      64,
      73
     ]
@@ -4037,8 +6579,8 @@
     },
     "damaged_of": "idle",
     "rect": [
-     950,
-     2,
+     264,
+     104,
      64,
      73
     ]
@@ -4073,8 +6615,8 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     2,
-     102,
+     330,
+     104,
      64,
      73
     ]
@@ -4110,8 +6652,8 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     398,
-     102,
+     726,
+     104,
      64,
      60
     ]
@@ -4147,8 +6689,8 @@
     },
     "damaged_of": "idle",
     "rect": [
-     464,
-     102,
+     792,
+     104,
      64,
      60
     ]
@@ -4183,8 +6725,8 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     530,
-     102,
+     858,
+     104,
      64,
      60
     ]

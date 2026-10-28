@@ -69,7 +69,7 @@ const BDEF = {
   altar: { name: ['Dark Altar', 'Dark Altar'], desc: 'Trains the Demon Lord. Uses 40 power', w: 2, h: 3, hp: 1000, cost: 1500, time: 15, req: ['factory'], sight: 5, side: 1 },
 };
 // Loop 4 buildings without art yet: drawn by the procedural drawBld (unitart.js BLD_MAP has no entry)
-const ART_PENDING = ['armory', 'church', 'altar'];
+const ART_PENDING = [];
 for (const k in BDEF) BDEF[k].armor = 'structure';
 const BORDER = ['refinery', 'barracks', 'turret', 'factory', 'silo', 'power', 'depot', 'armory', 'church'];
 const UORDER = [['gleaner', 'survivor', 'seraph', 'ark', 'flamer', 'rocket', 'medic', 'archangel', 'templar'], ['reaper', 'zombie', 'imp', 'brute', 'demon']];
@@ -669,7 +669,7 @@ function fire(s, t) {
     if (w !== 'claw' && s.d.splash) areaDamage(t.x, t.y, s.d.splash * TILE, dmg, s, w); else damage(t, dmg, s, w);
     sfx('claw', s.x, s.y);
   } else if (s.kind === 'u' && s.d.flame) { // Flamer (L4): short flame cone, splash at the target, no projectile
-    G.fx.push({ k: 'flame', x1: ox, y1: oy, x2: t.x, y2: t.y - air, t: 0, dur: 0.3 });
+    G.fx.push({ k: 'flame', x1: ox, y1: oy, x2: t.x, y2: t.y - air, ux: s.x, uy: s.y, t: 0, dur: 0.3 });
     areaDamage(t.x, t.y, s.d.splash * TILE, dmg, s, w);
     sfx('fire', s.x, s.y);
   } else {
@@ -734,7 +734,7 @@ function kill(t, src, w) {
     // the dead rise
     if (t.d.harv && t.load > 0) dropCargo(t);
     // L4: bodies killed by fire are marked burned (burn decal) and never rise; holy (Templar) kills never rise either
-    if (w === 'fire') { t.burned = true; G.decals.push({ k: 'burn', x: t.x, y: t.y, r: t.d.big ? 16 : 7, a: Math.random() * 6, t: 0 }); G.stats.burned = (G.stats.burned || 0) + 1; }
+    if (w === 'fire') { t.burned = true; const bs = burnScaleOf(t); G.decals.push({ k: 'burn', x: t.x, y: t.y, s: bs, r: bs === 2 ? 16 : 7, a: Math.random() * 6, t: 0, born: G.time }); G.stats.burned = (G.stats.burned || 0) + 1; }
     if (w === 'holy') t.hallowed = true;
     const eligible = Combat.riseEligible(t.type, t.side, w) && !t.burned && !t.hallowed;
     if (eligible && Combat.noRiseBy(doneOf(t.side), t.type)) {
@@ -757,7 +757,7 @@ function kill(t, src, w) {
     if (t.type === 'refinery' || t.type === 'depot' || t.type === 'hq') { const cap = storageCapOf(t.side); if (G.credits[t.side] > cap) { const lost = Math.floor(G.credits[t.side] - cap); G.credits[t.side] = cap; if (t.side === 0) msg(`Storage lost: ${lost} Credits destroyed.`, '#ff6a3d', t.x, t.y); } }
     for (let k = 0; k < 6; k++) G.fx.push({ k: 'boom', x: t.tx * TILE + Math.random() * t.w * TILE, y: t.ty * TILE + Math.random() * t.h * TILE, r: 22 + Math.random() * 18, c: '#ffa040', t: -k * 0.08, dur: 0.7 });
     G.decals.push({ k: 'scorch', x: t.x, y: t.y, r: t.w * 20, t: 0 });
-    G.decals.push({ k: 'ruin', x: t.tx * TILE, y: t.ty * TILE, w: t.w, h: t.h, t: 0 });
+    G.decals.push({ k: 'ruin', x: t.tx * TILE, y: t.ty * TILE, w: t.w, h: t.h, t: 0, type: t.type, side: t.side, tx: t.tx, ty: t.ty });   // loop 4: art {id}-destroyed while it lives
     sfx('boom', t.x, t.y); shake(6);
     if (t.side === 0) msg(`${ename(t)} destroyed!`, '#ff6a3d', t.x, t.y);
     else msg(`Enemy ${ename(t)} destroyed.`, '#DDF6FF');
@@ -797,6 +797,12 @@ function updCrush() {
 // ---------------- salvage economy (salvage.js) ----------------
 function sideCounts(side) { const c = {}; for (const b of G.blds) if (b.side === side && !b.dead) c[b.type] = (c[b.type] || 0) + 1; return c; }
 function storageCapOf(side) { return Salvage.storageCap(sideCounts(side)); }
+// burn decal scale (Dezi, art/units/HANDOFF.md §9.1): 2x for units 2 or more tiles in size, else 1x. Size = the unit's art height,
+// or about 3.5 r without art (Demon Lord 77 px ~ its 78 px art; Archangel 56, Templar 39) - a size test, not UDEF big
+function burnScaleOf(u) {
+  const f = typeof UnitArt !== 'undefined' && UnitArt.unitFrame ? UnitArt.unitFrame(u) : null, h = f ? f.rect[3] : u.r * 3.5;
+  return typeof UnitArt !== 'undefined' && UnitArt.burnScale ? UnitArt.burnScale(h) : (h >= 64 ? 2 : 1);
+}
 function powerOf(side) { return Salvage.powerBalance(G.blds.filter(b => b.side === side && !b.dead).map(b => b.type)); }
 function makeSalvage() {
   const S = Salvage.create({
@@ -1390,15 +1396,26 @@ function bldArtOpts(b) {
   if (b.pad !== undefined) o.padTile = [b.pad % MW, (b.pad / MW) | 0];
   return o;
 }
-// procedural extras kept on top of the art: silo charge ring while charging, Scrap Yard stack smoke while unloading
+// loop 4 tech-building overlay (Dezi, loop4/1-tech-spec.md; replaces the research-only rule of HANDOFF-buildings §10.1):
+// plays whenever the building's own queue is busy - research (G.rq) or training (G.queues church / altar) - and it is powered; off when idle or unpowered.
+// Armory: research. Church: research or Archangel / Templar training. Dark Altar: no research, so its flames play during the Demon Lord build.
+const L4_OVERLAY = ['armory', 'church', 'altar'];
+function bldBusy(b) {
+  const rq = G.rq && G.rq[b.side] && G.rq[b.side][b.type], q = G.queues && G.queues[b.side] && G.queues[b.side][b.type];
+  return !!((rq && rq.list.length > 0) || (q && q.list.length > 0 && !q.ready));
+}
+function bldOverlayOn(b) { return !!b && !b.dead && L4_OVERLAY.includes(b.type) && bldBusy(b) && powerOf(b.side).net >= 0; }
+// HQ / Hive shot: fraction (0..1) through the 0.1 s flash window after a shot, or -1 (same window the procedural flash used)
+function hqShotPhase(b) { return b.type === 'hq' && b.d && b.target && b.cd > b.d.rof - 0.1 ? clamp((b.d.rof - b.cd) / 0.1, 0, 0.999) : -1; }
+// procedural extras kept on top of the art: silo charge ring while charging, Scrap Yard stack smoke while unloading; loop 4 overlays
 function bldArtOverlay(c, b, P) {
+  if (bldOverlayOn(b)) UnitArt.drawBuildingOverlay(c, P, G.time);
   if (b.type === 'silo' && P.sel.p >= 1 && b.charge < NUKE_CHARGE) {
     const f = b.charge / NUKE_CHARGE, cx = b.x, cy = b.y;
     c.save(); c.globalAlpha *= 0.85; c.strokeStyle = b.side ? '#ff5a1a' : '#3A7BFF'; c.lineWidth = 2; c.beginPath(); c.arc(cx, cy + 4, 22, -Math.PI / 2, -Math.PI / 2 + f * Math.PI * 2); c.stroke(); c.restore();
   }
   if (b.type === 'refinery' && b.side === 0 && b.dockQ && b.dockQ[0] && b.dockQ[0].hs === 'unload' && !b.dockQ[0].blocked && Math.random() < 0.3)
     G.fx.push({ k: 'smoke', x: b.tx * TILE + b.w * TILE - 12, y: P.oy + 6, t: 0, dur: 1.6 });
-  if (b.type === 'hq' && P.sel.p >= 1) drawHqTurret(c, b); // opening addendum: no turret-top art for the HQ yet
 }
 function drawBld(c, b) {
   const x = b.tx * TILE, y = b.ty * TILE, w = b.w * TILE, h = b.h * TILE, A = b.anim, ev = b.side === 1, t = b.type;
@@ -1514,7 +1531,7 @@ function drawBldL4(c, b, x, y, w, h, cx, cy, A) {
     for (let k = 0; k < 3; k++) { c.fillStyle = PAL.olive; c.fillRect(x + 8 + k * 16, y + h - 20, 13, 10); c.fillStyle = PAL.stencil; c.fillRect(x + 9 + k * 16, y + h - 16, 11, 1.5); }
     c.strokeStyle = '#222'; c.lineWidth = 2.5; for (let k = 0; k < 4; k++) { c.beginPath(); c.moveTo(x + 14 + k * 10, y + 16); c.lineTo(x + 14 + k * 10, y + 32); c.stroke(); }
     c.fillStyle = team; c.fillRect(cx - 10, y + 9, 20, 3);
-    if (G && G.rq && G.rq[b.side].armory.list.length) { c.globalAlpha = 0.5 + 0.4 * Math.sin(A * 6); c.fillStyle = '#ffe9a0'; circ(c, x + w - 9, y + 10, 3); c.globalAlpha = 1; }
+    if (G && bldOverlayOn(b)) { c.globalAlpha = 0.5 + 0.4 * Math.sin(A * 6); c.fillStyle = '#ffe9a0'; circ(c, x + w - 9, y + 10, 3); c.globalAlpha = 1; }
   } else if (t === 'church') { // white chapel, steeple and cross, stained glass
     c.fillStyle = '#E8E2D0'; c.fillRect(x + 8, y + 22, w - 16, h - 28);
     c.fillStyle = '#7a5a3a'; c.beginPath(); c.moveTo(x + 4, y + 26); c.lineTo(cx, y + 12); c.lineTo(x + w - 4, y + 26); c.fill();
@@ -1543,12 +1560,13 @@ function drawHqTurret(c, b) {
 }
 // ground markers: HQ dock pad, Demon Lord plague aura, Holy Ground and Archangel aura rings, HQ / Turret range ring when selected
 function drawGroundL4(c, vb) {
-  for (const b of vb) if (b.type === 'hq' && b.pad !== undefined) {
+  for (const b of vb) if (b.type === 'hq' && b.pad !== undefined && !(typeof UnitArt !== 'undefined' && UnitArt.planBuilding(b, bldArtOpts(b)))) {   // loop 4: the art draws hq_pad / hive_pad
     const px = (b.pad % MW) * TILE, py = ((b.pad / MW) | 0) * TILE;
     c.save(); c.globalAlpha = 0.75; c.strokeStyle = b.side ? '#8C3A5A' : '#E8D23A'; c.setLineDash([5, 4]); c.lineWidth = 2; c.strokeRect(px + 3, py + 3, 26, 26); c.setLineDash([]);
     c.fillStyle = b.side ? '#8C3A5A' : '#E8D23A'; c.beginPath(); c.moveTo(px + 11, py + 10); c.lineTo(px + 21, py + 10); c.lineTo(px + 16, py + 18); c.fill(); c.restore();
   }
   for (const u of G.units) if (!u.dead && u.type === 'demon' && (u.side === 0 || vis[tileOf(u.y) * MW + tileOf(u.x)]) && onScreen(u.x, u.y, 140)) {
+    if (typeof UnitArt !== 'undefined') UnitArt.drawFx(c, 'plague_aura', Math.floor(G.time * 6 + u.id * 0.37), u.x, u.y, 0, 1);   // loop 4 flavour ring (~6 fps)
     const R = (Combat.D.demonAuraTiles + 0.5) * TILE, g = c.createRadialGradient(u.x, u.y, R * 0.2, u.x, u.y, R);
     g.addColorStop(0, 'rgba(120,220,40,0.05)'); g.addColorStop(0.85, 'rgba(110,210,40,0.2)'); g.addColorStop(1, 'rgba(90,180,30,0)'); c.fillStyle = g; circ(c, u.x, u.y, R);
     c.strokeStyle = `rgba(150,255,70,${0.45 + 0.15 * Math.sin(G.time * 3)})`; c.lineWidth = 2; c.beginPath(); c.ellipse(u.x, u.y, R - 4, (R - 4) * 0.8, 0, 0, 7); c.stroke();
@@ -1557,6 +1575,7 @@ function drawGroundL4(c, vb) {
     c.save(); c.strokeStyle = 'rgba(159,232,255,0.35)'; c.setLineDash([12, 10]); c.lineWidth = 2; c.beginPath(); c.arc(b.x, b.y, Combat.D.holyGroundTiles * TILE, 0, 7); c.stroke(); c.setLineDash([]); c.restore();
   }
   for (const u of G.units) if (!u.dead && u.type === 'archangel' && (u.side === 0 || vis[tileOf(u.y) * MW + tileOf(u.x)]) && onScreen(u.x, u.y, 160)) {
+    if (typeof UnitArt !== 'undefined') UnitArt.drawFx(c, 'holy_aura', Math.floor(G.time * 6 + u.id * 0.37), u.x, u.y, 0, 1);    // loop 4 flavour ring (~6 fps)
     c.strokeStyle = 'rgba(221,246,255,0.3)'; c.lineWidth = 1.5; c.beginPath(); c.ellipse(u.x, u.y, Combat.D.archangelHealTiles * TILE, Combat.D.archangelHealTiles * TILE * 0.8, 0, 0, 7); c.stroke();
   }
   for (const e of G.sel) if (!e.dead && e.kind === 'b' && (e.type === 'hq' || e.type === 'turret')) {
@@ -1610,9 +1629,17 @@ function drawFx(c, f) {
     case 'line': c.strokeStyle = f.c; c.lineWidth = f.w; c.globalAlpha = 1 - p; c.beginPath(); c.moveTo(f.x1, f.y1); c.lineTo(f.x2, f.y2); c.stroke(); break;
     case 'beam': c.globalAlpha = 1 - p; c.strokeStyle = f.c; c.lineWidth = 6 * (1 - p) + 1; c.globalCompositeOperation = 'lighter'; c.beginPath(); c.moveTo(f.x1, f.y1); c.lineTo(f.x2, f.y2); c.stroke(); c.strokeStyle = '#fff'; c.lineWidth = 1.5; c.stroke(); break;
     case 'spark': c.globalAlpha = 1 - p; c.fillStyle = f.c; for (let k = 0; k < 4; k++) circ(c, f.x + Math.cos(k * 1.6 + f.x) * p * 10, f.y + Math.sin(k * 1.6 + f.y) * p * 10, 1.5); break;
-    case 'flame': { c.globalCompositeOperation = 'lighter'; const a = Math.atan2(f.y2 - f.y1, f.x2 - f.x1), L = Math.hypot(f.x2 - f.x1, f.y2 - f.y1) + 8; c.translate(f.x1, f.y1); c.rotate(a);
+    case 'flame': if (f.ux !== undefined && typeof UnitArt !== 'undefined' && UnitArt.fxFrame('flame_cone', 0)) { // art flame_cone (~15 fps) at the nozzle (+8 along the aim, 7 px up), chained to reach the target
+        const ny = f.uy - 7, a = Math.atan2(f.y2 - ny, f.x2 - f.ux), x0 = f.ux + Math.cos(a) * 8, y0 = ny + Math.sin(a) * 8, L = Math.hypot(f.x2 - x0, f.y2 - y0), k0 = Math.floor(f.t * 15);
+        const n = Math.max(1, Math.ceil(L / 26)); for (let k = 0; k < n; k++) UnitArt.drawFx(c, 'flame_cone', k0 + k, x0 + Math.cos(a) * k * 26, y0 + Math.sin(a) * k * 26, a, 1, { add: true, alpha: (1 - p * 0.6) * (1 - k / (n + 1) * 0.5) });
+        break; }
+      { c.globalCompositeOperation = 'lighter'; const a = Math.atan2(f.y2 - f.y1, f.x2 - f.x1), L = Math.hypot(f.x2 - f.x1, f.y2 - f.y1) + 8; c.translate(f.x1, f.y1); c.rotate(a);
       for (let k = 0; k < 7; k++) { const q = (k / 7 + p) % 1, rr = 2 + q * 9; c.globalAlpha = (1 - p) * (1 - q * 0.6); c.fillStyle = q < 0.3 ? '#ffe080' : q < 0.65 ? '#ff8a20' : '#c03010'; circ(c, q * L, Math.sin(k * 2.3 + f.t * 30) * q * 5, rr); } break; }
-    case 'heal': c.globalAlpha = 1 - p; c.strokeStyle = '#7dff9a'; c.lineWidth = 2.5; c.globalCompositeOperation = 'lighter'; c.beginPath(); c.moveTo(f.x1, f.y1); c.lineTo(f.x2, f.y2); c.stroke(); c.strokeStyle = '#fff'; c.lineWidth = 1; c.stroke(); c.fillStyle = '#7dff9a'; c.fillRect(f.x2 - 1, f.y2 - 9 - p * 6, 2, 6); c.fillRect(f.x2 - 3, f.y2 - 7 - p * 6, 6, 2); break;
+    case 'heal': if (typeof UnitArt !== 'undefined' && UnitArt.fxFrame('heal_beam', 0)) { // art: 8x3 beam segments tiled Medic -> target (2-frame scroll), heal_plus 14 px over the target
+        const a = Math.atan2(f.y2 - f.y1, f.x2 - f.x1), L = Math.hypot(f.x2 - f.x1, f.y2 - f.y1), k = Math.floor(p * 2) % 2;
+        for (let d = -k * 2; d < L - 2; d += 8) UnitArt.drawFx(c, 'heal_beam', k, f.x1 + Math.cos(a) * Math.max(0, d), f.y1 + Math.sin(a) * Math.max(0, d), a, 1, { add: true });
+        UnitArt.drawFx(c, 'heal_plus', Math.min(2, Math.floor(p * 3)), f.x2, f.y2 + 3 - 14, 0, 1); break; }
+      c.globalAlpha = 1 - p; c.strokeStyle = '#7dff9a'; c.lineWidth = 2.5; c.globalCompositeOperation = 'lighter'; c.beginPath(); c.moveTo(f.x1, f.y1); c.lineTo(f.x2, f.y2); c.stroke(); c.strokeStyle = '#fff'; c.lineWidth = 1; c.stroke(); c.fillStyle = '#7dff9a'; c.fillRect(f.x2 - 1, f.y2 - 9 - p * 6, 2, 6); c.fillRect(f.x2 - 3, f.y2 - 7 - p * 6, 6, 2); break;
     case 'holyburst': c.globalAlpha = 0.8 * (1 - p); c.globalCompositeOperation = 'lighter'; c.strokeStyle = '#DDF6FF'; c.lineWidth = 3 * (1 - p) + 1; c.beginPath(); c.arc(f.x, f.y, f.r * (0.4 + 0.6 * p), 0, 7); c.stroke(); break;
     case 'slash': c.globalAlpha = 1 - p; c.strokeStyle = f.c || '#ffd0c0'; c.lineWidth = 2; c.beginPath(); c.arc(f.x, f.y, f.r, f.a - 1 + p, f.a + 0.2 + p); c.stroke(); break;
     case 'boom': { c.globalCompositeOperation = 'lighter'; const r = f.r * (0.4 + p); const g = c.createRadialGradient(f.x, f.y, 0, f.x, f.y, r); g.addColorStop(0, `rgba(255,240,200,${1 - p})`); g.addColorStop(0.4, f.c); g.addColorStop(1, 'rgba(80,20,0,0)'); c.globalAlpha = 1 - p * 0.8; c.fillStyle = g; circ(c, f.x, f.y, r); break; }
@@ -1651,9 +1678,10 @@ function render() {
   for (const d of G.decals) {
     if (!onScreen(d.x, d.y, 200)) continue;
     if (d.k === 'scorch') { const g = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, d.r); g.addColorStop(0, 'rgba(0,0,0,0.6)'); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = g; circ(ctx, d.x, d.y, d.r); }
+    else if (d.k === 'burn' && typeof UnitArt !== 'undefined' && UnitArt.drawFx(ctx, 'burn_decal', (G.time - (d.born || 0)) < 1.5 ? 0 : (G.time - (d.born || 0)) < 3 ? 1 : 2, d.x, d.y, 0, d.s || 1)) { /* art: frame 0, 1 after 1.5 s, then hold 2 */ }
     else if (d.k === 'burn') { ctx.fillStyle = 'rgba(20,14,10,0.7)'; ell(ctx, d.x, d.y + 2, d.r, d.r * 0.6); ctx.fillStyle = 'rgba(255,120,30,0.25)'; for (let k = 0; k < 3; k++) circ(ctx, d.x + Math.cos(d.a + k * 2) * d.r * 0.5, d.y + 2 + Math.sin(d.a + k * 2) * d.r * 0.3, 1.2); }
     else if (d.k === 'blood') { ctx.fillStyle = d.c; ctx.globalAlpha = 0.6; ell(ctx, d.x, d.y, 5, 3); ctx.globalAlpha = 1; }
-    else if (d.k === 'ruin') { if (!bgrid[d.y / TILE * MW + d.x / TILE]) { ctx.fillStyle = 'rgba(40,34,30,0.7)'; for (let k = 0; k < d.w * d.h * 2; k++) ctx.fillRect(d.x + hash(k + d.x) * d.w * TILE, d.y + hash(k * 3 + d.y) * d.h * TILE, 6, 4); } }
+    else if (d.k === 'ruin') { if (!bgrid[d.y / TILE * MW + d.x / TILE] && !(d.type && typeof UnitArt !== 'undefined' && UnitArt.drawBuildingDestroyed(ctx, d))) { ctx.fillStyle = 'rgba(40,34,30,0.7)'; for (let k = 0; k < d.w * d.h * 2; k++) ctx.fillRect(d.x + hash(k + d.x) * d.w * TILE, d.y + hash(k * 3 + d.y) * d.h * TILE, 6, 4); } }
   }
   drawResources(ctx, x0, y0, x1, y1);
   drawGroundL4(ctx, G.blds.filter(b => !b.dead && onScreen(b.x, b.y, 300) && (b.side === 0 || isVisible(b))));
@@ -1699,7 +1727,7 @@ function render() {
     if (e.u) { if (env && e.u.d.cat === 'vehicle') env.drawVehicleAO(ctx, e.u.x, e.u.y, e.u.r >= 14 ? 'm' : 's'); drawUnit(ctx, e.u); continue; }
     const b = e.b, P = plans.get(b);
     if (!P) { drawBld(ctx, b); continue; }
-    if (e.o) { UnitArt.drawBuildingTop(ctx, P, { hit: b.hitT > 0 }); continue; }
+    if (e.o) { UnitArt.drawBuildingTop(ctx, P, { hit: b.hitT > 0 }); const k = hqShotPhase(b); if (k >= 0) UnitArt.drawBuildingTopFx(ctx, P, k); continue; }
     UnitArt.drawBuildingBody(ctx, P, { hit: b.hitT > 0 });
     bldArtOverlay(ctx, b, P);
   }
@@ -1733,7 +1761,7 @@ function render() {
     FS.lights = env.drawLights(ctx, L, G.time, { x0: cx, y0: cy, x1: cx + VW, y1: cy + VH }, 24);
   }
   // health bars
-  for (const u of vu) if ((u.hp < u.maxhp || G.sel.includes(u))) hpBar(ctx, u.x, u.y - u.r - (u.d.fly ? 18 : 7), Math.max(16, u.r * 2), u.hp / u.maxhp);
+  for (const u of vu) if ((u.hp < u.maxhp || G.sel.includes(u))) hpBar(ctx, u.x, u.d.fly ? u.y - u.r - 18 : u.d.big && typeof UnitArt !== 'undefined' ? UnitArt.hpBarY(u, UnitArt.unitFrame(u)) : u.y - u.r - 7, Math.max(16, u.r * 2), u.hp / u.maxhp);   // loop 4: art > 2 tiles tall (Demon Lord) -> above the sprite
   for (const b of G.blds) if (!b.dead && (b.hp < b.maxhp || G.sel.includes(b)) && onScreen(b.x, b.y, 100) && (b.side === 0 || isVisible(b))) hpBar(ctx, b.x, b.ty * TILE - 6, b.w * TILE - 8, b.hp / b.maxhp);
   for (const u of vu) if (u.d.harv && u.side === 0 && (G.sel.includes(u) || u.blocked)) { const n = Salvage.pipsOf(u.load, u.d.cap); for (let k = 0; k < 5; k++) { ctx.fillStyle = '#000'; ctx.fillRect(u.x - 17 + k * 7, u.y - u.r - 4, 6, 4); ctx.fillStyle = k < n ? (u.blocked ? '#ffb347' : PAL.steel) : '#333333'; ctx.fillRect(u.x - 16.5 + k * 7, u.y - u.r - 3.5, 5, 3); } }
   // fog: env = dual-grid edge tiles only, clipped to the view (bits 0 nothing, bits 15 one fillRect); else the per-tile loop
@@ -2192,4 +2220,4 @@ if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(locati
   } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
+window.RTS = { get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };

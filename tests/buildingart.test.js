@@ -21,11 +21,17 @@ const D = Math.PI / 180;
 
 // expected frame set, derived from the HANDOFF structure (not hard-coded totals): per faction every BDEF type has idle/damaged/construct,
 // silos closed/open/damaged/damaged_open/construct instead of idle/damaged, + 16 turret-top headings + 1 dock pad; one baked copy per team
-const STATES = t => t === 'silo' ? ['closed', 'open', 'damaged', 'damaged_open', 'construct'] : ['idle', 'damaged', 'construct'];
-const NEUTRAL = ART_TYPES.reduce((n, t) => n + STATES(t).length, 0) + 16 + 1;
+// Loop 4 (HANDOFF-buildings §10): Armory / Church are Survivors-only and the Dark Altar Horde-only, each with an extra 'destroyed'
+// rubble state + 4 research overlay frames; HQ / Hive add a 16-heading top gun + a dock pad (indexed) and weapon fx frames (not indexed)
+const L4 = ['armory', 'church', 'altar'], ONLY = { armory: 'survivors', church: 'survivors', altar: 'horde' };
+const STATES = t => t === 'silo' ? ['closed', 'open', 'damaged', 'damaged_open', 'construct'] : L4.includes(t) ? ['idle', 'damaged', 'construct', 'destroyed'] : ['idle', 'damaged', 'construct'];
+const FAC_TYPES = fac => ART_TYPES.filter(t => !ONLY[t] || ONLY[t] === fac);
+const INDEXED = fac => FAC_TYPES(fac).reduce((n, t) => n + STATES(t).length, 0) + (16 + 1) * 2;          // turret top + refinery pad, HQ top + HQ pad
+const FX = { survivors: 3, horde: 4 };                                                                     // hq_muzzle_flash 0-2 / hive_fire_puff 0-3
+const NEUTRAL = fac => INDEXED(fac) + FAC_TYPES(fac).filter(t => L4.includes(t)).length * 4 + FX[fac];
 test('building atlases: frame counts derived from the manifests (neutral x teams), 1024x512 PNGs, every file present, no backups shipped', () => {
   for (const [fac, m] of Object.entries(RAW)) {
-    assert.equal(m.neutral.frames.length, NEUTRAL, fac); assert.equal(m.frames.length, m.neutral.frames.length * m.teams.length, fac);
+    assert.equal(m.neutral.frames.length, NEUTRAL(fac), fac); assert.equal(m.frames.length, m.neutral.frames.length * m.teams.length, fac);
     assert.deepEqual(m.size, [1024, 512]);
     assert.deepEqual(pngSize(m.image), m.size); assert.deepEqual(pngSize(m.trim_mask.image), m.trim_mask.size);
     assert.deepEqual(pngSize(m.neutral.image), m.neutral.size); assert.deepEqual(pngSize(m.neutral.trim_image), m.neutral.size);
@@ -38,8 +44,8 @@ test('building atlases: frame counts derived from the manifests (neutral x teams
 });
 
 test('parseBuildingManifest: indexes base/top/pad by code type; rejects bad manifests; skips malformed frames', () => {
-  for (const m of Object.values(MAN)) {
-    assert.equal(m.index.size, NEUTRAL);
+  for (const [fac, m] of Object.entries(MAN)) {
+    assert.equal(m.index.size, INDEXED(fac), fac);
     for (const t of TYPES) for (const s of STATES(t)) assert.ok(m.index.get(UA.bkey(t, 'base', s)), t + ' ' + s);
     for (let k = 0; k < 16; k++) assert.ok(m.index.get(UA.bkey('turret', 'top', 'idle', k * 22.5)), 'top ' + k);
     assert.ok(m.index.get(UA.bkey('refinery', 'pad', 'idle')));
@@ -53,7 +59,13 @@ test('parseBuildingManifest: indexes base/top/pad by code type; rejects bad mani
 test('BDEF type -> building id per faction (HANDOFF §3), and every manifest footprint matches game.js BDEF', () => {
   const want = { hq: ['hq', 'hive'], power: ['power_plant', 'power_plant'], refinery: ['scrap_yard', 'grinder_pit'], depot: ['depot', 'depot'], barracks: ['barracks', 'spawning_pit'], factory: ['factory', 'factory'], turret: ['turret', 'bone_spire'], silo: ['nuke_silo', 'hell_silo'] };
   assert.deepEqual(Object.keys(UA.BLD_MAP).sort(), ART_TYPES.sort());
-  assert.deepEqual([...RTS.ART_PENDING].sort(), ['altar', 'armory', 'church']);
+  assert.deepEqual([...RTS.ART_PENDING], []);                                                  // loop 4: AI art replaces the procedural tech buildings
+  for (const [t, fac] of Object.entries(ONLY)) {
+    const id = { armory: 'armory', church: 'church', altar: 'dark_altar' }[t], other = fac === 'survivors' ? 'horde' : 'survivors';
+    assert.equal(UA.BLD_MAP[t][fac], id); assert.equal(UA.BLD_MAP[t][other], null);
+    assert.equal(UA.selectBuilding(MAN[fac], B(t, { side: fac === 'horde' ? 1 : 0 })).base.building, id);
+    assert.equal(UA.selectBuilding(MAN[other], B(t, { side: fac === 'horde' ? 0 : 1 })), null);         // no frames on the other side
+  }
   for (const t of RTS.ART_PENDING) assert.equal(UA.BLD_MAP[t], undefined, t);
   for (const [t, [s, h]] of Object.entries(want)) {
     assert.equal(UA.BLD_MAP[t].survivors, s); assert.equal(UA.BLD_MAP[t].horde, h);
@@ -116,7 +128,8 @@ test('turret / bone spire tops: 16 headings, aimed at the real target (b.tang), 
     const s = UA.selectBuilding(m, B('turret', { tang: 0, target: {} })); assert.equal(s.heading, 0);   // aiming due east at a live target
     const [ox, oy] = UA.bodyPos(s.base, 4, 5), [x, y] = UA.topPos(s.base, s.top, ox, oy);
     assert.ok(Math.abs(x + s.top.anchor[0] - (ox + s.base.turret_mount[0])) <= 0.5 && Math.abs(y + s.top.anchor[1] - (oy + s.base.turret_mount[1])) <= 0.5);
-    for (const b of ['hq', 'power', 'refinery', 'depot', 'barracks', 'factory', 'silo']) assert.equal(UA.selectBuilding(m, B(b)).top, null);
+    for (const b of ['power', 'refinery', 'depot', 'barracks', 'factory', 'silo']) assert.equal(UA.selectBuilding(m, B(b)).top, null);
+    const hq = UA.selectBuilding(m, B('hq')); assert.equal(hq.top.facing, UA.IDLE_TOP_HEADING); assert.ok(hq.pad);   // loop 4: HQ / Hive top gun + dock pad
   }
   // the Bone Spire tusk reaches ~21 px from the pivot at E/W: wider than the 32 px tile, so tops are never clipped to the footprint
   const e = MAN.horde.index.get(UA.bkey('turret', 'top', 'idle', 180)); assert.ok(e.anchor[0] >= 20, 'tusk extent ' + e.anchor[0]);

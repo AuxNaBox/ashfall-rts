@@ -1,0 +1,81 @@
+{
+ "_doc": "Ashfall loop 4 research icons, 48x48 sidebar tiles (bevel baked; draw the clock-wipe progress overlay on top). rect = [x,y,w,h]. research = combat.js RESEARCH id. Built by art/pipeline/l4-icons.py from raw/icons/*.jpg.",
+ "image": "loop4-research-icons.png",
+ "size": [
+  352,
+  52
+ ],
+ "icon_size": 48,
+ "icons": [
+  {
+   "id": "hollow_points",
+   "research": "hollow",
+   "rect": [
+    2,
+    2,
+    48,
+    48
+   ]
+  },
+  {
+   "id": "armor_plating",
+   "research": "plating",
+   "rect": [
+    52,
+    2,
+    48,
+    48
+   ]
+  },
+  {
+   "id": "rocket_launchers",
+   "research": "rockets",
+   "rect": [
+    102,
+    2,
+    48,
+    48
+   ]
+  },
+  {
+   "id": "long_barrels",
+   "research": "barrels",
+   "rect": [
+    152,
+    2,
+    48,
+    48
+   ]
+  },
+  {
+   "id": "blessed_rounds",
+   "research": "blessed",
+   "rect": [
+    202,
+    2,
+    48,
+    48
+   ]
+  },
+  {
+   "id": "halo_wings",
+   "research": "halo",
+   "rect": [
+    252,
+    2,
+    48,
+    48
+   ]
+  },
+  {
+   "id": "holy_ground",
+   "research": "holyground",
+   "rect": [
+    302,
+    2,
+    48,
+    48
+   ]
+  }
+ ]
+}

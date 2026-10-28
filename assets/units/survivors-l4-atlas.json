@@ -1,0 +1,1652 @@
+{
+ "_doc": "Ashfall survivors-l4 unit atlas v2 (polish pass; v1 kept as *-atlas-v1.*). rect = [x,y,w,h] in the atlas. anchor = draw origin inside the rect: ground point (bottom-centre of the body) for infantry/creatures, rotation pivot (body centre) for vehicles and the turret. Draw the sprite at (unitX - anchor[0], unitY - anchor[1]). facing: E/S/N/W for infantry+creatures (W = E mirrored), heading in degrees for vehicles (0 = east, +90 = south, i.e. clockwise on screen). turret_mount (hull frames) = where the turret pivot goes, relative to the rect. shadow: ellipse the engine draws first, centre relative to the anchor, 30% black; vehicle shadows should be rotated to the heading. Frames carry no baked shadow.",
+ "image": "survivors-l4-atlas.png",
+ "size": [
+  512,
+  64
+ ],
+ "default_team": "blue",
+ "teams": [
+  "blue",
+  "red"
+ ],
+ "frames": [
+  {
+   "name": "archangel-idle-e-blue",
+   "unit": "archangel",
+   "state": "idle",
+   "facing": "E",
+   "team": "blue",
+   "rect": [
+    2,
+    2,
+    36,
+    32
+   ],
+   "anchor": [
+    18.5,
+    29
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.03752,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 1.5,
+    "rx": 8,
+    "ry": 3,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "archangel-idle-e-red",
+   "unit": "archangel",
+   "state": "idle",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    40,
+    2,
+    36,
+    32
+   ],
+   "anchor": [
+    18.5,
+    29
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.03752,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 1.5,
+    "rx": 8,
+    "ry": 3,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "archangel-idle-n-blue",
+   "unit": "archangel",
+   "state": "idle",
+   "facing": "N",
+   "team": "blue",
+   "rect": [
+    230,
+    2,
+    24,
+    29
+   ],
+   "anchor": [
+    12.0,
+    26
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.0307,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 1.5,
+    "rx": 8,
+    "ry": 3,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "archangel-idle-n-red",
+   "unit": "archangel",
+   "state": "idle",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    256,
+    2,
+    24,
+    29
+   ],
+   "anchor": [
+    12.0,
+    26
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.0307,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 1.5,
+    "rx": 8,
+    "ry": 3,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "archangel-idle-s-blue",
+   "unit": "archangel",
+   "state": "idle",
+   "facing": "S",
+   "team": "blue",
+   "rect": [
+    78,
+    2,
+    36,
+    32
+   ],
+   "anchor": [
+    18.5,
+    29
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.03621,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 1.5,
+    "rx": 8,
+    "ry": 3,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "archangel-idle-s-red",
+   "unit": "archangel",
+   "state": "idle",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    116,
+    2,
+    36,
+    32
+   ],
+   "anchor": [
+    18.5,
+    29
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.03621,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 1.5,
+    "rx": 8,
+    "ry": 3,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "archangel-idle-w-blue",
+   "unit": "archangel",
+   "state": "idle",
+   "facing": "W",
+   "team": "blue",
+   "rect": [
+    154,
+    2,
+    36,
+    32
+   ],
+   "anchor": [
+    17.5,
+    29
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette2",
+   "scale": 0.03752,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 1.5,
+    "rx": 8,
+    "ry": 3,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "archangel-idle-w-red",
+   "unit": "archangel",
+   "state": "idle",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    192,
+    2,
+    36,
+    32
+   ],
+   "anchor": [
+    17.5,
+    29
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette2",
+   "scale": 0.03752,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 1.5,
+    "rx": 8,
+    "ry": 3,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "flamer-idle-e-blue",
+   "unit": "flamer",
+   "state": "idle",
+   "facing": "E",
+   "team": "blue",
+   "rect": [
+    28,
+    36,
+    18,
+    18
+   ],
+   "anchor": [
+    9.5,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02162,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "flamer-idle-e-red",
+   "unit": "flamer",
+   "state": "idle",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    48,
+    36,
+    18,
+    18
+   ],
+   "anchor": [
+    9.5,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02162,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "flamer-idle-n-blue",
+   "unit": "flamer",
+   "state": "idle",
+   "facing": "N",
+   "team": "blue",
+   "rect": [
+    482,
+    2,
+    13,
+    19
+   ],
+   "anchor": [
+    6.5,
+    17
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02162,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.95,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "flamer-idle-n-red",
+   "unit": "flamer",
+   "state": "idle",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    497,
+    2,
+    13,
+    19
+   ],
+   "anchor": [
+    6.5,
+    17
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02162,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.95,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "flamer-idle-s-blue",
+   "unit": "flamer",
+   "state": "idle",
+   "facing": "S",
+   "team": "blue",
+   "rect": [
+    2,
+    36,
+    11,
+    19
+   ],
+   "anchor": [
+    5.5,
+    17
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02162,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.05,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "flamer-idle-s-red",
+   "unit": "flamer",
+   "state": "idle",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    15,
+    36,
+    11,
+    19
+   ],
+   "anchor": [
+    5.5,
+    17
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02162,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.05,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "flamer-idle-w-blue",
+   "unit": "flamer",
+   "state": "idle",
+   "facing": "W",
+   "team": "blue",
+   "rect": [
+    68,
+    36,
+    18,
+    18
+   ],
+   "anchor": [
+    8.5,
+    16
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.02162,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "flamer-idle-w-red",
+   "unit": "flamer",
+   "state": "idle",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    88,
+    36,
+    18,
+    18
+   ],
+   "anchor": [
+    8.5,
+    16
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.02162,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "medic-idle-e-blue",
+   "unit": "medic",
+   "state": "idle",
+   "facing": "E",
+   "team": "blue",
+   "rect": [
+    300,
+    36,
+    11,
+    18
+   ],
+   "anchor": [
+    5.5,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.01998,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.05,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "medic-idle-e-red",
+   "unit": "medic",
+   "state": "idle",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    313,
+    36,
+    11,
+    18
+   ],
+   "anchor": [
+    5.5,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.01998,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.05,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "medic-idle-n-blue",
+   "unit": "medic",
+   "state": "idle",
+   "facing": "N",
+   "team": "blue",
+   "rect": [
+    246,
+    36,
+    12,
+    18
+   ],
+   "anchor": [
+    6.0,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02049,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "medic-idle-n-red",
+   "unit": "medic",
+   "state": "idle",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    260,
+    36,
+    12,
+    18
+   ],
+   "anchor": [
+    6.0,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02049,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "medic-idle-s-blue",
+   "unit": "medic",
+   "state": "idle",
+   "facing": "S",
+   "team": "blue",
+   "rect": [
+    188,
+    36,
+    13,
+    18
+   ],
+   "anchor": [
+    6.5,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.0218,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.95,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "medic-idle-s-red",
+   "unit": "medic",
+   "state": "idle",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    203,
+    36,
+    13,
+    18
+   ],
+   "anchor": [
+    6.5,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.0218,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.95,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "medic-idle-w-blue",
+   "unit": "medic",
+   "state": "idle",
+   "facing": "W",
+   "team": "blue",
+   "rect": [
+    326,
+    36,
+    11,
+    18
+   ],
+   "anchor": [
+    5.5,
+    16
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.01998,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.05,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "medic-idle-w-red",
+   "unit": "medic",
+   "state": "idle",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    339,
+    36,
+    11,
+    18
+   ],
+   "anchor": [
+    5.5,
+    16
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.01998,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.05,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rocket_soldier-idle-e-blue",
+   "unit": "rocket_soldier",
+   "state": "idle",
+   "facing": "E",
+   "team": "blue",
+   "rect": [
+    108,
+    36,
+    18,
+    18
+   ],
+   "anchor": [
+    9.0,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02125,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rocket_soldier-idle-e-red",
+   "unit": "rocket_soldier",
+   "state": "idle",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    128,
+    36,
+    18,
+    18
+   ],
+   "anchor": [
+    9.0,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02125,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rocket_soldier-idle-n-blue",
+   "unit": "rocket_soldier",
+   "state": "idle",
+   "facing": "N",
+   "team": "blue",
+   "rect": [
+    274,
+    36,
+    11,
+    18
+   ],
+   "anchor": [
+    5.5,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02125,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.05,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rocket_soldier-idle-n-red",
+   "unit": "rocket_soldier",
+   "state": "idle",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    287,
+    36,
+    11,
+    18
+   ],
+   "anchor": [
+    5.5,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02125,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.05,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rocket_soldier-idle-s-blue",
+   "unit": "rocket_soldier",
+   "state": "idle",
+   "facing": "S",
+   "team": "blue",
+   "rect": [
+    218,
+    36,
+    12,
+    18
+   ],
+   "anchor": [
+    6.0,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02125,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rocket_soldier-idle-s-red",
+   "unit": "rocket_soldier",
+   "state": "idle",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    232,
+    36,
+    12,
+    18
+   ],
+   "anchor": [
+    6.0,
+    16
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.02125,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rocket_soldier-idle-w-blue",
+   "unit": "rocket_soldier",
+   "state": "idle",
+   "facing": "W",
+   "team": "blue",
+   "rect": [
+    148,
+    36,
+    18,
+    18
+   ],
+   "anchor": [
+    9.0,
+    16
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.02125,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "rocket_soldier-idle-w-red",
+   "unit": "rocket_soldier",
+   "state": "idle",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    168,
+    36,
+    18,
+    18
+   ],
+   "anchor": [
+    9.0,
+    16
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.02125,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "templar-idle-e-blue",
+   "unit": "templar",
+   "state": "idle",
+   "facing": "E",
+   "team": "blue",
+   "rect": [
+    282,
+    2,
+    25,
+    24
+   ],
+   "anchor": [
+    13.0,
+    21
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.02567,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 6,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "templar-idle-e-red",
+   "unit": "templar",
+   "state": "idle",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    309,
+    2,
+    25,
+    24
+   ],
+   "anchor": [
+    13.0,
+    21
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.02567,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 6,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "templar-idle-n-blue",
+   "unit": "templar",
+   "state": "idle",
+   "facing": "N",
+   "team": "blue",
+   "rect": [
+    390,
+    2,
+    23,
+    24
+   ],
+   "anchor": [
+    11.5,
+    21
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.02554,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 6,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "templar-idle-n-red",
+   "unit": "templar",
+   "state": "idle",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    415,
+    2,
+    23,
+    24
+   ],
+   "anchor": [
+    11.5,
+    21
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.02554,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 6,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "templar-idle-s-blue",
+   "unit": "templar",
+   "state": "idle",
+   "facing": "S",
+   "team": "blue",
+   "rect": [
+    440,
+    2,
+    19,
+    24
+   ],
+   "anchor": [
+    9.5,
+    21
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.02478,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 6,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "templar-idle-s-red",
+   "unit": "templar",
+   "state": "idle",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    461,
+    2,
+    19,
+    24
+   ],
+   "anchor": [
+    9.5,
+    21
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.02478,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 6,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "templar-idle-w-blue",
+   "unit": "templar",
+   "state": "idle",
+   "facing": "W",
+   "team": "blue",
+   "rect": [
+    336,
+    2,
+    25,
+    24
+   ],
+   "anchor": [
+    12.0,
+    21
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette2",
+   "scale": 0.02567,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 6,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "templar-idle-w-red",
+   "unit": "templar",
+   "state": "idle",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    363,
+    2,
+    25,
+    24
+   ],
+   "anchor": [
+    12.0,
+    21
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette2",
+   "scale": 0.02567,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 6,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  }
+ ],
+ "team_ramps": {
+  "blue": {
+   "light": "#7FAEFF",
+   "base": "#3A7BFF",
+   "dark": "#1F4BB0"
+  },
+  "red": {
+   "light": "#FF7E66",
+   "base": "#E8432F",
+   "dark": "#8E2418"
+  }
+ },
+ "trim_mask": {
+  "image": "survivors-l4-atlas-trim.png",
+  "size": [
+   512,
+   64
+  ],
+  "rects": "same as frames[].rect",
+  "encoding": "alpha 255 = team trim; R=G=B: 255 light, 170 base, 85 dark"
+ },
+ "neutral": {
+  "image": "survivors-l4-atlas-neutral.png",
+  "trim_image": "survivors-l4-atlas-neutral-trim.png",
+  "size": [
+   512,
+   64
+  ],
+  "trim_neutral_rgb": {
+   "light": "#FFFFFF",
+   "base": "#FFFFFF",
+   "dark": "#949494"
+  },
+  "frames": [
+   {
+    "name": "archangel-idle-e",
+    "unit": "archangel",
+    "state": "idle",
+    "facing": "E",
+    "anchor": [
+     18.5,
+     29
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.03752,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 1.5,
+     "rx": 8,
+     "ry": 3,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     2,
+     36,
+     32
+    ]
+   },
+   {
+    "name": "archangel-idle-n",
+    "unit": "archangel",
+    "state": "idle",
+    "facing": "N",
+    "anchor": [
+     12.0,
+     26
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.0307,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 1.5,
+     "rx": 8,
+     "ry": 3,
+     "alpha": 0.3
+    },
+    "rect": [
+     116,
+     2,
+     24,
+     29
+    ]
+   },
+   {
+    "name": "archangel-idle-s",
+    "unit": "archangel",
+    "state": "idle",
+    "facing": "S",
+    "anchor": [
+     18.5,
+     29
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.03621,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 1.5,
+     "rx": 8,
+     "ry": 3,
+     "alpha": 0.3
+    },
+    "rect": [
+     40,
+     2,
+     36,
+     32
+    ]
+   },
+   {
+    "name": "archangel-idle-w",
+    "unit": "archangel",
+    "state": "idle",
+    "facing": "W",
+    "anchor": [
+     17.5,
+     29
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette2",
+    "scale": 0.03752,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 1.5,
+     "rx": 8,
+     "ry": 3,
+     "alpha": 0.3
+    },
+    "rect": [
+     78,
+     2,
+     36,
+     32
+    ]
+   },
+   {
+    "name": "flamer-idle-e",
+    "unit": "flamer",
+    "state": "idle",
+    "facing": "E",
+    "anchor": [
+     9.5,
+     16
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02162,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     270,
+     2,
+     18,
+     18
+    ]
+   },
+   {
+    "name": "flamer-idle-n",
+    "unit": "flamer",
+    "state": "idle",
+    "facing": "N",
+    "anchor": [
+     6.5,
+     17
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02162,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.95,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     242,
+     2,
+     13,
+     19
+    ]
+   },
+   {
+    "name": "flamer-idle-s",
+    "unit": "flamer",
+    "state": "idle",
+    "facing": "S",
+    "anchor": [
+     5.5,
+     17
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02162,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.05,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     257,
+     2,
+     11,
+     19
+    ]
+   },
+   {
+    "name": "flamer-idle-w",
+    "unit": "flamer",
+    "state": "idle",
+    "facing": "W",
+    "anchor": [
+     8.5,
+     16
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette1",
+    "scale": 0.02162,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     290,
+     2,
+     18,
+     18
+    ]
+   },
+   {
+    "name": "medic-idle-e",
+    "unit": "medic",
+    "state": "idle",
+    "facing": "E",
+    "anchor": [
+     5.5,
+     16
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.01998,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.05,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     393,
+     2,
+     11,
+     18
+    ]
+   },
+   {
+    "name": "medic-idle-n",
+    "unit": "medic",
+    "state": "idle",
+    "facing": "N",
+    "anchor": [
+     6.0,
+     16
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02049,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     365,
+     2,
+     12,
+     18
+    ]
+   },
+   {
+    "name": "medic-idle-s",
+    "unit": "medic",
+    "state": "idle",
+    "facing": "S",
+    "anchor": [
+     6.5,
+     16
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.0218,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.95,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     350,
+     2,
+     13,
+     18
+    ]
+   },
+   {
+    "name": "medic-idle-w",
+    "unit": "medic",
+    "state": "idle",
+    "facing": "W",
+    "anchor": [
+     5.5,
+     16
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette1",
+    "scale": 0.01998,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.05,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     406,
+     2,
+     11,
+     18
+    ]
+   },
+   {
+    "name": "rocket_soldier-idle-e",
+    "unit": "rocket_soldier",
+    "state": "idle",
+    "facing": "E",
+    "anchor": [
+     9.0,
+     16
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02125,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     310,
+     2,
+     18,
+     18
+    ]
+   },
+   {
+    "name": "rocket_soldier-idle-n",
+    "unit": "rocket_soldier",
+    "state": "idle",
+    "facing": "N",
+    "anchor": [
+     5.5,
+     16
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02125,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.05,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     419,
+     2,
+     11,
+     18
+    ]
+   },
+   {
+    "name": "rocket_soldier-idle-s",
+    "unit": "rocket_soldier",
+    "state": "idle",
+    "facing": "S",
+    "anchor": [
+     6.0,
+     16
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02125,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     379,
+     2,
+     12,
+     18
+    ]
+   },
+   {
+    "name": "rocket_soldier-idle-w",
+    "unit": "rocket_soldier",
+    "state": "idle",
+    "facing": "W",
+    "anchor": [
+     9.0,
+     16
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette1",
+    "scale": 0.02125,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     330,
+     2,
+     18,
+     18
+    ]
+   },
+   {
+    "name": "templar-idle-e",
+    "unit": "templar",
+    "state": "idle",
+    "facing": "E",
+    "anchor": [
+     13.0,
+     21
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.02567,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 6,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     142,
+     2,
+     25,
+     24
+    ]
+   },
+   {
+    "name": "templar-idle-n",
+    "unit": "templar",
+    "state": "idle",
+    "facing": "N",
+    "anchor": [
+     11.5,
+     21
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.02554,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 6,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     196,
+     2,
+     23,
+     24
+    ]
+   },
+   {
+    "name": "templar-idle-s",
+    "unit": "templar",
+    "state": "idle",
+    "facing": "S",
+    "anchor": [
+     9.5,
+     21
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.02478,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 6,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     221,
+     2,
+     19,
+     24
+    ]
+   },
+   {
+    "name": "templar-idle-w",
+    "unit": "templar",
+    "state": "idle",
+    "facing": "W",
+    "anchor": [
+     12.0,
+     21
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette2",
+    "scale": 0.02567,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 6,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     169,
+     2,
+     25,
+     24
+    ]
+   }
+  ]
+ },
+ "_backup": "v1 backup before the unit pass (Oct 28, 2026); image paths point at the -v1 files"
+}

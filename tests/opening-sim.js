@@ -2,6 +2,7 @@
 // (Truck + Power Plant at 0:00, Scrap Yard when affordable, Barracks, then Riflemen / Factory ...).
 // Runs in node (tests/opening.js via the vm harness) and in the browser (rts-test/loop4.js injects this file).
 // openingSim(RTS, { minutes, startCredits, dt, diff, map }) -> { checks, numbers, log }
+const WAVE1_TARGET = { easy: 390, normal: 300, hard: 240 };
 function openingSim(RTS, opts) {
   opts = opts || {};
   const minutes = opts.minutes || 12, dt = opts.dt || 1 / 30;
@@ -59,10 +60,12 @@ function openingSim(RTS, opts) {
     aiEatersAt180: eaters180, wave1At: A.wave1At ?? null, waves: A.waveLog || [], maxBlockedS: maxBlock.map(v => +v.toFixed(1)),
     over: G.over, time: +G.time.toFixed(0), stats: G.stats, credits: G.credits.map(Math.floor),
   };
+  // check 3 wave-1 target per difficulty (fixed here, not read from game.js DIFF): Easy 6:30, Normal 5:00, Hard 4:00, each +/- 5 s
+  const diff = opts.diff || 'normal', W1 = WAVE1_TARGET[diff] || WAVE1_TARGET.normal, W1L = Math.floor(W1 / 60) + ':' + String(W1 % 60).padStart(2, '0');
   const checks = {
     '1 Barracks by 3:45 and Factory by 6:30': numbers.barracksAt !== null && numbers.barracksAt <= 225 && numbers.factoryAt !== null && numbers.factoryAt <= 390,
     '2 HQ survives to 12:00 with >= 50% HP': numbers.hqAlive && numbers.hqHpPct >= 50 && G.time >= minutes * 60 - 1,
-    '3 AI has 2 Scrap Eaters by 3:00 and sends wave 1 at 5:00 +/- 5 s': eaters180 >= 2 && numbers.wave1At !== null && Math.abs(numbers.wave1At - 300) <= 5,
+    [`3 AI has 2 Scrap Eaters by 3:00 and sends wave 1 at ${W1L} +/- 5 s (${diff})`]: eaters180 >= 2 && numbers.wave1At !== null && Math.abs(numbers.wave1At - W1) <= 5,
     '4 no Truck waits on a full cap > 20 s before 6:00': maxBlock[0] <= 20 && maxBlock[1] <= 20,
   };
   return { checks, numbers, log };

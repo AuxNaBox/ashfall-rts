@@ -1,0 +1,333 @@
+{
+ "_doc": "Ashfall loop 4 unit ground fx atlas (team-less, no trim mask, no recolour). rect = [x,y,w,h]; anchor = point that goes on the unit ground anchor / corpse position. Built by pipeline/l4fx.py.",
+ "image": "loop4-fx-atlas.png",
+ "size": [
+  256,
+  256
+ ],
+ "frames": [
+  {
+   "name": "burn_decal-0",
+   "fx": "burn_decal",
+   "frame": 0,
+   "rect": [
+    137,
+    104,
+    22,
+    13
+   ],
+   "anchor": [
+    10,
+    8
+   ],
+   "layer": "ground",
+   "doc": "Burn corpse decal for Fire kills (Flamer, Hive spout, Demon Lord). Ground layer. Frame 0 on death, 1 after ~1.5 s, 2 after ~3 s, then hold 2 and fade like the gore splat."
+  },
+  {
+   "name": "burn_decal-1",
+   "fx": "burn_decal",
+   "frame": 1,
+   "rect": [
+    161,
+    104,
+    22,
+    13
+   ],
+   "anchor": [
+    10,
+    8
+   ],
+   "layer": "ground",
+   "doc": "Burn corpse decal for Fire kills (Flamer, Hive spout, Demon Lord). Ground layer. Frame 0 on death, 1 after ~1.5 s, 2 after ~3 s, then hold 2 and fade like the gore splat."
+  },
+  {
+   "name": "burn_decal-2",
+   "fx": "burn_decal",
+   "frame": 2,
+   "rect": [
+    185,
+    104,
+    22,
+    13
+   ],
+   "anchor": [
+    10,
+    8
+   ],
+   "layer": "ground",
+   "doc": "Burn corpse decal for Fire kills (Flamer, Hive spout, Demon Lord). Ground layer. Frame 0 on death, 1 after ~1.5 s, 2 after ~3 s, then hold 2 and fade like the gore splat."
+  },
+  {
+   "name": "flame_cone-0",
+   "fx": "flame_cone",
+   "frame": 0,
+   "rect": [
+    209,
+    104,
+    30,
+    13
+   ],
+   "anchor": [
+    0,
+    6
+   ],
+   "layer": "unit",
+   "doc": "Flamer flame jet, unit layer (above the target). Points east; rotate to the shot angle about anchor = nozzle (unit anchor + the Flamer nozzle offset, about (+8,-7) at E). 3 frames loop @ ~15 fps while firing. Additive blend OK."
+  },
+  {
+   "name": "flame_cone-1",
+   "fx": "flame_cone",
+   "frame": 1,
+   "rect": [
+    2,
+    130,
+    30,
+    13
+   ],
+   "anchor": [
+    0,
+    6
+   ],
+   "layer": "unit",
+   "doc": "Flamer flame jet, unit layer (above the target). Points east; rotate to the shot angle about anchor = nozzle (unit anchor + the Flamer nozzle offset, about (+8,-7) at E). 3 frames loop @ ~15 fps while firing. Additive blend OK."
+  },
+  {
+   "name": "flame_cone-2",
+   "fx": "flame_cone",
+   "frame": 2,
+   "rect": [
+    34,
+    130,
+    30,
+    13
+   ],
+   "anchor": [
+    0,
+    6
+   ],
+   "layer": "unit",
+   "doc": "Flamer flame jet, unit layer (above the target). Points east; rotate to the shot angle about anchor = nozzle (unit anchor + the Flamer nozzle offset, about (+8,-7) at E). 3 frames loop @ ~15 fps while firing. Additive blend OK."
+  },
+  {
+   "name": "heal_beam-0",
+   "fx": "heal_beam",
+   "frame": 0,
+   "rect": [
+    93,
+    130,
+    8,
+    3
+   ],
+   "anchor": [
+    0,
+    1
+   ],
+   "layer": "unit",
+   "doc": "Medic heal beam: 8x3 segment, tile it along the Medic->target line (rotate), offset u by frame*2 px for the scroll; 2 frames. anchor = beam start, centre row."
+  },
+  {
+   "name": "heal_beam-1",
+   "fx": "heal_beam",
+   "frame": 1,
+   "rect": [
+    103,
+    130,
+    8,
+    3
+   ],
+   "anchor": [
+    0,
+    1
+   ],
+   "layer": "unit",
+   "doc": "Medic heal beam: 8x3 segment, tile it along the Medic->target line (rotate), offset u by frame*2 px for the scroll; 2 frames. anchor = beam start, centre row."
+  },
+  {
+   "name": "heal_plus-0",
+   "fx": "heal_plus",
+   "frame": 0,
+   "rect": [
+    66,
+    130,
+    7,
+    7
+   ],
+   "anchor": [
+    3,
+    3
+   ],
+   "layer": "unit",
+   "doc": "Heal sparkle over the healed unit (about 14 px above its ground anchor), 3 frames @ ~10 fps per heal tick."
+  },
+  {
+   "name": "heal_plus-1",
+   "fx": "heal_plus",
+   "frame": 1,
+   "rect": [
+    75,
+    130,
+    7,
+    7
+   ],
+   "anchor": [
+    3,
+    3
+   ],
+   "layer": "unit",
+   "doc": "Heal sparkle over the healed unit (about 14 px above its ground anchor), 3 frames @ ~10 fps per heal tick."
+  },
+  {
+   "name": "heal_plus-2",
+   "fx": "heal_plus",
+   "frame": 2,
+   "rect": [
+    84,
+    130,
+    7,
+    7
+   ],
+   "anchor": [
+    3,
+    3
+   ],
+   "layer": "unit",
+   "doc": "Heal sparkle over the healed unit (about 14 px above its ground anchor), 3 frames @ ~10 fps per heal tick."
+  },
+  {
+   "name": "holy_aura-0",
+   "fx": "holy_aura",
+   "frame": 0,
+   "rect": [
+    176,
+    53,
+    43,
+    24
+   ],
+   "anchor": [
+    21,
+    12
+   ],
+   "layer": "ground",
+   "doc": "Archangel holy aura, ground layer under the unit (draw before the shadow+sprite, centred on the ground anchor). 4 frames loop @ ~6 fps (slow outward pulse). Unit-scale ring; the 4/6-tile range circles stay engine-drawn."
+  },
+  {
+   "name": "holy_aura-1",
+   "fx": "holy_aura",
+   "frame": 1,
+   "rect": [
+    2,
+    104,
+    43,
+    24
+   ],
+   "anchor": [
+    21,
+    12
+   ],
+   "layer": "ground",
+   "doc": "Archangel holy aura, ground layer under the unit (draw before the shadow+sprite, centred on the ground anchor). 4 frames loop @ ~6 fps (slow outward pulse). Unit-scale ring; the 4/6-tile range circles stay engine-drawn."
+  },
+  {
+   "name": "holy_aura-2",
+   "fx": "holy_aura",
+   "frame": 2,
+   "rect": [
+    47,
+    104,
+    43,
+    24
+   ],
+   "anchor": [
+    21,
+    12
+   ],
+   "layer": "ground",
+   "doc": "Archangel holy aura, ground layer under the unit (draw before the shadow+sprite, centred on the ground anchor). 4 frames loop @ ~6 fps (slow outward pulse). Unit-scale ring; the 4/6-tile range circles stay engine-drawn."
+  },
+  {
+   "name": "holy_aura-3",
+   "fx": "holy_aura",
+   "frame": 3,
+   "rect": [
+    92,
+    104,
+    43,
+    24
+   ],
+   "anchor": [
+    21,
+    12
+   ],
+   "layer": "ground",
+   "doc": "Archangel holy aura, ground layer under the unit (draw before the shadow+sprite, centred on the ground anchor). 4 frames loop @ ~6 fps (slow outward pulse). Unit-scale ring; the 4/6-tile range circles stay engine-drawn."
+  },
+  {
+   "name": "plague_aura-0",
+   "fx": "plague_aura",
+   "frame": 0,
+   "rect": [
+    2,
+    2,
+    85,
+    49
+   ],
+   "anchor": [
+    42,
+    27
+   ],
+   "layer": "ground",
+   "doc": "Demon Lord plague aura, ground layer under the unit, centred on the ground anchor. 4 frames loop @ ~6 fps (bubbles swell/pop, spores drift). Unit-scale ring; the 3-tile range circle stays engine-drawn."
+  },
+  {
+   "name": "plague_aura-1",
+   "fx": "plague_aura",
+   "frame": 1,
+   "rect": [
+    89,
+    2,
+    85,
+    49
+   ],
+   "anchor": [
+    42,
+    27
+   ],
+   "layer": "ground",
+   "doc": "Demon Lord plague aura, ground layer under the unit, centred on the ground anchor. 4 frames loop @ ~6 fps (bubbles swell/pop, spores drift). Unit-scale ring; the 3-tile range circle stays engine-drawn."
+  },
+  {
+   "name": "plague_aura-2",
+   "fx": "plague_aura",
+   "frame": 2,
+   "rect": [
+    2,
+    53,
+    85,
+    49
+   ],
+   "anchor": [
+    42,
+    27
+   ],
+   "layer": "ground",
+   "doc": "Demon Lord plague aura, ground layer under the unit, centred on the ground anchor. 4 frames loop @ ~6 fps (bubbles swell/pop, spores drift). Unit-scale ring; the 3-tile range circle stays engine-drawn."
+  },
+  {
+   "name": "plague_aura-3",
+   "fx": "plague_aura",
+   "frame": 3,
+   "rect": [
+    89,
+    53,
+    85,
+    49
+   ],
+   "anchor": [
+    42,
+    27
+   ],
+   "layer": "ground",
+   "doc": "Demon Lord plague aura, ground layer under the unit, centred on the ground anchor. 4 frames loop @ ~6 fps (bubbles swell/pop, spores drift). Unit-scale ring; the 3-tile range circle stays engine-drawn."
+  }
+ ]
+}

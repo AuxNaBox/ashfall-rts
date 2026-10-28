@@ -1,0 +1,372 @@
+{
+ "_doc": "Ashfall horde-l4 unit atlas v2 (polish pass; v1 kept as *-atlas-v1.*). rect = [x,y,w,h] in the atlas. anchor = draw origin inside the rect: ground point (bottom-centre of the body) for infantry/creatures, rotation pivot (body centre) for vehicles and the turret. Draw the sprite at (unitX - anchor[0], unitY - anchor[1]). facing: E/S/N/W for infantry+creatures (W = E mirrored), heading in degrees for vehicles (0 = east, +90 = south, i.e. clockwise on screen). turret_mount (hull frames) = where the turret pivot goes, relative to the rect. shadow: ellipse the engine draws first, centre relative to the anchor, 30% black; vehicle shadows should be rotated to the heading. Frames carry no baked shadow.",
+ "image": "horde-l4-atlas.png",
+ "size": [
+  512,
+  256
+ ],
+ "default_team": "violet",
+ "teams": [
+  "red",
+  "violet"
+ ],
+ "frames": [
+  {
+   "name": "demon_lord-idle-e-red",
+   "unit": "demon_lord",
+   "state": "idle",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    86,
+    2,
+    82,
+    82
+   ],
+   "anchor": [
+    41.0,
+    79
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.09443,
+   "shadow": {
+    "dx": 3.0,
+    "dy": -0.5,
+    "rx": 24,
+    "ry": 7,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "demon_lord-idle-e-violet",
+   "unit": "demon_lord",
+   "state": "idle",
+   "facing": "E",
+   "team": "violet",
+   "rect": [
+    2,
+    2,
+    82,
+    82
+   ],
+   "anchor": [
+    41.0,
+    79
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.09443,
+   "shadow": {
+    "dx": 3.0,
+    "dy": -0.5,
+    "rx": 24,
+    "ry": 7,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "demon_lord-idle-n-red",
+   "unit": "demon_lord",
+   "state": "idle",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    67,
+    86,
+    63,
+    82
+   ],
+   "anchor": [
+    31.5,
+    79
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.09264,
+   "shadow": {
+    "dx": 3.0,
+    "dy": -0.5,
+    "rx": 24,
+    "ry": 7,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "demon_lord-idle-n-violet",
+   "unit": "demon_lord",
+   "state": "idle",
+   "facing": "N",
+   "team": "violet",
+   "rect": [
+    2,
+    86,
+    63,
+    82
+   ],
+   "anchor": [
+    31.5,
+    79
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.09264,
+   "shadow": {
+    "dx": 3.0,
+    "dy": -0.5,
+    "rx": 24,
+    "ry": 7,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "demon_lord-idle-s-red",
+   "unit": "demon_lord",
+   "state": "idle",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    411,
+    2,
+    71,
+    82
+   ],
+   "anchor": [
+    35.5,
+    79
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.09176,
+   "shadow": {
+    "dx": 3.0,
+    "dy": -0.5,
+    "rx": 24,
+    "ry": 7,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "demon_lord-idle-s-violet",
+   "unit": "demon_lord",
+   "state": "idle",
+   "facing": "S",
+   "team": "violet",
+   "rect": [
+    338,
+    2,
+    71,
+    82
+   ],
+   "anchor": [
+    35.5,
+    79
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.09176,
+   "shadow": {
+    "dx": 3.0,
+    "dy": -0.5,
+    "rx": 24,
+    "ry": 7,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "demon_lord-idle-w-red",
+   "unit": "demon_lord",
+   "state": "idle",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    254,
+    2,
+    82,
+    82
+   ],
+   "anchor": [
+    41.0,
+    79
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette2",
+   "scale": 0.09443,
+   "shadow": {
+    "dx": 3.0,
+    "dy": -0.5,
+    "rx": 24,
+    "ry": 7,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "demon_lord-idle-w-violet",
+   "unit": "demon_lord",
+   "state": "idle",
+   "facing": "W",
+   "team": "violet",
+   "rect": [
+    170,
+    2,
+    82,
+    82
+   ],
+   "anchor": [
+    41.0,
+    79
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette2",
+   "scale": 0.09443,
+   "shadow": {
+    "dx": 3.0,
+    "dy": -0.5,
+    "rx": 24,
+    "ry": 7,
+    "alpha": 0.3
+   }
+  }
+ ],
+ "team_ramps": {
+  "red": {
+   "light": "#FF7E66",
+   "base": "#E8432F",
+   "dark": "#8E2418"
+  },
+  "violet": {
+   "light": "#D2B0FF",
+   "base": "#B07CFF",
+   "dark": "#7A48D0"
+  }
+ },
+ "trim_mask": {
+  "image": "horde-l4-atlas-trim.png",
+  "size": [
+   512,
+   256
+  ],
+  "rects": "same as frames[].rect",
+  "encoding": "alpha 255 = team trim; R=G=B: 255 light, 170 base, 85 dark"
+ },
+ "neutral": {
+  "image": "horde-l4-atlas-neutral.png",
+  "trim_image": "horde-l4-atlas-neutral-trim.png",
+  "size": [
+   512,
+   128
+  ],
+  "trim_neutral_rgb": {
+   "light": "#FFFFFF",
+   "base": "#FFFFFF",
+   "dark": "#949494"
+  },
+  "frames": [
+   {
+    "name": "demon_lord-idle-e",
+    "unit": "demon_lord",
+    "state": "idle",
+    "facing": "E",
+    "anchor": [
+     41.0,
+     79
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.09443,
+    "shadow": {
+     "dx": 3.0,
+     "dy": -0.5,
+     "rx": 24,
+     "ry": 7,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     2,
+     82,
+     82
+    ]
+   },
+   {
+    "name": "demon_lord-idle-n",
+    "unit": "demon_lord",
+    "state": "idle",
+    "facing": "N",
+    "anchor": [
+     31.5,
+     79
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.09264,
+    "shadow": {
+     "dx": 3.0,
+     "dy": -0.5,
+     "rx": 24,
+     "ry": 7,
+     "alpha": 0.3
+    },
+    "rect": [
+     243,
+     2,
+     63,
+     82
+    ]
+   },
+   {
+    "name": "demon_lord-idle-s",
+    "unit": "demon_lord",
+    "state": "idle",
+    "facing": "S",
+    "anchor": [
+     35.5,
+     79
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.09176,
+    "shadow": {
+     "dx": 3.0,
+     "dy": -0.5,
+     "rx": 24,
+     "ry": 7,
+     "alpha": 0.3
+    },
+    "rect": [
+     170,
+     2,
+     71,
+     82
+    ]
+   },
+   {
+    "name": "demon_lord-idle-w",
+    "unit": "demon_lord",
+    "state": "idle",
+    "facing": "W",
+    "anchor": [
+     41.0,
+     79
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette2",
+    "scale": 0.09443,
+    "shadow": {
+     "dx": 3.0,
+     "dy": -0.5,
+     "rx": 24,
+     "ry": 7,
+     "alpha": 0.3
+    },
+    "rect": [
+     86,
+     2,
+     82,
+     82
+    ]
+   }
+  ]
+ },
+ "_backup": "v1 backup before the unit pass (Oct 28, 2026); image paths point at the -v1 files"
+}

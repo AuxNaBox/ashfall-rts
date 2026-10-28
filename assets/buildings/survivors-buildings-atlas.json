@@ -13,6 +13,540 @@
  ],
  "frames": [
   {
+   "name": "armory-construct-blue",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "base",
+   "state": "construct",
+   "team": "blue",
+   "rect": [
+    728,
+    303,
+    64,
+    64
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08152,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    64
+   ],
+   "footprint_origin": [
+    0.0,
+    0
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "armory-construct-red",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "base",
+   "state": "construct",
+   "team": "red",
+   "rect": [
+    794,
+    303,
+    64,
+    64
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08152,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    64
+   ],
+   "footprint_origin": [
+    0.0,
+    0
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "armory-damaged-blue",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "base",
+   "state": "damaged",
+   "team": "blue",
+   "rect": [
+    860,
+    303,
+    64,
+    64
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08152,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    64
+   ],
+   "footprint_origin": [
+    0.0,
+    0
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "damaged_of": "idle"
+  },
+  {
+   "name": "armory-damaged-red",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "base",
+   "state": "damaged",
+   "team": "red",
+   "rect": [
+    926,
+    303,
+    64,
+    64
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08152,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    64
+   ],
+   "footprint_origin": [
+    0.0,
+    0
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "damaged_of": "idle"
+  },
+  {
+   "name": "armory-destroyed-blue",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "base",
+   "state": "destroyed",
+   "team": "blue",
+   "rect": [
+    134,
+    373,
+    65,
+    61
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08152,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    61
+   ],
+   "footprint_origin": [
+    0.0,
+    -3
+   ],
+   "shadow": null,
+   "destroyed": "loop 4 rubble left after the building dies; no team trim, no shadow (it is ground-level)"
+  },
+  {
+   "name": "armory-destroyed-red",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "base",
+   "state": "destroyed",
+   "team": "red",
+   "rect": [
+    201,
+    373,
+    65,
+    61
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08152,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    61
+   ],
+   "footprint_origin": [
+    0.0,
+    -3
+   ],
+   "shadow": null,
+   "destroyed": "loop 4 rubble left after the building dies; no team trim, no shadow (it is ground-level)"
+  },
+  {
+   "name": "armory-idle-blue",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "base",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    2,
+    373,
+    64,
+    64
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08152,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    64
+   ],
+   "footprint_origin": [
+    0.0,
+    0
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "armory-idle-red",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "base",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    68,
+    373,
+    64,
+    64
+   ],
+   "outline": "silhouette2",
+   "scale": 0.08152,
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    32.0,
+    64
+   ],
+   "footprint_origin": [
+    0.0,
+    0
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 60,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "armory-research_0-blue",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "overlay",
+   "state": "research",
+   "team": "blue",
+   "rect": [
+    2,
+    439,
+    38,
+    38
+   ],
+   "outline": "none",
+   "scale": 0.08152,
+   "frame": 0,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    19.0,
+    59
+   ],
+   "footprint_origin": [
+    -13.0,
+    -5
+   ],
+   "shadow": null
+  },
+  {
+   "name": "armory-research_0-red",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "overlay",
+   "state": "research",
+   "team": "red",
+   "rect": [
+    42,
+    439,
+    38,
+    38
+   ],
+   "outline": "none",
+   "scale": 0.08152,
+   "frame": 0,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    19.0,
+    59
+   ],
+   "footprint_origin": [
+    -13.0,
+    -5
+   ],
+   "shadow": null
+  },
+  {
+   "name": "armory-research_1-blue",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "overlay",
+   "state": "research",
+   "team": "blue",
+   "rect": [
+    286,
+    439,
+    40,
+    32
+   ],
+   "outline": "none",
+   "scale": 0.08152,
+   "frame": 1,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    20.0,
+    52
+   ],
+   "footprint_origin": [
+    -12.0,
+    -12
+   ],
+   "shadow": null
+  },
+  {
+   "name": "armory-research_1-red",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "overlay",
+   "state": "research",
+   "team": "red",
+   "rect": [
+    328,
+    439,
+    40,
+    32
+   ],
+   "outline": "none",
+   "scale": 0.08152,
+   "frame": 1,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    20.0,
+    52
+   ],
+   "footprint_origin": [
+    -12.0,
+    -12
+   ],
+   "shadow": null
+  },
+  {
+   "name": "armory-research_2-blue",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "overlay",
+   "state": "research",
+   "team": "blue",
+   "rect": [
+    738,
+    439,
+    39,
+    24
+   ],
+   "outline": "none",
+   "scale": 0.08152,
+   "frame": 2,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    20.0,
+    45
+   ],
+   "footprint_origin": [
+    -12.0,
+    -19
+   ],
+   "shadow": null
+  },
+  {
+   "name": "armory-research_2-red",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "overlay",
+   "state": "research",
+   "team": "red",
+   "rect": [
+    779,
+    439,
+    39,
+    24
+   ],
+   "outline": "none",
+   "scale": 0.08152,
+   "frame": 2,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    20.0,
+    45
+   ],
+   "footprint_origin": [
+    -12.0,
+    -19
+   ],
+   "shadow": null
+  },
+  {
+   "name": "armory-research_3-blue",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "overlay",
+   "state": "research",
+   "team": "blue",
+   "rect": [
+    872,
+    479,
+    38,
+    8
+   ],
+   "outline": "none",
+   "scale": 0.08152,
+   "frame": 3,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    19.0,
+    28
+   ],
+   "footprint_origin": [
+    -13.0,
+    -36
+   ],
+   "shadow": null
+  },
+  {
+   "name": "armory-research_3-red",
+   "building": "armory",
+   "code_type": "armory",
+   "part": "overlay",
+   "state": "research",
+   "team": "red",
+   "rect": [
+    912,
+    479,
+    38,
+    8
+   ],
+   "outline": "none",
+   "scale": 0.08152,
+   "frame": 3,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    2
+   ],
+   "anchor": [
+    19.0,
+    28
+   ],
+   "footprint_origin": [
+    -13.0,
+    -36
+   ],
+   "shadow": null
+  },
+  {
    "name": "barracks-construct-blue",
    "building": "barracks",
    "code_type": "barracks",
@@ -20,7 +554,7 @@
    "state": "construct",
    "team": "blue",
    "rect": [
-    464,
+    956,
     216,
     64,
     68
@@ -58,8 +592,8 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    530,
-    216,
+    2,
+    303,
     64,
     68
    ],
@@ -96,8 +630,8 @@
    "state": "damaged",
    "team": "blue",
    "rect": [
-    596,
-    216,
+    68,
+    303,
     64,
     68
    ],
@@ -134,8 +668,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    662,
-    216,
+    134,
+    303,
     64,
     68
    ],
@@ -172,8 +706,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    728,
-    216,
+    200,
+    303,
     64,
     68
    ],
@@ -209,8 +743,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    794,
-    216,
+    266,
+    303,
     64,
     68
    ],
@@ -239,6 +773,540 @@
    }
   },
   {
+   "name": "church-construct-blue",
+   "building": "church",
+   "code_type": "church",
+   "part": "base",
+   "state": "construct",
+   "team": "blue",
+   "rect": [
+    590,
+    2,
+    64,
+    114
+   ],
+   "outline": "silhouette2",
+   "scale": 0.11905,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    32.0,
+    114
+   ],
+   "footprint_origin": [
+    0.0,
+    18
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "church-construct-red",
+   "building": "church",
+   "code_type": "church",
+   "part": "base",
+   "state": "construct",
+   "team": "red",
+   "rect": [
+    656,
+    2,
+    64,
+    114
+   ],
+   "outline": "silhouette2",
+   "scale": 0.11905,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    32.0,
+    114
+   ],
+   "footprint_origin": [
+    0.0,
+    18
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
+  },
+  {
+   "name": "church-damaged-blue",
+   "building": "church",
+   "code_type": "church",
+   "part": "base",
+   "state": "damaged",
+   "team": "blue",
+   "rect": [
+    722,
+    2,
+    64,
+    114
+   ],
+   "outline": "silhouette2",
+   "scale": 0.11905,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    32.0,
+    114
+   ],
+   "footprint_origin": [
+    0.0,
+    18
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "damaged_of": "idle"
+  },
+  {
+   "name": "church-damaged-red",
+   "building": "church",
+   "code_type": "church",
+   "part": "base",
+   "state": "damaged",
+   "team": "red",
+   "rect": [
+    788,
+    2,
+    64,
+    114
+   ],
+   "outline": "silhouette2",
+   "scale": 0.11905,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    32.0,
+    114
+   ],
+   "footprint_origin": [
+    0.0,
+    18
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   },
+   "damaged_of": "idle"
+  },
+  {
+   "name": "church-destroyed-blue",
+   "building": "church",
+   "code_type": "church",
+   "part": "base",
+   "state": "destroyed",
+   "team": "blue",
+   "rect": [
+    590,
+    120,
+    64,
+    87
+   ],
+   "outline": "silhouette2",
+   "scale": 0.11905,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    32.0,
+    87
+   ],
+   "footprint_origin": [
+    0.0,
+    -9
+   ],
+   "shadow": null,
+   "destroyed": "loop 4 rubble left after the building dies; no team trim, no shadow (it is ground-level)"
+  },
+  {
+   "name": "church-destroyed-red",
+   "building": "church",
+   "code_type": "church",
+   "part": "base",
+   "state": "destroyed",
+   "team": "red",
+   "rect": [
+    656,
+    120,
+    64,
+    87
+   ],
+   "outline": "silhouette2",
+   "scale": 0.11905,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    32.0,
+    87
+   ],
+   "footprint_origin": [
+    0.0,
+    -9
+   ],
+   "shadow": null,
+   "destroyed": "loop 4 rubble left after the building dies; no team trim, no shadow (it is ground-level)"
+  },
+  {
+   "name": "church-idle-blue",
+   "building": "church",
+   "code_type": "church",
+   "part": "base",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    854,
+    2,
+    64,
+    114
+   ],
+   "outline": "silhouette2",
+   "scale": 0.11905,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    32.0,
+    114
+   ],
+   "footprint_origin": [
+    0.0,
+    18
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "church-idle-red",
+   "building": "church",
+   "code_type": "church",
+   "part": "base",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    920,
+    2,
+    64,
+    114
+   ],
+   "outline": "silhouette2",
+   "scale": 0.11905,
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    32.0,
+    114
+   ],
+   "footprint_origin": [
+    0.0,
+    18
+   ],
+   "shadow": {
+    "shape": "rect",
+    "dx": 3,
+    "dy": 3,
+    "w": 60,
+    "h": 92,
+    "alpha": 0.3,
+    "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+   }
+  },
+  {
+   "name": "church-research_0-blue",
+   "building": "church",
+   "code_type": "church",
+   "part": "overlay",
+   "state": "research",
+   "team": "blue",
+   "rect": [
+    268,
+    373,
+    39,
+    58
+   ],
+   "outline": "none",
+   "scale": 0.11905,
+   "frame": 0,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    20.0,
+    81
+   ],
+   "footprint_origin": [
+    -12.0,
+    -15
+   ],
+   "shadow": null
+  },
+  {
+   "name": "church-research_0-red",
+   "building": "church",
+   "code_type": "church",
+   "part": "overlay",
+   "state": "research",
+   "team": "red",
+   "rect": [
+    309,
+    373,
+    39,
+    58
+   ],
+   "outline": "none",
+   "scale": 0.11905,
+   "frame": 0,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    20.0,
+    81
+   ],
+   "footprint_origin": [
+    -12.0,
+    -15
+   ],
+   "shadow": null
+  },
+  {
+   "name": "church-research_1-blue",
+   "building": "church",
+   "code_type": "church",
+   "part": "overlay",
+   "state": "research",
+   "team": "blue",
+   "rect": [
+    350,
+    373,
+    39,
+    57
+   ],
+   "outline": "none",
+   "scale": 0.11905,
+   "frame": 1,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    20.0,
+    80
+   ],
+   "footprint_origin": [
+    -12.0,
+    -16
+   ],
+   "shadow": null
+  },
+  {
+   "name": "church-research_1-red",
+   "building": "church",
+   "code_type": "church",
+   "part": "overlay",
+   "state": "research",
+   "team": "red",
+   "rect": [
+    391,
+    373,
+    39,
+    57
+   ],
+   "outline": "none",
+   "scale": 0.11905,
+   "frame": 1,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    20.0,
+    80
+   ],
+   "footprint_origin": [
+    -12.0,
+    -16
+   ],
+   "shadow": null
+  },
+  {
+   "name": "church-research_2-blue",
+   "building": "church",
+   "code_type": "church",
+   "part": "overlay",
+   "state": "research",
+   "team": "blue",
+   "rect": [
+    432,
+    373,
+    39,
+    57
+   ],
+   "outline": "none",
+   "scale": 0.11905,
+   "frame": 2,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    20.0,
+    80
+   ],
+   "footprint_origin": [
+    -12.0,
+    -16
+   ],
+   "shadow": null
+  },
+  {
+   "name": "church-research_2-red",
+   "building": "church",
+   "code_type": "church",
+   "part": "overlay",
+   "state": "research",
+   "team": "red",
+   "rect": [
+    473,
+    373,
+    39,
+    57
+   ],
+   "outline": "none",
+   "scale": 0.11905,
+   "frame": 2,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    20.0,
+    80
+   ],
+   "footprint_origin": [
+    -12.0,
+    -16
+   ],
+   "shadow": null
+  },
+  {
+   "name": "church-research_3-blue",
+   "building": "church",
+   "code_type": "church",
+   "part": "overlay",
+   "state": "research",
+   "team": "blue",
+   "rect": [
+    514,
+    373,
+    39,
+    56
+   ],
+   "outline": "none",
+   "scale": 0.11905,
+   "frame": 3,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    20.0,
+    79
+   ],
+   "footprint_origin": [
+    -12.0,
+    -17
+   ],
+   "shadow": null
+  },
+  {
+   "name": "church-research_3-red",
+   "building": "church",
+   "code_type": "church",
+   "part": "overlay",
+   "state": "research",
+   "team": "red",
+   "rect": [
+    555,
+    373,
+    39,
+    56
+   ],
+   "outline": "none",
+   "scale": 0.11905,
+   "frame": 3,
+   "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+   "footprint": [
+    2,
+    3
+   ],
+   "anchor": [
+    20.0,
+    79
+   ],
+   "footprint_origin": [
+    -12.0,
+    -17
+   ],
+   "shadow": null
+  },
+  {
    "name": "depot-construct-blue",
    "building": "depot",
    "code_type": "depot",
@@ -246,8 +1314,8 @@
    "state": "construct",
    "team": "blue",
    "rect": [
-    266,
-    296,
+    596,
+    373,
     64,
     53
    ],
@@ -284,8 +1352,8 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    332,
-    296,
+    662,
+    373,
     64,
     53
    ],
@@ -322,8 +1390,8 @@
    "state": "damaged",
    "team": "blue",
    "rect": [
-    398,
-    296,
+    728,
+    373,
     64,
     53
    ],
@@ -360,8 +1428,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    464,
-    296,
+    794,
+    373,
     64,
     53
    ],
@@ -398,8 +1466,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    530,
-    296,
+    860,
+    373,
     64,
     53
    ],
@@ -435,8 +1503,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    596,
-    296,
+    926,
+    373,
     64,
     53
    ],
@@ -472,7 +1540,7 @@
    "state": "construct",
    "team": "blue",
    "rect": [
-    198,
+    722,
     120,
     96,
     85
@@ -510,7 +1578,7 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    296,
+    820,
     120,
     96,
     85
@@ -548,7 +1616,7 @@
    "state": "damaged",
    "team": "blue",
    "rect": [
-    394,
+    918,
     120,
     96,
     85
@@ -586,8 +1654,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    492,
-    120,
+    2,
+    216,
     96,
     85
    ],
@@ -624,8 +1692,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    590,
-    120,
+    100,
+    216,
     96,
     85
    ],
@@ -661,8 +1729,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    688,
-    120,
+    198,
+    216,
     96,
     85
    ],
@@ -726,6 +1794,25 @@
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
    },
+   "turret_mount": [
+    64.1,
+    47.58
+   ],
+   "top": "hq_gun",
+   "top_fx": "hq_muzzle_flash",
+   "dock_pad": {
+    "tile": [
+     1,
+     3
+    ],
+    "frame": "hq_pad-idle-blue",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "dock": [
+    48.0,
+    132.0
+   ],
+   "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data",
    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
   },
   {
@@ -764,6 +1851,25 @@
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
    },
+   "turret_mount": [
+    64.1,
+    47.58
+   ],
+   "top": "hq_gun",
+   "top_fx": "hq_muzzle_flash",
+   "dock_pad": {
+    "tile": [
+     1,
+     3
+    ],
+    "frame": "hq_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "dock": [
+    48.0,
+    132.0
+   ],
+   "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data",
    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76"
   },
   {
@@ -802,6 +1908,25 @@
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
    },
+   "turret_mount": [
+    64.1,
+    47.58
+   ],
+   "top": "hq_gun",
+   "top_fx": "hq_muzzle_flash",
+   "dock_pad": {
+    "tile": [
+     1,
+     3
+    ],
+    "frame": "hq_pad-idle-blue",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "dock": [
+    48.0,
+    132.0
+   ],
+   "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data",
    "damaged_of": "idle"
   },
   {
@@ -840,6 +1965,25 @@
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
    },
+   "turret_mount": [
+    64.1,
+    47.58
+   ],
+   "top": "hq_gun",
+   "top_fx": "hq_muzzle_flash",
+   "dock_pad": {
+    "tile": [
+     1,
+     3
+    ],
+    "frame": "hq_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "dock": [
+    48.0,
+    132.0
+   ],
+   "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data",
    "damaged_of": "idle"
   },
   {
@@ -877,7 +2021,26 @@
     "h": 92,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "turret_mount": [
+    64.1,
+    47.58
+   ],
+   "top": "hq_gun",
+   "top_fx": "hq_muzzle_flash",
+   "dock_pad": {
+    "tile": [
+     1,
+     3
+    ],
+    "frame": "hq_pad-idle-blue",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "dock": [
+    48.0,
+    132.0
+   ],
+   "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data"
   },
   {
    "name": "hq-idle-red",
@@ -914,7 +2077,1046 @@
     "h": 92,
     "alpha": 0.3,
     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
-   }
+   },
+   "turret_mount": [
+    64.1,
+    47.58
+   ],
+   "top": "hq_gun",
+   "top_fx": "hq_muzzle_flash",
+   "dock_pad": {
+    "tile": [
+     1,
+     3
+    ],
+    "frame": "hq_pad-idle-red",
+    "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+   },
+   "dock": [
+    48.0,
+    132.0
+   ],
+   "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data"
+  },
+  {
+   "name": "hq_gun-idle-r0000-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    796,
+    479,
+    17,
+    9
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 0.0,
+   "anchor": [
+    5.46,
+    4.47
+   ],
+   "shadow": null,
+   "muzzle": [
+    16.0,
+    4.47
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r0000-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    815,
+    479,
+    17,
+    9
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 0.0,
+   "anchor": [
+    5.46,
+    4.47
+   ],
+   "shadow": null,
+   "muzzle": [
+    16.0,
+    4.47
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r0225-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    644,
+    479,
+    17,
+    10
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 22.5,
+   "anchor": [
+    5.58,
+    4.41
+   ],
+   "shadow": null,
+   "muzzle": [
+    15.88,
+    8.54
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r0225-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    663,
+    479,
+    17,
+    10
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 22.5,
+   "anchor": [
+    5.58,
+    4.41
+   ],
+   "shadow": null,
+   "muzzle": [
+    15.88,
+    8.54
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r0450-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    516,
+    479,
+    14,
+    14
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 45.0,
+   "anchor": [
+    4.89,
+    4.88
+   ],
+   "shadow": null,
+   "muzzle": [
+    12.71,
+    12.68
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r0450-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    532,
+    479,
+    14,
+    14
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 45.0,
+   "anchor": [
+    4.89,
+    4.88
+   ],
+   "shadow": null,
+   "muzzle": [
+    12.71,
+    12.68
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r0675-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    260,
+    479,
+    10,
+    17
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 67.5,
+   "anchor": [
+    4.46,
+    5.6
+   ],
+   "shadow": null,
+   "muzzle": [
+    8.56,
+    15.88
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r0675-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    272,
+    479,
+    10,
+    17
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 67.5,
+   "anchor": [
+    4.46,
+    5.6
+   ],
+   "shadow": null,
+   "muzzle": [
+    8.56,
+    15.88
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r0900-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    356,
+    479,
+    9,
+    17
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 90.0,
+   "anchor": [
+    4.53,
+    5.46
+   ],
+   "shadow": null,
+   "muzzle": [
+    4.53,
+    16.0
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r0900-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    367,
+    479,
+    9,
+    17
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 90.0,
+   "anchor": [
+    4.53,
+    5.46
+   ],
+   "shadow": null,
+   "muzzle": [
+    4.53,
+    16.0
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r1125-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    284,
+    479,
+    10,
+    17
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 112.5,
+   "anchor": [
+    5.59,
+    5.58
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.46,
+    15.88
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r1125-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    296,
+    479,
+    10,
+    17
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 112.5,
+   "anchor": [
+    5.59,
+    5.58
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.46,
+    15.88
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r1350-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    548,
+    479,
+    14,
+    14
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 135.0,
+   "anchor": [
+    9.12,
+    4.89
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.32,
+    12.71
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r1350-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    564,
+    479,
+    14,
+    14
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 135.0,
+   "anchor": [
+    9.12,
+    4.89
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.32,
+    12.71
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r1575-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    682,
+    479,
+    17,
+    10
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 157.5,
+   "anchor": [
+    11.4,
+    4.46
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.12,
+    8.56
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r1575-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    701,
+    479,
+    17,
+    10
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 157.5,
+   "anchor": [
+    11.4,
+    4.46
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.12,
+    8.56
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r1800-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    834,
+    479,
+    17,
+    9
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 180.0,
+   "anchor": [
+    11.54,
+    4.53
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.0,
+    4.53
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r1800-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    853,
+    479,
+    17,
+    9
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 180.0,
+   "anchor": [
+    11.54,
+    4.53
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.0,
+    4.53
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r2025-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    720,
+    479,
+    17,
+    10
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 202.5,
+   "anchor": [
+    11.42,
+    5.59
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.12,
+    1.46
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r2025-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    739,
+    479,
+    17,
+    10
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 202.5,
+   "anchor": [
+    11.42,
+    5.59
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.12,
+    1.46
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r2250-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    580,
+    479,
+    14,
+    14
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 225.0,
+   "anchor": [
+    9.11,
+    9.12
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.29,
+    1.32
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r2250-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    596,
+    479,
+    14,
+    14
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 225.0,
+   "anchor": [
+    9.11,
+    9.12
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.29,
+    1.32
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r2475-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    308,
+    479,
+    10,
+    17
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 247.5,
+   "anchor": [
+    5.54,
+    11.4
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.44,
+    1.12
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r2475-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    320,
+    479,
+    10,
+    17
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 247.5,
+   "anchor": [
+    5.54,
+    11.4
+   ],
+   "shadow": null,
+   "muzzle": [
+    1.44,
+    1.12
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r2700-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    378,
+    479,
+    9,
+    17
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 270.0,
+   "anchor": [
+    4.47,
+    11.54
+   ],
+   "shadow": null,
+   "muzzle": [
+    4.47,
+    1.0
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r2700-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    389,
+    479,
+    9,
+    17
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 270.0,
+   "anchor": [
+    4.47,
+    11.54
+   ],
+   "shadow": null,
+   "muzzle": [
+    4.47,
+    1.0
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r2925-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    332,
+    479,
+    10,
+    17
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 292.5,
+   "anchor": [
+    4.41,
+    11.42
+   ],
+   "shadow": null,
+   "muzzle": [
+    8.54,
+    1.12
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r2925-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    344,
+    479,
+    10,
+    17
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 292.5,
+   "anchor": [
+    4.41,
+    11.42
+   ],
+   "shadow": null,
+   "muzzle": [
+    8.54,
+    1.12
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r3150-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    612,
+    479,
+    14,
+    14
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 315.0,
+   "anchor": [
+    4.88,
+    9.11
+   ],
+   "shadow": null,
+   "muzzle": [
+    12.68,
+    1.29
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r3150-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    628,
+    479,
+    14,
+    14
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 315.0,
+   "anchor": [
+    4.88,
+    9.11
+   ],
+   "shadow": null,
+   "muzzle": [
+    12.68,
+    1.29
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r3375-blue",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    758,
+    479,
+    17,
+    10
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 337.5,
+   "anchor": [
+    5.6,
+    5.54
+   ],
+   "shadow": null,
+   "muzzle": [
+    15.88,
+    1.44
+   ]
+  },
+  {
+   "name": "hq_gun-idle-r3375-red",
+   "building": "hq_gun",
+   "code_type": "hq",
+   "part": "top",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    777,
+    479,
+    17,
+    10
+   ],
+   "outline": "silhouette1",
+   "scale": 0.0228,
+   "facing": 337.5,
+   "anchor": [
+    5.6,
+    5.54
+   ],
+   "shadow": null,
+   "muzzle": [
+    15.88,
+    1.44
+   ]
+  },
+  {
+   "name": "hq_muzzle_flash-0-blue",
+   "building": "hq_muzzle_flash",
+   "code_type": "hq",
+   "part": "fx",
+   "state": "muzzle_flash",
+   "team": "blue",
+   "rect": [
+    970,
+    479,
+    6,
+    3
+   ],
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 0,
+   "fx": "HQ gun muzzle flash, 3 frames @ ~20 fps on each shot; drawn pointing east at the top frame muzzle point, rotated to the top heading; additive OK",
+   "anchor": [
+    0,
+    1
+   ],
+   "shadow": null
+  },
+  {
+   "name": "hq_muzzle_flash-0-red",
+   "building": "hq_muzzle_flash",
+   "code_type": "hq",
+   "part": "fx",
+   "state": "muzzle_flash",
+   "team": "red",
+   "rect": [
+    978,
+    479,
+    6,
+    3
+   ],
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 0,
+   "fx": "HQ gun muzzle flash, 3 frames @ ~20 fps on each shot; drawn pointing east at the top frame muzzle point, rotated to the top heading; additive OK",
+   "anchor": [
+    0,
+    1
+   ],
+   "shadow": null
+  },
+  {
+   "name": "hq_muzzle_flash-1-blue",
+   "building": "hq_muzzle_flash",
+   "code_type": "hq",
+   "part": "fx",
+   "state": "muzzle_flash",
+   "team": "blue",
+   "rect": [
+    952,
+    479,
+    7,
+    5
+   ],
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 1,
+   "fx": "HQ gun muzzle flash, 3 frames @ ~20 fps on each shot; drawn pointing east at the top frame muzzle point, rotated to the top heading; additive OK",
+   "anchor": [
+    0,
+    2
+   ],
+   "shadow": null
+  },
+  {
+   "name": "hq_muzzle_flash-1-red",
+   "building": "hq_muzzle_flash",
+   "code_type": "hq",
+   "part": "fx",
+   "state": "muzzle_flash",
+   "team": "red",
+   "rect": [
+    961,
+    479,
+    7,
+    5
+   ],
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 1,
+   "fx": "HQ gun muzzle flash, 3 frames @ ~20 fps on each shot; drawn pointing east at the top frame muzzle point, rotated to the top heading; additive OK",
+   "anchor": [
+    0,
+    2
+   ],
+   "shadow": null
+  },
+  {
+   "name": "hq_muzzle_flash-2-blue",
+   "building": "hq_muzzle_flash",
+   "code_type": "hq",
+   "part": "fx",
+   "state": "muzzle_flash",
+   "team": "blue",
+   "rect": [
+    986,
+    479,
+    4,
+    2
+   ],
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 2,
+   "fx": "HQ gun muzzle flash, 3 frames @ ~20 fps on each shot; drawn pointing east at the top frame muzzle point, rotated to the top heading; additive OK",
+   "anchor": [
+    0,
+    1
+   ],
+   "shadow": null
+  },
+  {
+   "name": "hq_muzzle_flash-2-red",
+   "building": "hq_muzzle_flash",
+   "code_type": "hq",
+   "part": "fx",
+   "state": "muzzle_flash",
+   "team": "red",
+   "rect": [
+    992,
+    479,
+    4,
+    2
+   ],
+   "outline": "none",
+   "scale": 1.0,
+   "frame": 2,
+   "fx": "HQ gun muzzle flash, 3 frames @ ~20 fps on each shot; drawn pointing east at the top frame muzzle point, rotated to the top heading; additive OK",
+   "anchor": [
+    0,
+    1
+   ],
+   "shadow": null
+  },
+  {
+   "name": "hq_pad-idle-blue",
+   "building": "hq_pad",
+   "code_type": "hq",
+   "part": "pad",
+   "state": "idle",
+   "team": "blue",
+   "rect": [
+    370,
+    439,
+    32,
+    32
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03513,
+   "anchor": [
+    16.0,
+    16.0
+   ],
+   "shadow": null,
+   "footprint": [
+    1,
+    1
+   ]
+  },
+  {
+   "name": "hq_pad-idle-red",
+   "building": "hq_pad",
+   "code_type": "hq",
+   "part": "pad",
+   "state": "idle",
+   "team": "red",
+   "rect": [
+    404,
+    439,
+    32,
+    32
+   ],
+   "outline": "silhouette2",
+   "scale": 0.03513,
+   "anchor": [
+    16.0,
+    16.0
+   ],
+   "shadow": null,
+   "footprint": [
+    1,
+    1
+   ]
   },
   {
    "name": "nuke_silo-closed-blue",
@@ -924,7 +3126,7 @@
    "state": "closed",
    "team": "blue",
    "rect": [
-    68,
+    560,
     216,
     64,
     73
@@ -961,7 +3163,7 @@
    "state": "closed",
    "team": "red",
    "rect": [
-    134,
+    626,
     216,
     64,
     73
@@ -998,7 +3200,7 @@
    "state": "construct",
    "team": "blue",
    "rect": [
-    200,
+    692,
     216,
     64,
     73
@@ -1036,7 +3238,7 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    266,
+    758,
     216,
     64,
     73
@@ -1074,7 +3276,7 @@
    "state": "damaged",
    "team": "blue",
    "rect": [
-    332,
+    824,
     216,
     64,
     73
@@ -1112,7 +3314,7 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    398,
+    890,
     216,
     64,
     73
@@ -1150,8 +3352,8 @@
    "state": "damaged_open",
    "team": "blue",
    "rect": [
-    786,
-    120,
+    296,
+    216,
     64,
     78
    ],
@@ -1188,8 +3390,8 @@
    "state": "damaged_open",
    "team": "red",
    "rect": [
-    852,
-    120,
+    362,
+    216,
     64,
     78
    ],
@@ -1226,8 +3428,8 @@
    "state": "open",
    "team": "blue",
    "rect": [
-    918,
-    120,
+    428,
+    216,
     64,
     78
    ],
@@ -1263,7 +3465,7 @@
    "state": "open",
    "team": "red",
    "rect": [
-    2,
+    494,
     216,
     64,
     78
@@ -1300,8 +3502,8 @@
    "state": "construct",
    "team": "blue",
    "rect": [
-    860,
-    216,
+    332,
+    303,
     64,
     65
    ],
@@ -1338,8 +3540,8 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    926,
-    216,
+    398,
+    303,
     64,
     65
    ],
@@ -1376,8 +3578,8 @@
    "state": "damaged",
    "team": "blue",
    "rect": [
-    2,
-    296,
+    464,
+    303,
     64,
     65
    ],
@@ -1414,8 +3616,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    68,
-    296,
+    530,
+    303,
     64,
     65
    ],
@@ -1452,8 +3654,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    134,
-    296,
+    596,
+    303,
     64,
     65
    ],
@@ -1489,8 +3691,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    200,
-    296,
+    662,
+    303,
     64,
     65
    ],
@@ -1526,8 +3728,8 @@
    "state": "construct",
    "team": "blue",
    "rect": [
-    590,
     2,
+    120,
     96,
     94
    ],
@@ -1572,8 +3774,8 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    688,
-    2,
+    100,
+    120,
     96,
     94
    ],
@@ -1618,8 +3820,8 @@
    "state": "damaged",
    "team": "blue",
    "rect": [
-    786,
-    2,
+    198,
+    120,
     96,
     94
    ],
@@ -1664,8 +3866,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    884,
-    2,
+    296,
+    120,
     96,
     94
    ],
@@ -1710,7 +3912,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    2,
+    394,
     120,
     96,
     94
@@ -1755,7 +3957,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    100,
+    492,
     120,
     96,
     94
@@ -1800,8 +4002,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    866,
-    296,
+    438,
+    439,
     32,
     32
    ],
@@ -1825,8 +4027,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    900,
-    296,
+    472,
+    439,
     32,
     32
    ],
@@ -1850,8 +4052,8 @@
    "state": "construct",
    "team": "blue",
    "rect": [
-    662,
-    296,
+    82,
+    439,
     32,
     38
    ],
@@ -1893,8 +4095,8 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    696,
-    296,
+    116,
+    439,
     32,
     38
    ],
@@ -1936,8 +4138,8 @@
    "state": "damaged",
    "team": "blue",
    "rect": [
-    730,
-    296,
+    150,
+    439,
     32,
     38
    ],
@@ -1979,8 +4181,8 @@
    "state": "damaged",
    "team": "red",
    "rect": [
-    764,
-    296,
+    184,
+    439,
     32,
     38
    ],
@@ -2022,8 +4224,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    798,
-    296,
+    218,
+    439,
     32,
     38
    ],
@@ -2064,8 +4266,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    832,
-    296,
+    252,
+    439,
     32,
     38
    ],
@@ -2106,8 +4308,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    594,
-    363,
+    400,
+    479,
     27,
     16
    ],
@@ -2128,8 +4330,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    623,
-    363,
+    429,
+    479,
     27,
     16
    ],
@@ -2150,8 +4352,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    362,
-    363,
+    28,
+    479,
     27,
     18
    ],
@@ -2172,8 +4374,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    391,
-    363,
+    57,
+    479,
     27,
     18
    ],
@@ -2194,8 +4396,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    154,
-    363,
+    820,
+    439,
     24,
     24
    ],
@@ -2216,8 +4418,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    180,
-    363,
+    846,
+    439,
     24,
     24
    ],
@@ -2238,8 +4440,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    934,
-    296,
+    506,
+    439,
     18,
     27
    ],
@@ -2260,8 +4462,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    954,
-    296,
+    526,
+    439,
     18,
     27
    ],
@@ -2282,8 +4484,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    82,
-    363,
+    666,
+    439,
     16,
     27
    ],
@@ -2304,8 +4506,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    100,
-    363,
+    684,
+    439,
     16,
     27
    ],
@@ -2326,8 +4528,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    974,
-    296,
+    546,
+    439,
     18,
     27
    ],
@@ -2348,8 +4550,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    994,
-    296,
+    566,
+    439,
     18,
     27
    ],
@@ -2370,8 +4572,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    206,
-    363,
+    872,
+    439,
     24,
     24
    ],
@@ -2392,8 +4594,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    232,
-    363,
+    898,
+    439,
     24,
     24
    ],
@@ -2414,8 +4616,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    420,
-    363,
+    86,
+    479,
     27,
     18
    ],
@@ -2436,8 +4638,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    449,
-    363,
+    115,
+    479,
     27,
     18
    ],
@@ -2458,8 +4660,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    652,
-    363,
+    458,
+    479,
     27,
     16
    ],
@@ -2480,8 +4682,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    681,
-    363,
+    487,
+    479,
     27,
     16
    ],
@@ -2502,8 +4704,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    478,
-    363,
+    144,
+    479,
     27,
     18
    ],
@@ -2524,8 +4726,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    507,
-    363,
+    173,
+    479,
     27,
     18
    ],
@@ -2546,8 +4748,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    258,
-    363,
+    924,
+    439,
     24,
     24
    ],
@@ -2568,8 +4770,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    284,
-    363,
+    950,
+    439,
     24,
     24
    ],
@@ -2590,8 +4792,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    2,
-    363,
+    586,
+    439,
     18,
     27
    ],
@@ -2612,8 +4814,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    22,
-    363,
+    606,
+    439,
     18,
     27
    ],
@@ -2634,8 +4836,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    118,
-    363,
+    702,
+    439,
     16,
     27
    ],
@@ -2656,8 +4858,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    136,
-    363,
+    720,
+    439,
     16,
     27
    ],
@@ -2678,8 +4880,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    42,
-    363,
+    626,
+    439,
     18,
     27
    ],
@@ -2700,8 +4902,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    62,
-    363,
+    646,
+    439,
     18,
     27
    ],
@@ -2722,8 +4924,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    310,
-    363,
+    976,
+    439,
     24,
     24
    ],
@@ -2744,8 +4946,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    336,
-    363,
+    2,
+    479,
     24,
     24
    ],
@@ -2766,8 +4968,8 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    536,
-    363,
+    202,
+    479,
     27,
     18
    ],
@@ -2788,8 +4990,8 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    565,
-    363,
+    231,
+    479,
     27,
     18
    ],
@@ -2829,7 +5031,7 @@
   "trim_image": "survivors-buildings-atlas-neutral-trim.png",
   "size": [
    1024,
-   256
+   512
   ],
   "trim_neutral_rgb": {
    "light": "#FFFFFF",
@@ -2837,6 +5039,265 @@
    "dark": "#949494"
   },
   "frames": [
+   {
+    "name": "armory-construct",
+    "building": "armory",
+    "code_type": "armory",
+    "part": "base",
+    "state": "construct",
+    "outline": "silhouette2",
+    "scale": 0.08152,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     64
+    ],
+    "footprint_origin": [
+     0.0,
+     0
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
+    "rect": [
+     924,
+     120,
+     64,
+     64
+    ]
+   },
+   {
+    "name": "armory-damaged",
+    "building": "armory",
+    "code_type": "armory",
+    "part": "base",
+    "state": "damaged",
+    "outline": "silhouette2",
+    "scale": 0.08152,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     64
+    ],
+    "footprint_origin": [
+     0.0,
+     0
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "damaged_of": "idle",
+    "rect": [
+     2,
+     207,
+     64,
+     64
+    ]
+   },
+   {
+    "name": "armory-destroyed",
+    "building": "armory",
+    "code_type": "armory",
+    "part": "base",
+    "state": "destroyed",
+    "outline": "silhouette2",
+    "scale": 0.08152,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     61
+    ],
+    "footprint_origin": [
+     0.0,
+     -3
+    ],
+    "shadow": null,
+    "destroyed": "loop 4 rubble left after the building dies; no team trim, no shadow (it is ground-level)",
+    "rect": [
+     134,
+     207,
+     65,
+     61
+    ]
+   },
+   {
+    "name": "armory-idle",
+    "building": "armory",
+    "code_type": "armory",
+    "part": "base",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.08152,
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     32.0,
+     64
+    ],
+    "footprint_origin": [
+     0.0,
+     0
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 60,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     68,
+     207,
+     64,
+     64
+    ]
+   },
+   {
+    "name": "armory-research_0",
+    "building": "armory",
+    "code_type": "armory",
+    "part": "overlay",
+    "state": "research",
+    "outline": "none",
+    "scale": 0.08152,
+    "frame": 0,
+    "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     19.0,
+     59
+    ],
+    "footprint_origin": [
+     -13.0,
+     -5
+    ],
+    "shadow": null,
+    "rect": [
+     563,
+     207,
+     38,
+     38
+    ]
+   },
+   {
+    "name": "armory-research_1",
+    "building": "armory",
+    "code_type": "armory",
+    "part": "overlay",
+    "state": "research",
+    "outline": "none",
+    "scale": 0.08152,
+    "frame": 1,
+    "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     20.0,
+     52
+    ],
+    "footprint_origin": [
+     -12.0,
+     -12
+    ],
+    "shadow": null,
+    "rect": [
+     705,
+     207,
+     40,
+     32
+    ]
+   },
+   {
+    "name": "armory-research_2",
+    "building": "armory",
+    "code_type": "armory",
+    "part": "overlay",
+    "state": "research",
+    "outline": "none",
+    "scale": 0.08152,
+    "frame": 2,
+    "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     20.0,
+     45
+    ],
+    "footprint_origin": [
+     -12.0,
+     -19
+    ],
+    "shadow": null,
+    "rect": [
+     931,
+     207,
+     39,
+     24
+    ]
+   },
+   {
+    "name": "armory-research_3",
+    "building": "armory",
+    "code_type": "armory",
+    "part": "overlay",
+    "state": "research",
+    "outline": "none",
+    "scale": 0.08152,
+    "frame": 3,
+    "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+    "footprint": [
+     2,
+     2
+    ],
+    "anchor": [
+     19.0,
+     28
+    ],
+    "footprint_origin": [
+     -13.0,
+     -36
+    ],
+    "shadow": null,
+    "rect": [
+     476,
+     273,
+     38,
+     8
+    ]
+   },
    {
     "name": "barracks-construct",
     "building": "barracks",
@@ -2868,7 +5329,7 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     200,
+     528,
      120,
      64,
      68
@@ -2905,7 +5366,7 @@
     },
     "damaged_of": "idle",
     "rect": [
-     266,
+     594,
      120,
      64,
      68
@@ -2941,10 +5402,269 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     332,
+     660,
      120,
      64,
      68
+    ]
+   },
+   {
+    "name": "church-construct",
+    "building": "church",
+    "code_type": "church",
+    "part": "base",
+    "state": "construct",
+    "outline": "silhouette2",
+    "scale": 0.11905,
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     32.0,
+     114
+    ],
+    "footprint_origin": [
+     0.0,
+     18
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 92,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
+    "rect": [
+     296,
+     2,
+     64,
+     114
+    ]
+   },
+   {
+    "name": "church-damaged",
+    "building": "church",
+    "code_type": "church",
+    "part": "base",
+    "state": "damaged",
+    "outline": "silhouette2",
+    "scale": 0.11905,
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     32.0,
+     114
+    ],
+    "footprint_origin": [
+     0.0,
+     18
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 92,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "damaged_of": "idle",
+    "rect": [
+     362,
+     2,
+     64,
+     114
+    ]
+   },
+   {
+    "name": "church-destroyed",
+    "building": "church",
+    "code_type": "church",
+    "part": "base",
+    "state": "destroyed",
+    "outline": "silhouette2",
+    "scale": 0.11905,
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     32.0,
+     87
+    ],
+    "footprint_origin": [
+     0.0,
+     -9
+    ],
+    "shadow": null,
+    "destroyed": "loop 4 rubble left after the building dies; no team trim, no shadow (it is ground-level)",
+    "rect": [
+     788,
+     2,
+     64,
+     87
+    ]
+   },
+   {
+    "name": "church-idle",
+    "building": "church",
+    "code_type": "church",
+    "part": "base",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.11905,
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     32.0,
+     114
+    ],
+    "footprint_origin": [
+     0.0,
+     18
+    ],
+    "shadow": {
+     "shape": "rect",
+     "dx": 3,
+     "dy": 3,
+     "w": 60,
+     "h": 92,
+     "alpha": 0.3,
+     "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
+    },
+    "rect": [
+     428,
+     2,
+     64,
+     114
+    ]
+   },
+   {
+    "name": "church-research_0",
+    "building": "church",
+    "code_type": "church",
+    "part": "overlay",
+    "state": "research",
+    "outline": "none",
+    "scale": 0.11905,
+    "frame": 0,
+    "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     20.0,
+     81
+    ],
+    "footprint_origin": [
+     -12.0,
+     -15
+    ],
+    "shadow": null,
+    "rect": [
+     201,
+     207,
+     39,
+     58
+    ]
+   },
+   {
+    "name": "church-research_1",
+    "building": "church",
+    "code_type": "church",
+    "part": "overlay",
+    "state": "research",
+    "outline": "none",
+    "scale": 0.11905,
+    "frame": 1,
+    "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     20.0,
+     80
+    ],
+    "footprint_origin": [
+     -12.0,
+     -16
+    ],
+    "shadow": null,
+    "rect": [
+     242,
+     207,
+     39,
+     57
+    ]
+   },
+   {
+    "name": "church-research_2",
+    "building": "church",
+    "code_type": "church",
+    "part": "overlay",
+    "state": "research",
+    "outline": "none",
+    "scale": 0.11905,
+    "frame": 2,
+    "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     20.0,
+     80
+    ],
+    "footprint_origin": [
+     -12.0,
+     -16
+    ],
+    "shadow": null,
+    "rect": [
+     283,
+     207,
+     39,
+     57
+    ]
+   },
+   {
+    "name": "church-research_3",
+    "building": "church",
+    "code_type": "church",
+    "part": "overlay",
+    "state": "research",
+    "outline": "none",
+    "scale": 0.11905,
+    "frame": 3,
+    "fx": "loop 4 research/training overlay: draw over the base frame (same footprint_origin) while researching or training; frames 0-3 loop @ ~4 fps",
+    "footprint": [
+     2,
+     3
+    ],
+    "anchor": [
+     20.0,
+     79
+    ],
+    "footprint_origin": [
+     -12.0,
+     -17
+    ],
+    "shadow": null,
+    "rect": [
+     324,
+     207,
+     39,
+     56
     ]
    },
    {
@@ -2978,8 +5698,8 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     596,
-     120,
+     365,
+     207,
      64,
      53
     ]
@@ -3015,8 +5735,8 @@
     },
     "damaged_of": "idle",
     "rect": [
-     662,
-     120,
+     431,
+     207,
      64,
      53
     ]
@@ -3051,8 +5771,8 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     728,
-     120,
+     497,
+     207,
      64,
      53
     ]
@@ -3088,7 +5808,7 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     590,
+     854,
      2,
      96,
      85
@@ -3125,8 +5845,8 @@
     },
     "damaged_of": "idle",
     "rect": [
-     688,
      2,
+     120,
      96,
      85
     ]
@@ -3161,8 +5881,8 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     786,
-     2,
+     100,
+     120,
      96,
      85
     ]
@@ -3196,6 +5916,25 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "turret_mount": [
+     64.1,
+     47.58
+    ],
+    "top": "hq_gun",
+    "top_fx": "hq_muzzle_flash",
+    "dock_pad": {
+     "tile": [
+      1,
+      3
+     ],
+     "frame": "hq_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "dock": [
+     48.0,
+     132.0
+    ],
+    "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data",
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
      2,
@@ -3233,6 +5972,25 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "turret_mount": [
+     64.1,
+     47.58
+    ],
+    "top": "hq_gun",
+    "top_fx": "hq_muzzle_flash",
+    "dock_pad": {
+     "tile": [
+      1,
+      3
+     ],
+     "frame": "hq_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "dock": [
+     48.0,
+     132.0
+    ],
+    "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data",
     "damaged_of": "idle",
     "rect": [
      100,
@@ -3270,11 +6028,520 @@
      "alpha": 0.3,
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
+    "turret_mount": [
+     64.1,
+     47.58
+    ],
+    "top": "hq_gun",
+    "top_fx": "hq_muzzle_flash",
+    "dock_pad": {
+     "tile": [
+      1,
+      3
+     ],
+     "frame": "hq_pad-idle",
+     "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
+    },
+    "dock": [
+     48.0,
+     132.0
+    ],
+    "dock_": "loop 4: centre of the dock pad tile in rect px (same frame of reference as anchor); unload rate is game data",
     "rect": [
      198,
      2,
      96,
      116
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r0000",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 0.0,
+    "anchor": [
+     5.46,
+     4.47
+    ],
+    "shadow": null,
+    "muzzle": [
+     16.0,
+     4.47
+    ],
+    "rect": [
+     438,
+     273,
+     17,
+     9
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r0225",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 22.5,
+    "anchor": [
+     5.58,
+     4.41
+    ],
+    "shadow": null,
+    "muzzle": [
+     15.88,
+     8.54
+    ],
+    "rect": [
+     362,
+     273,
+     17,
+     10
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r0450",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 45.0,
+    "anchor": [
+     4.89,
+     4.88
+    ],
+    "shadow": null,
+    "muzzle": [
+     12.71,
+     12.68
+    ],
+    "rect": [
+     298,
+     273,
+     14,
+     14
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r0675",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 67.5,
+    "anchor": [
+     4.46,
+     5.6
+    ],
+    "shadow": null,
+    "muzzle": [
+     8.56,
+     15.88
+    ],
+    "rect": [
+     170,
+     273,
+     10,
+     17
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r0900",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 90.0,
+    "anchor": [
+     4.53,
+     5.46
+    ],
+    "shadow": null,
+    "muzzle": [
+     4.53,
+     16.0
+    ],
+    "rect": [
+     218,
+     273,
+     9,
+     17
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r1125",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 112.5,
+    "anchor": [
+     5.59,
+     5.58
+    ],
+    "shadow": null,
+    "muzzle": [
+     1.46,
+     15.88
+    ],
+    "rect": [
+     182,
+     273,
+     10,
+     17
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r1350",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 135.0,
+    "anchor": [
+     9.12,
+     4.89
+    ],
+    "shadow": null,
+    "muzzle": [
+     1.32,
+     12.71
+    ],
+    "rect": [
+     314,
+     273,
+     14,
+     14
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r1575",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 157.5,
+    "anchor": [
+     11.4,
+     4.46
+    ],
+    "shadow": null,
+    "muzzle": [
+     1.12,
+     8.56
+    ],
+    "rect": [
+     381,
+     273,
+     17,
+     10
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r1800",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 180.0,
+    "anchor": [
+     11.54,
+     4.53
+    ],
+    "shadow": null,
+    "muzzle": [
+     1.0,
+     4.53
+    ],
+    "rect": [
+     457,
+     273,
+     17,
+     9
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r2025",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 202.5,
+    "anchor": [
+     11.42,
+     5.59
+    ],
+    "shadow": null,
+    "muzzle": [
+     1.12,
+     1.46
+    ],
+    "rect": [
+     400,
+     273,
+     17,
+     10
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r2250",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 225.0,
+    "anchor": [
+     9.11,
+     9.12
+    ],
+    "shadow": null,
+    "muzzle": [
+     1.29,
+     1.32
+    ],
+    "rect": [
+     330,
+     273,
+     14,
+     14
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r2475",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 247.5,
+    "anchor": [
+     5.54,
+     11.4
+    ],
+    "shadow": null,
+    "muzzle": [
+     1.44,
+     1.12
+    ],
+    "rect": [
+     194,
+     273,
+     10,
+     17
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r2700",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 270.0,
+    "anchor": [
+     4.47,
+     11.54
+    ],
+    "shadow": null,
+    "muzzle": [
+     4.47,
+     1.0
+    ],
+    "rect": [
+     229,
+     273,
+     9,
+     17
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r2925",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 292.5,
+    "anchor": [
+     4.41,
+     11.42
+    ],
+    "shadow": null,
+    "muzzle": [
+     8.54,
+     1.12
+    ],
+    "rect": [
+     206,
+     273,
+     10,
+     17
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r3150",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 315.0,
+    "anchor": [
+     4.88,
+     9.11
+    ],
+    "shadow": null,
+    "muzzle": [
+     12.68,
+     1.29
+    ],
+    "rect": [
+     346,
+     273,
+     14,
+     14
+    ]
+   },
+   {
+    "name": "hq_gun-idle-r3375",
+    "building": "hq_gun",
+    "code_type": "hq",
+    "part": "top",
+    "state": "idle",
+    "outline": "silhouette1",
+    "scale": 0.0228,
+    "facing": 337.5,
+    "anchor": [
+     5.6,
+     5.54
+    ],
+    "shadow": null,
+    "muzzle": [
+     15.88,
+     1.44
+    ],
+    "rect": [
+     419,
+     273,
+     17,
+     10
+    ]
+   },
+   {
+    "name": "hq_muzzle_flash-0",
+    "building": "hq_muzzle_flash",
+    "code_type": "hq",
+    "part": "fx",
+    "state": "muzzle_flash",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 0,
+    "fx": "HQ gun muzzle flash, 3 frames @ ~20 fps on each shot; drawn pointing east at the top frame muzzle point, rotated to the top heading; additive OK",
+    "anchor": [
+     0,
+     1
+    ],
+    "shadow": null,
+    "rect": [
+     525,
+     273,
+     6,
+     3
+    ]
+   },
+   {
+    "name": "hq_muzzle_flash-1",
+    "building": "hq_muzzle_flash",
+    "code_type": "hq",
+    "part": "fx",
+    "state": "muzzle_flash",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 1,
+    "fx": "HQ gun muzzle flash, 3 frames @ ~20 fps on each shot; drawn pointing east at the top frame muzzle point, rotated to the top heading; additive OK",
+    "anchor": [
+     0,
+     2
+    ],
+    "shadow": null,
+    "rect": [
+     516,
+     273,
+     7,
+     5
+    ]
+   },
+   {
+    "name": "hq_muzzle_flash-2",
+    "building": "hq_muzzle_flash",
+    "code_type": "hq",
+    "part": "fx",
+    "state": "muzzle_flash",
+    "outline": "none",
+    "scale": 1.0,
+    "frame": 2,
+    "fx": "HQ gun muzzle flash, 3 frames @ ~20 fps on each shot; drawn pointing east at the top frame muzzle point, rotated to the top heading; additive OK",
+    "anchor": [
+     0,
+     1
+    ],
+    "shadow": null,
+    "rect": [
+     533,
+     273,
+     4,
+     2
+    ]
+   },
+   {
+    "name": "hq_pad-idle",
+    "building": "hq_pad",
+    "code_type": "hq",
+    "part": "pad",
+    "state": "idle",
+    "outline": "silhouette2",
+    "scale": 0.03513,
+    "anchor": [
+     16.0,
+     16.0
+    ],
+    "shadow": null,
+    "footprint": [
+     1,
+     1
+    ],
+    "rect": [
+     747,
+     207,
+     32,
+     32
     ]
    },
    {
@@ -3307,7 +6574,7 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     2,
+     330,
      120,
      64,
      73
@@ -3344,7 +6611,7 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     68,
+     396,
      120,
      64,
      73
@@ -3381,7 +6648,7 @@
     },
     "damaged_of": "closed",
     "rect": [
-     134,
+     462,
      120,
      64,
      73
@@ -3418,8 +6685,8 @@
     },
     "damaged_of": "open",
     "rect": [
-     884,
-     2,
+     198,
+     120,
      64,
      78
     ]
@@ -3454,8 +6721,8 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     950,
-     2,
+     264,
+     120,
      64,
      78
     ]
@@ -3491,7 +6758,7 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     398,
+     726,
      120,
      64,
      65
@@ -3528,7 +6795,7 @@
     },
     "damaged_of": "idle",
     "rect": [
-     464,
+     792,
      120,
      64,
      65
@@ -3564,7 +6831,7 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     530,
+     858,
      120,
      64,
      65
@@ -3609,7 +6876,7 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     296,
+     494,
      2,
      96,
      94
@@ -3654,7 +6921,7 @@
     },
     "damaged_of": "idle",
     "rect": [
-     394,
+     592,
      2,
      96,
      94
@@ -3698,7 +6965,7 @@
      "_": "tile offset from the footprint top-left (tiles); matches game.js padTile(b) = (tx+1, ty+h)"
     },
     "rect": [
-     492,
+     690,
      2,
      96,
      94
@@ -3722,8 +6989,8 @@
      1
     ],
     "rect": [
-     896,
-     120,
+     781,
+     207,
      32,
      32
     ]
@@ -3764,8 +7031,8 @@
     "top": "turret_top",
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     794,
-     120,
+     603,
+     207,
      32,
      38
     ]
@@ -3806,8 +7073,8 @@
     "top": "turret_top",
     "damaged_of": "idle",
     "rect": [
-     828,
-     120,
+     637,
+     207,
      32,
      38
     ]
@@ -3847,8 +7114,8 @@
     ],
     "top": "turret_top",
     "rect": [
-     862,
-     120,
+     671,
+     207,
      32,
      38
     ]
@@ -3868,8 +7135,8 @@
     ],
     "shadow": null,
     "rect": [
-     258,
-     195,
+     240,
+     273,
      27,
      16
     ]
@@ -3889,8 +7156,8 @@
     ],
     "shadow": null,
     "rect": [
-     142,
-     195,
+     54,
+     273,
      27,
      18
     ]
@@ -3910,8 +7177,8 @@
     ],
     "shadow": null,
     "rect": [
-     38,
-     195,
+     972,
+     207,
      24,
      24
     ]
@@ -3931,8 +7198,8 @@
     ],
     "shadow": null,
     "rect": [
-     930,
-     120,
+     815,
+     207,
      18,
      27
     ]
@@ -3952,8 +7219,8 @@
     ],
     "shadow": null,
     "rect": [
-     2,
-     195,
+     895,
+     207,
      16,
      27
     ]
@@ -3973,8 +7240,8 @@
     ],
     "shadow": null,
     "rect": [
-     950,
-     120,
+     835,
+     207,
      18,
      27
     ]
@@ -3994,8 +7261,8 @@
     ],
     "shadow": null,
     "rect": [
-     64,
-     195,
+     998,
+     207,
      24,
      24
     ]
@@ -4015,8 +7282,8 @@
     ],
     "shadow": null,
     "rect": [
-     171,
-     195,
+     83,
+     273,
      27,
      18
     ]
@@ -4036,8 +7303,8 @@
     ],
     "shadow": null,
     "rect": [
-     287,
-     195,
+     269,
+     273,
      27,
      16
     ]
@@ -4057,8 +7324,8 @@
     ],
     "shadow": null,
     "rect": [
-     200,
-     195,
+     112,
+     273,
      27,
      18
     ]
@@ -4078,8 +7345,8 @@
     ],
     "shadow": null,
     "rect": [
-     90,
-     195,
+     2,
+     273,
      24,
      24
     ]
@@ -4099,8 +7366,8 @@
     ],
     "shadow": null,
     "rect": [
-     970,
-     120,
+     855,
+     207,
      18,
      27
     ]
@@ -4120,8 +7387,8 @@
     ],
     "shadow": null,
     "rect": [
-     20,
-     195,
+     913,
+     207,
      16,
      27
     ]
@@ -4141,8 +7408,8 @@
     ],
     "shadow": null,
     "rect": [
-     990,
-     120,
+     875,
+     207,
      18,
      27
     ]
@@ -4162,8 +7429,8 @@
     ],
     "shadow": null,
     "rect": [
-     116,
-     195,
+     28,
+     273,
      24,
      24
     ]
@@ -4183,8 +7450,8 @@
     ],
     "shadow": null,
     "rect": [
-     229,
-     195,
+     141,
+     273,
      27,
      18
     ]
