@@ -111,6 +111,8 @@ test('L4 AI: Dark Altar after the Factory at altarTime (earlier once the player 
   const { RTS } = load(); RTS.newGame('normal'); const G = RTS.G;
   for (const t of ['power', 'refinery', 'barracks', 'turret', 'factory']) RTS.makeBld(t, 1, 50 + ['power', 'refinery', 'barracks', 'turret', 'factory'].indexOf(t) * 4, 4);
   RTS.makeBld('power', 1, 50, 9); RTS.makeBld('power', 1, 54, 9);
+  G.time = 300; assert.equal(RTS.aiNextBuild(), 'refinery'); // remote yards §7: the 2nd Grinder Pit comes right after the Factory
+  RTS.makeBld('refinery', 1, 58, 9);
   G.time = 300; assert.notEqual(RTS.aiNextBuild(), 'altar');
   G.time = 541; assert.equal(RTS.aiNextBuild(), 'altar');
   G.time = 300; G.ai.churchSeen = true; assert.equal(RTS.aiNextBuild(), 'altar');

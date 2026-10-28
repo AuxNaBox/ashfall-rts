@@ -77,6 +77,14 @@ const QCATS = ['structure', 'infantry', 'vehicle', 'church', 'altar'];
 const NUKE_CHARGE = 200, NUKE_R = 4.5;
 // visual only: newly placed buildings play the art's scaffold + bottom-up reveal over this many seconds (fully functional at once)
 const BUILD_REVEAL_S = 2;
+// Remote Scrap Yards / Grinder Pits (rts-loops/features/1-remote-scrap-yards.md). A Scrap Yard may go anywhere on your own half
+// of the map, outside the strip along the half line; every other building keeps the 'near own buildings' rule.
+const REMOTE_STRIP = 3, REMOTE_ENEMY_UNIT = 6, REMOTE_ENEMY_BLD = 10, REMOTE_SALVAGE_GAP = 1;
+const REMOTE_EXTENDS_RADIUS = true;                  // R1 (open with Don): a remote yard extends the build radius. Dezi's default: yes
+const REMOTE_SETUP_S = 10, REMOTE_SETUP_HP0 = 0.25;  // R2 (open with Don): remote yards deploy over 10 s from 25% HP; set REMOTE_SETUP_S = 0 for instant
+const AI_PIT_CAP = { easy: 2, normal: 3, hard: 4 };  // AI_PIT_CAP = [2, 3, 4] (Easy / Normal / Hard)
+const AI_REMOTE_EASY_FROM = 600;                     // Easy: no remote Grinder Pit before 10:00
+const AI_FIELD_LIVE = 0.25, AI_FIELD_SERVED = 8, AI_FIELD_PLAYER_UNIT = 8, AI_FIELD_PLAYER_BLD = 10;
 const DIFF = {
   // firstWave / wave1: Loop 4 opening addendum overrides (wave 1 is a fixed group; later waves use minWave + 2 per wave)
   easy: { name: 'Easy', inc: 0.75, prod: 0.85, firstWave: 390, wave1: { zombie: 3 }, waveGap: 150, minWave: 5, siloTime: 600, altarTime: 720 },
@@ -796,19 +804,20 @@ function updCrush() {
 
 // ---------------- salvage economy (salvage.js) ----------------
 function sideCounts(side) { const c = {}; for (const b of G.blds) if (b.side === side && !b.dead) c[b.type] = (c[b.type] || 0) + 1; return c; }
-function storageCapOf(side) { return Salvage.storageCap(sideCounts(side)); }
+function storageCapOf(side) { const c = {}; for (const b of G.blds) if (b.side === side && !b.dead && !b.setup) c[b.type] = (c[b.type] || 0) + 1; return Salvage.storageCap(c); } // a deploying yard adds no storage until online
 // burn decal scale (Dezi, art/units/HANDOFF.md §9.1): 2x for units 2 or more tiles in size, else 1x. Size = the unit's art height,
 // or about 3.5 r without art (Demon Lord 77 px ~ its 78 px art; Archangel 56, Templar 39) - a size test, not UDEF big
 function burnScaleOf(u) {
   const f = typeof UnitArt !== 'undefined' && UnitArt.unitFrame ? UnitArt.unitFrame(u) : null, h = f ? f.rect[3] : u.r * 3.5;
   return typeof UnitArt !== 'undefined' && UnitArt.burnScale ? UnitArt.burnScale(h) : (h >= 64 ? 2 : 1);
 }
-function powerOf(side) { return Salvage.powerBalance(G.blds.filter(b => b.side === side && !b.dead).map(b => b.type)); }
+function powerOf(side) { return Salvage.powerBalance(G.blds.filter(b => b.side === side && !b.dead && !b.setup).map(b => b.type)); } // a deploying yard draws no power
 function makeSalvage() {
   const S = Salvage.create({
     MW, MH, TILE, res,
     units: () => G.units,
     plants: dropOffs,
+    dockReady: p => !p.setup,
     dockPoint, moveTo, followPath,
     getCredits: side => G.credits[side],
     addCredits: (side, n) => { G.credits[side] += n; if (side === 0) G.stats.salvage += n; },
@@ -834,7 +843,7 @@ function salvageEvent(ev, e) {
 // drop-offs (opening addendum): Scrap Yards; the HQ / Hive is the temporary drop-off only while the side has no Scrap Yard
 // (a Truck can still be sent to the HQ by right-click)
 function dropOffs(side) {
-  const yards = G.blds.filter(b => b.side === side && b.type === 'refinery' && !b.dead);
+  const yards = G.blds.filter(b => b.side === side && b.type === 'refinery' && !b.dead && !b.setup); // not a drop-off while deploying
   return yards.length ? yards : G.blds.filter(b => b.side === side && b.type === 'hq' && !b.dead);
 }
 const ownsNearby = (side, x, y) => G.units.some(u => u.side === side && u.d.harv && !u.dead && dist(u.x, u.y, x, y) < 6 * TILE);
@@ -964,31 +973,108 @@ function loseResearch(side, at) {
   G.credits[side] += back; q.list = []; q.prog = 0;
   if (side === 0) msg(`${Combat.RESEARCH[cur].name} research lost${back ? `; ${back} Credits refunded for queued research` : ''}.`, '#ff6a3d');
 }
-function canPlace(side, type, tx, ty, margin) {
+// placement: { ok, remote, reason }. The footprint rules, then 'near own buildings' (5 tiles), then for a Scrap Yard only the remote rules.
+function placeCheck(side, type, tx, ty, margin) {
   const d = BDEF[type];
   for (let y = ty - margin; y < ty + d.h + margin; y++) for (let x = tx - margin; x < tx + d.w + margin; x++) {
     const inside = x >= tx && x < tx + d.w && y >= ty && y < ty + d.h;
-    if (x < 0 || y < 0 || x >= MW || y >= MH) { if (inside) return false; continue; }
+    if (x < 0 || y < 0 || x >= MW || y >= MH) { if (inside) return { ok: false, reason: 'Blocked' }; continue; }
     const i = y * MW + x;
-    if (inside) { if (BLOCK[terr[i]] || bgrid[i] || res[i] > 0 || (SAL && SAL.field[i] >= 0) || isPad(i)) return false; }
-    else if (bgrid[i]) return false;
+    if (inside) { if (BLOCK[terr[i]] || bgrid[i] || res[i] > 0 || (SAL && SAL.field[i] >= 0) || isPad(i)) return { ok: false, reason: 'Blocked' }; }
+    else if (bgrid[i]) return { ok: false, reason: 'Blocked' };
   }
-  if (type === 'refinery') { const px = tx + 1, py = ty + d.h; if (px >= MW || py >= MH) return false; const pi = py * MW + px; if (BLOCK[terr[pi]] || bgrid[pi] || (SAL && SAL.field[pi] >= 0)) return false; }
-  // must be near own buildings
+  if (type === 'refinery') { const px = tx + 1, py = ty + d.h; if (px >= MW || py >= MH) return { ok: false, reason: 'Blocked' }; const pi = py * MW + px; if (BLOCK[terr[pi]] || bgrid[pi] || (SAL && SAL.field[pi] >= 0)) return { ok: false, reason: 'Blocked' }; }
+  // must be near own buildings (R1: a remote yard counts unless REMOTE_EXTENDS_RADIUS is off)
   for (const b of G.blds) {
-    if (b.side !== side || b.dead) continue;
+    if (b.side !== side || b.dead || (b.remote && !REMOTE_EXTENDS_RADIUS)) continue;
     const gx = Math.max(b.tx - (tx + d.w), tx - (b.tx + b.w), 0), gy = Math.max(b.ty - (ty + d.h), ty - (b.ty + b.h), 0);
-    if (Math.max(gx, gy) <= 5) return true;
+    if (Math.max(gx, gy) <= 5) return { ok: true, remote: false };
   }
-  return false;
+  if (type !== 'refinery') return { ok: false, reason: 'Too far from your base' };
+  return remoteCheck(side, tx, ty);
+}
+function canPlace(side, type, tx, ty, margin) { return placeCheck(side, type, tx, ty, margin).ok; }
+// the remote rules (spec §4), in order; the footprint rules are checked by placeCheck
+function remoteCheck(side, tx, ty) {
+  const d = BDEF.refinery, px = tx + 1, py = ty + d.h, tiles = [];
+  for (let y = ty; y < ty + d.h; y++) for (let x = tx; x < tx + d.w; x++) tiles.push(y * MW + x);
+  if (px < 0 || py < 0 || px >= MW || py >= MH) return { ok: false, reason: 'Blocked' };
+  const dock = py * MW + px; tiles.push(dock);
+  if (!G.half) buildHalf();
+  for (const i of tiles) if (G.half[i] !== side) return { ok: false, reason: 'Enemy half' };                         // 1 own half (footprint + dock)
+  for (const i of tiles) if (!G.halfIn[side][i]) return { ok: false, reason: 'Too close to the front line' };         //   and outside the strip
+  if (side === 0) for (let k = 0; k < tiles.length - 1; k++) if (!expl[tiles[k]]) return { ok: false, reason: 'Unexplored' }; // 2 explored (the AI is exempt)
+  const g = REMOTE_SALVAGE_GAP;                                                                                         // 3 a 1-tile gap from Salvage
+  for (let y = ty - g; y < ty + d.h + g; y++) for (let x = tx - g; x < tx + d.w + g; x++) {
+    if (x < 0 || y < 0 || x >= MW || y >= MH) continue;
+    const i = y * MW + x; if (res[i] > 0 || (SAL && SAL.field[i] >= 0)) return { ok: false, reason: 'Too close to Salvage' };
+  }
+  const gap = (x0, y0, w0, h0) => Math.max(Math.max(x0 - (tx + d.w), tx - (x0 + w0), 0), Math.max(y0 - (ty + d.h), ty - (y0 + h0), 0));
+  for (const u of G.units) {                                                                                            // 4 no enemy unit within 6 (that you can see)
+    if (u.dead || u.side === side) continue;
+    const ux = tileOf(u.x), uy = tileOf(u.y);
+    if (side === 0 && !vis[uy * MW + ux]) continue;
+    if (gap(ux, uy, 1, 1) <= REMOTE_ENEMY_UNIT) return { ok: false, reason: 'Enemies nearby' };
+  }
+  for (const b of G.blds) {                                                                                             //   and no enemy building within 10 (that you know of)
+    if (b.dead || b.side === side || (side === 0 && !isVisible(b))) continue;
+    if (gap(b.tx, b.ty, b.w, b.h) <= REMOTE_ENEMY_BLD) return { ok: false, reason: 'Enemies nearby' };
+  }
+  if (!(reachOf(side)[dock] >= 0)) return { ok: false, reason: 'No path' };                                            // 5 ground path HQ -> dock
+  return { ok: true, remote: true };
+}
+// map halves (spec §3): a tile belongs to the side whose HQ start centre (start tile + 1.5) is strictly closer; ties are neutral (-1).
+// halfIn[side][i]: own half and no tile of another half within REMOTE_STRIP (Chebyshev), i.e. outside the strip along the line.
+function buildHalf() {
+  const P = G.baseP, E = G.baseE, half = new Int8Array(N);
+  for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) {
+    const dp = (x - P.x) * (x - P.x) + (y - P.y) * (y - P.y), de = (x - E.x) * (x - E.x) + (y - E.y) * (y - E.y); // centres are base + 0.5, tiles x + 0.5: the halves cancel
+    half[y * MW + x] = dp < de ? 0 : de < dp ? 1 : -1;
+  }
+  const halfIn = [new Uint8Array(N), new Uint8Array(N)], R = REMOTE_STRIP;
+  for (const side of [0, 1]) {
+    const inn = halfIn[side];
+    for (let i = 0; i < N; i++) inn[i] = half[i] === side ? 1 : 0;
+    for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) {
+      if (half[y * MW + x] === side) continue;
+      for (let yy = Math.max(0, y - R); yy <= Math.min(MH - 1, y + R); yy++) for (let xx = Math.max(0, x - R); xx <= Math.min(MW - 1, x + R); xx++) inn[yy * MW + xx] = 0;
+    }
+  }
+  G.half = half; G.halfIn = halfIn; G.reach = [null, null];
+}
+// ground reach from a side's HQ (4-connected BFS over walkable tiles; -1 = unreachable). Cached per sim time; also the AI's path distance
+function reachOf(side) {
+  const c = G.reach && G.reach[side];
+  if (c && c.t === G.time && c.n === G.blds.length) return c.dist;
+  const dist = new Int32Array(N).fill(-1), qu = new Int32Array(N); let qh = 0, qt = 0;
+  const hq = G.blds.find(b => b.side === side && b.type === 'hq' && !b.dead) || G.blds.find(b => b.side === side && !b.dead);
+  if (hq) for (let y = hq.ty - 1; y <= hq.ty + hq.h; y++) for (let x = hq.tx - 1; x <= hq.tx + hq.w; x++) {
+    if (x < 0 || y < 0 || x >= MW || y >= MH) continue;
+    const i = y * MW + x; if (dist[i] < 0 && walk(x, y)) { dist[i] = 0; qu[qt++] = i; }
+  }
+  while (qh < qt) {
+    const i = qu[qh++], x = i % MW, y = (i / MW) | 0, dd = dist[i] + 1;
+    if (x > 0 && dist[i - 1] < 0 && walk(x - 1, y)) { dist[i - 1] = dd; qu[qt++] = i - 1; }
+    if (x < MW - 1 && dist[i + 1] < 0 && walk(x + 1, y)) { dist[i + 1] = dd; qu[qt++] = i + 1; }
+    if (y > 0 && dist[i - MW] < 0 && walk(x, y - 1)) { dist[i - MW] = dd; qu[qt++] = i - MW; }
+    if (y < MH - 1 && dist[i + MW] < 0 && walk(x, y + 1)) { dist[i + MW] = dd; qu[qt++] = i + MW; }
+  }
+  if (!G.reach) G.reach = [null, null];
+  G.reach[side] = { t: G.time, n: G.blds.length, dist };
+  return dist;
 }
 const isPad = i => G.blds.some(b => (b.type === 'refinery' || b.type === 'hq') && !b.dead && b.pad === i);
 function placeBld(side, type, tx, ty) {
   const q = G.queues[side].structure; if (q.ready !== type) return false;
-  if (!canPlace(side, type, tx, ty, 0)) return false;
-  q.ready = null; makeBld(type, side, tx, ty);
+  const pc = placeCheck(side, type, tx, ty, 0); if (!pc.ok) return false;
+  q.ready = null; const b = makeBld(type, side, tx, ty);
   if (side === 0) { sfx('place'); G.stats.bBuilt++; }
-  return true;
+  if (pc.remote) {
+    b.remote = true;
+    if (REMOTE_SETUP_S > 0) { b.setup = true; b.setupT0 = G.time; b.hp = b.maxhp * REMOTE_SETUP_HP0; } // R2 deploy
+    if (side === 0) { msg(REMOTE_SETUP_S > 0 ? 'Scrap Yard deploying.' : 'Scrap Yard online.', '#DDF6FF', b.x, b.y); ping(b.x, b.y, '#6FA8FF'); }
+  }
+  return b;
 }
 
 // ---------------- superweapons ----------------
@@ -1062,6 +1148,10 @@ function holyGround(x, y) {
 }
 function updBld(b, dt) {
   b.anim += dt; b.hitT -= dt;
+  if (b.setup) { // R2: a remote yard deploys, HP grows linearly to full; no power, no drop-off until online
+    b.hp = Math.min(b.maxhp, b.hp + b.maxhp * (1 - REMOTE_SETUP_HP0) / REMOTE_SETUP_S * dt);
+    if (G.time - b.setupT0 >= REMOTE_SETUP_S - 1e-9) { b.setup = false; if (b.side === 0) { msg('Scrap Yard online.', '#DDF6FF', b.x, b.y); ping(b.x, b.y, '#6FA8FF'); sfx('ready'); } }
+  }
   if (b.type === 'silo' && b.charge < NUKE_CHARGE) { b.charge += dt; if (b.charge >= NUKE_CHARGE && b.side === 0) { msg('Nuke Silo charged! Press N or click LAUNCH.', '#fff3b0'); sfx('ready'); } }
   if (b.type === 'turret' || b.type === 'hq') { // the HQ turret needs no power
     b.cd -= dt;
@@ -1087,19 +1177,90 @@ const isVisible = e => { if (e.kind === 'b') { for (let y = e.ty; y < e.ty + e.h
 // ---------------- enemy AI (the Horde) ----------------
 // opening addendum: the Hive first trains a Scrap Eater (updAI), then Power Plant, Grinder Pit, Spawning Pit, then the rest.
 // Loop 4: the Dark Altar after the first Factory, held until DIFF.altarTime unless the player has built a Church
-const AI_ORDER = ['power', 'refinery', 'barracks', 'turret', 'factory', 'altar', 'turret', 'barracks', 'depot', 'power', 'refinery', 'silo', 'turret', 'turret', 'turret'];
+// Remote yards (spec §7): the 2nd Grinder Pit comes right after the Factory and goes remote (aiFindSpot); the later 2nd 'refinery' slot is gone
+const AI_ORDER = ['power', 'refinery', 'barracks', 'turret', 'factory', 'refinery', 'altar', 'turret', 'barracks', 'depot', 'power', 'silo', 'turret', 'turret', 'turret'];
+const aiPitCap = () => AI_PIT_CAP[G.diffKey] || AI_PIT_CAP.normal;
+const aiRemoteAllowed = () => G.diffKey !== 'easy' || G.time >= AI_REMOTE_EASY_FROM;
 function aiNextBuild() {
-  const cnt = {}; for (const b of G.blds) if (b.side === 1 && !b.dead) cnt[b.type] = (cnt[b.type] || 0) + 1;
+  const cnt = {}; for (const b of G.blds) if (b.side === 1 && !b.dead && !b.spire) cnt[b.type] = (cnt[b.type] || 0) + 1; // a Hard Bone Spire is extra
   const q = G.queues[1].structure; for (const t of q.list) cnt[t] = (cnt[t] || 0) + 1; if (q.ready) cnt[q.ready] = (cnt[q.ready] || 0) + 1;
+  // re-expand (spec §7): the fields the pits serve are below 25%, under the cap and a field qualifies (checked every 5 s)
+  const A = G.ai, pits = cnt.refinery || 0;
+  if (pits >= 2 && pits < aiPitCap() && aiRemoteAllowed() && G.time >= (A.reexpT || 0)) {
+    A.reexpT = G.time + 5;
+    if (aiServedLow() && aiRemoteSpot()) return aiPowerAfter(cnt, 'refinery') < 0 ? 'power' : 'refinery';
+  }
   const need = {};
   for (const t of AI_ORDER) {
     need[t] = (need[t] || 0) + 1;
+    if (t === 'refinery' && (cnt[t] || 0) >= aiPitCap()) continue;
     if ((cnt[t] || 0) < need[t]) { if (t === 'silo' && G.time < G.diff.siloTime) continue; if (t === 'altar' && G.time < G.diff.altarTime && !G.ai.churchSeen) continue; if (t !== 'power' && aiPowerAfter(cnt, t) < 0) return 'power'; return t; }
   }
   return null;
 }
 function aiPowerAfter(cnt, t) { const list = [t]; for (const k in cnt) for (let i = 0; i < cnt[k]; i++) list.push(k); return Salvage.powerBalance(list).net; }
+// fields (spec §7): start = the map's original Salvage, rem = what is left
+function aiFields() {
+  const out = [];
+  if (!SAL || !SAL.fields) return out;
+  for (const f of SAL.fields) {
+    let start = 0, rem = 0, own = false;
+    for (const i of f.tiles) { start += SAL.orig[i]; rem += res[i]; if (G.half && G.half[i] === 1) own = true; }
+    out.push({ f, start, rem, own });
+  }
+  return out;
+}
+const tileGap = (i, x0, y0, w, h) => { const x = i % MW, y = (i / MW) | 0; return Math.max(Math.max(x0 - x, x - (x0 + w - 1), 0), Math.max(y0 - y, y - (y0 + h - 1), 0)); };
+const fieldGap = (f, x0, y0, w, h) => { let m = 1e9; for (const i of f.tiles) { const g = tileGap(i, x0, y0, w, h); if (g < m) m = g; } return m; };
+// every field served by a Horde pit (within 8 tiles) is below 25% of its start (or none is served)
+function aiServedLow() {
+  const pits = G.blds.filter(b => b.side === 1 && b.type === 'refinery' && !b.dead);
+  for (const F of aiFields()) if (F.start > 0 && pits.some(b => fieldGap(F.f, b.tx, b.ty, b.w, b.h) <= AI_FIELD_SERVED) && F.rem >= AI_FIELD_LIVE * F.start) return false;
+  return true;
+}
+// the best remote Grinder Pit spot: score fields on the Horde half (no Horde drop-off within 8, > 25% left, no player unit within 8
+// or building within 10) by remaining / path distance from the Hive; the closest valid spot with the dock toward the field
+function aiRemoteSpot() {
+  const reach = reachOf(1), drops = G.blds.filter(b => b.side === 1 && !b.dead && (b.type === 'refinery' || b.type === 'hq'));
+  const pu = G.units.filter(u => u.side === 0 && !u.dead), pb = G.blds.filter(b => b.side === 0 && !b.dead);
+  const scored = [];
+  for (const F of aiFields()) {
+    const f = F.f;
+    if (!F.own || F.start <= 0 || F.rem <= AI_FIELD_LIVE * F.start) continue;
+    if (drops.some(b => fieldGap(f, b.tx, b.ty, b.w, b.h) <= AI_FIELD_SERVED)) continue;
+    if (pu.some(u => fieldGap(f, tileOf(u.x), tileOf(u.y), 1, 1) <= AI_FIELD_PLAYER_UNIT)) continue;
+    if (pb.some(b => fieldGap(f, b.tx, b.ty, b.w, b.h) <= AI_FIELD_PLAYER_BLD)) continue;
+    let d = 1e9; for (const i of f.tiles) if (reach[i] >= 0 && reach[i] < d) d = reach[i];
+    if (d >= 1e9) continue;
+    scored.push({ f, score: F.rem / Math.max(1, d) });
+  }
+  scored.sort((a, b) => b.score - a.score);
+  const D = BDEF.refinery;
+  for (const { f } of scored) {
+    let x0 = 1e9, y0 = 1e9, x1 = -1, y1 = -1;
+    for (const i of f.tiles) { const x = i % MW, y = (i / MW) | 0; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    let best = null, bk = 1e9;
+    for (let ty = y0 - D.h - 3; ty <= y1 + 3; ty++) for (let tx = x0 - D.w - 3; tx <= x1 + 3; tx++) {
+      if (!canPlace(1, 'refinery', tx, ty, 1)) continue;
+      const dd = fieldGap(f, tx + 1, ty + D.h, 1, 1), dc = fieldGap(f, tx + 1, ty + 1, 1, 1), k = dd * 10 - (dc - dd); // dock nearest the field, facing it
+      if (k < bk) { bk = k; best = [tx, ty]; }
+    }
+    if (best) return best;
+  }
+  return null;
+}
+// Hard: the Bone Spire beside a remote pit
+function aiSpotNear(b, type) {
+  const d = BDEF[type], cx = b.tx + (b.w >> 1), cy = b.ty + (b.h >> 1);
+  for (let r = 2; r < 7; r++) {
+    const cand = [];
+    for (let yy = -r; yy <= r; yy++) for (let xx = -r; xx <= r; xx++) { if (Math.abs(xx) !== r && Math.abs(yy) !== r) continue; const tx = cx + xx - (d.w >> 1), ty = cy + yy - (d.h >> 1); if (canPlace(1, type, tx, ty, 1)) cand.push([tx, ty]); }
+    if (cand.length) return cand[ri(cand.length)];
+  }
+  return null;
+}
 function aiFindSpot(type) {
+  if (type === 'refinery' && countBld(1, 'refinery') >= 1 && aiRemoteAllowed()) { const sp = aiRemoteSpot(); if (sp) return sp; } // else today's spot near the Hive
   const hq = G.blds.find(b => b.side === 1 && b.type === 'hq' && !b.dead) || G.blds.find(b => b.side === 1 && !b.dead);
   if (!hq) return null;
   let cx = tileOf(hq.x), cy = tileOf(hq.y);
@@ -1149,10 +1310,18 @@ function updAI(dt) {
   const demonUp = aliveOf(1, 'demon') + inQueue(1, 'demon') > 0, demonWait = A.demonDiedAt !== undefined && G.time - A.demonDiedAt < Combat.D.demonRebuildS;
   const demonReserve = hasBld(1, 'altar') && !demonUp ? costOf('demon') : 0;
   if (hasBld(1, 'altar') && !demonUp && !demonWait && cr() >= costOf('demon')) queueItem(1, 'demon');
+  if (A.spireFor && A.spireFor.dead) A.spireFor = null;
   if (Q.structure.ready) {
-    const spot = aiFindSpot(Q.structure.ready);
-    if (spot) placeBld(1, Q.structure.ready, spot[0], spot[1]); else cancelItem(1, Q.structure.ready);
-  } else if (next && !Q.structure.list.length && prereqOk(1, next) && cr() - (econBuild ? firstEater : eaterReserve + demonReserve) >= BDEF[next].cost) queueItem(1, next);
+    const t = Q.structure.ready, spire = t === 'turret' && A.spireFor;
+    const spot = (spire && aiSpotNear(A.spireFor, t)) || aiFindSpot(t);
+    if (spot) {
+      const b = placeBld(1, t, spot[0], spot[1]);
+      if (b && spire) { b.spire = true; A.spireFor = null; }
+      if (b && t === 'refinery') (A.pitLog || (A.pitLog = [])).push({ t: G.time, tx: b.tx, ty: b.ty, remote: !!b.remote });
+      if (b && b.remote && t === 'refinery') { if (A.remote2At === undefined) { A.remote2At = G.time; A.remote2 = { tx: b.tx, ty: b.ty }; } if (G.diffKey === 'hard') A.spireFor = b; }
+    } else cancelItem(1, t);
+  } else if (A.spireFor && !Q.structure.list.length && prereqOk(1, 'turret') && cr() >= BDEF.turret.cost) queueItem(1, 'turret');
+  else if (next && !Q.structure.list.length && prereqOk(1, next) && cr() - (econBuild ? firstEater : eaterReserve + demonReserve) >= BDEF[next].cost) queueItem(1, next);
   const reserve = (next && !Q.structure.list.length && !Q.structure.ready ? BDEF[next].cost : 0) + eaterReserve + demonReserve;
   const want = Math.min(5, Math.max(1, countBld(1, 'refinery')) * 2);
   if (hasBld(1, 'refinery') && harv < want && Q.vehicle.list.length === 0 && cr() >= costOf('reaper') && prereqOk(1, 'reaper')) { if (queueItem(1, 'reaper') && harv === 1) G.ai.eater2At = G.time; }
@@ -1391,7 +1560,8 @@ function drawUnitL4(c, u, t, A) {
 }
 // building art options for this frame: build progress (visual reveal), silo charge/launch, the game's actual dock pad tile
 function bldArtOpts(b) {
-  const o = { p: (G.time - (b.bornT !== undefined ? b.bornT : -1e9)) / BUILD_REVEAL_S, nukeCharge: NUKE_CHARGE };
+  const o = { p: b.setup ? Math.min(0.99, (G.time - b.setupT0) / REMOTE_SETUP_S) : (G.time - (b.bornT !== undefined ? b.bornT : -1e9)) / BUILD_REVEAL_S, nukeCharge: NUKE_CHARGE };
+  if (b.setup) o.setup = true;
   if (b.type === 'silo') o.launching = UnitArt.launching(b, G.missiles);
   if (b.pad !== undefined) o.padTile = [b.pad % MW, (b.pad / MW) | 0];
   return o;
@@ -1762,7 +1932,7 @@ function render() {
   }
   // health bars
   for (const u of vu) if ((u.hp < u.maxhp || G.sel.includes(u))) hpBar(ctx, u.x, u.d.fly ? u.y - u.r - 18 : u.d.big && typeof UnitArt !== 'undefined' ? UnitArt.hpBarY(u, UnitArt.unitFrame(u)) : u.y - u.r - 7, Math.max(16, u.r * 2), u.hp / u.maxhp);   // loop 4: art > 2 tiles tall (Demon Lord) -> above the sprite
-  for (const b of G.blds) if (!b.dead && (b.hp < b.maxhp || G.sel.includes(b)) && onScreen(b.x, b.y, 100) && (b.side === 0 || isVisible(b))) hpBar(ctx, b.x, b.ty * TILE - 6, b.w * TILE - 8, b.hp / b.maxhp);
+  for (const b of G.blds) if (!b.dead && (b.hp < b.maxhp || G.sel.includes(b) || b.setup) && onScreen(b.x, b.y, 100) && (b.side === 0 || isVisible(b))) hpBar(ctx, b.x, b.ty * TILE - 6, b.w * TILE - 8, b.hp / b.maxhp);
   for (const u of vu) if (u.d.harv && u.side === 0 && (G.sel.includes(u) || u.blocked)) { const n = Salvage.pipsOf(u.load, u.d.cap); for (let k = 0; k < 5; k++) { ctx.fillStyle = '#000'; ctx.fillRect(u.x - 17 + k * 7, u.y - u.r - 4, 6, 4); ctx.fillStyle = k < n ? (u.blocked ? '#ffb347' : PAL.steel) : '#333333'; ctx.fillRect(u.x - 16.5 + k * 7, u.y - u.r - 3.5, 5, 3); } }
   // fog: env = dual-grid edge tiles only, clipped to the view (bits 0 nothing, bits 15 one fillRect); else the per-tile loop
   if (EV) FS.fogEdges = env.drawFog(ctx, { w: MW, h: MH, expl, vis, rim: 'ember' }, { x0, y0, x1, y1 });
@@ -1773,11 +1943,17 @@ function render() {
   }
   // placement ghost
   if (G.placing) {
-    const d = BDEF[G.placing], tx = tileOf(mouse.wx) - (d.w >> 1), ty = tileOf(mouse.wy) - (d.h >> 1), ok = canPlace(0, G.placing, tx, ty, 0);
+    const d = BDEF[G.placing], tx = tileOf(mouse.wx) - (d.w >> 1), ty = tileOf(mouse.wy) - (d.h >> 1), pc = placeCheck(0, G.placing, tx, ty, 0), ok = pc.ok;
+    if (G.placing === 'refinery' && G.half) { // remote yards: tint what is outside your half (red) and the strip along the line (amber)
+      const x0 = Math.max(0, tileOf(cam.x)), y0 = Math.max(0, tileOf(cam.y)), x1 = Math.min(MW - 1, tileOf(cam.x + VW)), y1 = Math.min(MH - 1, tileOf(cam.y + VH));
+      for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) { const i = y * MW + x; if (G.halfIn[0][i] || !expl[i]) continue; ctx.fillStyle = G.half[i] === 0 ? 'rgba(255,170,60,0.13)' : 'rgba(255,60,60,0.13)'; ctx.fillRect(x * TILE, y * TILE, TILE, TILE); }
+    }
     const gb = { tx, ty, w: d.w, h: d.h, x: (tx + d.w / 2) * TILE, y: (ty + d.h / 2) * TILE, anim: G.time, side: 0, type: G.placing, charge: 0, tang: 0, hitT: 0, hp: 1, maxhp: 1 };
     const GP = typeof UnitArt !== 'undefined' ? UnitArt.planBuilding(gb, { ghost: true }) : null;   // HANDOFF-buildings §6: construct frame at 55%, red when invalid
     ctx.globalAlpha = GP ? 0.55 : 0.5; if (GP) { UnitArt.drawBuildingGround(ctx, GP); UnitArt.drawBuildingBody(ctx, GP, { invalid: !ok }); } else drawBld(ctx, gb); ctx.globalAlpha = 1;
     for (let y = ty; y < ty + d.h; y++) for (let x = tx; x < tx + d.w; x++) { const i = y * MW + x, good = x >= 0 && y >= 0 && x < MW && y < MH && !BLOCK[terr[i]] && !bgrid[i] && !res[i]; ctx.fillStyle = ok && good ? 'rgba(80,255,80,0.3)' : 'rgba(255,60,60,0.4)'; ctx.fillRect(x * TILE, y * TILE, TILE, TILE); }
+    const label = !ok ? pc.reason : pc.remote && REMOTE_SETUP_S > 0 ? `Remote: deploys in ${REMOTE_SETUP_S} s` : null;
+    if (label) { ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center'; const lx = (tx + d.w / 2) * TILE, ly = ty * TILE - 8; ctx.fillStyle = 'rgba(0,0,0,0.65)'; ctx.fillRect(lx - ctx.measureText(label).width / 2 - 4, ly - 12, ctx.measureText(label).width + 8, 16); ctx.fillStyle = ok ? '#9dff9d' : '#ff8a7a'; ctx.fillText(label, lx, ly); ctx.textAlign = 'left'; }
   }
   if (G.mode === 'nuke') { ctx.strokeStyle = '#fff3b0'; ctx.lineWidth = 2; ctx.setLineDash([8, 6]); ctx.beginPath(); ctx.arc(mouse.wx, mouse.wy, NUKE_R * TILE, 0, 7); ctx.stroke(); ctx.setLineDash([]); }
   // drag box
@@ -1806,6 +1982,7 @@ function drawMini() {
   mctx.fillStyle = 'rgba(0,0,0,1)';
   for (let ty = 0; ty < MH; ty++) for (let tx = 0; tx < MW; tx++) { const i = ty * MW + tx; if (!expl[i]) mctx.fillRect(tx * s, ty * s, s + 0.5, s + 0.5); else if (!vis[i]) { mctx.fillStyle = 'rgba(0,0,0,0.4)'; mctx.fillRect(tx * s, ty * s, s, s); mctx.fillStyle = '#000'; } }
   for (const m of G.missiles) { mctx.strokeStyle = m.side ? '#ff3a1a' : '#fff'; mctx.beginPath(); mctx.arc(m.tx / TILE * s, m.ty / TILE * s, 6, 0, 7); mctx.stroke(); }
+  if (G.pings) for (const p of G.pings) { const a = (G.time - p.t) / PING_S; if (a < 0 || a > 1) continue; mctx.strokeStyle = p.c; mctx.globalAlpha = 1 - a; mctx.lineWidth = 2; mctx.beginPath(); mctx.arc(p.x / TILE * s, p.y / TILE * s, 3 + 9 * (a * 3 % 1), 0, 7); mctx.stroke(); mctx.globalAlpha = 1; }
   mctx.strokeStyle = '#fff'; mctx.lineWidth = 1; mctx.strokeRect(cam.x / TILE * s, cam.y / TILE * s, VW / TILE * s, VH / TILE * s);
 }
 // ---------------- sound (WebAudio synth) ----------------
@@ -1842,6 +2019,9 @@ function sfx(k, x, y) {
 }
 
 // ---------------- messages ----------------
+// minimap pings (remote yards): an expanding ring for PING_S seconds
+const PING_S = 3;
+function ping(x, y, c) { if (!G.pings) G.pings = []; G.pings.push({ x, y, t: G.time, c: c || '#fff' }); if (G.pings.length > 8) G.pings.shift(); }
 function msg(text, color, x, y) {
   const box = $('msgs'); const d = document.createElement('div'); d.textContent = text; d.style.color = color || '#D8DCDF';
   box.appendChild(d); while (box.children.length > 5) box.removeChild(box.firstChild);
@@ -2005,7 +2185,7 @@ view.addEventListener('mousedown', e => {
   if (e.button !== 0) return;
   if (G.placing) {
     const d = BDEF[G.placing], tx = tileOf(mouse.wx) - (d.w >> 1), ty = tileOf(mouse.wy) - (d.h >> 1);
-    if (placeBld(0, G.placing, tx, ty)) { G.placing = null; hint(); } else { msg('Cannot place there. Build on clear ground near your base.', '#ff6a5a'); sfx('err'); }
+    if (placeBld(0, G.placing, tx, ty)) { G.placing = null; hint(); } else { const r = placeCheck(0, G.placing, tx, ty, 0).reason; msg(r && r !== 'Blocked' ? `Cannot place there: ${r}.` : 'Cannot place there. Build on clear ground near your base.', '#ff6a5a'); sfx('err'); }
     return;
   }
   if (G.mode === 'nuke') { if (launchNuke(0, mouse.wx, mouse.wy)) G.stats.nukes++; G.mode = null; hint(); return; }
@@ -2119,6 +2299,7 @@ function newGame(diffKey, opts) {
     applyDesignMap(dm);
   } else genMap();
   SAL = makeSalvage();
+  buildHalf();
   const P = G.baseP;
   for (const side of [0, 1]) {
     const place = (type, tx, ty) => { const d = BDEF[type]; if (side === 1) { tx = MW - tx - d.w; ty = MH - ty - d.h; } return makeBld(type, side, tx, ty); };
@@ -2145,6 +2326,7 @@ function newArena(seed) {
   bgrid = new Int32Array(N); vis = new Uint8Array(N); expl = new Uint8Array(N);
   plagueZones = []; craters = []; decos = [];
   SAL = makeSalvage();
+  buildHalf();
   return G;
 }
 function step(dt) {
@@ -2166,8 +2348,10 @@ function step(dt) {
   if (G.flash) { G.flash.t += dt; if (G.flash.t > 1.2) G.flash = null; }
   G.shakeA *= Math.pow(0.02, dt);
   G.fogT -= dt; if (G.fogT <= 0) { G.fogT = 0.2; updFog(); }
-  G.winT -= dt; if (G.winT <= 0 && !G.arena) { G.winT = 0.5; checkEnd(); const low = powerOf(0).net < 0; if (low && !G.lowPower) { msg('Low power: production at half speed. Build a Power Plant.', '#ff5a4a'); sfx('alert'); } G.lowPower = low; }
+  G.winT -= dt; if (G.winT <= 0 && !G.arena) { G.winT = 0.5; checkEnd(); spotExpansions(); const low = powerOf(0).net < 0; if (low && !G.lowPower) { msg('Low power: production at half speed. Build a Power Plant.', '#ff5a4a'); sfx('alert'); } G.lowPower = low; }
 }
+// spec §6: the first time the player sees a remote Grinder Pit: a line and a minimap ping, no map reveal
+function spotExpansions() { for (const b of G.blds) if (b.side === 1 && b.remote && !b.dead && !b.spotted && isVisible(b)) { b.spotted = true; msg('Enemy expansion spotted', '#ff9a5a', b.x, b.y); ping(b.x, b.y, '#ff5a3a'); sfx('alert'); } }
 function checkEnd() {
   const p = G.blds.some(b => b.side === 0), e = G.blds.some(b => b.side === 1);
   if (p && e) return;
@@ -2220,4 +2404,4 @@ if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(locati
   } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
+window.RTS = { placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };

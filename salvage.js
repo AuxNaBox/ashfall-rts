@@ -214,6 +214,7 @@
         }
         case 'queue': {
           const p = u.dock; if (!p || p.dead) { returnToPlant(u); break; }
+          if (host.dockReady && !host.dockReady(p)) { u.path = null; u.moving = false; break; } // a remote yard still deploying: wait at the pad
           const q = queueOf(p); if (!q.includes(u)) q.push(u);
           if (q[0] !== u) { u.path = null; u.moving = false; break; } // wait our turn (FIFO, one pad)
           const dp = host.dockPoint(p), d = Math.hypot(u.x - dp.x, u.y - dp.y);
