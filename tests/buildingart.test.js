@@ -38,7 +38,7 @@ test('building atlases: frame counts derived from the manifests (neutral x teams
     for (const f of m.neutral.frames.concat(m.frames)) { const [x, y, w, h] = f.rect; assert.ok(x + w <= 1024 && y + h <= 512, f.name); }
   }
   assert.deepEqual(fs.readdirSync(DIR).filter(f => /-v1b?\./.test(f)), []);
-  assert.deepEqual(MAN.horde.ramps.violet, { light: '#D2B0FF', base: '#B07CFF', dark: '#7A48D0' });
+  assert.deepEqual(MAN.horde.ramps.violet, { light: '#DABCFF', base: '#BE90FF', dark: '#9060E8' });
   assert.equal(MAN.survivors.defaultTeam, 'blue'); assert.equal(MAN.horde.defaultTeam, 'violet');
   assert.deepEqual([...MAN.survivors.baked.keys()].sort(), ['blue', 'red']); assert.deepEqual([...MAN.horde.baked.keys()].sort(), ['red', 'violet']);
 });

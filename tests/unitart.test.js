@@ -22,7 +22,7 @@ test('art v3 atlases: frame counts, sizes from the manifest match the PNGs, half
   assert.deepEqual(h.size, [512, 256]);
   for (let k = 0; k < 16; k++) assert.ok(SUR.index.get(UA.fkey('scrap_truck', 'half', k * 22.5)));
   for (const f of 'ESNW') assert.ok(HOR.index.get(UA.fkey('scrap_eater', 'half', f)));
-  // Horde default ramp = Artie's v3 violet, read from the manifest
+  // Horde default ramp = Artie's v4 violet (unit pass), read from the manifest
   assert.equal(h.default_team, 'violet'); assert.deepEqual(h.team_ramps.violet, { light: '#DABCFF', base: '#BE90FF', dark: '#9060E8' });
   assert.deepEqual(HOR.ramps.violet, h.team_ramps.violet);
 });

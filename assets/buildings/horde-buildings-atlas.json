@@ -4519,9 +4519,9 @@
  ],
  "team_ramps": {
   "violet": {
-   "light": "#D2B0FF",
-   "base": "#B07CFF",
-   "dark": "#7A48D0"
+   "light": "#DABCFF",
+   "base": "#BE90FF",
+   "dark": "#9060E8"
   },
   "red": {
    "light": "#FF7E66",
