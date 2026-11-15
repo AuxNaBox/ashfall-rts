@@ -2326,7 +2326,7 @@ function updAI_L5() {
     const walls = countBld(0, 'wall') + countBld(0, 'gate');
     const towers = countBld(0, 'turret') + countBld(0, 'flametower') + countBld(0, 'rockettower');
     const trig = !bl.whenWallsOrTowers || walls > 0 || towers >= bl.whenWallsOrTowers;
-    if (trig && aliveQ('bloater') < (UDEF.bloater.limit || Loop5.D.DEMO_LIMIT) && prereqOk(1, 'bloater') && canAiAfford('bloater')) queueItem(1, 'bloater');
+    if (trig && canTrainBloater() && prereqOk(1, 'bloater') && canAiAfford('bloater') && queueItem(1, 'bloater')) noteBloaterTrained();
   }
   // leapers: auto-leap already runs in engage; prefer soft targets behind walls
   for (const lp of G.units) {

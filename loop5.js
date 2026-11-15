@@ -68,7 +68,7 @@
     CRAWLER_RAID_AFTER_WAVE: { v: 4, src: 'Hard only: Crawlers may load but cannot leave on a raid until wave 4 has been sent' },
     AI_L5_SHARE: { v: { easy: 0.20, normal: 0.25, hard: 0.35 }, src: 'L5 §18 share of every AI credit income that goes to the tech wallet' },
     AI_L5_SHARE_AFTER_WAVE: { v: 1, src: 'L5 §18 pass 4: the tech share starts on the tick wave 1 is sent; all income goes to main until then' },
-    BLOATER_PER_WAVE: { v: 2, src: 'L5 §18 at most 2 Bloaters per wave' },
+    BLOATER_PER_WAVE: { v: 2, src: 'L5 §18 at most 2 Bloaters per wave; 6 alive is a ceiling, not a refill target' },
     // transport (L5 §6)
     CARGO_CAP: { v: 5, src: 'L5 §6' },
     LOAD_TILES: { v: 1.0, src: 'L5 §6 (walk to it and enter)' },

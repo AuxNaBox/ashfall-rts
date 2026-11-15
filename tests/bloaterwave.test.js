@@ -65,3 +65,58 @@ test('the 7th Bloater is rejected by the alive cap of 6', () => {
   assert.strictEqual(RTS.atLimit(1, 'bloater'), true);
   assert.strictEqual(RTS.queueItem(1, 'bloater'), false);
 });
+
+function readyBloaterAi(RTS, G) {
+  const hive = G.blds.find(b => b.side === 1 && b.type === 'hq');
+  for (const t of ['power', 'refinery', 'barracks', 'factory']) {
+    if (!G.blds.some(b => b.side === 1 && b.type === t && !b.dead)) {
+      const b = RTS.makeBld(t, 1, hive.tx + 6, hive.ty + 4);
+      if (b) b.bornT = -1e9;
+    }
+  }
+  G.techCredits = 20000;
+  G.credits[1] = 20000;
+  G.time = 700;
+  if (G.ai) { G.ai.t = 0; G.ai.bloaterTrainN = 0; }
+  return hive;
+}
+
+test('Bloaters train at most 2 per wave and do not refill to the alive cap', () => {
+  const L = load(); L.seed(1);
+  const { RTS } = L;
+  RTS.newGame('hard');
+  const G = RTS.G;
+  const hive = readyBloaterAi(RTS, G);
+  // force the trigger (whenWallsOrTowers: 2 on Hard) with two player turrets
+  const phq = G.blds.find(b => b.side === 0 && b.type === 'hq');
+  RTS.makeBld('turret', 0, phq.tx + 4, phq.ty);
+  RTS.makeBld('turret', 0, phq.tx + 7, phq.ty);
+
+  let trained = 0;
+  for (let i = 0; i < 8; i++) {
+    if (RTS.canTrainBloater() && RTS.queueItem(1, 'bloater')) { RTS.noteBloaterTrained(); trained++; }
+  }
+  assert.strictEqual(trained, 2, 'only 2 trained this wave');
+  assert.strictEqual(G.ai.bloaterTrainN, 2);
+  assert.strictEqual(RTS.canTrainBloater(), false);
+
+  // finish the two in queue so they are alive, then kill them; still no refill
+  const q = G.queues[1].infantry;
+  q.list = []; q.prog = 0;
+  const made = [];
+  for (let i = 0; i < 2; i++) made.push(RTS.makeUnit('bloater', 1, hive.x, hive.y));
+  for (const u of made) RTS.kill(u, null, 'rifle');
+  assert.strictEqual(G.units.filter(u => u.side === 1 && u.type === 'bloater' && !u.dead).length, 0);
+  assert.strictEqual(RTS.canTrainBloater(), false, 'deaths do not open a refill slot');
+
+  // a new wave resets the per-wave counter (queued ones still count against the next quota)
+  G.ai.waveN = 4;
+  RTS.resetBloaterTrain();
+  assert.strictEqual(G.ai.bloaterTrainN, 0);
+  assert.strictEqual(RTS.canTrainBloater(), true);
+  let trained2 = 0;
+  for (let i = 0; i < 5; i++) {
+    if (RTS.canTrainBloater() && RTS.queueItem(1, 'bloater')) { RTS.noteBloaterTrained(); trained2++; }
+  }
+  assert.strictEqual(trained2, 2, 'the next wave can train 2 more');
+});
