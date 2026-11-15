@@ -54,6 +54,10 @@
     armoryPower:         { v: -30,  src: 'Loop 4 tech spec (Armory)' },
     churchPower:         { v: -40,  src: 'Loop 4 tech spec (Church)' },
     altarPower:          { v: -40,  src: 'Loop 4 tech spec (Dark Altar)' },
+    gatePower:           { v: -5,   src: 'L5 §3' },
+    flametowerPower:     { v: -30,  src: 'L5 §1' },
+    rockettowerPower:    { v: -30,  src: 'L5 §1' },
+    forgePower:          { v: -30,  src: 'L5 §13' },
     otherPower:          { v: 0,    src: 'fallback for unlisted types (none today)' },
     lowPowerMult:        { v: 0.5,  src: 'ADD §1 (production and build speed halved below 0)' },
     depotCost:           { v: 300,  src: 'ADD §3' },
@@ -82,7 +86,7 @@
   const stageOf = a => a <= 0 ? 0 : Math.min(D.stageCount, Math.ceil(a / STAGE_SIZE));
   const pipsOf = (load, cap) => load <= 0 ? 0 : Math.min(D.loadPips, Math.ceil(load / cap * D.loadPips));
   const storageCap = c => (c.hq || 0) * D.hqStorage + (c.refinery || 0) * D.plantStorage + (c.depot || 0) * D.depotStorage;
-  const POWER_KEY = { power: 'powerPlantPower', refinery: 'plantPower', factory: 'factoryPower', silo: 'siloPower', hq: 'hqPower', turret: 'turretPower', depot: 'depotPower', barracks: 'barracksPower', armory: 'armoryPower', church: 'churchPower', altar: 'altarPower' };
+  const POWER_KEY = { power: 'powerPlantPower', refinery: 'plantPower', factory: 'factoryPower', silo: 'siloPower', hq: 'hqPower', turret: 'turretPower', depot: 'depotPower', barracks: 'barracksPower', armory: 'armoryPower', church: 'churchPower', altar: 'altarPower', gate: 'gatePower', flametower: 'flametowerPower', rockettower: 'rockettowerPower', forge: 'forgePower' };
   const powerOfType = t => D[POWER_KEY[t] || 'otherPower'];
   const powerBalance = types => { let made = 0, used = 0; for (const t of types) { const p = powerOfType(t); if (p > 0) made += p; else used -= p; } return { made, used, net: made - used }; };
 

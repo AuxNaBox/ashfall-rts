@@ -1,0 +1,203 @@
+// loop5.js: Loop 5 constants and helpers (rts-loops/loop5/1-spec.md). No DOM.
+// Q1 (a) / Q3 (a) confirmed. Q2 (b) Bone Forge + Spitter are in §13.
+(function (root) {
+  'use strict';
+
+  const TABLE = {
+    // walls
+    WALL_HP: { v: 400, src: 'L5 §2' },
+    WALL_COST: { v: 50, src: 'L5 §1' },
+    WALL_TIME: { v: 1, src: 'L5 §1' },
+    WALL_POWER: { v: 0, src: 'L5 §1' },
+    WALL_CAP: { v: 80, src: 'L5 §2 / §11' },
+    AI_WALL_CAP: { v: 30, src: 'L5 §9 / §11' },
+    WALL_DRAG_MAX: { v: 12, src: 'L5 §2' },
+    WALL_EXTENDS_RADIUS: { v: false, src: 'L5 §2' },
+    WALL_PAD_GAP: { v: 1, src: 'L5 §2' },
+    WALL_TOUCH: { v: true, src: 'L5 §2' },
+    SELL_REFUND: { v: 0.5, src: 'L5 §2' },
+    // gates
+    GATE_HP: { v: 800, src: 'L5 §3' },
+    GATE_COST: { v: 150, src: 'L5 §1' },
+    GATE_TIME: { v: 4, src: 'L5 §1' },
+    GATE_POWER: { v: 5, src: 'L5 §1 / §3' },
+    GATE_W: { v: 2, src: 'L5 §3' },
+    GATE_H: { v: 1, src: 'L5 §3' },
+    GATE_OPEN_TILES: { v: 1.5, src: 'L5 §3' },
+    GATE_CLOSE_S: { v: 1.5, src: 'L5 §3' },
+    GATE_ANIM_S: { v: 0.4, src: 'L5 §3' },
+    // breach pathing
+    BREACH_COST_TILES: { v: 8, src: 'L5 §4 / §11' },
+    GATE_BREACH_COST_TILES: { v: 12, src: 'L5 §4 / §11' },
+    BREACH_REPATH_S: { v: 0.5, src: 'L5 §4' },
+    BREACH_WIDEN_TILES: { v: 2, src: 'L5 §4' },
+    AI_BLOCKED_RETARGET_S: { v: 20, src: 'L5 §9' },
+    // towers (L5 §5)
+    FLAMETOWER_HP: { v: 700, src: 'L5 §5' },
+    FLAMETOWER_COST: { v: 700, src: 'L5 §1' },
+    FLAMETOWER_TIME: { v: 10, src: 'L5 §1' },
+    FLAMETOWER_POWER: { v: 30, src: 'L5 §1' },
+    FLAMETOWER_DMG: { v: 22, src: 'L5 §5' },
+    FLAMETOWER_ROF: { v: 0.5, src: 'L5 §5' },
+    FLAMETOWER_RANGE: { v: 3.5, src: 'L5 §5' },
+    FLAMETOWER_SPLASH: { v: 0.8, src: 'L5 §5' },
+    FLAMETOWER_SIGHT: { v: 6, src: 'L5 §5' },
+    ROCKETTOWER_HP: { v: 750, src: 'L5 §5' },
+    ROCKETTOWER_COST: { v: 900, src: 'L5 §1' },
+    ROCKETTOWER_TIME: { v: 12, src: 'L5 §1' },
+    ROCKETTOWER_POWER: { v: 30, src: 'L5 §1' },
+    ROCKETTOWER_DMG: { v: 80, src: 'L5 §5' },
+    ROCKETTOWER_ROF: { v: 2.0, src: 'L5 §5' },
+    ROCKETTOWER_RANGE: { v: 7.5, src: 'L5 §5' },
+    ROCKETTOWER_MIN_RANGE: { v: 2, src: 'L5 §5' },
+    ROCKETTOWER_SPLASH: { v: 0.4, src: 'L5 §5' },
+    ROCKETTOWER_SIGHT: { v: 8, src: 'L5 §5' },
+    ROCKETTOWER_TRAVEL_S: { v: 0.6, src: 'L5 §5' },
+    // siege (L5 §6)
+    SIEGE_MIN_RANGE: { v: 3, src: 'L5 §6' },
+    SIEGE_RANGE: { v: 11, src: 'L5 §6' },
+    SIEGE_SPLASH: { v: 1.5, src: 'L5 §6' },
+    SIEGE_TRAVEL_S: { v: 1.5, src: 'L5 §6' },
+    SIEGE_ROF: { v: 4.0, src: 'L5 §6' },
+    SIEGE_NEEDS_SPOTTER: { v: true, src: 'L5 §6' },
+    SIEGE_STOP_TO_FIRE: { v: true, src: 'L5 §6' },
+    ARTILLERY_DMG: { v: 110, src: 'L5 §6' },
+    CATAPULT_DMG: { v: 95, src: 'L5 §6' },
+    // transport (L5 §6)
+    CARGO_CAP: { v: 5, src: 'L5 §6' },
+    LOAD_TILES: { v: 1.0, src: 'L5 §6 (walk to it and enter)' },
+    UNLOAD_S: { v: 1, src: 'L5 §6' },
+    TRANSPORT_DEATH: { v: 'half', src: 'L5 Q3 (a): passengers exit at 50% of current HP' },
+    TRANSPORT_DEATH_HP: { v: 0.5, src: 'L5 Q3 (a)' },
+    // plague patches (L5 §6)
+    PATCH_R: { v: 1, src: 'L5 §6' },
+    PATCH_DUR_CATAPULT: { v: 8, src: 'L5 §6' },
+    PATCH_DUR_SPRAYER: { v: 12, src: 'L5 §6 (unit def held Q1; constant is in place)' },
+    PATCH_CAP: { v: 40, src: 'L5 §6 / §11' },
+    CLEANSE_S: { v: 30, src: 'L5 §6 / §11' },
+    CLEANSE_R: { v: 1, src: 'L5 §6' },
+    // purifier / sprayer (L5 §6, Q1 (a))
+    PURIFIER_HP: { v: 550, src: 'L5 §6' },
+    PURIFIER_COST: { v: 1000, src: 'L5 §1' },
+    PURIFIER_TIME: { v: 14, src: 'L5 §1' },
+    PURIFIER_DMG: { v: 22, src: 'L5 §6' },
+    PURIFIER_ROF: { v: 1.0, src: 'L5 §6' },
+    PURIFIER_RANGE: { v: 3.5, src: 'L5 §6' },
+    PURIFIER_SPLASH: { v: 1.0, src: 'L5 §6' },
+    PURIFIER_SPEED: { v: 1.4, src: 'L5 §6' },
+    PURIFIER_SIGHT: { v: 6, src: 'L5 §6' },
+    PURIFIER_REQ_POWER: { v: 2, src: 'L5 §1 reqCount' },
+    SPRAYER_HP: { v: 550, src: 'L5 §6' },
+    SPRAYER_COST: { v: 1000, src: 'L5 §1' },
+    SPRAYER_TIME: { v: 14, src: 'L5 §1' },
+    SPRAYER_DMG: { v: 25, src: 'L5 §6' },
+    SPRAYER_ROF: { v: 1.0, src: 'L5 §6' },
+    SPRAYER_RANGE: { v: 3, src: 'L5 §6' },
+    SPRAYER_SPLASH: { v: 1.0, src: 'L5 §6' },
+    SPRAYER_SPEED: { v: 1.4, src: 'L5 §6' },
+    SPRAYER_SIGHT: { v: 6, src: 'L5 §6' },
+    SPRAYER_RETREAT: { v: 0.4, src: 'L5 §9' },
+    // Bone Forge / Spitter (L5 §13)
+    FORGE_HP: { v: 900, src: 'L5 §13' },
+    FORGE_COST: { v: 1200, src: 'L5 §13' },
+    FORGE_TIME: { v: 12, src: 'L5 §13' },
+    FORGE_POWER: { v: 30, src: 'L5 §13' },
+    SPITTER_HP: { v: 160, src: 'L5 §13' },
+    SPITTER_COST: { v: 300, src: 'L5 §13' },
+    SPITTER_TIME: { v: 8, src: 'L5 §13' },
+    SPITTER_DMG: { v: 55, src: 'L5 §13' },
+    SPITTER_ROF: { v: 1.8, src: 'L5 §13' },
+    SPITTER_RANGE: { v: 5.5, src: 'L5 §13' },
+    SPITTER_SPEED: { v: 1.5, src: 'L5 §13' },
+    SPITTER_SIGHT: { v: 6, src: 'L5 §13' },
+    ACID_TRAVEL_S: { v: 0.5, src: 'L5 §13' },
+    IMP_SPINES_RANGE: { v: 0.5, src: 'L5 §13 Long Spines' },
+    // Leap / Demo (L5 §14)
+    LEAP_TILES: { v: 5, src: 'L5 §14' },
+    LEAP_CD_S: { v: 15, src: 'L5 §14' },
+    LEAP_AIR_S: { v: 0.8, src: 'L5 §14' },
+    LEAP_PATH_MULT: { v: 2, src: 'L5 §14 auto-leap if path > 2x straight' },
+    LEAP_KEY: { v: 'KeyQ', src: 'L5 §14 ruling (a): selection action first, else tab' },
+    DEMO_DMG: { v: 450, src: 'L5 §14' },
+    DEMO_ARM_S: { v: 1.5, src: 'L5 §14' },
+    DEMO_LIMIT: { v: 6, src: 'L5 §14' },
+    DEMO_UNIT_DMG: { v: 50, src: 'L5 §14 shell splash on units' },
+    DEMO_UNIT_R: { v: 1.5, src: 'L5 §14' },
+    DEMO_STRUCT_R: { v: 1, src: 'L5 §14' },
+    BLOATER_PATCH_S: { v: 8, src: 'L5 §14' },
+    SHOCK_HP: { v: 160, src: 'L5 §14' },
+    SHOCK_COST: { v: 350, src: 'L5 §14' },
+    SHOCK_TIME: { v: 9, src: 'L5 §14' },
+    LEAPER_HP: { v: 150, src: 'L5 §14' },
+    LEAPER_COST: { v: 300, src: 'L5 §14' },
+    LEAPER_TIME: { v: 8, src: 'L5 §14' },
+    DEMO_HP: { v: 80, src: 'L5 §14' },
+    DEMO_COST: { v: 250, src: 'L5 §14' },
+    DEMO_TIME: { v: 7, src: 'L5 §14' },
+    BLOATER_HP: { v: 120, src: 'L5 §14' },
+    BLOATER_COST: { v: 250, src: 'L5 §14' },
+    BLOATER_TIME: { v: 7, src: 'L5 §14' },
+    // decal layer (engine; atlas-agnostic until Artie's HANDOFF)
+    DECAL_CAP: { v: 400, src: 'L5 engine (existing cap kept)' },
+    DECAL_FADE_SCORCH: { v: 30, src: 'L5 engine visual' },
+    DECAL_FADE_BLOOD: { v: 20, src: 'L5 engine visual' },
+    DECAL_FADE_TRACK: { v: 8, src: 'L5 engine visual' },
+    // damage-state hooks (atlas-agnostic)
+    DMG_STATE_DAMAGED: { v: 0.66, src: 'L5 engine hook' },
+    DMG_STATE_CRITICAL: { v: 0.33, src: 'L5 engine hook' },
+  };
+  const D = {}; for (const k in TABLE) D[k] = TABLE[k].v;
+
+  const isWallish = b => b && !b.dead && (b.type === 'wall' || b.type === 'gate');
+  const isDefense = b => isWallish(b);
+  const gateOpen = b => b && b.type === 'gate' && !b.dead && (b.gate === 'open' || b.gate === 'opening' || b.gate === 'closing');
+  const gatePathableFor = (b, side) => b && b.type === 'gate' && !b.dead && b.side === side && !b.locked;
+
+  // AI usage caps (L5 §9). sprayer entries exist as data only; unit def is held (Q1) and the AI does not train one.
+  const AI = {
+    easy: {
+      walls: false,
+      flametower: { cap: 1, from: 720 },
+      rockettower: { cap: 1, from: 840 },
+      crawler: null,
+      catapult: { cap: 1, from: 900 },
+      sprayer: { cap: 1, from: 900 },
+      leaper: null,
+      bloater: { perWave: 1, from: 900 },
+      breachLead: 'rule4',
+    },
+    normal: {
+      walls: false,
+      flametower: { cap: 2, whenInf: 6 },
+      rockettower: { cap: 2, whenVehicle: ['ark', 'apc', 'artillery', 'purifier'] },
+      crawler: { perWave: 1, from: 600 },
+      catapult: { cap: 1, whenTowers: 2 },
+      sprayer: { cap: 1, from: 720 },
+      leaper: { perWave: 3, afterForge: true, whenWallsOrArtillery: true },
+      bloater: { perWave: 2, from: 720, whenWallsOrTowers: 2 },
+      breachLead: 'brute',
+    },
+    hard: {
+      walls: true,
+      wallCap: 30,
+      shieldLen: 5,
+      shieldFront: 2,
+      flametower: { cap: 3, whenInf: 6 },
+      rockettower: { cap: 3, whenVehicle: ['ark', 'apc', 'artillery', 'purifier'] },
+      crawler: { perWave: 1, from: 480, perWave2: 2, from2: 720 },
+      catapult: { cap: 2, whenTowers: 2 },
+      sprayer: { cap: 2, from: 540 },
+      leaper: { perWave: 5, afterForge: true, whenWallsOrArtillery: true },
+      bloater: { perWave: 3, from: 600, whenWallsOrTowers: 2 },
+      breachLead: 'catapult',
+    },
+  };
+
+  const Loop5 = { TABLE, D, AI, isWallish, isDefense, gateOpen, gatePathableFor,
+    // Q1 / Q3 held
+    HELD: {},
+    onDamageState: null, // atlas / hook: function (bld, prev, next)
+  };
+  if (typeof module !== 'undefined' && module.exports) module.exports = Loop5;
+  root.Loop5 = Loop5;
+})(typeof window !== 'undefined' ? window : globalThis);

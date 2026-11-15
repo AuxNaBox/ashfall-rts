@@ -89,11 +89,23 @@ const UDEF = {
   archangel: { side: 0, name: 'Archangel', desc: 'Big flying unit, holy beam hits several targets. Heals allies within 4 tiles, stops the dead rising within 6. Plague-immune. One alive at a time', r: 16, fly: true, cat: 'church', from: ['church'], big: true, plagueImmune: true },
   templar: { side: 0, name: 'Templar', desc: 'Big holy knight on foot. Plague-immune, its kills never rise. Two alive at a time', r: 11, inf: true, melee: true, heavy: true, cat: 'church', from: ['church'], big: true, plagueImmune: true },
   demon: { side: 1, name: 'Demon Lord', desc: 'Horned giant. Fire hits air. Plague aura (3 tiles). One alive at a time', r: 22, heavy: true, cat: 'altar', from: ['altar'], big: true },
+  // Loop 5 §6 / §13. Q1 (a): Purifier Survivors, Sprayer Horde. Q3 (a): passengers exit at 50% HP.
+  apc: { side: 0, name: 'APC', desc: 'Armoured transport. Carries 5 infantry, gun hits air', r: 14, heavy: true, cat: 'vehicle', from: ['factory'], transport: true, cargoCap: Loop5.D.CARGO_CAP },
+  crawler: { side: 1, name: 'Bone Crawler', desc: 'Bone transport. Carries 5 infantry, melee bite', r: 14, heavy: true, cat: 'vehicle', from: ['factory'], transport: true, cargoCap: Loop5.D.CARGO_CAP, melee: true },
+  artillery: { side: 0, name: 'Artillery', desc: 'Long-range siege. Lands on the fire-time tile after 1.5 s. Needs a spotter, cannot hit air', r: 14, heavy: true, cat: 'vehicle', from: ['factory'], reqBld: ['depot'], siege: true, minRange: Loop5.D.SIEGE_MIN_RANGE, travel: Loop5.D.SIEGE_TRAVEL_S },
+  catapult: { side: 1, name: 'Corpse Catapult', desc: 'Long-range siege. Lands on the fire-time tile; impact leaves a plague patch. Needs a spotter, cannot hit air', r: 14, heavy: true, cat: 'vehicle', from: ['factory'], reqBld: ['depot'], siege: true, minRange: Loop5.D.SIEGE_MIN_RANGE, travel: Loop5.D.SIEGE_TRAVEL_S, patchDur: Loop5.D.PATCH_DUR_CATAPULT },
+  purifier: { side: 0, name: 'Purifier', desc: 'Fire sprayer. Cleanses plague patches and suppresses map plague for 30 s. Kills burn and never rise', r: 14, heavy: true, cat: 'vehicle', from: ['factory'], reqBld: ['factory'], reqCount: { power: Loop5.D.PURIFIER_REQ_POWER }, flame: true, cleanse: true },
+  sprayer: { side: 1, name: 'Plague Sprayer', desc: 'Plague sprayer. Leaves a 12 s patch. Kills can rise', r: 14, heavy: true, cat: 'vehicle', from: ['factory'], reqBld: ['factory'], reqCount: { power: Loop5.D.PURIFIER_REQ_POWER }, spray: true, patchDur: Loop5.D.PATCH_DUR_SPRAYER },
+  spitter: { side: 1, name: 'Spitter', desc: 'Anti-heavy acid infantry. Cannot hit air. Its kills do not rise', r: 7, inf: true, cat: 'infantry', from: ['barracks'], reqRes: ['acid'], acid: true, travel: Loop5.D.ACID_TRAVEL_S },
+  shock: { side: 0, name: 'Shock Trooper', desc: 'Mobile infantry. Leap over walls (Q). SMG hits air', r: 7, inf: true, cat: 'infantry', from: ['barracks'], reqBld: ['armory'], leap: true },
+  leaper: { side: 1, name: 'Ghoul Leaper', desc: 'Leaps over walls to reach soft targets. Claw kills can rise', r: 7, inf: true, cat: 'infantry', from: ['barracks'], reqBld: ['forge'], leap: true, melee: true },
+  demo: { side: 0, name: 'Demo Squad', desc: 'Suicide charge vs buildings, walls and gates. Arms 1.5 s. Limit 6', r: 7, inf: true, cat: 'infantry', from: ['barracks'], reqBld: ['factory'], demo: true },
+  bloater: { side: 1, name: 'Bloater', desc: 'Suicide charge vs buildings. A dud death leaves a plague patch. Limit 6', r: 8, inf: true, cat: 'infantry', from: ['barracks'], reqBld: ['factory'], demo: true, bloater: true },
 };
 // Loop 3: armor / damage type / hitsAir and spec stats come from combat.js (CS balance table)
 for (const k in UDEF) {
   const c = Combat.UNITS[k], u = UDEF[k]; u.armor = c.armor; u.weapon = c.dmgType || undefined; u.hitsAir = !!c.dmgType && Combat.hitsAir(c.dmgType);
-  if (c.dmgType || c.heal) Object.assign(u, { cost: c.cost, time: c.time, hp: c.hp, dmg: c.dmg || 0, rof: c.rof || 0, range: c.range, speed: c.speed * 32, sight: c.sight, splash: c.splash || 0 });
+  if (c.dmgType || c.heal || c.cost) Object.assign(u, { cost: c.cost, time: c.time, hp: c.hp, dmg: c.dmg || 0, rof: c.rof || 0, range: c.range || 0, speed: (c.speed || 0) * 32, sight: c.sight, splash: c.splash || 0 });
   if (c.heal) u.heal = c.heal;
   if (c.limit) u.limit = c.limit;
 }
@@ -111,6 +123,12 @@ const BDEF = {
   armory: { name: ['Armory', 'Armory'], desc: 'Military research. Unlocks the Flamer. Uses 30 power', w: 2, h: 2, hp: 900, cost: 1200, time: 12, req: ['barracks', 'refinery'], sight: 5, side: 0, research: true },
   church: { name: ['Church', 'Church'], desc: 'Holy research. Unlocks the Medic; trains the Archangel and Templar. Uses 40 power', w: 2, h: 3, hp: 1000, cost: 1500, time: 15, req: ['armory'], sight: 6, side: 0, research: true },
   altar: { name: ['Dark Altar', 'Dark Altar'], desc: 'Trains the Demon Lord. Uses 40 power', w: 2, h: 3, hp: 1000, cost: 1500, time: 15, req: ['factory'], sight: 5, side: 1 },
+  // Loop 5 §1–5. Walls and gates do not extend the build radius.
+  wall: { name: ['Scrap Wall', 'Flesh Wall'], desc: '1-tile wall segment. Blocks all ground units. Cap 80 per side', w: 1, h: 1, hp: Loop5.D.WALL_HP, cost: Loop5.D.WALL_COST, time: Loop5.D.WALL_TIME, req: ['barracks'], sight: 2, power: Loop5.D.WALL_POWER, noRadius: !Loop5.D.WALL_EXTENDS_RADIUS, wall: true },
+  gate: { name: ['Gate', 'Flesh Gate'], desc: 'Opens for your ground units, stays a wall to the enemy. Press L to lock. Rotate with R while placing', w: Loop5.D.GATE_W, h: Loop5.D.GATE_H, hp: Loop5.D.GATE_HP, cost: Loop5.D.GATE_COST, time: Loop5.D.GATE_TIME, req: ['barracks'], sight: 2, power: Loop5.D.GATE_POWER, noRadius: !Loop5.D.WALL_EXTENDS_RADIUS, gate: true, rotatable: true },
+  flametower: { name: ['Flame Tower', 'Brimstone Spire'], desc: 'Anti-swarm fire tower. Splash, kills burn and never rise. Uses 30 power', w: 1, h: 1, hp: Loop5.D.FLAMETOWER_HP, cost: Loop5.D.FLAMETOWER_COST, time: Loop5.D.FLAMETOWER_TIME, req: ['turret'], sight: Loop5.D.FLAMETOWER_SIGHT, dmg: Loop5.D.FLAMETOWER_DMG, rof: Loop5.D.FLAMETOWER_ROF, range: Loop5.D.FLAMETOWER_RANGE, splash: Loop5.D.FLAMETOWER_SPLASH, power: Loop5.D.FLAMETOWER_POWER },
+  rockettower: { name: ['Rocket Tower', 'Bone Cannon'], desc: 'Anti-heavy tower. 2-tile minimum range, 0.6 s rocket. Uses 30 power', w: 1, h: 1, hp: Loop5.D.ROCKETTOWER_HP, cost: Loop5.D.ROCKETTOWER_COST, time: Loop5.D.ROCKETTOWER_TIME, req: ['factory'], sight: Loop5.D.ROCKETTOWER_SIGHT, dmg: Loop5.D.ROCKETTOWER_DMG, rof: Loop5.D.ROCKETTOWER_ROF, range: Loop5.D.ROCKETTOWER_RANGE, minRange: Loop5.D.ROCKETTOWER_MIN_RANGE, splash: Loop5.D.ROCKETTOWER_SPLASH, power: Loop5.D.ROCKETTOWER_POWER, travel: Loop5.D.ROCKETTOWER_TRAVEL_S },
+  forge: { name: ['Bone Forge', 'Bone Forge'], desc: 'Horde research. Unlocks the Spitter after Acid Glands. Uses 30 power', w: 2, h: 2, hp: Loop5.D.FORGE_HP, cost: Loop5.D.FORGE_COST, time: Loop5.D.FORGE_TIME, req: ['barracks', 'refinery'], sight: 5, side: 1, research: true, power: Loop5.D.FORGE_POWER },
 };
 // addendum 1d lever (backlog call B): when true, the Barracks / Spawning Pit need a Scrap Yard / Grinder Pit instead of the HQ / Hive
 // (the sidebar then shows "Needs Scrap Yard" / "Needs Grinder Pit"). User decision via the Director, Oct 28: OFF.
@@ -119,10 +137,10 @@ function setBarracksNeedsYard(v) { BARRACKS_NEEDS_YARD = !!v; BDEF.barracks.req 
 setBarracksNeedsYard(BARRACKS_NEEDS_YARD);
 
 // Loop 4 buildings without art yet: drawn by the procedural drawBld (unitart.js BLD_MAP has no entry)
-const ART_PENDING = [];
+const ART_PENDING = ['wall', 'gate', 'flametower', 'rockettower', 'forge']; // L5: no art HANDOFF yet (procedural fallback)
 for (const k in BDEF) BDEF[k].armor = 'structure';
-const BORDER = ['refinery', 'barracks', 'turret', 'factory', 'silo', 'power', 'depot', 'armory', 'church'];
-const UORDER = [['gleaner', 'survivor', 'seraph', 'ark', 'flamer', 'rocket', 'medic', 'archangel', 'templar'], ['reaper', 'zombie', 'imp', 'brute', 'demon']];
+const BORDER = ['refinery', 'barracks', 'turret', 'wall', 'gate', 'flametower', 'rockettower', 'factory', 'silo', 'power', 'depot', 'armory', 'church'];
+const UORDER = [['gleaner', 'survivor', 'seraph', 'ark', 'apc', 'artillery', 'purifier', 'flamer', 'rocket', 'shock', 'demo', 'medic', 'archangel', 'templar'], ['reaper', 'zombie', 'leaper', 'imp', 'brute', 'crawler', 'catapult', 'sprayer', 'spitter', 'bloater', 'demon']];
 const QCATS = ['structure', 'infantry', 'vehicle', 'church', 'altar'];
 const NUKE_CHARGE = 200, NUKE_R = 4.5;
 // visual only: newly placed buildings play the art's scaffold + bottom-up reveal over this many seconds (fully functional at once)
@@ -137,9 +155,9 @@ const AI_REMOTE_EASY_FROM = 600;                     // Easy: no remote Grinder 
 const AI_FIELD_LIVE = 0.25, AI_FIELD_SERVED = 8, AI_FIELD_PLAYER_UNIT = 8, AI_FIELD_PLAYER_BLD = 10;
 const DIFF = {
   // firstWave / wave1: Loop 4 opening addendum overrides (wave 1 is a fixed group; later waves use minWave + 2 per wave)
-  easy: { name: 'Easy', inc: 0.75, prod: 0.85, firstWave: 390, wave1: { zombie: 3 }, waveGap: 150, minWave: 5, siloTime: 600, altarTime: 720 },
-  normal: { name: 'Normal', inc: 1.0, prod: 1.0, firstWave: 300, wave1: { zombie: 5, imp: 1 }, /* 1d §8 ruling 1 (was 4 Zombies + 1 Imp) */ waveGap: 120, minWave: 6, siloTime: 420, altarTime: 540 },
-  hard: { name: 'Hard', inc: 1.35, prod: 1.2, firstWave: 240, wave1: { zombie: 5, imp: 1 }, startScripAI: 2000, /* 1d §8 steering: Hard AI starts on 2,000 (was SD.startScripAI 2,500); inc stays 1.35 */ waveGap: 95, minWave: 8, siloTime: 300, altarTime: 420 },
+  easy: { name: 'Easy', inc: 0.75, prod: 0.85, firstWave: 390, wave1: { zombie: 3 }, waveGap: 150, minWave: 5, siloTime: 600, altarTime: 720, forgeTime: 720, spitterCap: 2, spitterFrom: 840, spitterPerHeavy: 0.5 },
+  normal: { name: 'Normal', inc: 1.0, prod: 1.0, firstWave: 300, wave1: { zombie: 5, imp: 1 }, /* 1d §8 ruling 1 (was 4 Zombies + 1 Imp) */ waveGap: 120, minWave: 6, siloTime: 420, altarTime: 540, forgeTime: 480, spitterCap: 4, spitterFrom: 0, spitterPerHeavy: 0.5 },
+  hard: { name: 'Hard', inc: 1.35, prod: 1.2, firstWave: 240, wave1: { zombie: 5, imp: 1 }, startScripAI: 2000, /* 1d §8 steering: Hard AI starts on 2,000 (was SD.startScripAI 2,500); inc stays 1.35 */ waveGap: 95, minWave: 8, siloTime: 300, altarTime: 420, forgeTime: 360, spitterCap: 6, spitterFrom: 0, spitterPerHeavy: 1 },
 };
 const bname = (type, side) => BDEF[type].name[side];
 const ename = e => e.kind === 'u' ? e.d.name : bname(e.type, e.side);
@@ -151,9 +169,33 @@ let designMap = null;   // ?map=<name> (assets/maps/<name>.json) or RTS.newGame(
 let idc = 0;
 const bById = new Map();
 
-function walk(tx, ty) {
+function walk(tx, ty, side, mode) {
+  // mode: 'phys' (default) = can I stand here; 'path' = planning (own unlocked gates are walkable);
+  // 'breach' = planning with enemy walls/gates passable (cost is added in findPath).
   if (tx < 0 || ty < 0 || tx >= MW || ty >= MH) return false;
-  const i = ty * MW + tx; return !BLOCK[terr[i]] && !bgrid[i];
+  const i = ty * MW + tx; if (BLOCK[terr[i]]) return false;
+  const id = bgrid[i]; if (id < 0) return false; // reserved (self-seal preview)
+  if (!id) return true;
+  const b = bById.get(id); if (!b || b.dead) return true;
+  if (b.type === 'wall') return mode === 'breach' && side !== undefined && b.side !== side;
+  if (b.type === 'gate') {
+    if (mode === 'path') return Loop5.gatePathableFor(b, side);
+    if (mode === 'breach') return b.side === side ? Loop5.gatePathableFor(b, side) : true;
+    return Loop5.gateOpen(b); // physical: only an open (or animating) gate is free
+  }
+  return false;
+}
+function tileCost(tx, ty, side, breach) {
+  if (!breach) return 0;
+  const id = bgrid[ty * MW + tx]; if (!id) return 0;
+  const b = bById.get(id); if (!b || b.dead || b.side === side) return 0;
+  if (b.type === 'wall') return Loop5.D.BREACH_COST_TILES;
+  if (b.type === 'gate') return Loop5.D.GATE_BREACH_COST_TILES;
+  return 0;
+}
+function defenseAt(tx, ty) {
+  const id = bgrid[ty * MW + tx]; if (!id) return null;
+  const b = bById.get(id); return Loop5.isWallish(b) ? b : null;
 }
 const tileOf = v => Math.floor(v / TILE);
 
@@ -167,15 +209,16 @@ function hpop() { const top = heapI[0]; hsz--; if (hsz > 0) { heapI[0] = heapI[h
 const DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]];
 function octile(ax, ay, bx, by) { const dx = Math.abs(ax - bx), dy = Math.abs(ay - by); return Math.max(dx, dy) + 0.414 * Math.min(dx, dy); }
 
-function nearestWalkable(gx, gy, sx, sy) {
+function nearestWalkable(gx, gy, sx, sy, side, mode) {
   gx = clamp(gx, 0, MW - 1); gy = clamp(gy, 0, MH - 1);
-  if (walk(gx, gy)) return [gx, gy];
+  mode = mode || 'path';
+  if (walk(gx, gy, side, mode)) return [gx, gy];
   for (let r = 1; r < 25; r++) {
     let best = null, bd = 1e9;
     for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
       if (Math.abs(dx) !== r && Math.abs(dy) !== r) continue;
       const x = gx + dx, y = gy + dy;
-      if (!walk(x, y)) continue;
+      if (!walk(x, y, side, mode)) continue;
       const d = sx === undefined ? dx * dx + dy * dy : (x - sx) * (x - sx) + (y - sy) * (y - sy);
       if (d < bd) { bd = d; best = [x, y]; }
     }
@@ -184,8 +227,11 @@ function nearestWalkable(gx, gy, sx, sy) {
   return null;
 }
 
-function findPath(sx, sy, gx, gy) {
-  if (!walk(gx, gy)) { const n = nearestWalkable(gx, gy, sx, sy); if (!n) return null; gx = n[0]; gy = n[1]; }
+function findPath(sx, sy, gx, gy, opts) {
+  opts = opts || {};
+  const side = opts.side, mode = opts.breach ? 'breach' : (opts.mode || 'path');
+  const can = (x, y) => walk(x, y, side, mode);
+  if (!can(gx, gy)) { const n = nearestWalkable(gx, gy, sx, sy, side, mode); if (!n) return null; gx = n[0]; gy = n[1]; }
   if (sx === gx && sy === gy) return [[gx, gy]];
   curStamp++; hsz = 0;
   const start = sy * MW + sx, goal = gy * MW + gx;
@@ -201,44 +247,51 @@ function findPath(sx, sy, gx, gy) {
     if (++exp > 7000) break;
     for (let k = 0; k < 8; k++) {
       const dx = DIRS[k][0], dy = DIRS[k][1], nx = cx + dx, ny = cy + dy;
-      if (!walk(nx, ny)) continue;
-      if (k >= 4 && (!walk(cx + dx, cy) || !walk(cx, cy + dy))) continue;
+      if (!can(nx, ny)) continue;
+      if (k >= 4 && (!can(cx + dx, cy) || !can(cx, cy + dy))) continue;
       const ni = ny * MW + nx; if (closed[ni] === curStamp) continue;
-      const ng = gS[cur] + (k >= 4 ? 1.414 : 1);
+      const ng = gS[cur] + (k >= 4 ? 1.414 : 1) + tileCost(nx, ny, side, opts.breach);
       if (stamp[ni] !== curStamp || ng < gS[ni]) { stamp[ni] = curStamp; gS[ni] = ng; came[ni] = cur; hpush(ni, ng + octile(nx, ny, gx, gy)); }
     }
   }
   const out = []; let c = best;
   while (c !== -1 && c !== start) { out.push([c % MW, (c / MW) | 0]); c = came[c]; }
   out.reverse();
-  return smoothPath(sx, sy, out);
+  if (opts.raw) { out.breach = opts.breach ? firstBreachOn(out, side) : null; return out; }
+  const sm = smoothPath(sx, sy, out, side, mode);
+  if (opts.breach) sm.breach = firstBreachOn(out, side) || firstBreachOn(sm, side);
+  return sm;
+}
+function firstBreachOn(p, side) {
+  for (const [x, y] of p) { const b = defenseAt(x, y); if (b && b.side !== side) return b; }
+  return null;
 }
 // line-of-sight smoothing on tile grid
-function losClear(ax, ay, bx, by) {
+function losClear(ax, ay, bx, by, side, mode) {
   const steps = Math.ceil(Math.max(Math.abs(bx - ax), Math.abs(by - ay)) * 3);
   for (let i = 1; i < steps; i++) {
     const t = i / steps, x = ax + (bx - ax) * t, y = ay + (by - ay) * t;
-    for (const ox of [-0.3, 0.3]) for (const oy of [-0.3, 0.3]) if (!walk(Math.floor(x + 0.5 + ox), Math.floor(y + 0.5 + oy))) return false;
+    for (const ox of [-0.3, 0.3]) for (const oy of [-0.3, 0.3]) if (!walk(Math.floor(x + 0.5 + ox), Math.floor(y + 0.5 + oy), side, mode || 'path')) return false;
   }
   return true;
 }
-function smoothPath(sx, sy, p) {
+function smoothPath(sx, sy, p, side, mode) {
   if (p.length < 3) return p;
   const out = []; let ax = sx, ay = sy, i = 0;
   while (i < p.length) {
     let j = Math.min(p.length - 1, i + 12);
-    while (j > i && !losClear(ax, ay, p[j][0], p[j][1])) j--;
+    while (j > i && !losClear(ax, ay, p[j][0], p[j][1], side, mode)) j--;
     out.push(p[j]); ax = p[j][0]; ay = p[j][1]; i = j + 1;
   }
   return out;
 }
 // BFS from tile gathering n walkable tiles (formation targets)
-function gatherTiles(gx, gy, n) {
-  const s = nearestWalkable(gx, gy); if (!s) return [];
+function gatherTiles(gx, gy, n, side) {
+  const s = nearestWalkable(gx, gy, undefined, undefined, side, 'path'); if (!s) return [];
   const seen = new Set([s[1] * MW + s[0]]), q = [s], out = [];
   while (q.length && out.length < n) {
     const c = q.shift(); out.push(c);
-    for (let k = 0; k < 8; k++) { const x = c[0] + DIRS[k][0], y = c[1] + DIRS[k][1], i = y * MW + x; if (!seen.has(i) && walk(x, y)) { seen.add(i); q.push([x, y]); } }
+    for (let k = 0; k < 8; k++) { const x = c[0] + DIRS[k][0], y = c[1] + DIRS[k][1], i = y * MW + x; if (!seen.has(i) && walk(x, y, side, 'path')) { seen.add(i); q.push([x, y]); } }
   }
   return out;
 }
@@ -537,19 +590,23 @@ function makeUnit(type, side, x, y) {
   const d = UDEF[type], mhp = maxHpOf(type, side);
   const u = { id: ++idc, kind: 'u', type, side, d, x, y, hp: mhp, maxhp: mhp, r: d.r, ang: side ? 2.4 : -0.8, tang: side ? 2.4 : -0.8,
     order: 'idle', path: null, pi: 0, dest: null, target: null, tmode: null, cd: simRand() * 0.5, scan: simRand() * 0.3,
-    repath: 0, load: 0, hs: 'seek', htile: -1, ht: 0, anim: simRand() * 10, moving: false, stuckT: 0, sx: x, sy: y, hitT: 0, dead: false };
+    repath: 0, load: 0, hs: 'seek', htile: -1, ht: 0, anim: simRand() * 10, moving: false, stuckT: 0, sx: x, sy: y, hitT: 0, dead: false, cargo: d.transport ? [] : null };
   G.units.push(u); return u;
 }
-function makeBld(type, side, tx, ty) {
+function makeBld(type, side, tx, ty, rot) {
   const d = BDEF[type];
-  const b = { id: ++idc, kind: 'b', type, side, d, tx, ty, w: d.w, h: d.h, x: (tx + d.w / 2) * TILE, y: (ty + d.h / 2) * TILE, r: Math.max(d.w, d.h) * TILE / 2,
-    hp: d.hp, maxhp: d.hp, cd: 0, target: null, weapon: Combat.TOWERS[type] ? Combat.TOWERS[type].dmgType[side] : null, armed: !!Combat.TOWERS[type], charge: 0, rally: null, anim: simRand() * 10, tang: 0, hitT: 0, dead: false, smokeT: 0, bornT: G.started ? G.time : -1e9 };
-  for (let y = ty; y < ty + d.h; y++) for (let x = tx; x < tx + d.w; x++) bgrid[y * MW + x] = b.id;
+  const rotOn = type === 'gate' && !!rot;
+  const w = rotOn ? d.h : d.w, h = rotOn ? d.w : d.h;
+  const b = { id: ++idc, kind: 'b', type, side, d, tx, ty, w, h, rot: rotOn ? 1 : 0, x: (tx + w / 2) * TILE, y: (ty + h / 2) * TILE, r: Math.max(w, h) * TILE / 2,
+    hp: d.hp, maxhp: d.hp, cd: 0, target: null, weapon: Combat.TOWERS[type] ? Combat.TOWERS[type].dmgType[side] : null, armed: !!Combat.TOWERS[type], charge: 0, rally: null, anim: simRand() * 10, tang: 0, hitT: 0, dead: false, smokeT: 0, bornT: G.started ? G.time : -1e9, dmgState: 0 };
+  for (let y = ty; y < ty + h; y++) for (let x = tx; x < tx + w; x++) bgrid[y * MW + x] = b.id;
   bById.set(b.id, b);
   G.blds.push(b);
+  if (type === 'gate') { b.gate = 'closed'; b.locked = false; b.closeAt = 0; }
+  if (type === 'wall' || type === 'gate') { autotileAround(b); repathForDefense(b); }
   // push out units standing on the footprint
-  for (const u of G.units) if (!u.d.fly && tileOf(u.x) >= tx && tileOf(u.x) < tx + d.w && tileOf(u.y) >= ty && tileOf(u.y) < ty + d.h) {
-    const n = nearestWalkable(tileOf(u.x), tileOf(u.y)); if (n) { u.x = n[0] * TILE + 16; u.y = n[1] * TILE + 16; u.path = null; }
+  for (const u of G.units) if (!u.d.fly && tileOf(u.x) >= tx && tileOf(u.x) < tx + w && tileOf(u.y) >= ty && tileOf(u.y) < ty + h) {
+    const n = nearestWalkable(tileOf(u.x), tileOf(u.y), undefined, undefined, u.side, 'path'); if (n) { u.x = n[0] * TILE + 16; u.y = n[1] * TILE + 16; u.path = null; }
   }
   if (type === 'hq') { b.pad = padTile(b); b.dockQ = []; } // opening addendum: HQ dock pad (no free Truck)
   if (type === 'refinery') { b.pad = padTile(b); b.dockQ = []; const s = dockPoint(b); const h = makeUnit(side ? 'reaper' : 'gleaner', side, s.x, s.y + 20); h.hs = 'seek'; if (G.started && SAL) salvageEvent('haulerSpawned', { u: h, plant: b }); }
@@ -559,7 +616,357 @@ function makeBld(type, side, tx, ty) {
 // one-pad dock directly under the bottom-centre of a Scrap Yard / Grinder Pit (and the HQ / Hive)
 function padTile(b) { const n = nearestWalkable(b.tx + 1, b.ty + b.h, b.tx + 1, b.ty + b.h) || [b.tx + 1, b.ty + b.h]; return n[1] * MW + n[0]; }
 function dockPoint(b) { if (b.pad === undefined) b.pad = padTile(b); return { x: (b.pad % MW) * TILE + 16, y: ((b.pad / MW) | 0) * TILE + 16 }; }
-function removeBld(b) { for (let y = b.ty; y < b.ty + b.h; y++) for (let x = b.tx; x < b.tx + b.w; x++) if (bgrid[y * MW + x] === b.id) bgrid[y * MW + x] = 0; bById.delete(b.id); }
+function removeBld(b) { for (let y = b.ty; y < b.ty + b.h; y++) for (let x = b.tx; x < b.tx + b.w; x++) if (bgrid[y * MW + x] === b.id) bgrid[y * MW + x] = 0; bById.delete(b.id); if (b.type === 'wall' || b.type === 'gate') { autotileAround(b); scheduleBreachRepath(b); } }
+function autotileAround(b) {
+  const seen = new Set();
+  const mark = (tx, ty) => {
+    const id = (tx >= 0 && ty >= 0 && tx < MW && ty < MH) ? bgrid[ty * MW + tx] : 0; if (!id) return;
+    const o = bById.get(id); if (!Loop5.isWallish(o) || seen.has(o.id)) return;
+    seen.add(o.id);
+    let m = 0; // 1 N, 2 E, 4 S, 8 W
+    const nb = (x, y) => { const i = bgrid[y * MW + x]; const n = i && bById.get(i); return Loop5.isWallish(n) && n.side === o.side; };
+    if (o.ty > 0 && nb(o.tx, o.ty - 1)) m |= 1;
+    if (o.tx + o.w < MW && nb(o.tx + o.w, o.ty)) m |= 2;
+    if (o.ty + o.h < MH && nb(o.tx, o.ty + o.h)) m |= 4;
+    if (o.tx > 0 && nb(o.tx - 1, o.ty)) m |= 8;
+    o.tileMask = m;
+  };
+  for (let y = b.ty - 1; y <= b.ty + b.h; y++) for (let x = b.tx - 1; x <= b.tx + b.w; x++) mark(x, y);
+}
+function repathForDefense(b) {
+  if (!G || !G.units) return;
+  for (const u of G.units) {
+    if (u.dead || u.d.fly || !u.dest) continue;
+    const keep = u.dest; moveTo(u, keep.x, keep.y); if (u.order === 'attackmove') u.dest = keep;
+  }
+}
+function scheduleBreachRepath(b) {
+  if (!G || !G.units) return;
+  let k = 0;
+  for (const u of G.units) {
+    if (u.dead || u.d.fly) continue;
+    if (u.tmode === 'breach' || (u.dest && u.blockedOn)) {
+      u.repathIn = (k++ % 10) * (Loop5.D.BREACH_REPATH_S / 10);
+    } else if (u.dest) {
+      const keep = u.dest; moveTo(u, keep.x, keep.y); if (u.order === 'attackmove') u.dest = keep;
+    }
+  }
+}
+function wallCount(side) { return G.blds.filter(b => b.side === side && b.type === 'wall' && !b.dead).length; }
+function bldFoot(type, rot) { const d = BDEF[type]; return (type === 'gate' && rot) ? { w: d.h, h: d.w } : { w: d.w, h: d.h }; }
+function pathExists(side, ax, ay, bx, by) {
+  const p = findPath(tileOf(ax), tileOf(ay), tileOf(bx), tileOf(by), { side, mode: 'path' });
+  return !!(p && p.length);
+}
+// Temporary occupancy to test whether a placement would cut a yard/factory off from the HQ. Warns, never blocks (L5 §2).
+function cutOffWarning(side, type, tx, ty, rot) {
+  const { w, h } = bldFoot(type, rot);
+  const saved = [];
+  for (let y = ty; y < ty + h; y++) for (let x = tx; x < tx + w; x++) {
+    if (x < 0 || y < 0 || x >= MW || y >= MH) continue;
+    const i = y * MW + x; saved.push([i, bgrid[i]]); bgrid[i] = -1; // reserved, acts as blocked
+  }
+  const hq = G.blds.find(b => b.side === side && b.type === 'hq' && !b.dead);
+  let warn = null;
+  if (hq) for (const b of G.blds) {
+    if (b.dead || b.side !== side || (b.type !== 'refinery' && b.type !== 'factory')) continue;
+    const a = spawnPoint(b), c = spawnPoint(hq);
+    if (!pathExists(side, a.x, a.y, c.x, c.y)) { warn = b.type === 'refinery' ? 'This cuts off your Scrap Yard' : 'This cuts off your Factory'; break; }
+  }
+  for (const [i, v] of saved) bgrid[i] = v;
+  return warn;
+}
+function sellBld(b) {
+  if (!b || b.dead || b.type === 'hq') return false;
+  const back = Math.floor((b.d.cost || 0) * Loop5.D.SELL_REFUND);
+  G.credits[b.side] += back;
+  removeBld(b); b.dead = true;
+  if (b.side === 0) msg((b.d.name && b.d.name[0]) + ' sold' + (back ? ' (+' + back + ')' : '') + '.', '#DDF6FF', b.x, b.y);
+  return true;
+}
+// Straight or L-shaped wall line, at most WALL_DRAG_MAX tiles, starting at the first tile (L5 §2).
+function wallTilesFromDrag(x0, y0, x1, y1) {
+  x0 |= 0; y0 |= 0; x1 |= 0; y1 |= 0;
+  const line = (ax, ay, bx, by) => {
+    const out = []; const dx = Math.sign(bx - ax), dy = Math.sign(by - ay);
+    let x = ax, y = ay; out.push([x, y]);
+    while (x !== bx || y !== by) { if (x !== bx) x += dx; else y += dy; out.push([x, y]); }
+    return out;
+  };
+  let tiles;
+  if (x0 === x1 || y0 === y1) tiles = line(x0, y0, x1, y1);
+  else {
+    const a = line(x0, y0, x1, y0).concat(line(x1, y0, x1, y1).slice(1));
+    const b = line(x0, y0, x0, y1).concat(line(x0, y1, x1, y1).slice(1));
+    tiles = a.length <= b.length ? a : b;
+  }
+  if (tiles.length > Loop5.D.WALL_DRAG_MAX) tiles = tiles.slice(0, Loop5.D.WALL_DRAG_MAX);
+  return tiles;
+}
+
+// ---------------- Loop 5 helpers ----------------
+function allySees(side, x, y) {
+  for (const u of G.units) if (!u.dead && !u.carried && u.side === side && dist(u.x, u.y, x, y) <= u.d.sight * TILE) return true;
+  for (const b of G.blds) if (!b.dead && b.side === side && dist(b.x, b.y, x, y) <= (b.d.sight || 0) * TILE) return true;
+  return false;
+}
+// Siege needs a spotter to start firing past its own sight. Buildings do not move, so a reveal is enough to keep the battery on them.
+function noteSiegeVision(side) {
+  if (!G.seenBld) G.seenBld = [{}, {}];
+  for (const b of G.blds) if (b.side !== side && !b.dead && allySees(side, b.x, b.y)) G.seenBld[side][b.id] = true;
+}
+function siegeCanFire(side, t) {
+  if (!t || t.dead) return false;
+  if (allySees(side, t.x, t.y)) { if (t.kind === 'b') { if (!G.seenBld) G.seenBld = [{}, {}]; G.seenBld[side][t.id] = true; } return true; }
+  return t.kind === 'b' && G.seenBld && G.seenBld[side] && G.seenBld[side][t.id];
+}
+function addPatch(x, y, r, dur, side) {
+  if (!G.patches) G.patches = [];
+  r = (r == null ? Loop5.D.PATCH_R : r) * TILE;
+  G.patches.push({ x, y, r, until: G.time + dur, side, born: G.time });
+  const mine = G.patches.filter(p => p.side === side);
+  if (mine.length > Loop5.D.PATCH_CAP) {
+    const oldest = mine.reduce((a, b) => a.born <= b.born ? a : b);
+    G.patches = G.patches.filter(p => p !== oldest);
+  }
+  return G.patches[G.patches.length - 1];
+}
+function cleanseAt(x, y, rTiles) {
+  const r = (rTiles == null ? 1 : rTiles) * TILE;
+  if (G.patches) G.patches = G.patches.filter(p => dist(p.x, p.y, x, y) > r + (p.r || 0));
+  if (!G.suppress) G.suppress = {};
+  const R = rTiles == null ? 1 : rTiles, tx = tileOf(x), ty = tileOf(y);
+  for (let yy = ty - R; yy <= ty + R; yy++) for (let xx = tx - R; xx <= tx + R; xx++) {
+    if (xx < 0 || yy < 0 || xx >= MW || yy >= MH) continue;
+    if (Math.hypot(xx - tx, yy - ty) <= R + 1e-6) G.suppress[yy * MW + xx] = G.time + Loop5.D.CLEANSE_S;
+  }
+}
+function tileSuppressed(i) { return G.suppress && G.suppress[i] > G.time; }
+function inPatch(x, y) {
+  if (!G.patches) return false;
+  for (const p of G.patches) if (G.time < p.until && dist(p.x, p.y, x, y) <= p.r) return true;
+  return false;
+}
+function updPatches() { if (G.patches) G.patches = G.patches.filter(p => G.time < p.until); }
+function canLoadUnit(tr, u) {
+  if (!tr || !u || tr.dead || u.dead || tr.carried || u.carried) return false;
+  if (!tr.d.transport || tr.side !== u.side) return false;
+  if (!u.d.inf || u.d.big || u.d.fly) return false;
+  const cap = tr.d.cargoCap || Loop5.D.CARGO_CAP;
+  if ((tr.cargo || []).length >= cap) return false;
+  return true;
+}
+function loadUnit(tr, u) {
+  if (!canLoadUnit(tr, u)) return false;
+  if (!tr.cargo) tr.cargo = [];
+  tr.cargo.push(u);
+  u.carried = tr; u.path = null; u.target = null; u.order = 'idle'; u.moving = false; u.heal = null;
+  u.x = tr.x; u.y = tr.y;
+  return true;
+}
+function ejectCargo(tr, frac) {
+  const list = (tr.cargo || []).slice();
+  tr.cargo = [];
+  const spots = gatherTiles(tileOf(tr.x), tileOf(tr.y), list.length + 4, tr.side);
+  let i = 0;
+  for (const u of list) {
+    u.carried = null;
+    if (frac != null) u.hp = Math.max(1, Math.floor(u.hp * frac));
+    const s = spots[i++] || [tileOf(tr.x), tileOf(tr.y)];
+    u.x = s[0] * TILE + 16; u.y = s[1] * TILE + 16;
+    u.order = 'idle'; u.path = null; u.target = null; u.moving = false;
+  }
+  return list;
+}
+function startUnload(tr) {
+  if (!tr || tr.dead || !(tr.cargo || []).length) return false;
+  tr.unloading = true; tr.unloadT = Loop5.D.UNLOAD_S; tr.path = null; tr.moving = false;
+  return true;
+}
+function finishUnload(tr) { tr.unloading = false; tr.unloadT = 0; return ejectCargo(tr, null); }
+function orderLoad(units, tr) {
+  for (const u of units) { if (!canLoadUnit(tr, u)) continue; u.order = 'load'; u.loadOnto = tr; u.target = null; moveTo(u, tr.x, tr.y); }
+}
+function canHurtStructure(u) { const w = weaponOf(u); return !!w && Combat.canHit(w, 'structure'); }
+function minRangeOf(e) { return (e.d.minRange || 0) * TILE; }
+function tooClose(e, t) { const mn = minRangeOf(e); return mn > 0 && edgeDist(e.x, e.y, t) - (e.r || 0) * 0.5 < mn; }
+function tryBreach(u, goal) {
+  if (!u || u.dead || u.d.fly || u.d.harv) return false;
+  const gx = goal.x != null ? goal.x : (goal.tx + goal.w / 2) * TILE, gy = goal.y != null ? goal.y : (goal.ty + goal.h / 2) * TILE;
+  if (!canHurtStructure(u)) {
+    const n = nearestWalkable(tileOf(gx), tileOf(gy), tileOf(u.x), tileOf(u.y), u.side, 'path');
+    if (n) moveTo(u, n[0] * TILE + 16, n[1] * TILE + 16);
+    return false;
+  }
+  const path = findPath(tileOf(u.x), tileOf(u.y), tileOf(gx), tileOf(gy), { side: u.side, breach: true });
+  let def = path && path.breach;
+  if (!def) return false;
+  const nAt = G.units.filter(o => o !== u && !o.dead && o.target === def).length;
+  if (nAt >= 2 && path) {
+    const wid = Loop5.D.BREACH_WIDEN_TILES;
+    for (const step of path) {
+      const d = defenseAt(step[0], step[1]);
+      if (d && d !== def && d.side !== u.side && Math.hypot(d.tx - def.tx, d.ty - def.ty) <= wid) { def = d; break; }
+    }
+  }
+  u.target = def; u.tmode = 'breach'; u.order = u.order === 'move' ? 'attack' : (u.order || 'attack'); u.breachSince = G.time;
+  moveTo(u, def.x, def.y);
+  return true;
+}
+function placeWallLine(side, tiles) {
+  const out = [];
+  for (const [tx, ty] of tiles) {
+    if (wallCount(side) >= Loop5.D.WALL_CAP) break;
+    const pc = placeCheck(side, 'wall', tx, ty, 0);
+    if (!pc.ok) continue;
+    if (G.credits && G.credits[side] < Loop5.D.WALL_COST) break;
+    if (G.credits) G.credits[side] -= Loop5.D.WALL_COST;
+    out.push(makeBld('wall', side, tx, ty));
+  }
+  if (out.length) cutOffWarning(side, 'wall', out[out.length - 1].tx, out[out.length - 1].ty);
+  return out;
+}
+function setDmgState(b) {
+  if (!b || b.kind !== 'b') return;
+  const f = b.hp / b.maxhp;
+  const next = f < Loop5.D.DMG_STATE_CRITICAL ? 2 : (f <= Loop5.D.DMG_STATE_DAMAGED ? 1 : 0);
+  if (next !== b.dmgState) { const prev = b.dmgState; b.dmgState = next; if (Loop5.onDamageState) Loop5.onDamageState(b, prev, next); }
+}
+function toggleGateLock(b) {
+  const gates = b ? [b] : (G.sel || []).filter(e => e.kind === 'b' && e.type === 'gate' && e.side === 0 && !e.dead);
+  for (const g of gates) { g.locked = !g.locked; if (g.locked && g.gate === 'open') { /* stays until close timer if empty; lock prevents opening */ } }
+  return gates;
+}
+function updGate(b, dt) {
+  if (b.type !== 'gate') return;
+  const R = Loop5.D.GATE_OPEN_TILES * TILE, closeS = Loop5.D.GATE_CLOSE_S, anim = Loop5.D.GATE_ANIM_S;
+  const ownNear = G.units.some(u => !u.dead && !u.carried && !u.d.fly && u.side === b.side && dist(u.x, u.y, b.x, b.y) <= R);
+  const standing = G.units.some(u => !u.dead && !u.carried && !u.d.fly && tileOf(u.x) >= b.tx && tileOf(u.x) < b.tx + b.w && tileOf(u.y) >= b.ty && tileOf(u.y) < b.ty + b.h);
+  if (powerOf(b.side).net < 0) return; // unpowered holds current state
+  if (b.locked) {
+    if (b.gate !== 'closed' && !standing) { b.gate = 'closing'; b.animT = (b.animT || 0) + dt; if (b.animT >= anim && !standing) { b.gate = 'closed'; b.animT = 0; } }
+    return;
+  }
+  if (ownNear) { b.closeAt = 0; if (b.gate !== 'open') { b.gate = b.gate === 'closed' ? 'opening' : b.gate; b.animT = (b.animT || 0) + dt; if (b.gate === 'opening' && b.animT >= anim) { b.gate = 'open'; b.animT = 0; } } }
+  else {
+    if (b.gate === 'open' || b.gate === 'opening') {
+      b.closeAt = b.closeAt || (G.time + closeS);
+      if (G.time >= b.closeAt && !standing) { b.gate = 'closing'; b.animT = 0; }
+    }
+    if (b.gate === 'closing') { b.animT = (b.animT || 0) + dt; if (b.animT >= anim && !standing) { b.gate = 'closed'; b.animT = 0; } }
+  }
+  // opening / closing count as open for pathing (Loop5.gateOpen)
+}
+
+
+
+function untargetable(u) { return !u || u.dead || u.carried || u.leaping; }
+function leapersOf(list) { return (list || []).filter(u => u && u.kind === 'u' && u.side === 0 && !u.dead && !u.carried && u.d.leap); }
+function canLeap(u, tx, ty) {
+  if (!u || !u.d.leap || u.dead || u.leaping || (u.leapCd || 0) > 0) return false;
+  if (tx < 0 || ty < 0 || tx >= MW || ty >= MH) return false;
+  const d = Math.hypot(tx + 0.5 - u.x / TILE, ty + 0.5 - u.y / TILE);
+  if (d > Loop5.D.LEAP_TILES + 1e-6) return false;
+  if (!walk(tx, ty, u.side, 'phys')) return false;
+  const x0 = tileOf(u.x), y0 = tileOf(u.y);
+  const steps = Math.max(1, Math.ceil(Math.hypot(tx - x0, ty - y0) * 2));
+  for (let i = 1; i < steps; i++) {
+    const t = i / steps, x = Math.round(x0 + (tx - x0) * t), y = Math.round(y0 + (ty - y0) * t);
+    if ((x === x0 && y === y0) || (x === tx && y === ty)) continue;
+    const id = bgrid[y * MW + x]; if (!id) continue;
+    const b = bById.get(id); if (!b || b.dead) continue;
+    if (Loop5.isWallish(b)) continue; // walls and gates are legal to pass over
+    if (b.w > 1 || b.h > 1) return false;
+  }
+  return true;
+}
+function startLeap(u, tx, ty) {
+  if (!canLeap(u, tx, ty)) return false;
+  u.leaping = true; u.leapT = Loop5.D.LEAP_AIR_S; u.leapCd = Loop5.D.LEAP_CD_S;
+  u.leapFrom = { x: u.x, y: u.y }; u.leapTo = { x: tx * TILE + 16, y: ty * TILE + 16 };
+  u.path = null; u.target = null; u.moving = false; u.order = 'idle';
+  return true;
+}
+function pathTileLen(p) { return p ? p.length : 0; }
+function shouldAutoLeap(u, dest) {
+  if (!u || !u.d.leap || u.leaping || (u.leapCd || 0) > 0 || !dest) return false;
+  const dx = dest.x - u.x, dy = dest.y - u.y, straight = Math.hypot(dx, dy) / TILE;
+  if (straight > Loop5.D.LEAP_TILES + 1e-6) return false;
+  const gx = tileOf(dest.x), gy = tileOf(dest.y);
+  const p = findPath(tileOf(u.x), tileOf(u.y), gx, gy, { side: u.side, raw: true });
+  if (!p) return true;
+  const end = p[p.length - 1];
+  if (!end || Math.hypot(end[0] - gx, end[1] - gy) > 1.51) return true; // path did not actually reach the dest
+  return pathTileLen(p) > Loop5.D.LEAP_PATH_MULT * straight;
+}
+function autoLeapTo(u, dest) {
+  if (!shouldAutoLeap(u, dest)) return false;
+  let best = null, bd = 1e9;
+  const max = Loop5.D.LEAP_TILES;
+  for (let dy = -max; dy <= max; dy++) for (let dx = -max; dx <= max; dx++) {
+    const tx = tileOf(u.x) + dx, ty = tileOf(u.y) + dy;
+    if (!canLeap(u, tx, ty)) continue;
+    const d = Math.hypot(tx * TILE + 16 - dest.x, ty * TILE + 16 - dest.y);
+    if (d < bd) { bd = d; best = [tx, ty]; }
+  }
+  return best ? startLeap(u, best[0], best[1]) : false;
+}
+function beginLeapCommand() {
+  const list = leapersOf(G.sel);
+  if (!list.length) return false;
+  G.mode = 'leap'; G.placing = null;
+  hint('Leap: click a tile within 5 · Right-click / Esc to cancel');
+  return true;
+}
+function issueLeapAt(wx, wy) {
+  const tx = tileOf(wx), ty = tileOf(wy), list = leapersOf(G.sel);
+  let n = 0;
+  for (const u of list) if (startLeap(u, tx, ty)) n++;
+  G.mode = null; hint();
+  return n;
+}
+function updLeap(u, dt) {
+  if (u.leapCd > 0 && !u.leaping) u.leapCd = Math.max(0, u.leapCd - dt);
+  if (!u.leaping) return false;
+  u.leapT -= dt;
+  const dur = Loop5.D.LEAP_AIR_S, k = 1 - Math.max(0, u.leapT) / dur;
+  u.x = u.leapFrom.x + (u.leapTo.x - u.leapFrom.x) * k;
+  u.y = u.leapFrom.y + (u.leapTo.y - u.leapFrom.y) * k;
+  u.moving = false; u.path = null; u.target = null;
+  if (u.leapT <= 0) {
+    u.x = u.leapTo.x; u.y = u.leapTo.y; u.leaping = false; u.leapT = 0;
+    G.fx.push({ k: 'smoke', x: u.x, y: u.y, t: 0, dur: 0.35, s: 0.6 });
+  }
+  return true;
+}
+function demoTargetOk(t) { return t && t.kind === 'b' && !t.dead; }
+function boomDemo(u) {
+  if (!u || u.exploded) return;
+  u.exploded = true;
+  const rs = Loop5.D.DEMO_STRUCT_R * TILE, ru = Loop5.D.DEMO_UNIT_R * TILE;
+  for (const b of G.blds) if (!b.dead && b.side !== u.side && edgeDist(u.x, u.y, b) < rs) {
+    b.hp -= Loop5.D.DEMO_DMG; // flat, no matrix
+    if (b.kind === 'b') setDmgState(b);
+    if (b.hp <= 0) kill(b, u, 'shell');
+  }
+  for (const o of G.units) if (!o.dead && !untargetable(o) && o.side !== u.side && edgeDist(u.x, u.y, o) < ru) damage(o, Loop5.D.DEMO_UNIT_DMG, u, 'shell');
+  G.fx.push({ k: 'boom', x: u.x, y: u.y, r: 28, c: '#ffa040', t: 0, dur: 0.5 });
+  sfx('boom', u.x, u.y);
+  if (!u.dead) kill(u, u, 'shell');
+}
+function startArm(u, t) { u.arming = true; u.armT = Loop5.D.DEMO_ARM_S; u.target = t; u.path = null; u.moving = false; u.order = 'attack'; }
+function updDemo(u, dt) {
+  if (u.arming) {
+    u.moving = false; u.path = null;
+    if (u.target && u.target.dead) { u.arming = false; u.armT = 0; u.order = 'idle'; return true; }
+    u.armT -= dt;
+    if (u.armT <= 0) boomDemo(u);
+    return true;
+  }
+  if (u.target && !demoTargetOk(u.target)) { u.target = null; if (u.order === 'attack') u.order = 'idle'; }
+  return false;
+}
+
 function edgeDist(ax, ay, e) {
   if (e.kind === 'u') return Math.hypot(e.x - ax, e.y - ay) - e.r;
   const x0 = e.tx * TILE, y0 = e.ty * TILE, x1 = x0 + e.w * TILE, y1 = y0 + e.h * TILE;
@@ -577,7 +984,7 @@ function moveTo(u, px, py) {
   px = clamp(px, 4, MW * TILE - 4); py = clamp(py, 4, MH * TILE - 4);
   if (u.d.fly) { u.path = [{ x: px, y: py }]; u.pi = 0; u.dest = { x: px, y: py }; return; }
   const gx = tileOf(px), gy = tileOf(py);
-  const p = findPath(tileOf(u.x), tileOf(u.y), gx, gy);
+  const p = findPath(tileOf(u.x), tileOf(u.y), gx, gy, { side: u.side });
   u.dest = { x: px, y: py };
   if (!p) { u.path = null; return; }
   u.path = p.map(t => ({ x: t[0] * TILE + 16, y: t[1] * TILE + 16 }));
@@ -588,7 +995,7 @@ function moveTo(u, px, py) {
 function followPath(u, dt) {
   if (!u.path || u.pi >= u.path.length) { u.moving = false; return true; }
   const wp = u.path[u.pi];
-  if (!u.d.fly && u.pi < u.path.length && !walk(tileOf(wp.x), tileOf(wp.y))) { const f = u.path[u.path.length - 1]; moveTo(u, f.x, f.y); if (!u.path) return true; }
+  if (!u.d.fly && u.pi < u.path.length && !walk(tileOf(wp.x), tileOf(wp.y), u.side, 'path')) { const f = u.path[u.path.length - 1]; moveTo(u, f.x, f.y); if (!u.path) return true; }
   const w = u.path[u.pi]; if (!w) return true;
   const dx = w.x - u.x, dy = w.y - u.y, d = Math.hypot(dx, dy);
   let sp = speedOf(u); if (!u.d.fly && terr[tileOf(u.y) * MW + tileOf(u.x)] === T.ROAD) sp *= 1.2;
@@ -619,27 +1026,38 @@ function separate() {
       const wa = a.moving && !b.moving ? 0.3 : (!a.moving && b.moving ? 0.7 : 0.5);
       const ax = a.x - nx * push * 2 * (1 - wa) * 0.5, ay = a.y - ny * push * 2 * (1 - wa) * 0.5;
       const bx = b.x + nx * push * 2 * wa * 0.5, by = b.y + ny * push * 2 * wa * 0.5;
-      if (walk(tileOf(ax), tileOf(ay))) { a.x = ax; a.y = ay; }
-      if (walk(tileOf(bx), tileOf(by))) { b.x = bx; b.y = by; }
+      if (walk(tileOf(ax), tileOf(ay), a.side, 'phys')) { a.x = ax; a.y = ay; }
+      if (walk(tileOf(bx), tileOf(by), b.side, 'phys')) { b.x = bx; b.y = by; }
     }
   }
 }
 
 // ---------------- orders ----------------
 function issueMove(list, px, py, attackMove) {
+  list = list.filter(u => !u.carried);
   const ground = list.filter(u => !u.d.fly), fly = list.filter(u => u.d.fly);
-  const tiles = gatherTiles(tileOf(px), tileOf(py), ground.length);
+  const side = (ground[0] || fly[0] || {}).side;
+  const tiles = gatherTiles(tileOf(px), tileOf(py), ground.length, side);
   ground.sort((a, b) => dist(a.x, a.y, px, py) - dist(b.x, b.y, px, py));
-  ground.forEach((u, k) => { const t = tiles[k] || tiles[tiles.length - 1]; const tx = k === 0 && walk(tileOf(px), tileOf(py)) ? px : (t ? t[0] * TILE + 16 : px), ty = k === 0 && walk(tileOf(px), tileOf(py)) ? py : (t ? t[1] * TILE + 16 : py); orderMove(u, tx, ty, attackMove); });
+  ground.forEach((u, k) => { const t = tiles[k] || tiles[tiles.length - 1]; const open = walk(tileOf(px), tileOf(py), u.side, 'path'); const tx = k === 0 && open ? px : (t ? t[0] * TILE + 16 : px), ty = k === 0 && open ? py : (t ? t[1] * TILE + 16 : py); orderMove(u, tx, ty, attackMove); });
   fly.forEach((u, k) => { const a = k * 2.4, r = k ? 14 + k * 4 : 0; orderMove(u, px + Math.cos(a) * r, py + Math.sin(a) * r, attackMove); });
 }
 function orderMove(u, x, y, am) {
   u.target = null; u.tmode = null;
   if (u.d.harv) { SAL.park(u); moveTo(u, x, y); u.order = 'move'; return; }
   u.order = am ? 'attackmove' : 'move'; moveTo(u, x, y);
+  if (am) {
+    const end = u.path && u.path[u.path.length - 1];
+    if (u.d.leap && shouldAutoLeap(u, { x, y })) autoLeapTo(u, { x, y });
+    else if (!end || dist(end.x, end.y, x, y) > 2 * TILE) tryBreach(u, { x, y });
+  }
 }
 function orderAttack(list, t) {
-  for (const u of list) { if (u.d.harv || !canAttack(u, t)) continue; u.target = t; u.tmode = 'forced'; u.order = 'attack'; u.repath = 0; u.path = null; }
+  for (const u of list) {
+    if (u.d.harv || !canAttack(u, t)) continue;
+    u.target = t; u.tmode = 'forced'; u.order = 'attack'; u.repath = 0; u.path = null;
+    if (u.d.leap) autoLeapTo(u, t);
+  }
 }
 function orderHarvest(u, tileIdx) { u.lastTile = tileIdx; SAL.orderPile(u, tileIdx); }
 function orderDock(u, b) { SAL.orderPlant(u, b); }
@@ -648,41 +1066,85 @@ function stopUnits(list) { for (const u of list) { u.path = null; u.target = nul
 // ---------------- targeting / combat ----------------
 const armorOf = e => e.kind === 'b' ? 'structure' : e.d.armor;
 const weaponOf = e => e.kind === 'b' ? e.weapon : e.d.weapon;
-const canAttack = (a, t) => { const w = weaponOf(a); return !!w && Combat.canHit(w, armorOf(t)); };
+const canAttack = (a, t) => { if (!t || t.dead || untargetable(t)) return false; if (a.d && a.d.demo) return demoTargetOk(t); const w = weaponOf(a); return !!w && Combat.canHit(w, armorOf(t)) && !(w === 'plague' && t.kind === 'u' && t.d.plagueImmune); };
 function findEnemy(e, range, side) {
-  // tiers (combat.js targetTier): armed enemies first, then trucks (units only), then unarmed buildings; nearest within a tier
-  const w = weaponOf(e); if (!w) return null;
+  const demo = e.kind === 'u' && e.d && e.d.demo;
+  const w = weaponOf(e); if (!w && !demo) return null;
   const isB = e.kind === 'b';
   let best = null, bt = 9, bd = 1e9;
-  const consider = (o, tier) => { if (tier > bt) return; const d = edgeDist(e.x, e.y, o); if (d >= range) return; if (tier < bt || d < bd) { bt = tier; bd = d; best = o; } };
-  for (const o of G.units) { if (o.side === side || o.dead || !Combat.canHit(w, o.d.armor)) continue; consider(o, Combat.targetTier(isB, { kind: 'u', harv: !!o.d.harv })); }
-  if (!isB) for (const o of G.blds) { if (o.side === side || o.dead || !Combat.canHit(w, 'structure')) continue; consider(o, Combat.targetTier(false, o)); }
+  const mn = minRangeOf(e);
+  const consider = (o, tier) => {
+    if (tier > bt) return;
+    const d = edgeDist(e.x, e.y, o); if (d >= range) return;
+    if (mn > 0 && d - (e.r || 0) * 0.5 < mn) return;
+    if (tier < bt || d < bd) { bt = tier; bd = d; best = o; }
+  };
+  if (!demo) for (const o of G.units) {
+    if (o.side === side || o.dead || untargetable(o) || !Combat.canHit(w, o.d.armor)) continue;
+    if (w === 'plague' && o.d.plagueImmune) continue;
+    consider(o, Combat.targetTier(isB, { kind: 'u', harv: !!o.d.harv }));
+  }
+  const towerShootsBlds = isB && (e.type === 'flametower' || e.type === 'rockettower');
+  if (!isB || towerShootsBlds) for (const o of G.blds) {
+    if (o.side === side || o.dead) continue;
+    if (demo) { consider(o, Loop5.isWallish(o) ? 1 : 0); continue; }
+    if (!Combat.canHit(w, 'structure')) continue;
+    if (Loop5.isWallish(o)) continue; // units never auto-target walls or gates (L5 §4 rule 5)
+    consider(o, Combat.targetTier(isB, o));
+  }
   return best;
 }
 function updUnit(u, dt) {
+  if (u.leapCd > 0 && !u.leaping) u.leapCd = Math.max(0, u.leapCd - dt);
+  if (updLeap(u, dt)) return;
+  if (u.carried) { const t = u.carried; if (!t || t.dead) { u.carried = null; } else { u.x = t.x; u.y = t.y; } u.moving = false; u.path = null; u.target = null; return; }
+  if (u.d.demo && updDemo(u, dt)) return;
   u.cd -= dt; u.anim += dt; u.hitT -= dt;
+  if (u.d.transport) {
+    if (u.unloading) {
+      u.path = null; u.moving = false; u.unloadT -= dt;
+      if (u.unloadT <= 0) finishUnload(u);
+    }
+  }
   if (u.d.harv) return; // Scrap Trucks run on the salvage fixed step (SAL.update)
   if (u.d.heal) { updMedic(u, dt); return; }
+  if (u.order === 'load' && u.loadOnto) {
+    const tr = u.loadOnto;
+    if (!tr || tr.dead || !canLoadUnit(tr, u)) { u.order = 'idle'; u.loadOnto = null; }
+    else if (dist(u.x, u.y, tr.x, tr.y) <= (tr.r + u.r + 8)) { loadUnit(tr, u); return; }
+    else { if (!u.path) moveTo(u, tr.x, tr.y); followPath(u, dt); return; }
+  }
+  if (u.order === 'unloadat' && u.dest && !u.path) { startUnload(u); u.order = 'idle'; }
   if (u.target && u.target.dead) {
     u.target = null;
     if (u.order === 'attack') u.order = 'idle';
     if (u.order === 'attackmove' && u.dest) moveTo(u, u.dest.x, u.dest.y);
   }
   if (u.target) { engage(u, dt); return; }
-  if (u.order === 'move') { if (followPath(u, dt)) { u.order = 'idle'; u.path = null; } return; }
+  if (u.order === 'move') {
+    if (followPath(u, dt)) { if (u.unloadAfter) { startUnload(u); u.unloadAfter = false; } u.order = 'idle'; u.path = null; }
+    return;
+  }
   u.scan -= dt;
   if (u.scan <= 0) {
     u.scan = 0.3 + simRand() * 0.1;
-    const t = findEnemy(u, u.d.sight * TILE, u.side);
-    if (t) { u.target = t; u.tmode = 'auto'; u.repath = 0; engage(u, dt); return; }
+    let sr = u.d.sight * TILE;
+    if (u.d.siege) sr = Math.max(sr, rangeOf(u) * TILE);
+    const t = findEnemy(u, sr, u.side);
+    if (u.d.siege) noteSiegeVision(u.side);
+    if (t && (!u.d.siege || siegeCanFire(u.side, t))) { u.target = t; u.tmode = 'auto'; u.repath = 0; engage(u, dt); return; }
+    if ((u.order === 'attackmove' || u.order === 'attack') && u.dest && !u.path) tryBreach(u, u.dest);
   }
-  if (u.order === 'attackmove') { if (followPath(u, dt)) { u.order = 'idle'; u.path = null; } }
+  if (u.order === 'attackmove') {
+    if (!u.path && u.dest) { tryBreach(u, u.target || u.dest); if (u.target) { engage(u, dt); return; } }
+    if (followPath(u, dt)) { u.order = 'idle'; u.path = null; }
+  }
   else u.moving = false;
 }
 // Medic (L4): unarmed; heals the most hurt friendly infantry in sight (one target, 10 HP/s, range 3); move orders come first
 function updMedic(u, dt) {
   if (u.order === 'move') { u.heal = null; if (followPath(u, dt)) { u.order = 'idle'; u.path = null; } return; }
-  const ok = t => t && !t.dead && t !== u && t.side === u.side && t.kind === 'u' && t.d.inf && t.hp < t.maxhp;
+  const ok = t => t && !t.dead && !t.carried && t !== u && t.side === u.side && t.kind === 'u' && t.d.inf && t.hp < t.maxhp;
   u.scan -= dt;
   if (!ok(u.heal) || u.scan <= 0) {
     u.scan = 0.3 + simRand() * 0.1;
@@ -705,19 +1167,39 @@ function updMedic(u, dt) {
 }
 function engage(u, dt) {
   const t = u.target, rng = rangeOf(u) * TILE;
-  if (!canAttack(u, t)) { u.target = null; if (u.order === 'attack') u.order = 'idle'; return; }
+  if (!canAttack(u, t) || untargetable(t)) { u.target = null; if (u.order === 'attack') u.order = 'idle'; return; }
+  if (u.d.leap && shouldAutoLeap(u, t) && autoLeapTo(u, t)) return;
+  if (u.d.demo) {
+    const ed0 = edgeDist(u.x, u.y, t) - u.r * 0.5;
+    if (ed0 <= Math.max(rangeOf(u), 0.8) * TILE) { startArm(u, t); return; }
+  }
   const ed = edgeDist(u.x, u.y, t) - u.r * 0.5;
-  if (ed <= rng) {
+  if (tooClose(u, t)) {
+    u.path = null;
+    const dx = u.x - t.x, dy = u.y - t.y, l = Math.hypot(dx, dy) || 1;
+    const step = speedOf(u) * dt;
+    const nx = u.x + dx / l * step, ny = u.y + dy / l * step;
+    if (walk(tileOf(nx), tileOf(ny), u.side, 'phys')) { u.x = nx; u.y = ny; u.moving = true; }
+    else u.moving = false;
+    return;
+  }
+  if (ed <= rng && !(u.d.siege && !siegeCanFire(u.side, t))) {
+    if (u.d.siege && u.moving) { u.moving = false; u.path = null; return; } // stop to fire once spotted
     u.moving = false; u.path = null;
     u.tang = Math.atan2(t.y - u.y, t.x - u.x); if (!u.d.weapon || u.d.weapon !== 'shell') u.ang = u.tang;
     if (u.cd <= 0) { fire(u, t); u.cd = u.d.rof * (0.9 + simRand() * 0.2); }
   } else {
-    if (u.tmode === 'auto' && ed > u.d.sight * TILE * 1.7) { u.target = null; if (u.order === 'attackmove' && u.dest) moveTo(u, u.dest.x, u.dest.y); return; }
-    // retarget to something closer if auto
+    if (u.tmode === 'auto' && ed > u.d.sight * TILE * 1.7 && !(u.d.siege && siegeCanFire(u.side, t))) { u.target = null; if (u.order === 'attackmove' && u.dest) moveTo(u, u.dest.x, u.dest.y); return; }
+    if (u.tmode === 'breach' && u.breachSince && G.time - u.breachSince >= Loop5.D.AI_BLOCKED_RETARGET_S) {
+      const alt = G.blds.filter(b => b.side !== u.side && !b.dead && !Loop5.isWallish(b) && canAttack(u, b));
+      let best = null, bd = 1e9; for (const b of alt) { const d = edgeDist(u.x, u.y, b); if (d < bd) { bd = d; best = b; } }
+      if (best) { u.target = best; u.tmode = 'forced'; u.breachSince = 0; }
+    }
     u.repath -= dt;
     if (!u.path || u.repath <= 0 || u.pi >= u.path.length) {
       u.repath = 0.7 + simRand() * 0.4;
       const keep = u.dest; moveTo(u, t.x, t.y); if (u.order === 'attackmove') u.dest = keep;
+      if (!u.path) tryBreach(u, t);
       if (u.tmode === 'auto') { const c = findEnemy(u, u.d.sight * TILE, u.side); if (c && c !== t) u.target = c; }
     }
     followPath(u, dt);
@@ -728,6 +1210,21 @@ function fire(s, t) {
   const w = weaponOf(s), air = t.kind === 'u' && t.d.fly ? Combat.D.projArcPx : 0;
   const dmg = dmgOf(s);
   const ox = s.x + Math.cos(s.tang) * (s.r * 0.8), oy = s.y + Math.sin(s.tang) * (s.r * 0.8) - (s.d.fly ? 9 : s.kind === 'b' ? 14 : 0);
+  const instantFire = (s.kind === 'u' && (s.d.flame || s.type === 'purifier')) || (s.kind === 'b' && s.type === 'flametower');
+  if (instantFire) {
+    G.fx.push({ k: 'flame', x1: ox, y1: oy, x2: t.x, y2: t.y - air, ux: s.x, uy: s.y, t: 0, dur: 0.3 });
+    areaDamage(t.x, t.y, (s.d.splash || 0) * TILE, dmg, s, w);
+    if (s.type === 'purifier' || s.d.cleanse) cleanseAt(t.x, t.y, 1);
+    sfx('fire', s.x, s.y);
+    return;
+  }
+  if (s.kind === 'u' && s.type === 'sprayer') {
+    G.fx.push({ k: 'flame', x1: ox, y1: oy, x2: t.x, y2: t.y - air, ux: s.x, uy: s.y, t: 0, dur: 0.3 });
+    areaDamage(t.x, t.y, (s.d.splash || 0) * TILE, dmg, s, w);
+    addPatch(t.x, t.y, Loop5.D.PATCH_R, s.d.patchDur || Loop5.D.PATCH_DUR_SPRAYER, side);
+    sfx('fire', s.x, s.y);
+    return;
+  }
   if (w === 'bullet') { const hx = t.x + (simRand() - 0.5) * 6, hy = t.y - air + (simRand() - 0.5) * 6; G.fx.push({ k: 'line', x1: ox, y1: oy, x2: hx, y2: hy, c: s.kind === 'b' ? '#DDF6FF' : '#ffe9a0', w: s.kind === 'b' ? 2 : 1.5, t: 0, dur: 0.07 }); G.fx.push({ k: 'spark', x: hx, y: hy, c: '#ffe9a0', t: 0, dur: 0.15 }); damage(t, dmg, s, w); sfx('shot', s.x, s.y); }
   else if (w === 'beam') {
     const big = s.kind === 'u' && s.type === 'archangel';
@@ -739,42 +1236,69 @@ function fire(s, t) {
     G.fx.push({ k: 'slash', x: t.x, y: t.y, a: s.ang, r: w === 'claw' ? 9 : 18, c: w === 'holy' ? '#DDF6FF' : undefined, t: 0, dur: 0.2 });
     if (w !== 'claw' && s.d.splash) areaDamage(t.x, t.y, s.d.splash * TILE, dmg, s, w); else damage(t, dmg, s, w);
     sfx('claw', s.x, s.y);
-  } else if (s.kind === 'u' && s.d.flame) { // Flamer (L4): short flame cone, splash at the target, no projectile
-    G.fx.push({ k: 'flame', x1: ox, y1: oy, x2: t.x, y2: t.y - air, ux: s.x, uy: s.y, t: 0, dur: 0.3 });
-    areaDamage(t.x, t.y, s.d.splash * TILE, dmg, s, w);
-    sfx('fire', s.x, s.y);
   } else {
-    const bolt = w === 'fire' && s.kind === 'b'; // Bone Spire fire bolt (Imp throws a fireball)
+    const bolt = w === 'fire' && s.kind === 'b' && s.type !== 'rockettower';
     const rocket = s.kind === 'u' && !!s.d.rocket, big = s.kind === 'u' && s.type === 'demon';
-    G.proj.push({ x: ox, y: oy, sx: ox, sy: oy, t, tx: t.x, ty: t.y - air, air, sp: rocket ? 280 : w === 'shell' ? 320 : bolt ? 380 : 220, w, bolt, rocket, big, dmg, s, side, splash: s.kind === 'b' ? 0 : (s.d.splash || 0) });
-    sfx(w === 'fire' ? 'fire' : 'shot', s.x, s.y);
+    const travel = s.d.travel || (s.kind === 'b' && Combat.TOWERS[s.type] && Combat.TOWERS[s.type].travel);
+    const splash = (s.kind === 'b' && s.type !== 'rockettower') ? 0 : (s.d.splash || 0);
+    if (travel) {
+      G.proj.push({ x: ox, y: oy, sx: ox, sy: oy, t: null, tx: t.x, ty: t.y - air, air, travel, age: 0, w, bolt, rocket: s.type === 'rockettower', big, dmg, s, side, splash, minRange: s.d.minRange, patchDur: s.d.patchDur, acid: w === 'acid' });
+    } else {
+      G.proj.push({ x: ox, y: oy, sx: ox, sy: oy, t, tx: t.x, ty: t.y - air, air, sp: rocket ? 280 : w === 'shell' ? 320 : bolt ? 380 : (w === 'acid' ? 240 : 220), w, bolt, rocket, big, dmg, s, side, splash, acid: w === 'acid' });
+    }
+    sfx(w === 'fire' || w === 'acid' ? 'fire' : 'shot', s.x, s.y);
   }
 }
 function updProj(dt) {
   for (const p of G.proj) {
+    if (p.travel) {
+      p.age = (p.age || 0) + dt;
+      const u = Math.min(1, p.age / p.travel);
+      p.x = p.sx + (p.tx - p.sx) * u;
+      p.y = p.sy + (p.ty - p.sy) * u - Math.sin(u * Math.PI) * (p.acid ? 10 : 22);
+      if (p.rocket && simRand() < 0.7) G.fx.push({ k: 'smoke', x: p.x, y: p.y, t: 0, dur: 0.6, s: 0.4 });
+      if (p.acid && simRand() < 0.5) G.fx.push({ k: 'ember', x: p.x, y: p.y, vx: (simRand() - 0.5) * 12, vy: (simRand() - 0.5) * 12, c: '#7dff6a', t: 0, dur: 0.3 });
+      if (p.age >= p.travel) { p.done = true; projImpact(p); }
+      continue;
+    }
     if (p.t && !p.t.dead) { p.tx = p.t.x; p.ty = p.t.y - (p.air || 0); }
     const dx = p.tx - p.x, dy = p.ty - p.y, d = Math.hypot(dx, dy), st = p.sp * dt;
     if (p.rocket && simRand() < 0.7) G.fx.push({ k: 'smoke', x: p.x, y: p.y, t: 0, dur: 0.6, s: 0.4 });
     if (p.w === 'fire' && simRand() < (p.big ? 1 : 0.6)) G.fx.push({ k: 'ember', x: p.x, y: p.y, vx: (simRand() - 0.5) * 20, vy: (simRand() - 0.5) * 20, c: '#ff9a30', t: 0, dur: 0.35 });
-    if (d <= st) {
-      p.done = true;
-      if (p.splash) areaDamage(p.tx, p.ty + (p.air || 0), p.splash * TILE, p.dmg, p.s, p.w);
-      else if (p.t && !p.t.dead) damage(p.t, p.dmg, p.s, p.w);
-      G.fx.push({ k: 'boom', x: p.tx, y: p.ty, r: p.big ? 30 : p.w === 'shell' ? 16 : 9, c: p.bolt ? '#ffb040' : '#ff8a30', t: 0, dur: 0.35 });
-      if (p.w === 'shell') sfx('boom', p.tx, p.ty);
-    } else { p.x += dx / d * st; p.y += dy / d * st; p.a = Math.atan2(dy, dx); }
+    if (d <= st) { p.done = true; projImpact(p); }
+    else { p.x += dx / d * st; p.y += dy / d * st; p.a = Math.atan2(dy, dx); }
   }
   G.proj = G.proj.filter(p => !p.done);
 }
+function projImpact(p) {
+  const ix = p.tx, iy = p.ty + (p.air || 0);
+  if (p.minRange && p.s && !p.s.dead && dist(p.s.x, p.s.y, ix, iy) < p.minRange * TILE) {
+    G.fx.push({ k: 'smoke', x: ix, y: iy, t: 0, dur: 0.4, s: 0.5 }); // too close: miss
+    return;
+  }
+  if (p.splash) areaDamage(ix, iy, p.splash * TILE, p.dmg, p.s, p.w);
+  else if (p.t && !p.t.dead && !p.t.carried) damage(p.t, p.dmg, p.s, p.w);
+  else {
+    // fire-time lock: hit whatever is at the tile
+    for (const u of G.units) if (!u.dead && !u.carried && u.side !== p.side && Combat.canHit(p.w, u.d.armor) && edgeDist(ix, iy, u) < 8) { damage(u, p.dmg, p.s, p.w); break; }
+  }
+  if (p.patchDur) addPatch(ix, iy, Loop5.D.PATCH_R, p.patchDur, p.side);
+  if (p.acid) G.fx.push({ k: 'smoke', x: ix, y: iy, t: 0, dur: 0.45, s: 0.5 });
+  G.fx.push({ k: 'boom', x: p.tx, y: p.ty, r: p.big ? 30 : p.w === 'shell' ? 16 : (p.acid ? 8 : 9), c: p.acid ? '#7dff6a' : (p.bolt ? '#ffb040' : '#ff8a30'), t: 0, dur: 0.35 });
+  if (p.w === 'shell') sfx('boom', p.tx, p.ty);
+}
 function areaDamage(x, y, r, dmg, src, w) {
   const side = src && src.side;
-  for (const u of G.units) if (!u.dead && u.side !== side && Combat.canHit(w, u.d.armor)) { const d = edgeDist(x, y, u); if (d < r) damage(u, dmg * (1 - 0.5 * Math.max(0, d) / r), src, w); }
+  for (const u of G.units) if (!u.dead && !untargetable(u) && u.side !== side && Combat.canHit(w, u.d.armor) && !(w === 'plague' && u.d.plagueImmune)) { const d = edgeDist(x, y, u); if (d < r) damage(u, dmg * (1 - 0.5 * Math.max(0, d) / r), src, w); }
   for (const b of G.blds) if (!b.dead && b.side !== side) { const d = edgeDist(x, y, b); if (d < r) damage(b, dmg * (1 - 0.5 * d / r), src, w); }
 }
 function damage(t, amt, src, w) {
-  if (t.dead) return;
-  amt *= Combat.mult(w, armorOf(t), t.kind === 'u' ? t.type : null); // CS damage matrix (unknown types such as plague or nuke: x1)
+  if (t.dead || untargetable(t)) return;
+  if (w === 'plague' && t.kind === 'u' && t.d.plagueImmune) return;
+  // Map / patch ticks pass src=null and already use the CS DPS table; the plague matrix applies to weapon hits only.
+  if (!(w === 'plague' && !src)) amt *= Combat.mult(w, armorOf(t), t.kind === 'u' ? t.type : null); // CS damage matrix (unknown types such as nuke: x1)
   t.hp -= amt; t.hitT = 0.12;
+  if (t.kind === 'b') setDmgState(t);
   if (t.side === 0 && w !== 'plague') alertAttack(t);
   if (t.hp <= 0) kill(t, src, w);
   else if (t.kind === 'u' && t.d.harv) truckHurt(t);
@@ -799,6 +1323,8 @@ function kill(t, src, w) {
   const st = G.stats;
   if (t.side === 1) st.kills++; else st.lost++;
   if (t.kind === 'u') {
+    if (t.d.demo && !t.exploded && t.d.bloater) addPatch(t.x, t.y, Loop5.D.PATCH_R, Loop5.D.BLOATER_PATCH_S, t.side);
+    if (t.d.transport && (t.cargo || []).length && Loop5.D.TRANSPORT_DEATH === 'half') ejectCargo(t, Loop5.D.TRANSPORT_DEATH_HP);
     if (t.d.harv && t.side === 0) { G.lastAlert = { x: t.x, y: t.y }; msg('Scrap Truck lost!', '#ff6a3d', t.x, t.y); }
     if (t.d.inf) { G.fx.push({ k: 'blood', x: t.x, y: t.y, c: t.side ? (t.type === 'zombie' ? '#4a5a2a' : '#8a1a10') : '#7a1010', t: 0, dur: 0.6 }); G.decals.push({ k: 'blood', x: t.x, y: t.y, c: t.side ? '#3a3a1a' : '#4a0a08', a: simRand() * 6, t: 0 }); }
     else { G.fx.push({ k: 'boom', x: t.x, y: t.y, r: 26, c: '#ffa040', t: 0, dur: 0.6 }); G.decals.push({ k: 'scorch', x: t.x, y: t.y, r: 18, t: 0 }); sfx('boom', t.x, t.y); }
@@ -874,7 +1400,7 @@ function burnScaleOf(u) {
   const f = typeof UnitArt !== 'undefined' && UnitArt.unitFrame ? UnitArt.unitFrame(u) : null, h = f ? f.rect[3] : u.r * 3.5;
   return typeof UnitArt !== 'undefined' && UnitArt.burnScale ? UnitArt.burnScale(h) : (h >= 64 ? 2 : 1);
 }
-function powerOf(side) { return Salvage.powerBalance(G.blds.filter(b => b.side === side && !b.dead && !b.setup).map(b => b.type)); } // a deploying yard draws no power
+function powerOf(side) { if (G && G.testPower) return { made: 999, used: 0, net: 999 }; return Salvage.powerBalance(G.blds.filter(b => b.side === side && !b.dead && !b.setup).map(b => b.type)); } // a deploying yard draws no power
 function makeSalvage() {
   const S = Salvage.create({
     MW, MH, TILE, res,
@@ -914,21 +1440,32 @@ const ownsNearby = (side, x, y) => G.units.some(u => u.side === side && u.d.harv
 // ---------------- production ----------------
 const mkQ = () => ({ structure: { list: [], prog: 0, ready: null }, infantry: { list: [], prog: 0 }, vehicle: { list: [], prog: 0 }, church: { list: [], prog: 0 }, altar: { list: [], prog: 0 } });
 // L4 research queues, one per research building type: G.rq[side][at] = { list, prog }; finished ids in G.research[side]
-const mkRQ = () => ({ armory: { list: [], prog: 0 }, church: { list: [], prog: 0 } });
+const mkRQ = () => ({ armory: { list: [], prog: 0 }, church: { list: [], prog: 0 }, forge: { list: [], prog: 0 } });
 function catOf(type) { return BDEF[type] ? 'structure' : UDEF[type].cat; }
 function costOf(type) { return BDEF[type] ? BDEF[type].cost : UDEF[type].cost; }
 function timeOf(type) { return BDEF[type] ? BDEF[type].time : UDEF[type].time; }
+function reqCountOk(side, d) {
+  const rc = (d && d.reqCount) || {};
+  for (const t in rc) if (countBld(side, t) < rc[t]) return false;
+  return true;
+}
+function missingCount(side, d) {
+  const rc = (d && d.reqCount) || {};
+  for (const t in rc) if (countBld(side, t) < rc[t]) return (rc[t] > 1 ? rc[t] + ' ' : '') + bname(t, side);
+  return null;
+}
 function prereqOk(side, type) {
-  if (BDEF[type]) return (BDEF[type].side === undefined || BDEF[type].side === side) && (BDEF[type].req || []).every(r => hasBld(side, r));
+  if (BDEF[type]) return (BDEF[type].side === undefined || BDEF[type].side === side) && (BDEF[type].req || []).every(r => hasBld(side, r)) && reqCountOk(side, BDEF[type]);
   const d = UDEF[type];
-  return d.from.some(f => hasBld(side, f)) && (d.reqBld || []).every(r => hasBld(side, r)) && (d.reqRes || []).every(r => isDone(side, r));
+  return d.from.some(f => hasBld(side, f)) && (d.reqBld || []).every(r => hasBld(side, r)) && (d.reqRes || []).every(r => isDone(side, r)) && reqCountOk(side, d);
 }
 function missingReq(side, type) {
-  if (BDEF[type]) { const m = (BDEF[type].req || []).find(r => !hasBld(side, r)); return m ? bname(m, side) : null; }
+  if (BDEF[type]) { const m = (BDEF[type].req || []).find(r => !hasBld(side, r)); if (m) return bname(m, side); return missingCount(side, BDEF[type]); }
   const d = UDEF[type];
   if (!d.from.some(f => hasBld(side, f))) return bname(d.from[d.from.length - 1], side);
   const mb = (d.reqBld || []).find(r => !hasBld(side, r)); if (mb) return bname(mb, side);
-  const mr = (d.reqRes || []).find(r => !isDone(side, r)); return mr ? Combat.RESEARCH[mr].name + ' research' : null;
+  const mr = (d.reqRes || []).find(r => !isDone(side, r)); if (mr) return Combat.RESEARCH[mr].name + ' research';
+  return missingCount(side, d);
 }
 // L4 unit limits (Archangel 1, Templar 2, Demon Lord 1): alive + queued count against the limit
 const inQueue = (side, type) => G.queues[side][catOf(type)].list.filter(t => t === type).length;
@@ -1037,26 +1574,39 @@ function loseResearch(side, at) {
   if (side === 0) msg(`${Combat.RESEARCH[cur].name} research lost${back ? `; ${back} Credits refunded for queued research` : ''}.`, '#ff6a3d');
 }
 // placement: { ok, remote, reason }. The footprint rules, then 'near own buildings' (5 tiles), then for a Scrap Yard only the remote rules.
-function placeCheck(side, type, tx, ty, margin) {
+function placeCheck(side, type, tx, ty, margin, rot) {
   const d = BDEF[type];
-  for (let y = ty - margin; y < ty + d.h + margin; y++) for (let x = tx - margin; x < tx + d.w + margin; x++) {
-    const inside = x >= tx && x < tx + d.w && y >= ty && y < ty + d.h;
+  const foot = bldFoot(type, rot || 0);
+  const w = foot.w, h = foot.h;
+  const wallish = type === 'wall' || type === 'gate';
+  if (wallish && wallCount(side) >= Loop5.D.WALL_CAP) return { ok: false, reason: 'Wall cap reached' };
+  const touch = wallish && Loop5.D.WALL_TOUCH;
+  for (let y = ty - margin; y < ty + h + margin; y++) for (let x = tx - margin; x < tx + w + margin; x++) {
+    const inside = x >= tx && x < tx + w && y >= ty && y < ty + h;
     if (x < 0 || y < 0 || x >= MW || y >= MH) { if (inside) return { ok: false, reason: 'Blocked' }; continue; }
     const i = y * MW + x;
     if (inside) { if (BLOCK[terr[i]] || bgrid[i] || res[i] > 0 || (SAL && SAL.field[i] >= 0) || isPad(i)) return { ok: false, reason: 'Blocked' }; }
-    else if (bgrid[i]) return { ok: false, reason: 'Blocked' };
+    else if (bgrid[i] && !touch) return { ok: false, reason: 'Blocked' };
+  }
+  if (wallish && Loop5.D.WALL_PAD_GAP) {
+    const g = Loop5.D.WALL_PAD_GAP;
+    for (let y = ty - g; y < ty + h + g; y++) for (let x = tx - g; x < tx + w + g; x++) {
+      if (x < 0 || y < 0 || x >= MW || y >= MH) continue;
+      if (isPad(y * MW + x)) return { ok: false, reason: 'Too close to a dock' };
+    }
   }
   if (type === 'refinery') { const px = tx + 1, py = ty + d.h; if (px >= MW || py >= MH) return { ok: false, reason: 'Blocked' }; const pi = py * MW + px; if (BLOCK[terr[pi]] || bgrid[pi] || (SAL && SAL.field[pi] >= 0)) return { ok: false, reason: 'Blocked' }; }
-  // must be near own buildings (R1: a remote yard counts unless REMOTE_EXTENDS_RADIUS is off)
+  // must be near own buildings (R1: a remote yard counts unless REMOTE_EXTENDS_RADIUS is off). Walls and gates do not extend the radius.
   for (const b of G.blds) {
     if (b.side !== side || b.dead || (b.remote && !REMOTE_EXTENDS_RADIUS)) continue;
-    const gx = Math.max(b.tx - (tx + d.w), tx - (b.tx + b.w), 0), gy = Math.max(b.ty - (ty + d.h), ty - (b.ty + b.h), 0);
+    if (b.d.noRadius || (Loop5.isWallish(b) && !Loop5.D.WALL_EXTENDS_RADIUS)) continue;
+    const gx = Math.max(b.tx - (tx + w), tx - (b.tx + b.w), 0), gy = Math.max(b.ty - (ty + h), ty - (b.ty + b.h), 0);
     if (Math.max(gx, gy) <= 5) return { ok: true, remote: false };
   }
   if (type !== 'refinery') return { ok: false, reason: 'Too far from your base' };
   return remoteCheck(side, tx, ty);
 }
-function canPlace(side, type, tx, ty, margin) { return placeCheck(side, type, tx, ty, margin).ok; }
+function canPlace(side, type, tx, ty, margin, rot) { return placeCheck(side, type, tx, ty, margin, rot).ok; }
 // the remote rules (spec §4), in order; the footprint rules are checked by placeCheck
 function remoteCheck(side, tx, ty) {
   const d = BDEF.refinery, px = tx + 1, py = ty + d.h, tiles = [];
@@ -1127,10 +1677,12 @@ function reachOf(side) {
   return dist;
 }
 const isPad = i => G.blds.some(b => (b.type === 'refinery' || b.type === 'hq') && !b.dead && b.pad === i);
-function placeBld(side, type, tx, ty) {
+function placeBld(side, type, tx, ty, rot) {
   const q = G.queues[side].structure; if (q.ready !== type) return false;
-  const pc = placeCheck(side, type, tx, ty, 0); if (!pc.ok) return false;
-  q.ready = null; const b = makeBld(type, side, tx, ty);
+  rot = rot != null ? rot : (side === 0 ? (G.placeRot || 0) : 0);
+  const pc = placeCheck(side, type, tx, ty, 0, rot); if (!pc.ok) return false;
+  q.ready = null; const b = makeBld(type, side, tx, ty, rot);
+  if (type === 'wall' || type === 'gate') { const warn = cutOffWarning(side, type, tx, ty, rot); if (warn) { (G.cutOffWarn = G.cutOffWarn || []).push(warn); if (side === 0) msg(warn + '. Placement is still allowed.', '#ffb060', b.x, b.y); } }
   if (side === 0) { sfx('place'); G.stats.bBuilt++; }
   if (pc.remote) {
     b.remote = true;
@@ -1177,8 +1729,9 @@ function updEnv(dt) {
   if (G.envT >= 0.5) {
     G.envT -= 0.5;
     const demons = G.units.filter(d => d.type === 'demon' && !d.dead), arch = G.units.filter(a => a.type === 'archangel' && !a.dead);
+    updPatches();
     for (const u of G.units) {
-      if (u.dead) continue;
+      if (u.dead || u.carried) continue;
       const i = tileOf(u.y) * MW + tileOf(u.x);
       if (!u.d.fly && !u.d.plagueImmune && inPlague(u, i, demons) && !holyGround(u.x, u.y)) {
         if (u.side === 0) { damage(u, -Combat.plagueTick(0, u.d.armor, 0.5), null, 'plague'); if (!G.plagueMsg) { G.plagueMsg = true; msg('Plague zone! It eats our ground units and heals the Horde.', '#9fe07a', u.x, u.y); } }
@@ -1198,7 +1751,9 @@ function updEnv(dt) {
 }
 // plague (L4): a static plague tile, or within 3 tiles of a living Demon Lord (its moving plague aura; it acts like a plague tile, but the Demon Lord does not heal from its own aura)
 function inPlague(u, i, demons) {
-  if (plague[i]) return true;
+  if (u.carried) return false;
+  if (plague[i] && !tileSuppressed(i)) return true;
+  if (inPatch(u.x, u.y)) return true;
   const tx = tileOf(u.x), ty = tileOf(u.y), R = Combat.D.demonAuraTiles;
   for (const d of demons || G.units.filter(d => d.type === 'demon' && !d.dead)) if (d !== u && Math.hypot(tileOf(d.x) - tx, tileOf(d.y) - ty) <= R) return true;
   return false;
@@ -1216,11 +1771,17 @@ function updBld(b, dt) {
     if (G.time - b.setupT0 >= REMOTE_SETUP_S - 1e-9) { b.setup = false; if (b.side === 0) { msg('Scrap Yard online.', '#DDF6FF', b.x, b.y); ping(b.x, b.y, '#6FA8FF'); sfx('ready'); } }
   }
   if (b.type === 'silo' && b.charge < NUKE_CHARGE) { b.charge += dt; if (b.charge >= NUKE_CHARGE && b.side === 0) { msg('Nuke Silo charged! Press N or click LAUNCH.', '#fff3b0'); sfx('ready'); } }
-  if (b.type === 'turret' || b.type === 'hq') { // the HQ turret needs no power
-    b.cd -= dt;
-    const rr = rangeOf(b) * TILE;
-    if (!b.target || b.target.dead || edgeDist(b.x, b.y, b.target) > rr) { b.target = null; b.scanT = (b.scanT || 0) - dt; if (b.scanT <= 0) { b.scanT = 0.3; b.target = findEnemy(b, rr, b.side); } }
-    if (b.target) { b.tang = Math.atan2(b.target.y - b.y, b.target.x - b.x); if (b.cd <= 0) { fire(b, b.target); b.cd = b.d.rof; } }
+  if (b.type === 'gate') updGate(b, dt);
+  const isTower = b.type === 'turret' || b.type === 'hq' || b.type === 'flametower' || b.type === 'rockettower';
+  if (isTower) {
+    const needsPower = b.type === 'flametower' || b.type === 'rockettower';
+    if (needsPower && powerOf(b.side).net < 0) { b.target = null; }
+    else {
+      b.cd -= dt;
+      const rr = rangeOf(b) * TILE;
+      if (!b.target || b.target.dead || b.target.carried || edgeDist(b.x, b.y, b.target) > rr || tooClose(b, b.target)) { b.target = null; b.scanT = (b.scanT || 0) - dt; if (b.scanT <= 0) { b.scanT = 0.3; b.target = findEnemy(b, rr, b.side); } }
+      if (b.target) { b.tang = Math.atan2(b.target.y - b.y, b.target.x - b.x); if (b.cd <= 0) { fire(b, b.target); b.cd = b.d.rof; } }
+    }
   }
   if (b.hp < b.maxhp * 0.5) { b.smokeT -= dt; if (b.smokeT <= 0) { b.smokeT = 0.25; G.fx.push({ k: 'smoke', x: b.x + (simRand() - 0.5) * b.w * 20, y: b.y + (simRand() - 0.5) * b.h * 20, t: 0, dur: 2 }); } }
 }
@@ -1241,7 +1802,7 @@ const isVisible = e => { if (e.kind === 'b') { for (let y = e.ty; y < e.ty + e.h
 // opening addendum: the Hive first trains a Scrap Eater (updAI), then Power Plant, Grinder Pit, Spawning Pit, then the rest.
 // Loop 4: the Dark Altar after the first Factory, held until DIFF.altarTime unless the player has built a Church
 // Remote yards (spec §7): the 2nd Grinder Pit comes right after the Factory and goes remote (aiFindSpot); the later 2nd 'refinery' slot is gone
-const AI_ORDER = ['power', 'refinery', 'barracks', 'turret', 'factory', 'refinery', 'altar', 'turret', 'barracks', 'depot', 'power', 'silo', 'turret', 'turret', 'turret'];
+const AI_ORDER = ['power', 'refinery', 'barracks', 'turret', 'factory', 'forge', 'refinery', 'altar', 'turret', 'barracks', 'depot', 'power', 'silo', 'turret', 'turret', 'turret'];
 const aiPitCap = () => AI_PIT_CAP[G.diffKey] || AI_PIT_CAP.normal;
 const aiRemoteAllowed = () => G.diffKey !== 'easy' || G.time >= AI_REMOTE_EASY_FROM;
 function aiNextBuild() {
@@ -1257,7 +1818,7 @@ function aiNextBuild() {
   for (const t of AI_ORDER) {
     need[t] = (need[t] || 0) + 1;
     if (t === 'refinery' && (cnt[t] || 0) >= aiPitCap()) continue;
-    if ((cnt[t] || 0) < need[t]) { if (t === 'silo' && G.time < G.diff.siloTime) continue; if (t === 'altar' && G.time < G.diff.altarTime && !G.ai.churchSeen) continue; if (t !== 'power' && aiPowerAfter(cnt, t) < 0) return 'power'; return t; }
+    if ((cnt[t] || 0) < need[t]) { if (t === 'silo' && G.time < G.diff.siloTime) continue; if (t === 'altar' && G.time < G.diff.altarTime && !G.ai.churchSeen) continue; if (t === 'forge' && G.time < (G.diff.forgeTime || 0)) continue; if (t === 'forge' && G.diffKey !== 'easy' && !(cnt.factory)) continue; if (t !== 'power' && aiPowerAfter(cnt, t) < 0) return 'power'; return t; }
   }
   return null;
 }
@@ -1405,6 +1966,7 @@ function updAI(dt) {
     const spot = (spire && aiSpotNear(A.spireFor, t)) || aiFindSpot(t);
     if (spot) {
       const b = placeBld(1, t, spot[0], spot[1]);
+      if (b && (t === 'flametower' || t === 'rockettower')) A.shieldFor = b;
       if (b && spire) { b.spire = true; A.spireFor = null; }
       if (b && t === 'refinery') (A.pitLog || (A.pitLog = [])).push({ t: G.time, tx: b.tx, ty: b.ty, remote: !!b.remote });
       if (b && b.remote && t === 'refinery') { if (A.remote2At === undefined) { A.remote2At = G.time; A.remote2 = { tx: b.tx, ty: b.ty }; } if (G.diffKey === 'hard') A.spireFor = b; }
@@ -1464,7 +2026,15 @@ function updAI(dt) {
       let cx = 0, cy = 0; for (const u of send) { cx += u.x; cy += u.y; } cx /= send.length; cy /= send.length;
       const grp = dl ? valuableGroup() : null;
       const tgt = grp || nearestPlayerTarget(cx, cy);
-      if (tgt) { issueMove(send, tgt.x, tgt.y, true); A.waveN++; if (A.waveN === 1) A.wave1At = G.time; (A.waveLog || (A.waveLog = [])).push({ t: G.time, n: send.length }); msg(A.waveN === 1 ? 'Scouts report: a Horde wave is marching on our base!' : `Horde wave ${A.waveN} incoming!`, '#ff6a3d'); sfx('alert'); }
+            // L5 §13: add Spitters on top of the existing wave (not instead of the Hellbrute bonus)
+      if (isDone(1, 'acid') && G.time >= (G.diff.spitterFrom || 0)) {
+        const heavy = aiSeenCount(['ark', 'apc', 'artillery', 'purifier'], 30);
+        const want = Math.min(G.diff.spitterCap || 0, Math.floor(heavy * (G.diff.spitterPerHeavy || 0)));
+        const extra = G.units.filter(u => u.side === 1 && u.type === 'spitter' && !u.dead && !u.carried && !send.includes(u)).slice(0, want);
+        send.push(...extra);
+      }
+      A.lastWave = send.slice();
+if (tgt) { issueMove(send, tgt.x, tgt.y, true); A.waveN++; if (A.waveN === 1) A.wave1At = G.time; (A.waveLog || (A.waveLog = [])).push({ t: G.time, n: send.length }); msg(A.waveN === 1 ? 'Scouts report: a Horde wave is marching on our base!' : `Horde wave ${A.waveN} incoming!`, '#ff6a3d'); sfx('alert'); }
       A.nextWave = G.time + G.diff.waveGap;
     } else A.nextWave = G.time + 10;
   }
@@ -1484,7 +2054,190 @@ function updAI(dt) {
     const far = idle.filter(u => dist(u.x, u.y, hq.x, hq.y) > 20 * TILE);
     if (far.length) { const t = nearestPlayerTarget(far[0].x, far[0].y); if (t) issueMove(far, t.x, t.y, true); }
   }
+  updAI_L5();
 }
+function aiRemember() {
+  const A = G.ai; A.mem = A.mem || {};
+  for (const u of G.units) if (u.side === 0 && !u.dead && !u.carried && allySees(1, u.x, u.y)) A.mem[u.id] = { type: u.type, t: G.time, heavy: !!u.d.heavy, inf: !!u.d.inf, x: u.x, y: u.y };
+  for (const b of G.blds) if (b.side === 0 && !b.dead && allySees(1, b.x, b.y)) A.memB = Object.assign(A.memB || {}, { [b.id]: { type: b.type, t: G.time } });
+}
+function aiSeen(types, windowS) {
+  const A = G.ai, cut = G.time - windowS, n = {};
+  for (const id in (A.mem || {})) { const m = A.mem[id]; if (m.t >= cut && (!types || types.includes(m.type))) n[m.type] = (n[m.type] || 0) + 1; }
+  return n;
+}
+function aiSeenCount(types, windowS) { const n = aiSeen(types, windowS); return types.reduce((a, t) => a + (n[t] || 0), 0); }
+function aiWaveReserve() { return UDEF.zombie.cost * Math.min(26, G.diff.minWave + (G.ai.waveN || 0) * 2); }
+function updAI_L5() {
+  const A = G.ai, cap = Loop5.AI[G.diffKey] || Loop5.AI.normal, Q = G.queues[1], cr = () => G.credits[1];
+  if (!cap) return;
+  aiRemember();
+  // research (after a Bone Forge stands). Easy: Acid Glands only from 14:00. Normal/Hard: acid, claws, boneplate, spines.
+  if (hasBld(1, 'forge')) {
+    const order = G.diffKey === 'easy' ? ['acid'] : ['acid', 'claws', 'boneplate', 'spines'];
+    const from = G.diffKey === 'easy' ? 840 : 0;
+    if (G.time >= from) {
+      for (const id of order) {
+        if (isDone(1, id) || (G.rq[1].forge.list || []).includes(id)) continue;
+        const miss = researchMissing(1, id);
+        if (miss && !((Combat.RESEARCH[id].reqRes || []).every(r => isDone(1, r) || G.rq[1].forge.list.includes(r)))) continue;
+        if (researchMissing(1, id) && !(Combat.RESEARCH[id].reqBld || []).every(b => hasBld(1, b))) continue;
+        if (researchState(1, id) !== 'ready') continue;
+        if (cr() - Combat.RESEARCH[id].cost < aiWaveReserve()) break;
+        queueResearch(1, id); break;
+      }
+    }
+  }
+  // towers
+  const wantTower = (type) => {
+    const c = cap[type]; if (!c) return false;
+    const have = countBld(1, type) + Q.structure.list.filter(t => t === type).length + (Q.structure.ready === type ? 1 : 0);
+    if (have >= c.cap) return false;
+    if (c.from && G.time < c.from) return false;
+    if (type === 'flametower' && c.whenInf && aiSeenCount(['survivor', 'flamer', 'rocket', 'medic', 'templar'], 30) < c.whenInf) return false;
+    if (type === 'rockettower' && c.whenVehicle && aiSeenCount(c.whenVehicle, 30) < 1) return false;
+    return prereqOk(1, type);
+  };
+  if (!Q.structure.list.length && !Q.structure.ready) {
+    const pick = wantTower('flametower') ? 'flametower' : (wantTower('rockettower') ? 'rockettower' : null);
+    if (pick && cr() >= BDEF[pick].cost) queueItem(1, pick);
+  }
+  // Hard tower shields: 5-segment wall 2 tiles in front, cap 30, ends open
+  if (cap.walls && A.shieldFor && !A.shieldFor.dead && wallCount(1) < (cap.wallCap || 30)) {
+    const tw = A.shieldFor, hq = G.blds.find(b => b.side === 0 && b.type === 'hq' && !b.dead);
+    if (hq) {
+      const dx = hq.x - tw.x, dy = hq.y - tw.y, l = Math.hypot(dx, dy) || 1;
+      const fx = tw.tx + Math.round(dx / l * 2), fy = tw.ty + Math.round(dy / l * 2);
+      const px = -Math.round(dy / l), py = Math.round(dx / l);
+      const tiles = [];
+      for (let k = -2; k <= 2; k++) tiles.push([fx + px * k, fy + py * k]);
+      // ends open: don't place the two end tiles (indices 0 and 4) as walls? Spec: 5-segment line, ends left open so units path around.
+      // Place all 5; the tiles beyond the ends stay empty. Cap 30.
+      const room = (cap.wallCap || 30) - wallCount(1);
+      placeWallLine(1, tiles.slice(0, room));
+    }
+    A.shieldFor = null;
+  }
+  if (Q.structure.ready && (Q.structure.ready === 'flametower' || Q.structure.ready === 'rockettower')) {
+    /* placed via normal aiFindSpot in the ready block; mark for shield after place */
+  }
+  // vehicles: crawler, catapult, sprayer
+  const aliveQ = (type) => aliveOf(1, type) + inQueue(1, type);
+  if (!Q.vehicle.list.length && hasBld(1, 'factory')) {
+    const cv = cap.crawler;
+    if (cv && G.time >= (cv.from || 0) && aliveQ('crawler') < (cv.perWave || 1) + (cv.from2 && G.time >= cv.from2 ? (cv.perWave2 || 0) : 0) && prereqOk(1, 'crawler') && cr() >= UDEF.crawler.cost) queueItem(1, 'crawler');
+    const ct = cap.catapult;
+    if (ct && G.time >= (ct.from || 0) && aliveQ('catapult') < ct.cap && (!ct.whenTowers || countBld(0, 'turret') + countBld(0, 'flametower') + countBld(0, 'rockettower') >= ct.whenTowers) && prereqOk(1, 'catapult') && cr() >= UDEF.catapult.cost) queueItem(1, 'catapult');
+    const sp = cap.sprayer;
+    if (sp && G.time >= (sp.from || 0) && aliveQ('sprayer') < sp.cap && prereqOk(1, 'sprayer') && cr() >= UDEF.sprayer.cost) queueItem(1, 'sprayer');
+  }
+  // spitters: train toward the wave cap once Acid Glands is done
+  if (hasBld(1, 'barracks') && isDone(1, 'acid') && G.time >= (G.diff.spitterFrom || 0) && Q.infantry.list.length < 2) {
+    const heavy = aiSeenCount(['ark', 'apc', 'artillery', 'purifier'], 30);
+    const want = Math.min(G.diff.spitterCap || 0, Math.floor(heavy * (G.diff.spitterPerHeavy || 0) + 1e-9) || (heavy > 0 ? Math.max(1, Math.floor(heavy * (G.diff.spitterPerHeavy || 0))) : 0));
+    if (aliveQ('spitter') < want && cr() - UDEF.spitter.cost >= aiWaveReserve() && prereqOk(1, 'spitter')) queueItem(1, 'spitter');
+  }
+  // crawler raid: load 5 zombies, march to nearest player yard or truck
+  for (const crw of G.units) {
+    if (crw.side !== 1 || crw.type !== 'crawler' || crw.dead) continue;
+    if (!crw.raid && (crw.cargo || []).length < Loop5.D.CARGO_CAP) {
+      const z = G.units.filter(u => u.side === 1 && u.type === 'zombie' && !u.dead && !u.carried && (u.order === 'idle' || !u.target));
+      for (const u of z) { if (canLoadUnit(crw, u)) { orderLoad([u], crw); if ((crw.cargo || []).length + G.units.filter(x => x.loadOnto === crw).length >= Loop5.D.CARGO_CAP) break; } }
+    }
+    if ((crw.cargo || []).length >= 3 && !crw.raid) {
+      const yards = G.blds.filter(b => b.side === 0 && !b.dead && (b.type === 'refinery' || b.type === 'hq'));
+      const trucks = G.units.filter(u => u.side === 0 && u.d.harv && !u.dead);
+      let t = null, bd = 1e9;
+      for (const o of yards.concat(trucks)) { const d = dist(crw.x, crw.y, o.x, o.y); if (d < bd) { bd = d; t = o; } }
+      if (t) { crw.raid = true; issueMove([crw], t.x, t.y, false); crw.unloadAfter = true; }
+    }
+    if (crw.raid && crw.hp < crw.maxhp * 0.5 && (crw.cargo || []).length && !crw.unloading) startUnload(crw);
+  }
+  // catapult: stay 1 tile behind the wave front; prefer towers, then walls on the path, then other buildings, then units
+  const wave = (A.lastWave || []).filter(u => !u.dead);
+  const front = wave.length ? wave.reduce((a, b) => (a.y < b.y ? a : b)) : null; // player is typically south; use nearest to player HQ
+  const phq = G.blds.find(b => b.side === 0 && b.type === 'hq' && !b.dead);
+  for (const c of G.units) {
+    if (c.side !== 1 || c.type !== 'catapult' || c.dead) continue;
+    if (front && phq) {
+      const ang = Math.atan2(phq.y - front.y, phq.x - front.x);
+      const bx = front.x - Math.cos(ang) * TILE, by = front.y - Math.sin(ang) * TILE;
+      if (dist(c.x, c.y, bx, by) > 1.2 * TILE && !c.target) issueMove([c], bx, by, false);
+    }
+    if (!c.target) {
+      const towers = G.blds.filter(b => b.side === 0 && !b.dead && (b.type === 'turret' || b.type === 'flametower' || b.type === 'rockettower' || b.type === 'hq') && allySees(1, b.x, b.y));
+      const walls = G.blds.filter(b => b.side === 0 && !b.dead && Loop5.isWallish(b) && allySees(1, b.x, b.y));
+      const other = G.blds.filter(b => b.side === 0 && !b.dead && !Loop5.isWallish(b) && allySees(1, b.x, b.y));
+      const units = G.units.filter(u => u.side === 0 && !u.dead && !u.carried && allySees(1, u.x, u.y) && Combat.canHit('shell', u.d.armor));
+      const pick = (arr) => { let best = null, bd = 1e9; for (const o of arr) { const d = dist(c.x, c.y, o.x, o.y); if (d < bd && d >= minRangeOf(c) && d <= rangeOf(c) * TILE) { bd = d; best = o; } } return best; };
+      c.target = pick(towers) || pick(walls) || pick(other) || pick(units);
+      if (c.target) c.tmode = 'forced';
+    }
+  }
+  // sprayer: move with the wave, spray densest infantry, retreat below 40%
+  for (const s of G.units) {
+    if (s.side !== 1 || s.type !== 'sprayer' || s.dead) continue;
+    if (s.hp < s.maxhp * Loop5.D.SPRAYER_RETREAT && wave.length) {
+      const back = wave[0]; issueMove([s], back.x, back.y, false); s.target = null; continue;
+    }
+    if (front && dist(s.x, s.y, front.x, front.y) > 4 * TILE && !s.target) issueMove([s], front.x, front.y, true);
+  }
+
+  // L5 §14: Ghoul Leapers (after Bone Forge, once player walls or Artillery are seen) and Bloaters
+  const lep = cap.leaper;
+  if (lep && hasBld(1, 'forge') && (countBld(0, 'wall') + countBld(0, 'gate') > 0 || aiSeenCount(['artillery'], 30) > 0) && Q.infantry.list.length < 2) {
+    const want = lep.perWave || 0;
+    if (aliveQ('leaper') < want && prereqOk(1, 'leaper') && cr() - UDEF.leaper.cost >= aiWaveReserve()) queueItem(1, 'leaper');
+  }
+  const bl = cap.bloater;
+  if (bl && G.time >= (bl.from || 0) && Q.infantry.list.length < 2) {
+    const walls = countBld(0, 'wall') + countBld(0, 'gate');
+    const towers = countBld(0, 'turret') + countBld(0, 'flametower') + countBld(0, 'rockettower');
+    const trig = !bl.whenWallsOrTowers || walls > 0 || towers >= bl.whenWallsOrTowers;
+    if (trig && aliveQ('bloater') < (bl.perWave || 0) && prereqOk(1, 'bloater') && cr() >= UDEF.bloater.cost) queueItem(1, 'bloater');
+  }
+  // leapers: auto-leap already runs in engage; prefer soft targets behind walls
+  for (const lp of G.units) {
+    if (lp.side !== 1 || lp.type !== 'leaper' || lp.dead || lp.leaping) continue;
+    const soft = G.units.filter(u => u.side === 0 && !u.dead && !untargetable(u) && (u.type === 'artillery' || u.type === 'rocket' || u.type === 'medic' || u.d.harv));
+    let t = null, bd = 1e9;
+    for (const o of soft) { const d = dist(lp.x, lp.y, o.x, o.y); if (d < bd && d <= Loop5.D.LEAP_TILES * TILE) { bd = d; t = o; } }
+    if (t && shouldAutoLeap(lp, t)) { lp.target = t; lp.tmode = 'forced'; autoLeapTo(lp, t); }
+  }
+  // bloaters walk 2 tiles behind the wave front; never alone; fall back to the Hive if the escort is gone
+  const hive = G.blds.find(b => b.side === 1 && b.type === 'hq' && !b.dead);
+  for (const b of G.units) {
+    if (b.side !== 1 || b.type !== 'bloater' || b.dead || b.arming) continue;
+    const escort = wave.filter(u => u !== b && !u.d.demo);
+    if (!escort.length) { if (hive) issueMove([b], hive.x, hive.y, false); b.target = null; continue; }
+    if (front && phq) {
+      const ang = Math.atan2(phq.y - front.y, phq.x - front.x);
+      const bx = front.x - Math.cos(ang) * 2 * TILE, by = front.y - Math.sin(ang) * 2 * TILE;
+      if (!b.target && dist(b.x, b.y, bx, by) > 1.4 * TILE) issueMove([b], bx, by, false);
+    }
+    if (!b.target) {
+      const walls = G.blds.filter(o => o.side === 0 && !o.dead && Loop5.isWallish(o));
+      const towers = G.blds.filter(o => o.side === 0 && !o.dead && (o.type === 'turret' || o.type === 'flametower' || o.type === 'rockettower' || o.type === 'hq'));
+      const other = G.blds.filter(o => o.side === 0 && !o.dead && !Loop5.isWallish(o));
+      const pick = arr => { let best = null, bd = 1e9; for (const o of arr) { const d = dist(b.x, b.y, o.x, o.y); if (d < bd) { bd = d; best = o; } } return best; };
+      const t = pick(walls) || pick(towers) || pick(other);
+      if (t) { b.target = t; b.tmode = 'forced'; b.order = 'attack'; }
+    }
+  }
+  // add leapers and bloaters onto the outgoing wave (idle ones, up to the cap)
+  if (A.lastWave && A.lastWave.length) {
+    const add = (type, n) => {
+      const extra = G.units.filter(u => u.side === 1 && u.type === type && !u.dead && !A.lastWave.includes(u)).slice(0, n);
+      if (extra.length && A.lastWave[0]) issueMove(extra, A.lastWave[0].x, A.lastWave[0].y, true);
+      A.lastWave.push(...extra);
+    };
+    if (lep) add('leaper', lep.perWave || 0);
+    if (bl && G.time >= (bl.from || 0)) add('bloater', bl.perWave || 0);
+  }
+
+}
+
+
 // ---------------- rendering ----------------
 const cam = { x: 0, y: 0 };
 function onScreen(x, y, m) { return x > cam.x - m && x < cam.x + VW + m && y > cam.y - m && y < cam.y + VH + m; }
@@ -1664,7 +2417,7 @@ function bldArtOpts(b) {
 // loop 4 tech-building overlay (Dezi, loop4/1-tech-spec.md; replaces the research-only rule of HANDOFF-buildings §10.1):
 // plays whenever the building's own queue is busy - research (G.rq) or training (G.queues church / altar) - and it is powered; off when idle or unpowered.
 // Armory: research. Church: research or Archangel / Templar training. Dark Altar: no research, so its flames play during the Demon Lord build.
-const L4_OVERLAY = ['armory', 'church', 'altar'];
+const L4_OVERLAY = ['armory', 'church', 'altar', 'forge'];
 function bldBusy(b) {
   const rq = G.rq && G.rq[b.side] && G.rq[b.side][b.type], q = G.queues && G.queues[b.side] && G.queues[b.side][b.type];
   return !!((rq && rq.list.length > 0) || (q && q.list.length > 0 && !q.ready));
@@ -2142,7 +2895,7 @@ const SB_TIERS = {
   XL: { W: 260, mini: 240, icon: 48, cw: 56, ch: 62, sel: 64, tabH: 22, tabs: ['STRUCT', 'UNITS', 'RESEARCH'] },
 };
 // Tab hot-keys. Q / W / E per the notes, but W already pans the camera (WASD), so W is left off until that clash is ruled on.
-const TAB_KEYS = { KeyQ: 0, KeyE: 2 };
+const TAB_KEYS = { KeyQ: 0, KeyE: 2 }; // W pans; R is taken (gate rotate), so the third tab stays click-only (Artie UI)
 let TIER = null, SHORT = false, merged = false, mergePref = false, sbTab = 0, iconKey = '';
 function tierOf(w, h) { if (h < 800 || w < 1100) return 'S'; if (h < 900) return 'M'; if (h < 1080) return 'L'; return 'XL'; }
 function applyTier() {
@@ -2398,7 +3151,9 @@ function updSidebar() {
     const c = {}; for (const e of sel) c[ename(e)] = (c[ename(e)] || 0) + 1;
     s = `<b>${sel.length} selected</b><br>` + Object.entries(c).map(([k, v]) => `${v} × ${k}`).join('<br>');
   } else s = '<span style="color:#6E7378">Nothing selected.<br>Drag to select units. Right-click to command.</span>';
+  if (sel.some(e => e.kind === 'u' && e.d.leap && e.side === 0 && !e.dead)) s += '<br><small>Q: Leap</small>';
   s += `<br><small style="color:#6E7378">Time ${fmtT(G.time)} · ${G.diff.name} · Horde waves sent: ${G.ai.waveN}</small>`;
+  if ($('sel')) $('sel').title = sel.some(e => e.kind === 'u' && e.d.leap && e.side === 0 && !e.dead) ? 'Q: Leap' : '';
   // short screens (< 720 tall): one 24 px line, name + HP bar (notes §7); the full text stays in the tooltip
   if (SHORT) {
     const e = sel.length === 1 ? sel[0] : null;
@@ -2417,7 +3172,7 @@ const keys = {};
 let lastClick = { t: 0, type: null };
 function updMouseWorld() { mouse.wx = mouse.x / ZS + cam.x; mouse.wy = mouse.y / ZS + cam.y; }
 function entityAt(wx, wy) {
-  for (let i = G.units.length - 1; i >= 0; i--) { const u = G.units[i]; if (u.dead) continue; if (u.side === 1 && !vis[tileOf(u.y) * MW + tileOf(u.x)]) continue; const oy = u.d.fly ? -9 : 0; if (dist(wx, wy, u.x, u.y + oy) < u.r + 4) return u; }
+  for (let i = G.units.length - 1; i >= 0; i--) { const u = G.units[i]; if (u.dead || untargetable(u)) continue; if (u.side === 1 && !vis[tileOf(u.y) * MW + tileOf(u.x)]) continue; const oy = u.d.fly ? -9 : 0; if (dist(wx, wy, u.x, u.y + oy) < u.r + 4) return u; }
   const tx = tileOf(wx), ty = tileOf(wy); if (tx < 0 || ty < 0 || tx >= MW || ty >= MH) return null;
   const id = bgrid[ty * MW + tx]; if (id) { const b = bById.get(id); if (b && (b.side === 0 || isVisible(b))) return b; }
   return null;
@@ -2438,15 +3193,17 @@ view.addEventListener('mousedown', e => {
   { const r = view.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; }
   updMouseWorld();
   if (e.button === 2) {
-    if (G.placing || G.mode) { G.placing = null; G.mode = null; hint(); return; }
-    command(mouse.wx, mouse.wy); return;
+    if (G.placing || G.mode) { G.placing = null; G.wallDrag = null; G.mode = null; hint(); return; }
+    command(mouse.wx, mouse.wy, e.altKey); return;
   }
   if (e.button !== 0) return;
   if (G.placing) {
-    const d = BDEF[G.placing], tx = tileOf(mouse.wx) - (d.w >> 1), ty = tileOf(mouse.wy) - (d.h >> 1);
-    if (placeBld(0, G.placing, tx, ty)) { G.placing = null; hint(); } else { const r = placeCheck(0, G.placing, tx, ty, 0).reason; msg(r && r !== 'Blocked' ? `Cannot place there: ${r}.` : 'Cannot place there. Build on clear ground near your base.', '#ff6a5a'); sfx('err'); }
+    const foot = bldFoot(G.placing, G.placeRot || 0), tx = tileOf(mouse.wx) - (foot.w >> 1), ty = tileOf(mouse.wy) - (foot.h >> 1);
+    if (G.placing === 'wall') { G.wallDrag = [tx, ty]; mouse.down = true; return; }
+    if (placeBld(0, G.placing, tx, ty, G.placeRot || 0)) { G.placing = null; G.placeRot = 0; hint(); } else { const r = placeCheck(0, G.placing, tx, ty, 0, G.placeRot || 0).reason; msg(r && r !== 'Blocked' ? `Cannot place there: ${r}.` : 'Cannot place there. Build on clear ground near your base.', '#ff6a5a'); sfx('err'); }
     return;
   }
+  if (G.mode === 'leap') { issueLeapAt(mouse.wx, mouse.wy); return; }
   if (G.mode === 'nuke') { if (launchNuke(0, mouse.wx, mouse.wy)) G.stats.nukes++; G.mode = null; hint(); return; }
   if (G.mode === 'amove') { const my = G.sel.filter(u => u.kind === 'u' && u.side === 0 && !u.dead); if (my.length) { issueMove(my, mouse.wx, mouse.wy, true); G.fx.push({ k: 'spark', x: mouse.wx, y: mouse.wy, c: '#ff6a4a', t: 0, dur: 0.4 }); } G.mode = null; hint(); return; }
   mouse.down = true; mouse.drag = false; mouse.sx = mouse.x; mouse.sy = mouse.y; mouse.dx = mouse.wx; mouse.dy = mouse.wy;
@@ -2454,10 +3211,17 @@ view.addEventListener('mousedown', e => {
 window.addEventListener('mouseup', e => {
   if (e.button !== 0 || !mouse.down || !G) return;
   mouse.down = false; updMouseWorld();
+  if (G.wallDrag) {
+    const tx = tileOf(mouse.wx), ty = tileOf(mouse.wy);
+    const tiles = wallTilesFromDrag(G.wallDrag[0], G.wallDrag[1], tx, ty);
+    if (tiles.length && placeBld(0, 'wall', tiles[0][0], tiles[0][1])) placeWallLine(0, tiles.slice(1));
+    G.wallDrag = null; G.placing = null; hint();
+    return;
+  }
   const add = e.shiftKey;
   if (mouse.drag) {
     const x0 = Math.min(mouse.dx, mouse.wx), x1 = Math.max(mouse.dx, mouse.wx), y0 = Math.min(mouse.dy, mouse.wy), y1 = Math.max(mouse.dy, mouse.wy);
-    const got = G.units.filter(u => u.side === 0 && !u.dead && u.x >= x0 && u.x <= x1 && u.y >= y0 && u.y <= y1);
+    const got = G.units.filter(u => u.side === 0 && !u.dead && !u.carried && u.x >= x0 && u.x <= x1 && u.y >= y0 && u.y <= y1);
     const combat = got.filter(u => !u.d.harv);
     const pick = combat.length ? combat : got;
     G.sel = add ? [...new Set([...G.sel, ...pick])] : pick;
@@ -2473,14 +3237,22 @@ window.addEventListener('mouseup', e => {
   }
   mouse.drag = false;
 });
-function command(wx, wy) {
-  const my = G.sel.filter(e => e.side === 0 && !e.dead);
+function command(wx, wy, alt) {
+  const my = G.sel.filter(e => e.side === 0 && !e.dead && !e.carried);
   if (!my.length) return;
   const units = my.filter(e => e.kind === 'u');
   const blds = my.filter(e => e.kind === 'b');
   const t = entityAt(wx, wy);
   const ti = tileOf(wy) * MW + tileOf(wx);
   if (!units.length) { for (const b of blds) if (['hq', 'barracks', 'factory'].includes(b.type)) { b.rally = { x: wx, y: wy }; sfx('click'); } return; }
+  if (t && t.side === 0 && t.kind === 'u' && t.d.transport) {
+    const inf = units.filter(u => canLoadUnit(t, u));
+    if (inf.length) { orderLoad(inf, t); G.fx.push({ k: 'spark', x: wx, y: wy, c: '#7dff7d', t: 0, dur: 0.4 }); sfx('click'); return; }
+  }
+  if (alt) {
+    const tr = units.filter(u => u.d.transport && (u.cargo || []).length);
+    if (tr.length) { issueMove(tr, wx, wy, false); for (const u of tr) u.unloadAfter = true; G.fx.push({ k: 'spark', x: wx, y: wy, c: '#7dff7d', t: 0, dur: 0.4 }); sfx('click'); return; }
+  }
   if (t && t.side === 1) { orderAttack(units, t); for (const u of units.filter(u => u.d.harv)) orderMove(u, wx, wy); G.fx.push({ k: 'spark', x: wx, y: wy, c: '#ff4a3a', t: 0, dur: 0.4 }); sfx('click'); return; }
   const harv = units.filter(u => u.d.harv), rest = units.filter(u => !u.d.harv);
   for (const h of harv) {
@@ -2517,6 +3289,17 @@ window.addEventListener('keydown', e => {
   if (e.code === 'KeyP') { togglePause(); return; }
   if (e.code === 'KeyM') { toggleMute(); return; }
   if (G.paused || G.over) return;
+  if (e.code === 'KeyR' && G.placing === 'gate') { G.placeRot = G.placeRot ? 0 : 1; return; } // R rotates a gate while placing (Artie: third tab stays click-only)
+  if (e.code === 'KeyL') { if (toggleGateLock().length) return; }
+  if (e.code === 'KeyD') { const tr = (G.sel || []).filter(u => u.kind === 'u' && u.side === 0 && !u.dead && u.d.transport && (u.cargo || []).length); if (tr.length) { tr.forEach(startUnload); return; } }
+  if (e.code === 'KeyE' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    const trs = (G.sel || []).filter(u => u.kind === 'u' && u.side === 0 && !u.dead && u.d.transport);
+    const inf = (G.sel || []).filter(u => u.kind === 'u' && u.side === 0 && !u.dead && u.d.inf);
+    if (trs.length && inf.some(u => canLoadUnit(trs[0], u))) { orderLoad(inf, trs[0]); return; }
+  }
+  if (e.code === 'KeyQ' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    if (beginLeapCommand()) return; // leap-capable selection first; otherwise fall through to the tab
+  }
   if (e.code in TAB_KEYS && !e.ctrlKey && !e.metaKey && !e.altKey) { showTab(TAB_KEYS[e.code]); return; } // tabs (merged list: scroll to the section)
   const m = /^Digit([1-9])$/.exec(e.code);
   if (m) {
@@ -2553,7 +3336,7 @@ function newGame(diffKey, opts) {
   setZoom(ZOOM); // re-clamp the camera to the new map size
   idc = 0; bById.clear();
   if ($('msgs')) $('msgs').innerHTML = '';
-  G = { seed, time: 0, diff: DIFF[diffKey] || DIFF.normal, diffKey, units: [], blds: [], proj: [], fx: [], decals: [], rad: [], missiles: [], rises: [], sel: [], groups: {},
+  G = { seed, time: 0, diff: DIFF[diffKey] || DIFF.normal, diffKey, units: [], blds: [], proj: [], fx: [], decals: [], patches: [], suppress: {}, rad: [], missiles: [], rises: [], sel: [], groups: {}, placeRot: 0,
     credits: [SD.startScripPlayer, (DIFF[diffKey] || DIFF.normal).startScripAI ?? SD.startScripAI], queues: [mkQ(), mkQ()], rq: [mkRQ(), mkRQ()], research: [{}, {}], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0 },
     over: false, paused: false, started: false, mode: null, placing: null, ai: { t: 1, nextWave: 0, waveN: 0 }, fogT: 0, winT: 0, shakeA: 0,
     baseP: { x: 9, y: MH - 10 }, baseE: { x: MW - 10, y: 9 } };
@@ -2585,7 +3368,7 @@ function newGame(diffKey, opts) {
 // headless combat arena (CS automated matchups): open ground, no plague, no buildings, no AI
 function newArena(seed) {
   rng = mulberry32(seed | 0); idc = 0; bById.clear(); setMapSize(80, 80);
-  G = { seed, time: 0, diff: DIFF.normal, diffKey: 'normal', units: [], blds: [], proj: [], fx: [], decals: [], rad: [], missiles: [], rises: [], sel: [], groups: {},
+  G = { seed, time: 0, diff: DIFF.normal, diffKey: 'normal', units: [], blds: [], proj: [], fx: [], decals: [], patches: [], suppress: {}, rad: [], missiles: [], rises: [], sel: [], groups: {}, placeRot: 0,
     credits: [0, 0], queues: [mkQ(), mkQ()], rq: [mkRQ(), mkRQ()], research: [{}, {}], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0, risen: 0, purified: 0, crushed: 0, burned: 0, blessed: 0 },
     over: false, paused: false, started: true, mode: null, placing: null, ai: { t: 1e9, nextWave: 1e9, waveN: 0 }, fogT: 0, winT: 0, shakeA: 0, arena: true,
     baseP: { x: 2, y: 2 }, baseE: { x: MW - 3, y: MH - 3 }, mapSrc: null };
@@ -2680,4 +3463,4 @@ if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(locati
   } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { AI_RUSH_DEFENSE, AI_FIRST_NUKE_MIN, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX };
+window.RTS = { AI_RUSH_DEFENSE, AI_FIRST_NUKE_MIN, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, canAttack, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX, Loop5, sellBld, cutOffWarning, pathExists, placeWallLine, wallTilesFromDrag, wallCount, tryBreach, addPatch, cleanseAt, inPatch, loadUnit, canLoadUnit, ejectCargo, startUnload, finishUnload, orderLoad, allySees, DIFF, canLeap, startLeap, shouldAutoLeap, autoLeapTo, beginLeapCommand, issueLeapAt, boomDemo, startArm, untargetable, showTab, get sbTab() { return sbTab; } };

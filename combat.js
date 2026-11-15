@@ -12,6 +12,10 @@
     beam: { light: 1.25, heavy: 1.0, air: 1.0, structure: 0.6 },
     // Loop 4 (L4 = rts-loops/loop4/1-tech-spec.md): the Templar's "Holy melee" uses the Holy beam row; melee cannot reach air
     holy: { light: 1.25, heavy: 1.0, air: null, structure: 0.6 },
+    // Loop 5 §6: plague damage type (Sprayer / patches). light 1.25, heavy 0.75, air null, structure 0.4
+    plague: { light: 1.25, heavy: 0.75, air: null, structure: 0.4 },
+    // Loop 5 §13: acid (Spitter). light 0.6, heavy 1.3, air null, structure 0.8. Not in RISE_WEAPONS.
+    acid: { light: 0.6, heavy: 1.3, air: null, structure: 0.8 },
   };
   // per-unit-type overrides of the matrix (weapon -> unit type -> multiplier). Tuning pass 1 (Dezi, after f12dd60):
   // Imps are hellfire demons and take 50% Fire damage (was 1.25x as light). Flamer stats unchanged.
@@ -34,6 +38,18 @@
     archangel: { armor: 'air', dmgType: 'beam', splash: 0.5, cost: 2500, time: 35, hp: 1300, dmg: 50, /* tuning pass 1: dmg 60 -> 50, splash 1.0 -> 0.5; pass 2: hp 1400 -> 1300 */ rof: 1.5, range: 6, speed: 1.8, sight: 9, limit: 1 },
     templar: { armor: 'heavy', dmgType: 'holy', splash: 0.3, /* tuning pass 1: 0.8 -> 0.3 */ cost: 1400, time: 25, hp: 1400, /* pass 2: 1500 -> 1400 */ dmg: 70, rof: 1.4, range: 1.1, speed: 1.3, sight: 6, limit: 2 },
     demon: { armor: 'heavy', dmgType: 'fire', splash: 1.2, cost: 2500, time: 35, hp: 2100, /* tuning pass 1 step 2 (#11 still missed after 1-4): 2400 -> 2100 */ dmg: 50, rof: 1.5, range: 5, speed: 1.0, sight: 8, limit: 1 },
+    // Loop 5 §6 vehicles and §13 Spitter. Q1 (a): Purifier Survivors, Sprayer Horde.
+    apc: { armor: 'heavy', dmgType: 'bullet', cost: 700, time: 10, hp: 600, dmg: 8, rof: 0.5, range: 4, speed: 2.0, sight: 7 },
+    crawler: { armor: 'heavy', dmgType: 'claw', cost: 700, time: 10, hp: 650, dmg: 14, rof: 1.0, range: 0.8, speed: 1.9, sight: 6 },
+    artillery: { armor: 'heavy', dmgType: 'shell', splash: 1.5, cost: 1100, time: 16, hp: 300, dmg: 110, rof: 4.0, range: 11, minRange: 3, speed: 0.9, sight: 6 },
+    catapult: { armor: 'heavy', dmgType: 'shell', splash: 1.5, cost: 1100, time: 16, hp: 320, dmg: 95, rof: 4.0, range: 11, minRange: 3, speed: 0.9, sight: 6 },
+    purifier: { armor: 'heavy', dmgType: 'fire', splash: 1.0, cost: 1000, time: 14, hp: 550, dmg: 22, rof: 1.0, range: 3.5, speed: 1.4, sight: 6 },
+    sprayer: { armor: 'heavy', dmgType: 'plague', splash: 1.0, cost: 1000, time: 14, hp: 550, dmg: 25, rof: 1.0, range: 3, speed: 1.4, sight: 6 },
+    spitter: { armor: 'light', dmgType: 'acid', cost: 300, time: 8, hp: 160, dmg: 55, rof: 1.8, range: 5.5, speed: 1.5, sight: 6 },
+    shock: { armor: 'light', dmgType: 'bullet', cost: 350, time: 9, hp: 160, dmg: 9, rof: 0.4, range: 3, speed: 2.0, sight: 6 },
+    leaper: { armor: 'light', dmgType: 'claw', cost: 300, time: 8, hp: 150, dmg: 18, rof: 0.8, range: 0.8, speed: 2.2, sight: 6 },
+    demo: { armor: 'light', dmgType: null, cost: 250, time: 7, hp: 80, speed: 1.7, sight: 5, range: 0.8, limit: 6 },
+    bloater: { armor: 'light', dmgType: null, cost: 250, time: 7, hp: 120, speed: 1.2, sight: 5, range: 0.8, limit: 6 },
   };
   // Loop 4 research (L4 "Armory research", "Church research and units"). Effects are modifiers read at use time;
   // base stats (UDEF / BDEF / UNITS) are never changed. at = building that researches it.
@@ -46,12 +62,17 @@
     blessed: { name: 'Blessed Rounds', at: 'church', cost: 800, time: 40, desc: 'Riflemen killed by Zombies or plague no longer rise', effect: { noRise: ['survivor'] } },
     halo: { name: 'Halo Wings', at: 'church', cost: 900, time: 40, desc: 'Angels and the Archangel get +25% HP and +15% speed', effect: { hpMult: { units: ['seraph', 'archangel'], v: 1.25 }, speedMult: { units: ['seraph', 'archangel'], v: 1.15 } } },
     holyground: { name: 'Holy Ground', at: 'church', cost: 1000, time: 45, desc: 'Within 7 tiles of the Church, plague does not hurt Survivors or heal the Horde', effect: { holyGround: 7 } },
+    // Loop 5 §13 Bone Forge (mirrors the Armory one for one). Does not affect flametower / rockettower.
+    claws: { name: 'Sharpened Claws', at: 'forge', cost: 600, time: 30, desc: 'Zombies and Bone Spires deal +20% damage', effect: { dmgMult: { units: ['zombie'], blds: ['turret'], v: 1.2 } } },
+    boneplate: { name: 'Bone Plating', at: 'forge', cost: 800, time: 40, desc: 'Hellbrutes, Scrap Eaters and Spitters get +20% HP', effect: { hpMult: { units: ['brute', 'reaper', 'spitter'], v: 1.2 } } },
+    acid: { name: 'Acid Glands', at: 'forge', cost: 600, time: 30, reqBld: ['factory'], desc: 'Unlocks the Spitter at the Spawning Pit (needs a Factory)', effect: { unlock: ['spitter'] } },
+    spines: { name: 'Long Spines', at: 'forge', cost: 1000, time: 45, reqRes: ['claws'], desc: 'Bone Spires +1 range, Imps +0.5 range (needs Sharpened Claws)', effect: { rangeAdd: { blds: ['turret'], v: 1, units: ['imp'], unitV: 0.5 } } },
   };
-  const RORDER = { armory: ['hollow', 'plating', 'rockets', 'barrels'], church: ['blessed', 'halo', 'holyground'] };
+  const RORDER = { armory: ['hollow', 'plating', 'rockets', 'barrels'], church: ['blessed', 'halo', 'holyground'], forge: ['claws', 'boneplate', 'acid', 'spines'] };
   // combined modifier for one stat from a side's finished research. done: { id: true }. kind 'units' | 'blds'
   const modifier = (done, stat, kind, type) => {
     let mult = 1, add = 0;
-    for (const id in RESEARCH) { if (!done || !done[id]) continue; const e = RESEARCH[id].effect[stat]; if (!e || !(e[kind] || []).includes(type)) continue; if (stat === 'rangeAdd') add += e.v; else mult *= e.v; }
+    for (const id in RESEARCH) { if (!done || !done[id]) continue; const e = RESEARCH[id].effect[stat]; if (!e || !(e[kind] || []).includes(type)) continue; if (stat === 'rangeAdd') add += (kind === 'units' && e.unitV != null) ? e.unitV : e.v; else mult *= e.v; }
     return stat === 'rangeAdd' ? add : mult;
   };
   const unlockedBy = type => Object.keys(RESEARCH).filter(id => (RESEARCH[id].effect.unlock || []).includes(type));
@@ -61,7 +82,11 @@
   const HQ_TURRET_RANGE = 6;
   const TOWERS = { turret: { dmgType: ['bullet', 'fire'], cost: 600, time: 9, hp: 650, dmg: 28, rof: 0.9, range: 6.5, sight: 7, power: 20 },
     // Loop 4 opening addendum: built-in HQ / Hive turret. Hits air (bullet / fire), no power, fires during low power
-    hq: { dmgType: ['bullet', 'fire'], dmg: 20, rof: 1.0, range: HQ_TURRET_RANGE, power: 0, hitsAir: true } }; // HQ and Hive share this turret
+    hq: { dmgType: ['bullet', 'fire'], dmg: 20, rof: 1.0, range: HQ_TURRET_RANGE, power: 0, hitsAir: true },
+    // Loop 5 §5. Long Barrels / Hollow Points do not apply (effects list only turret).
+    flametower: { dmgType: ['fire', 'fire'], cost: 700, time: 10, hp: 700, dmg: 22, rof: 0.5, range: 3.5, splash: 0.8, sight: 6, power: 30, hitsAir: false },
+    rockettower: { dmgType: ['shell', 'shell'], cost: 900, time: 12, hp: 750, dmg: 80, rof: 2.0, range: 7.5, minRange: 2, splash: 0.4, sight: 8, power: 30, hitsAir: false, travel: 0.6 },
+  }; // HQ and Hive share the hq turret
   const TABLE = {
     plagueInfDps: { v: 6, src: 'CS plague (was 8)' },
     plagueVehDps: { v: 4, src: 'CS plague, trucks included (was 6)' },
