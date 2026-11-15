@@ -2948,7 +2948,7 @@ function msg(text, color, x, y) {
 
 // ---------------- sidebar (rts-loops/ui/1-ui-layout-notes.md) ----------------
 // Tier from the inner viewport: S 720-799 (and < 720, plus any width < 1100), M 800-899, L 900-1079, XL >= 1080.
-// S / M / L: three tabs (queue badge + ready dot); XL: one merged list of all 25 items with section headers, no scroll.
+// S / M / L / XL: three tabs (queue badge + ready dot). Loop 5: XL uses the same tabs as the other tiers (notes 2026-11-15); each tab must fit with no scrolling.
 const SB_TIERS = {
   S: { W: 196, mini: 160, icon: 32, cw: 40, ch: 48, sel: 40, tabH: 20, tabs: ['BUILD', 'UNITS', 'TECH'] },
   M: { W: 228, mini: 160, icon: 48, cw: 48, ch: 60, sel: 48, tabH: 22, tabs: ['STRUCT', 'UNITS', 'RESEARCH'] },
@@ -2962,7 +2962,7 @@ function tierOf(w, h) { if (h < 800 || w < 1100) return 'S'; if (h < 900) return
 function applyTier() {
   if (typeof document === 'undefined' || !document.body || !document.documentElement) { TIER = tierOf(window.innerWidth || 1280, window.innerHeight || 720); MBOX = SB_TIERS[TIER].mini; return; }   // headless (node tests)
   const w = window.innerWidth || 1280, h = window.innerHeight || 720, t = tierOf(w, h), K = SB_TIERS[t], bd = document.body, st = document.documentElement.style;
-  SHORT = h < 720; merged = t === 'XL' || (t === 'L' && mergePref); TIER = t;
+  SHORT = h < 720; merged = t === 'L' && mergePref; TIER = t; // XL uses tabs, same as S / M / L (Artie 2026-11-15)
   bd.dataset.tier = t; bd.classList.toggle('short', SHORT); bd.classList.toggle('merged', merged); bd.classList.toggle('tiny', w < 1000 || h < 600);
   const px = (k, v) => st.setProperty(k, v + 'px');
   px('--sbW', K.W); px('--mini', K.mini); px('--cw', K.cw); px('--ch', K.ch); px('--icon', K.icon); px('--sel', SHORT ? 24 : K.sel); px('--tabH', K.tabH);
@@ -3406,7 +3406,7 @@ window.addEventListener('keydown', e => {
   if (e.code === 'KeyQ' && !e.ctrlKey && !e.metaKey && !e.altKey) {
     if (beginLeapCommand()) return; // leap-capable selection first; otherwise fall through to the tab
   }
-  if (e.code in TAB_KEYS && !e.ctrlKey && !e.metaKey && !e.altKey) { showTab(TAB_KEYS[e.code]); return; } // tabs (merged list: scroll to the section)
+  if (e.code in TAB_KEYS && !e.ctrlKey && !e.metaKey && !e.altKey) { showTab(TAB_KEYS[e.code]); return; } // Q build / E research; Q leaps first when a leaper is selected
   const m = /^Digit([1-9])$/.exec(e.code);
   if (m) {
     const n = m[1];
