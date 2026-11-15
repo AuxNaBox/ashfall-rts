@@ -1200,6 +1200,72 @@ function capWaveBloaters(list) {
   let n = 0;
   return list.filter(u => { if (u.type !== 'bloater') return true; n++; return n <= cap; });
 }
+// L5 §18 pass 7: before 12:00, a Hard wave is at most WAVE_CAP_PRE_FLOOR units
+// (far-idle joiners included) and WAVE_BRUTE_CAP_PRE_FLOOR Hellbrutes. Units
+// over either cap stay home and count toward the next trigger. Easy, Normal,
+// and Hard from 12:00 on are uncapped.
+function waveCapsPreFloorActive() {
+  if (!G || G.diffKey !== 'hard') return false;
+  const floor = Loop5.D.WAVE_CAP_FLOOR_S;
+  return G.time < (floor == null ? 720 : floor);
+}
+function capWavePreFloor(list) {
+  const out = { send: list ? list.slice() : list, held: [], heldUnit: 0, heldBrute: 0 };
+  if (!waveCapsPreFloorActive() || !list) return out;
+  const unitCap = Loop5.D.WAVE_CAP_PRE_FLOOR, bruteCap = Loop5.D.WAVE_BRUTE_CAP_PRE_FLOOR;
+  const send = [], held = [];
+  let brutes = 0, heldUnit = 0, heldBrute = 0;
+  for (const u of list) {
+    if (u.type === 'brute' && brutes >= bruteCap) { held.push(u); heldBrute++; continue; }
+    if (send.length >= unitCap) { held.push(u); heldUnit++; continue; }
+    send.push(u);
+    if (u.type === 'brute') brutes++;
+  }
+  out.send = send; out.held = held; out.heldUnit = heldUnit; out.heldBrute = heldBrute;
+  return out;
+}
+function takeWaveJoiners(current, candidates) {
+  const cur = current || [];
+  const cand = (candidates || []).filter(u => !cur.includes(u));
+  if (!waveCapsPreFloorActive()) return { join: cand, held: [], heldUnit: 0, heldBrute: 0 };
+  const unitCap = Loop5.D.WAVE_CAP_PRE_FLOOR, bruteCap = Loop5.D.WAVE_BRUTE_CAP_PRE_FLOOR;
+  let n = cur.length, brutes = cur.filter(u => u.type === 'brute').length;
+  const join = [], held = [];
+  let heldUnit = 0, heldBrute = 0;
+  for (const u of cand) {
+    if (u.type === 'brute' && brutes >= bruteCap) { held.push(u); heldBrute++; continue; }
+    if (n >= unitCap) { held.push(u); heldUnit++; continue; }
+    join.push(u);
+    n++;
+    if (u.type === 'brute') brutes++;
+  }
+  return { join, held, heldUnit, heldBrute };
+}
+function noteWaveJoiners(j) {
+  const log = G.ai && G.ai.waveLog && G.ai.waveLog[G.ai.waveLog.length - 1];
+  if (!log || !j) return;
+  log._joinerIds = log._joinerIds || [];
+  log._heldJoinIds = log._heldJoinIds || [];
+  log.joinerTypes = log.joinerTypes || {};
+  for (const u of (j.join || [])) {
+    if (log._joinerIds.includes(u.id)) continue;
+    log._joinerIds.push(u.id);
+    log.joiners = (log.joiners || 0) + 1;
+    log.joinerTypes[u.type] = (log.joinerTypes[u.type] || 0) + 1;
+  }
+  // Attribute newly held units: Hellbrutes first against heldBrute, the rest as unit-cap holds.
+  const fresh = [];
+  for (const u of (j.held || [])) {
+    if (log._joinerIds.includes(u.id) || log._heldJoinIds.includes(u.id)) continue;
+    log._heldJoinIds.push(u.id);
+    fresh.push(u);
+  }
+  let bruteLeft = j.heldBrute || 0;
+  for (const u of fresh) {
+    if (u.type === 'brute' && bruteLeft > 0) { log.heldJoinBrute = (log.heldJoinBrute || 0) + 1; bruteLeft--; }
+    else log.heldJoinUnit = (log.heldJoinUnit || 0) + 1;
+  }
+}
 function findEnemy(e, range, side) {
   const demo = e.kind === 'u' && e.d && e.d.demo;
   const w = weaponOf(e); if (!w && !demo) return null;
@@ -2181,8 +2247,24 @@ function updAI(dt) {
         const extra = G.units.filter(u => u.side === 1 && u.type === 'spitter' && !u.dead && !u.carried && !send.includes(u)).slice(0, want);
         send.push(...extra);
       }
+      const pre = capWavePreFloor(send);
+      send = pre.send;
       A.lastWave = send.slice();
-if (tgt) { issueMove(send, tgt.x, tgt.y, true); A.waveN++; if (A.waveN === 1) A.wave1At = G.time; resetBloaterTrain(); (A.waveLog || (A.waveLog = [])).push({ t: G.time, n: send.length }); msg(A.waveN === 1 ? 'Scouts report: a Horde wave is marching on our base!' : `Horde wave ${A.waveN} incoming!`, '#ff6a3d'); sfx('alert'); }
+      if (tgt) {
+        issueMove(send, tgt.x, tgt.y, true);
+        A.waveN++;
+        if (A.waveN === 1) A.wave1At = G.time;
+        resetBloaterTrain();
+        const types = {};
+        for (const u of send) types[u.type] = (types[u.type] || 0) + 1;
+        (A.waveLog || (A.waveLog = [])).push({
+          t: G.time, n: send.length, types,
+          heldUnit: pre.heldUnit, heldBrute: pre.heldBrute,
+          joiners: 0, joinerTypes: {}, heldJoinUnit: 0, heldJoinBrute: 0
+        });
+        msg(A.waveN === 1 ? 'Scouts report: a Horde wave is marching on our base!' : `Horde wave ${A.waveN} incoming!`, '#ff6a3d');
+        sfx('alert');
+      }
       A.nextWave = G.time + G.diff.waveGap;
     } else A.nextWave = G.time + 10;
   }
@@ -2199,8 +2281,24 @@ if (tgt) { issueMove(send, tgt.x, tgt.y, true); A.waveN++; if (A.waveN === 1) A.
     for (const u of G.units) if (u.side === 0 && !u.dead) for (const b of G.blds) if (b.side === 1 && !b.dead && dist(u.x, u.y, b.x, b.y) < 12 * TILE) { intr = u; break; }
     if (intr) { const def = idle.filter(u => dist(u.x, u.y, hq.x, hq.y) < 28 * TILE); if (def.length) issueMove(def, intr.x, intr.y, true); }
     // keep pressure: idle units stranded far from home push on to the next target
-    const far = idle.filter(u => dist(u.x, u.y, hq.x, hq.y) > 20 * TILE);
-    if (far.length) { const t = nearestPlayerTarget(far[0].x, far[0].y); if (t) issueMove(far, t.x, t.y, true); }
+    const far = idle.filter(u => dist(u.x, u.y, hq.x, hq.y) > 20 * TILE && !(A.lastWave && A.lastWave.includes(u)));
+    if (far.length) {
+      let go = far;
+      if (waveCapsPreFloorActive() && A.lastWave && A.lastWave.some(u => u && !u.dead)) {
+        const j = takeWaveJoiners(A.lastWave, far);
+        go = j.join;
+        noteWaveJoiners(j);
+      }
+      if (go.length) {
+        const t = nearestPlayerTarget(go[0].x, go[0].y);
+        if (t) {
+          issueMove(go, t.x, t.y, true);
+          if (waveCapsPreFloorActive() && A.lastWave) {
+            for (const u of go) if (!A.lastWave.includes(u)) A.lastWave.push(u);
+          }
+        }
+      }
+    }
   }
   updAI_L5();
 }
@@ -2376,8 +2474,10 @@ function updAI_L5() {
   if (A.lastWave && A.lastWave.length) {
     const add = (type, n) => {
       const extra = G.units.filter(u => u.side === 1 && u.type === type && !u.dead && !A.lastWave.includes(u)).slice(0, n);
-      if (extra.length && A.lastWave[0]) issueMove(extra, A.lastWave[0].x, A.lastWave[0].y, true);
-      A.lastWave.push(...extra);
+      const j = takeWaveJoiners(A.lastWave, extra);
+      if (j.join.length && A.lastWave[0]) issueMove(j.join, A.lastWave[0].x, A.lastWave[0].y, true);
+      A.lastWave.push(...j.join);
+      if (waveCapsPreFloorActive()) noteWaveJoiners(j);
     };
     if (lep || leaperWant() > 0) add('leaper', leaperWant());
     if (bl && G.time >= (bl.from || 0)) add('bloater', Math.max(0, (Loop5.D.BLOATER_PER_WAVE ?? 2) - A.lastWave.filter(u => u.type === 'bloater').length));
@@ -3709,4 +3809,4 @@ if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(locati
   } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { catapultSkipsHq, crawlerRaidGated, techShareActive, aiL5Share, usesTechWallet, walletCredits, debitWallet, creditWallet, addIncome, snapMainWallet, canAiAfford, waveIdleEligible, waveIdleWeight, waveIdleTotal, capWaveBloaters, spitterWant, leaperWant, canTrainBloater, noteBloaterTrained, resetBloaterTrain, AI_RUSH_DEFENSE, AI_FIRST_NUKE_MIN, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, canAttack, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, setDmgState, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX, Loop5, sellBld, cutOffWarning, pathExists, placeWallLine, wallTilesFromDrag, wallCount, tryBreach, addPatch, cleanseAt, inPatch, loadUnit, canLoadUnit, ejectCargo, startUnload, finishUnload, orderLoad, allySees, DIFF, canLeap, startLeap, shouldAutoLeap, autoLeapTo, beginLeapCommand, issueLeapAt, boomDemo, startArm, untargetable, showTab, get sbTab() { return sbTab; } };
+window.RTS = { catapultSkipsHq, crawlerRaidGated, techShareActive, aiL5Share, usesTechWallet, walletCredits, debitWallet, creditWallet, addIncome, snapMainWallet, canAiAfford, waveIdleEligible, waveIdleWeight, waveIdleTotal, capWaveBloaters, waveCapsPreFloorActive, capWavePreFloor, takeWaveJoiners, spitterWant, leaperWant, canTrainBloater, noteBloaterTrained, resetBloaterTrain, AI_RUSH_DEFENSE, AI_FIRST_NUKE_MIN, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, canAttack, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, setDmgState, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX, Loop5, sellBld, cutOffWarning, pathExists, placeWallLine, wallTilesFromDrag, wallCount, tryBreach, addPatch, cleanseAt, inPatch, loadUnit, canLoadUnit, ejectCargo, startUnload, finishUnload, orderLoad, allySees, DIFF, canLeap, startLeap, shouldAutoLeap, autoLeapTo, beginLeapCommand, issueLeapAt, boomDemo, startArm, untargetable, showTab, get sbTab() { return sbTab; } };
