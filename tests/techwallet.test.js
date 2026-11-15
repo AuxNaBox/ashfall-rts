@@ -5,7 +5,7 @@ const test = require('node:test'), assert = require('node:assert');
 const { load } = require('./harness.js');
 
 const TILE = 32;
-const SHARE = { easy: 0.20, normal: 0.25, hard: 0.25 };
+const SHARE = { easy: 0.20, normal: 0.25, hard: 0.30 };
 
 function boot(diff) {
   const L = load(); L.seed(1);
@@ -16,7 +16,7 @@ function boot(diff) {
   return { RTS, G };
 }
 
-test('AI_L5_SHARE is 0.20 / 0.25 / 0.25', () => {
+test('AI_L5_SHARE is 0.20 / 0.25 / 0.30', () => {
   const { RTS } = load();
   for (const k of Object.keys(SHARE)) {
     assert.strictEqual(RTS.Loop5.D.AI_L5_SHARE[k], SHARE[k]);
@@ -72,7 +72,7 @@ test('storage cap applies to the main wallet only; the stall fix still reaches t
   assert.ok(cap >= 2000);
   G.credits[1] = cap - 100;
   G.techCredits = 50;
-  RTS.addIncome(1, 400); // Hard share 0.25: 100 tech, 300 main before clamp
+  RTS.addIncome(1, 400); // Hard share 0.30: 120 tech, 280 main before clamp
   assert.strictEqual(G.credits[1], cap, 'main is clamped to the cap');
   assert.ok(G.techCredits > 50, 'tech still received its share');
   // getCredits (salvage host) is the main wallet, so free space is 0 when main is full
@@ -170,6 +170,6 @@ test('the tech share starts on the tick wave 1 is sent', () => {
   assert.strictEqual(G.techCredits, 0);
   G.ai.waveN = 1; // the tick the wave is sent
   RTS.addIncome(1, 1000);
-  assert.strictEqual(G.techCredits, 250);
-  assert.strictEqual(G.credits[1], 1000 + 100 + 750);
+  assert.strictEqual(G.techCredits, 300);
+  assert.strictEqual(G.credits[1], 1000 + 100 + 700);
 });

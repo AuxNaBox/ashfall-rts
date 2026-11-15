@@ -66,7 +66,7 @@
     CATAPULT_DMG: { v: 95, src: 'L5 §6' },
     CATAPULT_HQ_FLOOR_S: { v: 720, src: 'Hard only: Corpse Catapults skip the player HQ until 12:00' },
     CRAWLER_RAID_AFTER_WAVE: { v: 4, src: 'Hard only: Crawlers may load but cannot leave on a raid until wave 4 has been sent' },
-    AI_L5_SHARE: { v: { easy: 0.20, normal: 0.25, hard: 0.25 }, src: 'L5 §18 pass 6: Hard 0.25 (was 0.35); Easy 0.20, Normal 0.25' },
+    AI_L5_SHARE: { v: { easy: 0.20, normal: 0.25, hard: 0.30 }, src: 'L5 §18 pass 8: Hard 0.30 (was 0.25); Easy 0.20, Normal 0.25' },
     AI_L5_SHARE_AFTER_WAVE: { v: 1, src: 'L5 §18 pass 4: the tech share starts on the tick wave 1 is sent; all income goes to main until then' },
     BLOATER_PER_WAVE: { v: 2, src: 'L5 §18 at most 2 Bloaters per wave; 6 alive is a ceiling, not a refill target' },
     SPITTER_BASELINE: { v: { easy: 0, normal: 1, hard: 2 }, src: 'L5 §18 pass 4: keep this many Spitters alive after Acid Glands; Easy stays trigger-only' },
