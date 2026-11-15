@@ -2,7 +2,7 @@
  "_doc": "Ashfall loop 4 research icons, 48x48 sidebar tiles (bevel baked; draw the clock-wipe progress overlay on top). rect = [x,y,w,h]. research = combat.js RESEARCH id. Built by art/pipeline/l4-icons.py from raw/icons/*.jpg.",
  "image": "loop4-research-icons.png",
  "size": [
-  352,
+  552,
   52
  ],
  "icon_size": 48,
@@ -72,6 +72,46 @@
    "research": "holyground",
    "rect": [
     302,
+    2,
+    48,
+    48
+   ]
+  },
+  {
+   "id": "sharpened_claws",
+   "research": "claws",
+   "rect": [
+    352,
+    2,
+    48,
+    48
+   ]
+  },
+  {
+   "id": "bone_plating",
+   "research": "boneplate",
+   "rect": [
+    402,
+    2,
+    48,
+    48
+   ]
+  },
+  {
+   "id": "acid_glands",
+   "research": "acid",
+   "rect": [
+    452,
+    2,
+    48,
+    48
+   ]
+  },
+  {
+   "id": "long_spines",
+   "research": "spines",
+   "rect": [
+    502,
     2,
     48,
     48

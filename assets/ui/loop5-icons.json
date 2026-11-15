@@ -2,7 +2,7 @@
  "_doc": "Ashfall loop 5 build icons 48x48 (bevel baked, #232527 face / #3A3D40 bevel; blue/violet team shown). Built by pipeline/l5ui.py from the l5 atlases.",
  "image": "loop5-icons.png",
  "size": [
-  1002,
+  1202,
   52
  ],
  "icon_size": 48,
@@ -182,6 +182,46 @@
    "id": "bloater",
    "rect": [
     952,
+    2,
+    48,
+    48
+   ]
+  },
+  {
+   "id": "sharpened_claws",
+   "research": "claws",
+   "rect": [
+    1002,
+    2,
+    48,
+    48
+   ]
+  },
+  {
+   "id": "bone_plating",
+   "research": "boneplate",
+   "rect": [
+    1052,
+    2,
+    48,
+    48
+   ]
+  },
+  {
+   "id": "acid_glands",
+   "research": "acid",
+   "rect": [
+    1102,
+    2,
+    48,
+    48
+   ]
+  },
+  {
+   "id": "long_spines",
+   "research": "spines",
+   "rect": [
+    1152,
     2,
     48,
     48

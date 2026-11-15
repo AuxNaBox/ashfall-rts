@@ -2983,7 +2983,7 @@ function showTab(i, quiet) {
 // ---- icons: pre-baked sizes only (notes §5.3-6). Tiles are baked at B = 24 / 32 / 48 css-art px and shown at a whole factor f
 // (48 x2 / x3 on DPR 2 / 3 screens); the browser never resamples them by a non-integer factor.
 const btns = {}, rbtns = {}, cells = [];
-const RICON_ORDER = ['hollow', 'plating', 'rockets', 'barrels', 'blessed', 'halo', 'holyground'];
+const RICON_ORDER = ['hollow', 'plating', 'rockets', 'barrels', 'blessed', 'halo', 'holyground', 'claws', 'boneplate', 'acid', 'spines'];
 const RICON = {}; // B -> Image (assets/ui/loop4-research-icons{,-32,-24}.png; rect x = 2 + i (B + 2), y = 2)
 if (typeof Image !== 'undefined') for (const B of [48, 32, 24]) { const im = new Image(); im.onload = () => { RICON[B] = im; iconKey = ''; if (cells.length) bakeIcons(); }; im.src = 'assets/ui/loop4-research-icons' + (B === 48 ? '' : '-' + B) + '.png'; }
 // Loop 5 build icons (48 / 32, bevel already baked) and the UI atlas (lock, transport pips, wall-drag stamps). No 24 px sheet: a 24 tile is a 2:1 box-down of the 48 sheet. Visual only.

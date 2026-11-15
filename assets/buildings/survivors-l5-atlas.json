@@ -536,7 +536,7 @@
    "state": "destroyed",
    "team": "blue",
    "rect": [
-    751,
+    812,
     249,
     30,
     13
@@ -567,7 +567,7 @@
    "state": "destroyed",
    "team": "red",
    "rect": [
-    783,
+    844,
     249,
     30,
     13
@@ -684,7 +684,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    55,
+    284,
     249,
     33,
     22
@@ -710,7 +710,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    90,
+    319,
     249,
     33,
     22
@@ -736,7 +736,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    195,
+    424,
     249,
     32,
     22
@@ -762,7 +762,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    229,
+    458,
     249,
     32,
     22
@@ -788,7 +788,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    444,
+    632,
     217,
     28,
     27
@@ -814,7 +814,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    474,
+    662,
     217,
     28,
     27
@@ -840,7 +840,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    540,
+    800,
     177,
     22,
     31
@@ -866,7 +866,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    564,
+    824,
     177,
     22,
     31
@@ -892,7 +892,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    296,
+    608,
     177,
     22,
     33
@@ -918,7 +918,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    320,
+    632,
     177,
     22,
     33
@@ -944,7 +944,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    444,
+    704,
     177,
     22,
     32
@@ -970,7 +970,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    468,
+    728,
     177,
     22,
     32
@@ -996,7 +996,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    260,
+    448,
     217,
     27,
     28
@@ -1022,7 +1022,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    289,
+    477,
     217,
     27,
     28
@@ -1048,7 +1048,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    331,
+    560,
     249,
     31,
     22
@@ -1074,7 +1074,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    364,
+    593,
     249,
     31,
     22
@@ -1100,7 +1100,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    125,
+    354,
     249,
     33,
     22
@@ -1126,7 +1126,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    160,
+    389,
     249,
     33,
     22
@@ -1152,7 +1152,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    263,
+    492,
     249,
     32,
     22
@@ -1178,7 +1178,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    297,
+    526,
     249,
     32,
     22
@@ -1204,7 +1204,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    504,
+    692,
     217,
     28,
     27
@@ -1230,7 +1230,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    534,
+    722,
     217,
     28,
     27
@@ -1256,7 +1256,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    588,
+    848,
     177,
     22,
     31
@@ -1282,7 +1282,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    612,
+    872,
     177,
     22,
     31
@@ -1308,7 +1308,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    344,
+    656,
     177,
     22,
     33
@@ -1334,7 +1334,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    368,
+    680,
     177,
     22,
     33
@@ -1360,7 +1360,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    492,
+    752,
     177,
     22,
     32
@@ -1386,7 +1386,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    516,
+    776,
     177,
     22,
     32
@@ -1412,7 +1412,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    318,
+    506,
     217,
     27,
     28
@@ -1438,7 +1438,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    347,
+    535,
     217,
     27,
     28
@@ -1464,7 +1464,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    397,
+    626,
     249,
     31,
     22
@@ -1490,7 +1490,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    430,
+    659,
     249,
     31,
     22
@@ -2006,7 +2006,7 @@
    "state": "destroyed",
    "team": "blue",
    "rect": [
-    815,
+    876,
     249,
     58,
     12
@@ -2038,7 +2038,7 @@
    "state": "destroyed",
    "team": "red",
    "rect": [
-    875,
+    936,
     249,
     58,
     12
@@ -2780,8 +2780,8 @@
    "state": "h-damaged_ov",
    "team": "blue",
    "rect": [
-    932,
-    217,
+    178,
+    249,
     51,
     23
    ],
@@ -2857,7 +2857,7 @@
    "state": "h-damaged_ov",
    "team": "red",
    "rect": [
-    2,
+    231,
     249,
     51,
     23
@@ -2934,7 +2934,7 @@
    "state": "h-destroyed",
    "team": "blue",
    "rect": [
-    815,
+    876,
     249,
     58,
     12
@@ -2965,7 +2965,7 @@
    "state": "h-destroyed",
    "team": "red",
    "rect": [
-    875,
+    936,
     249,
     58,
     12
@@ -5232,7 +5232,7 @@
    "state": "destroyed",
    "team": "blue",
    "rect": [
-    681,
+    742,
     249,
     33,
     13
@@ -5263,7 +5263,7 @@
    "state": "destroyed",
    "team": "red",
    "rect": [
-    716,
+    777,
     249,
     33,
     13
@@ -5380,22 +5380,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    553,
-    249,
-    30,
-    18
+    752,
+    217,
+    34,
+    24
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 0.0,
    "anchor": [
-    -14.63,
-    8.52
+    13.25,
+    12.0
    ],
    "shadow": null,
    "muzzle": [
-    19.16,
-    2.52
+    31.08,
+    12.0
    ]
   },
   {
@@ -5406,22 +5406,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    585,
-    249,
-    30,
-    18
+    788,
+    217,
+    34,
+    24
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 0.0,
    "anchor": [
-    -14.63,
-    8.52
+    13.25,
+    12.0
    ],
    "shadow": null,
    "muzzle": [
-    19.16,
-    2.52
+    31.08,
+    12.0
    ]
   },
   {
@@ -5432,22 +5432,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    744,
+    824,
     217,
-    32,
+    34,
     24
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 22.5,
    "anchor": [
-    -10.85,
-    -0.04
+    13.79,
+    11.98
    ],
    "shadow": null,
    "muzzle": [
-    22.45,
-    6.91
+    30.52,
+    18.93
    ]
   },
   {
@@ -5458,22 +5458,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    778,
+    860,
     217,
-    32,
+    34,
     24
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 22.5,
    "anchor": [
-    -10.85,
-    -0.04
+    13.79,
+    11.98
    ],
    "shadow": null,
    "muzzle": [
-    22.45,
-    6.91
+    30.52,
+    18.93
    ]
   },
   {
@@ -5484,22 +5484,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    64,
+    252,
     217,
     30,
     29
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 45.0,
    "anchor": [
-    -4.53,
-    -8.01
+    12.92,
+    11.8
    ],
    "shadow": null,
    "muzzle": [
-    22.59,
-    11.54
+    25.88,
+    24.63
    ]
   },
   {
@@ -5510,22 +5510,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    96,
+    284,
     217,
     30,
     29
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 45.0,
    "anchor": [
-    -4.53,
-    -8.01
+    12.92,
+    11.8
    ],
    "shadow": null,
    "muzzle": [
-    22.59,
-    11.54
+    25.88,
+    24.63
    ]
   },
   {
@@ -5536,22 +5536,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    880,
-    217,
+    504,
+    177,
     24,
-    24
+    33
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 67.5,
    "anchor": [
-    2.29,
-    -12.81
+    11.94,
+    12.62
    ],
    "shadow": null,
    "muzzle": [
-    20.27,
-    15.87
+    18.89,
+    29.39
    ]
   },
   {
@@ -5562,22 +5562,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    906,
-    217,
+    530,
+    177,
     24,
-    24
+    33
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 67.5,
    "anchor": [
-    2.29,
-    -12.81
+    11.94,
+    12.62
    ],
    "shadow": null,
    "muzzle": [
-    20.27,
-    15.87
+    18.89,
+    29.39
    ]
   },
   {
@@ -5588,22 +5588,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    513,
-    249,
-    18,
-    22
+    296,
+    177,
+    24,
+    34
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 90.0,
    "anchor": [
-    9.48,
-    -14.19
+    12.0,
+    13.25
    ],
    "shadow": null,
    "muzzle": [
-    15.48,
-    18.76
+    12.0,
+    31.08
    ]
   },
   {
@@ -5614,22 +5614,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    533,
-    249,
-    18,
-    22
+    322,
+    177,
+    24,
+    34
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 90.0,
    "anchor": [
-    9.48,
-    -14.19
+    12.0,
+    13.25
    ],
    "shadow": null,
    "muzzle": [
-    15.48,
-    18.76
+    12.0,
+    31.08
    ]
   },
   {
@@ -5640,22 +5640,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    564,
-    217,
+    348,
+    177,
     24,
-    26
+    34
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 112.5,
    "anchor": [
-    24.16,
-    -10.9
+    12.02,
+    13.79
    ],
    "shadow": null,
    "muzzle": [
-    16.93,
-    22.53
+    5.07,
+    30.52
    ]
   },
   {
@@ -5666,22 +5666,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    590,
-    217,
+    374,
+    177,
     24,
-    26
+    34
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 112.5,
    "anchor": [
-    24.16,
-    -10.9
+    12.02,
+    13.79
    ],
    "shadow": null,
    "muzzle": [
-    16.93,
-    22.53
+    5.07,
+    30.52
    ]
   },
   {
@@ -5692,22 +5692,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    772,
-    177,
+    36,
+    217,
     29,
     30
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 135.0,
    "anchor": [
-    37.01,
-    -4.53
+    17.2,
+    12.92
    ],
    "shadow": null,
    "muzzle": [
-    17.46,
-    22.59
+    4.37,
+    25.88
    ]
   },
   {
@@ -5718,22 +5718,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    803,
-    177,
+    67,
+    217,
     29,
     30
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 135.0,
    "anchor": [
-    37.01,
-    -4.53
+    17.2,
+    12.92
    ],
    "shadow": null,
    "muzzle": [
-    17.46,
-    22.59
+    4.37,
+    25.88
    ]
   },
   {
@@ -5744,22 +5744,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    616,
-    217,
-    30,
-    25
+    38,
+    249,
+    33,
+    24
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 157.5,
    "anchor": [
-    42.29,
-    2.29
+    20.38,
+    11.94
    ],
    "shadow": null,
    "muzzle": [
-    14.55,
-    20.32
+    3.61,
+    18.89
    ]
   },
   {
@@ -5770,22 +5770,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    648,
-    217,
-    30,
-    25
+    73,
+    249,
+    33,
+    24
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 157.5,
    "anchor": [
-    42.29,
-    2.29
+    20.38,
+    11.94
    ],
    "shadow": null,
    "muzzle": [
-    14.55,
-    20.32
+    3.61,
+    18.89
    ]
   },
   {
@@ -5796,22 +5796,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    617,
-    249,
-    30,
-    18
+    896,
+    217,
+    34,
+    24
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 180.0,
    "anchor": [
-    44.63,
-    9.48
+    20.75,
+    12.0
    ],
    "shadow": null,
    "muzzle": [
-    10.84,
-    15.48
+    2.92,
+    12.0
    ]
   },
   {
@@ -5822,22 +5822,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    649,
-    249,
-    30,
-    18
+    932,
+    217,
+    34,
+    24
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 180.0,
    "anchor": [
-    44.63,
-    9.48
+    20.75,
+    12.0
    ],
    "shadow": null,
    "muzzle": [
-    10.84,
-    15.48
+    2.92,
+    12.0
    ]
   },
   {
@@ -5848,22 +5848,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    812,
+    968,
     217,
-    32,
+    34,
     24
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 202.5,
    "anchor": [
-    42.85,
-    24.04
+    20.21,
+    12.02
    ],
    "shadow": null,
    "muzzle": [
-    9.55,
-    17.09
+    3.48,
+    5.07
    ]
   },
   {
@@ -5874,22 +5874,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    846,
-    217,
-    32,
+    2,
+    249,
+    34,
     24
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 202.5,
    "anchor": [
-    42.85,
-    24.04
+    20.21,
+    12.02
    ],
    "shadow": null,
    "muzzle": [
-    9.55,
-    17.09
+    3.48,
+    5.07
    ]
   },
   {
@@ -5900,22 +5900,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    128,
+    316,
     217,
     30,
     29
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 225.0,
    "anchor": [
-    34.53,
-    37.01
+    17.08,
+    17.2
    ],
    "shadow": null,
    "muzzle": [
-    7.41,
-    17.46
+    4.12,
+    4.37
    ]
   },
   {
@@ -5926,22 +5926,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    160,
+    348,
     217,
     30,
     29
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 225.0,
    "anchor": [
-    34.53,
-    37.01
+    17.08,
+    17.2
    ],
    "shadow": null,
    "muzzle": [
-    7.41,
-    17.46
+    4.12,
+    4.37
    ]
   },
   {
@@ -5952,22 +5952,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    896,
+    556,
     177,
-    25,
-    30
+    24,
+    33
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 247.5,
    "anchor": [
-    22.71,
-    42.29
+    12.06,
+    20.38
    ],
    "shadow": null,
    "muzzle": [
-    4.68,
-    14.55
+    5.11,
+    3.61
    ]
   },
   {
@@ -5978,22 +5978,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    923,
+    582,
     177,
-    25,
-    30
+    24,
+    33
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 247.5,
    "anchor": [
-    22.71,
-    42.29
+    12.06,
+    20.38
    ],
    "shadow": null,
    "muzzle": [
-    4.68,
-    14.55
+    5.11,
+    3.61
    ]
   },
   {
@@ -6004,22 +6004,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
+    400,
+    177,
     24,
-    217,
-    18,
-    30
+    34
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 270.0,
    "anchor": [
-    8.52,
-    44.63
+    12.0,
+    20.75
    ],
    "shadow": null,
    "muzzle": [
-    2.52,
-    10.84
+    12.0,
+    2.92
    ]
   },
   {
@@ -6030,22 +6030,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    44,
-    217,
-    18,
-    30
+    426,
+    177,
+    24,
+    34
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 270.0,
    "anchor": [
-    8.52,
-    44.63
+    12.0,
+    20.75
    ],
    "shadow": null,
    "muzzle": [
-    2.52,
-    10.84
+    12.0,
+    2.92
    ]
   },
   {
@@ -6056,22 +6056,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    392,
+    452,
     177,
     24,
-    32
+    34
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 292.5,
    "anchor": [
-    -0.04,
-    42.85
+    11.98,
+    20.21
    ],
    "shadow": null,
    "muzzle": [
-    6.91,
-    9.55
+    18.93,
+    3.48
    ]
   },
   {
@@ -6082,22 +6082,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    418,
+    478,
     177,
     24,
-    32
+    34
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 292.5,
    "anchor": [
-    -0.04,
-    42.85
+    11.98,
+    20.21
    ],
    "shadow": null,
    "muzzle": [
-    6.91,
-    9.55
+    18.93,
+    3.48
    ]
   },
   {
@@ -6108,22 +6108,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    834,
-    177,
+    98,
+    217,
     29,
     30
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 315.0,
    "anchor": [
-    -8.01,
-    34.53
+    11.8,
+    17.08
    ],
    "shadow": null,
    "muzzle": [
-    11.54,
-    7.41
+    24.63,
+    4.12
    ]
   },
   {
@@ -6134,22 +6134,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    865,
-    177,
+    129,
+    217,
     29,
     30
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 315.0,
    "anchor": [
-    -8.01,
-    34.53
+    11.8,
+    17.08
    ],
    "shadow": null,
    "muzzle": [
-    11.54,
-    7.41
+    24.63,
+    4.12
    ]
   },
   {
@@ -6160,22 +6160,22 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    680,
-    217,
-    30,
-    25
+    108,
+    249,
+    33,
+    24
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 337.5,
    "anchor": [
-    -12.29,
-    22.71
+    12.62,
+    12.06
    ],
    "shadow": null,
    "muzzle": [
-    15.45,
-    4.68
+    29.39,
+    5.11
    ]
   },
   {
@@ -6186,22 +6186,22 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    712,
-    217,
-    30,
-    25
+    143,
+    249,
+    33,
+    24
    ],
    "outline": "silhouette2",
-   "scale": 0.24,
+   "scale": 0.04265,
    "facing": 337.5,
    "anchor": [
-    -12.29,
-    22.71
+    12.62,
+    12.06
    ],
    "shadow": null,
    "muzzle": [
-    15.45,
-    4.68
+    29.39,
+    5.11
    ]
   },
   {
@@ -6212,7 +6212,7 @@
    "state": "construct",
    "team": "blue",
    "rect": [
-    636,
+    896,
     177,
     32,
     30
@@ -6250,7 +6250,7 @@
    "state": "construct",
    "team": "red",
    "rect": [
-    670,
+    930,
     177,
     32,
     30
@@ -6440,7 +6440,7 @@
    "state": "crack2",
    "team": "blue",
    "rect": [
-    463,
+    692,
     249,
     23,
     22
@@ -6516,7 +6516,7 @@
    "state": "crack2",
    "team": "red",
    "rect": [
-    488,
+    717,
     249,
     23,
     22
@@ -6960,8 +6960,8 @@
    "state": "destroyed",
    "team": "blue",
    "rect": [
-    2,
-    274,
+    68,
+    275,
     30,
     11
    ],
@@ -6991,8 +6991,8 @@
    "state": "destroyed",
    "team": "red",
    "rect": [
-    34,
-    274,
+    100,
+    275,
     30,
     11
    ],
@@ -7022,7 +7022,7 @@
    "state": "idle",
    "team": "blue",
    "rect": [
-    192,
+    380,
     217,
     32,
     28
@@ -7062,7 +7062,7 @@
    "state": "idle",
    "team": "red",
    "rect": [
-    226,
+    414,
     217,
     32,
     28
@@ -7102,7 +7102,7 @@
    "state": "m00",
    "team": "blue",
    "rect": [
-    192,
+    380,
     217,
     32,
     28
@@ -7141,7 +7141,7 @@
    "state": "m00",
    "team": "red",
    "rect": [
-    226,
+    414,
     217,
     32,
     28
@@ -7258,8 +7258,8 @@
    "state": "m02",
    "team": "blue",
    "rect": [
-    950,
-    177,
+    160,
+    217,
     22,
     30
    ],
@@ -7297,8 +7297,8 @@
    "state": "m02",
    "team": "red",
    "rect": [
-    974,
-    177,
+    184,
+    217,
     22,
     30
    ],
@@ -7726,8 +7726,8 @@
    "state": "m08",
    "team": "blue",
    "rect": [
-    998,
-    177,
+    208,
+    217,
     20,
     30
    ],
@@ -7765,7 +7765,7 @@
    "state": "m08",
    "team": "red",
    "rect": [
-    2,
+    230,
     217,
     20,
     30
@@ -7882,7 +7882,7 @@
    "state": "m10",
    "team": "blue",
    "rect": [
-    704,
+    964,
     177,
     32,
     30
@@ -7921,8 +7921,8 @@
    "state": "m10",
    "team": "red",
    "rect": [
-    738,
-    177,
+    2,
+    217,
     32,
     30
    ],
@@ -8350,8 +8350,8 @@
    "state": "rubble1",
    "team": "blue",
    "rect": [
-    2,
-    274,
+    68,
+    275,
     30,
     11
    ],
@@ -8380,8 +8380,8 @@
    "state": "rubble1",
    "team": "red",
    "rect": [
-    34,
-    274,
+    100,
+    275,
     30,
     11
    ],
@@ -8410,8 +8410,8 @@
    "state": "rubble2",
    "team": "blue",
    "rect": [
-    935,
-    249,
+    2,
+    275,
     31,
     12
    ],
@@ -8440,8 +8440,8 @@
    "state": "rubble2",
    "team": "red",
    "rect": [
-    968,
-    249,
+    35,
+    275,
     31,
     12
    ],
@@ -8658,7 +8658,7 @@
    "state": "tear2",
    "team": "blue",
    "rect": [
-    376,
+    564,
     217,
     32,
     27
@@ -8770,7 +8770,7 @@
    "state": "tear2",
    "team": "red",
    "rect": [
-    410,
+    598,
     217,
     32,
     27
@@ -9187,7 +9187,7 @@
     "shadow": null,
     "destroyed": "loop 4 rubble left after the building dies; no team trim, no shadow (it is ground-level)",
     "rect": [
-     857,
+     891,
      121,
      30,
      13
@@ -9255,7 +9255,7 @@
      10.86
     ],
     "rect": [
-     509,
+     627,
      121,
      33,
      22
@@ -9280,7 +9280,7 @@
      17.23
     ],
     "rect": [
-     579,
+     697,
      121,
      32,
      22
@@ -9305,7 +9305,7 @@
      22.81
     ],
     "rect": [
-     212,
+     300,
      121,
      28,
      27
@@ -9330,7 +9330,7 @@
      27.46
     ],
     "rect": [
-     771,
+     901,
      80,
      22,
      31
@@ -9355,7 +9355,7 @@
      30.08
     ],
     "rect": [
-     649,
+     805,
      80,
      22,
      33
@@ -9380,7 +9380,7 @@
      28.66
     ],
     "rect": [
-     723,
+     853,
      80,
      22,
      32
@@ -9405,7 +9405,7 @@
      24.13
     ],
     "rect": [
-     120,
+     208,
      121,
      27,
      28
@@ -9430,7 +9430,7 @@
      17.65
     ],
     "rect": [
-     647,
+     765,
      121,
      31,
      22
@@ -9455,7 +9455,7 @@
      11.14
     ],
     "rect": [
-     544,
+     662,
      121,
      33,
      22
@@ -9480,7 +9480,7 @@
      4.77
     ],
     "rect": [
-     613,
+     731,
      121,
      32,
      22
@@ -9505,7 +9505,7 @@
      4.19
     ],
     "rect": [
-     242,
+     330,
      121,
      28,
      27
@@ -9530,7 +9530,7 @@
      3.54
     ],
     "rect": [
-     795,
+     925,
      80,
      22,
      31
@@ -9555,7 +9555,7 @@
      2.92
     ],
     "rect": [
-     673,
+     829,
      80,
      22,
      33
@@ -9580,7 +9580,7 @@
      3.34
     ],
     "rect": [
-     747,
+     877,
      80,
      22,
      32
@@ -9605,7 +9605,7 @@
      3.87
     ],
     "rect": [
-     149,
+     237,
      121,
      27,
      28
@@ -9630,7 +9630,7 @@
      4.35
     ],
     "rect": [
-     680,
+     798,
      121,
      31,
      22
@@ -9900,7 +9900,7 @@
     ],
     "shadow": null,
     "rect": [
-     889,
+     923,
      121,
      58,
      12
@@ -10304,7 +10304,7 @@
      ]
     ],
     "rect": [
-     456,
+     574,
      121,
      51,
      23
@@ -10358,7 +10358,7 @@
     ],
     "shadow": null,
     "rect": [
-     889,
+     923,
      121,
      58,
      12
@@ -11489,7 +11489,7 @@
     "shadow": null,
     "destroyed": "loop 4 rubble left after the building dies; no team trim, no shadow (it is ground-level)",
     "rect": [
-     822,
+     856,
      121,
      33,
      13
@@ -11545,22 +11545,22 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 0.0,
     "anchor": [
-     -14.63,
-     8.52
+     13.25,
+     12.0
     ],
     "shadow": null,
     "muzzle": [
-     19.16,
-     2.52
+     31.08,
+     12.0
     ],
     "rect": [
-     758,
+     360,
      121,
-     30,
-     18
+     34,
+     24
     ]
    },
    {
@@ -11570,21 +11570,21 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 22.5,
     "anchor": [
-     -10.85,
-     -0.04
+     13.79,
+     11.98
     ],
     "shadow": null,
     "muzzle": [
-     22.45,
-     6.91
+     30.52,
+     18.93
     ],
     "rect": [
-     362,
+     396,
      121,
-     32,
+     34,
      24
     ]
    },
@@ -11595,19 +11595,19 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 45.0,
     "anchor": [
-     -4.53,
-     -8.01
+     12.92,
+     11.8
     ],
     "shadow": null,
     "muzzle": [
-     22.59,
-     11.54
+     25.88,
+     24.63
     ],
     "rect": [
-     22,
+     110,
      121,
      30,
      29
@@ -11620,22 +11620,22 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 67.5,
     "anchor": [
-     2.29,
-     -12.81
+     11.94,
+     12.62
     ],
     "shadow": null,
     "muzzle": [
-     20.27,
-     15.87
+     18.89,
+     29.39
     ],
     "rect": [
-     430,
-     121,
+     753,
+     80,
      24,
-     24
+     33
     ]
    },
    {
@@ -11645,22 +11645,22 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 90.0,
     "anchor": [
-     9.48,
-     -14.19
+     12.0,
+     13.25
     ],
     "shadow": null,
     "muzzle": [
-     15.48,
-     18.76
+     12.0,
+     31.08
     ],
     "rect": [
-     738,
-     121,
-     18,
-     22
+     649,
+     80,
+     24,
+     34
     ]
    },
    {
@@ -11670,22 +11670,22 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 112.5,
     "anchor": [
-     24.16,
-     -10.9
+     12.02,
+     13.79
     ],
     "shadow": null,
     "muzzle": [
-     16.93,
-     22.53
+     5.07,
+     30.52
     ],
     "rect": [
-     272,
-     121,
+     675,
+     80,
      24,
-     26
+     34
     ]
    },
    {
@@ -11695,20 +11695,20 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 135.0,
     "anchor": [
-     37.01,
-     -4.53
+     17.2,
+     12.92
     ],
     "shadow": null,
     "muzzle": [
-     17.46,
-     22.59
+     4.37,
+     25.88
     ],
     "rect": [
-     887,
-     80,
+     2,
+     121,
      29,
      30
     ]
@@ -11720,22 +11720,22 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 157.5,
     "anchor": [
-     42.29,
-     2.29
+     20.38,
+     11.94
     ],
     "shadow": null,
     "muzzle": [
-     14.55,
-     20.32
+     3.61,
+     18.89
     ],
     "rect": [
-     298,
+     504,
      121,
-     30,
-     25
+     33,
+     24
     ]
    },
    {
@@ -11745,22 +11745,22 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 180.0,
     "anchor": [
-     44.63,
-     9.48
+     20.75,
+     12.0
     ],
     "shadow": null,
     "muzzle": [
-     10.84,
-     15.48
+     2.92,
+     12.0
     ],
     "rect": [
-     790,
+     432,
      121,
-     30,
-     18
+     34,
+     24
     ]
    },
    {
@@ -11770,21 +11770,21 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 202.5,
     "anchor": [
-     42.85,
-     24.04
+     20.21,
+     12.02
     ],
     "shadow": null,
     "muzzle": [
-     9.55,
-     17.09
+     3.48,
+     5.07
     ],
     "rect": [
-     396,
+     468,
      121,
-     32,
+     34,
      24
     ]
    },
@@ -11795,19 +11795,19 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 225.0,
     "anchor": [
-     34.53,
-     37.01
+     17.08,
+     17.2
     ],
     "shadow": null,
     "muzzle": [
-     7.41,
-     17.46
+     4.12,
+     4.37
     ],
     "rect": [
-     54,
+     142,
      121,
      30,
      29
@@ -11820,22 +11820,22 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 247.5,
     "anchor": [
-     22.71,
-     42.29
+     12.06,
+     20.38
     ],
     "shadow": null,
     "muzzle": [
-     4.68,
-     14.55
+     5.11,
+     3.61
     ],
     "rect": [
-     949,
+     779,
      80,
-     25,
-     30
+     24,
+     33
     ]
    },
    {
@@ -11845,22 +11845,22 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 270.0,
     "anchor": [
-     8.52,
-     44.63
+     12.0,
+     20.75
     ],
     "shadow": null,
     "muzzle": [
-     2.52,
-     10.84
+     12.0,
+     2.92
     ],
     "rect": [
-     2,
-     121,
-     18,
-     30
+     701,
+     80,
+     24,
+     34
     ]
    },
    {
@@ -11870,22 +11870,22 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 292.5,
     "anchor": [
-     -0.04,
-     42.85
+     11.98,
+     20.21
     ],
     "shadow": null,
     "muzzle": [
-     6.91,
-     9.55
+     18.93,
+     3.48
     ],
     "rect": [
-     697,
+     727,
      80,
      24,
-     32
+     34
     ]
    },
    {
@@ -11895,20 +11895,20 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 315.0,
     "anchor": [
-     -8.01,
-     34.53
+     11.8,
+     17.08
     ],
     "shadow": null,
     "muzzle": [
-     11.54,
-     7.41
+     24.63,
+     4.12
     ],
     "rect": [
-     918,
-     80,
+     33,
+     121,
      29,
      30
     ]
@@ -11920,22 +11920,22 @@
     "part": "top",
     "state": "idle",
     "outline": "silhouette2",
-    "scale": 0.24,
+    "scale": 0.04265,
     "facing": 337.5,
     "anchor": [
-     -12.29,
-     22.71
+     12.62,
+     12.06
     ],
     "shadow": null,
     "muzzle": [
-     15.45,
-     4.68
+     29.39,
+     5.11
     ],
     "rect": [
-     330,
+     539,
      121,
-     30,
-     25
+     33,
+     24
     ]
    },
    {
@@ -11969,7 +11969,7 @@
     },
     "construct": "scaffold wireframe, all team trim; see HANDOFF-buildings.md \u00a76",
     "rect": [
-     819,
+     949,
      80,
      32,
      30
@@ -12094,7 +12094,7 @@
      ]
     ],
     "rect": [
-     713,
+     831,
      121,
      23,
      22
@@ -12329,8 +12329,8 @@
     ],
     "shadow": null,
     "rect": [
-     982,
-     121,
+     2,
+     153,
      30,
      11
     ],
@@ -12367,7 +12367,7 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     86,
+     174,
      121,
      32,
      28
@@ -12406,7 +12406,7 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     86,
+     174,
      121,
      32,
      28
@@ -12482,8 +12482,8 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     976,
-     80,
+     64,
+     121,
      22,
      30
     ],
@@ -12710,8 +12710,8 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     1000,
-     80,
+     88,
+     121,
      20,
      30
     ],
@@ -12786,7 +12786,7 @@
      "_": "rect/ellipse the size of the footprint inset 2 px, centred on the footprint centre + (dx,dy)"
     },
     "rect": [
-     853,
+     983,
      80,
      32,
      30
@@ -13006,8 +13006,8 @@
     ],
     "shadow": null,
     "rect": [
-     982,
-     121,
+     2,
+     153,
      30,
      11
     ],
@@ -13035,7 +13035,7 @@
     ],
     "shadow": null,
     "rect": [
-     949,
+     983,
      121,
      31,
      12
@@ -13195,7 +13195,7 @@
      ]
     ],
     "rect": [
-     178,
+     266,
      121,
      32,
      27

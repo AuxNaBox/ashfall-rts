@@ -2,7 +2,7 @@
  "_doc": "Ashfall loop 4 research icons pre-baked at 24x24 for the compact sidebar tiers (ui/1-ui-layout-notes.md). Built by art/pipeline/ui-icon-sizes.py from raw/icons/*.jpg. Draw 1:1 (or integer x DPR), nearest.",
  "image": "loop4-research-icons-24.png",
  "size": [
-  184,
+  288,
   28
  ],
  "icon_size": 24,
@@ -72,6 +72,46 @@
    "research": "holyground",
    "rect": [
     158,
+    2,
+    24,
+    24
+   ]
+  },
+  {
+   "id": "sharpened_claws",
+   "research": "claws",
+   "rect": [
+    184,
+    2,
+    24,
+    24
+   ]
+  },
+  {
+   "id": "bone_plating",
+   "research": "boneplate",
+   "rect": [
+    210,
+    2,
+    24,
+    24
+   ]
+  },
+  {
+   "id": "acid_glands",
+   "research": "acid",
+   "rect": [
+    236,
+    2,
+    24,
+    24
+   ]
+  },
+  {
+   "id": "long_spines",
+   "research": "spines",
+   "rect": [
+    262,
     2,
     24,
     24
