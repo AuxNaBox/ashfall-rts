@@ -212,6 +212,7 @@
   const TECH_UNITS = { crawler: 1, catapult: 1, sprayer: 1, bloater: 1, spitter: 1, leaper: 1 };
   const TECH_BLDS = { forge: 1, flametower: 1, rockettower: 1, wall: 1, gate: 1 };
   const TECH_RES = { acid: 1, claws: 1, boneplate: 1, spines: 1 };
+  const WAVE_IDLE_L5 = { catapult: 1, sprayer: 1, bloater: 1, spitter: 1, leaper: 1 };
   function isTechPaid(type) { return !!(TECH_UNITS[type] || TECH_BLDS[type] || TECH_RES[type]); }
   function l5Share(diffKey) {
     const s = D.AI_L5_SHARE;
@@ -219,8 +220,10 @@
     if (typeof s === 'number') return s;
     return s[diffKey] || 0;
   }
+  function isWaveIdleL5(type) { return !!WAVE_IDLE_L5[type]; }
+
   const Loop5 = { TABLE, D, AI, isWallish, isDefense, gateOpen, gatePathableFor,
-    isTechPaid, l5Share, TECH_UNITS, TECH_BLDS, TECH_RES,
+    isTechPaid, l5Share, isWaveIdleL5, TECH_UNITS, TECH_BLDS, TECH_RES,
     // Q1 / Q3 held
     HELD: {},
     onDamageState: null, // atlas / hook: function (bld, prev, next)
