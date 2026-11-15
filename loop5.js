@@ -71,6 +71,7 @@
     BLOATER_PER_WAVE: { v: 2, src: 'L5 §18 at most 2 Bloaters per wave; 6 alive is a ceiling, not a refill target' },
     SPITTER_BASELINE: { v: { easy: 0, normal: 1, hard: 2 }, src: 'L5 §18 pass 4: keep this many Spitters alive after Acid Glands; Easy stays trigger-only' },
     LEAPER_BASELINE: { v: { easy: 0, normal: 1, hard: 2 }, src: 'L5 §18 pass 4: keep this many Leapers alive after the Bone Forge; Easy cap 0' },
+    AI_L5_IDLE_WEIGHT: { v: 0.5, src: 'L5 §18 pass 5: idle L5 attack units count 0.5 each toward the 14-idle wave trigger' },
     // transport (L5 §6)
     CARGO_CAP: { v: 5, src: 'L5 §6' },
     LOAD_TILES: { v: 1.0, src: 'L5 §6 (walk to it and enter)' },
