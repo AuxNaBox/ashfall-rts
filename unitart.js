@@ -20,6 +20,16 @@
     // Loop 4 unit fx (HANDOFF §9): team-less, no trim mask, no recolour
     'fx:l4': { dir: 'units/', json: 'loop4-fx-atlas.json', kind: 'fx' },
   };
+  // Loop 5 atlases (Artie 2-art-notes §4.1). Optional: missing files fall back to procedural, no warning.
+  // Loaded when UnitArt.load({ art5: true }) (the default in the browser unless ?art5=off).
+  const ART5_SETS = {
+    'survivors-l5': { dir: 'units/', json: 'survivors-l5-atlas.json', kind: 'units', optional: true },
+    'horde-l5': { dir: 'units/', json: 'horde-l5-atlas.json', kind: 'units', optional: true },
+    'bld:survivors-l5': { dir: 'buildings/', json: 'survivors-l5-atlas.json', kind: 'buildings', optional: true },
+    'bld:horde-l5': { dir: 'buildings/', json: 'horde-l5-atlas.json', kind: 'buildings', optional: true },
+    'fx:l5': { dir: 'units/', json: 'loop5-fx-atlas.json', kind: 'fx', optional: true },
+  };
+  const L5_BLD = { wall: 1, gate: 1, flametower: 1, rockettower: 1, forge: 1 };
   // game building type (BDEF) -> building id per faction (HANDOFF-buildings §3). Frames are looked up by code_type.
   const BLD_MAP = {
     hq: { survivors: 'hq', horde: 'hive' },
@@ -35,8 +45,17 @@
     church: { survivors: 'church', horde: null },
     altar: { survivors: null, horde: 'dark_altar' },
   };
+  // Loop 5 building ids (Artie 2-art-notes §4.1). Kept out of BLD_MAP until the l5 atlases ship (ART_PENDING).
+  const L5_BLD_MAP = {
+    wall: { survivors: 'wall', horde: 'wall' },
+    gate: { survivors: 'gate', horde: 'gate' },
+    flametower: { survivors: 'flametower', horde: 'flametower' },
+    rockettower: { survivors: 'rockettower', horde: 'rockettower' },
+    forge: { survivors: null, horde: 'forge' },
+  };
   const SIDE_FACTION = { 0: 'survivors', 1: 'horde' };
   const DAMAGED_BELOW = 0.5;      // HANDOFF-buildings §5 "Suggested use: hp < 50%" (same line as game.js smoke)
+  const CRITICAL_BELOW = 0.25;    // Loop 5 art overhaul / style guide: critical at 25%
   const IDLE_TOP_HEADING = 90;    // turret / bone spire head before it has ever aimed: face south (towards the camera)
   const LAUNCH_OPEN_S = 1.5;      // silo stays 'open' for the first 1.5 s of a launch (HANDOFF §5 "or during launch")
   // game unit type -> atlas unit (HANDOFF §7). Types not listed stay procedural.
@@ -56,6 +75,18 @@
     archangel: { faction: 'survivors-l4', unit: 'archangel', kind: 'creature' },
     templar: { faction: 'survivors-l4', unit: 'templar', kind: 'creature' },
     demon: { faction: 'horde-l4', unit: 'demon_lord', kind: 'creature' },
+    // Loop 5 units (Artie 2-art-notes §4.1): optional survivors-l5 / horde-l5 atlases
+    apc: { faction: 'survivors-l5', unit: 'apc_hull', kind: 'vehicle', turret: 'apc_turret' },
+    artillery: { faction: 'survivors-l5', unit: 'artillery_hull', kind: 'vehicle', turret: 'artillery_turret' },
+    purifier: { faction: 'survivors-l5', unit: 'purifier_hull', kind: 'vehicle', turret: 'purifier_turret' },
+    shock: { faction: 'survivors-l5', unit: 'shock', kind: 'creature' },
+    demo: { faction: 'survivors-l5', unit: 'demo', kind: 'creature' },
+    crawler: { faction: 'horde-l5', unit: 'crawler', kind: 'vehicle' },
+    catapult: { faction: 'horde-l5', unit: 'catapult_hull', kind: 'vehicle', turret: 'catapult_turret' },
+    sprayer: { faction: 'horde-l5', unit: 'sprayer_hull', kind: 'vehicle', turret: 'sprayer_turret' },
+    spitter: { faction: 'horde-l5', unit: 'spitter', kind: 'creature' },
+    leaper: { faction: 'horde-l5', unit: 'leaper', kind: 'creature' },
+    bloater: { faction: 'horde-l5', unit: 'bloater', kind: 'creature' },
   };
   // HANDOFF §6 ramps. Survivors default blue, Horde default violet, red = alternate for either side.
   const RAMPS = {
@@ -202,14 +233,19 @@
   // base state of a finished building (HANDOFF-buildings §5, §9):
   //   silo: open (charged, or launching) + hp < 50% -> damaged_open; open -> open; hp < 50% -> damaged; else closed
   //   others: hp < 50% -> damaged; else idle
-  function buildingState(b, o) {
+  function buildingState(b, o, index) {
     o = o || {};
     const silo = b.type === 'silo', dmg = !!(b.maxhp && b.hp < b.maxhp * DAMAGED_BELOW);
-    if (silo && ((o.nukeCharge && b.charge >= o.nukeCharge) || o.launching)) return dmg ? 'damaged_open' : 'open';
+    const crit = !!(b.maxhp && b.hp <= b.maxhp * CRITICAL_BELOW);
+    if (silo && ((o.nukeCharge && b.charge >= o.nukeCharge) || o.launching)) {
+      if (crit && index && index.get(bkey(b.type, 'base', 'critical_open'))) return 'critical_open';
+      return dmg ? 'damaged_open' : 'open';
+    }
+    if (crit && index && index.get(bkey(b.type, 'base', 'critical'))) return 'critical';
     return dmg ? 'damaged' : silo ? 'closed' : 'idle';
   }
-  // missing state frame -> next frame to try (damaged_open -> open -> closed; damaged -> intact)
-  const STATE_FALLBACK = { damaged_open: 'open', open: 'closed' };
+  // missing state frame -> next frame to try (critical -> damaged -> intact)
+  const STATE_FALLBACK = { critical_open: 'damaged_open', damaged_open: 'open', open: 'closed', critical: 'damaged' };
   function topHeading(b) { return (!b.target && !b.tang) ? IDLE_TOP_HEADING : snap16(radToDeg(b.tang)); }
   // remote Scrap Yard / Grinder Pit setup (HANDOFF-buildings §12): base deploy_0..3, one per quarter of setup progress, + a looped dust fx
   const DEPLOY_FRAMES = 4, DEPLOY_FX_FPS = 8;
@@ -217,9 +253,9 @@
   //   setup: remote setup (o.p = setup progress) -> the deploy_k frame instead of the scaffold reveal when the manifest has one }
   function selectBuilding(man, b, o, idx) {
     o = o || {}; const index = idx || (man && man.index), t = b.type;
-    if (!index || !BLD_MAP[t]) return null;
+    if (!index || !(BLD_MAP[t] || L5_BLD_MAP[t])) return null;
     const p = o.ghost ? 0 : o.p == null ? 1 : clamp01(o.p), building = p < 1;
-    const intact = t === 'silo' ? 'closed' : 'idle', state = building ? intact : buildingState(b, o);
+    const intact = t === 'silo' ? 'closed' : 'idle', state = building ? intact : buildingState(b, o, index);
     let base = null;
     for (let st = state; st && !base; st = st === intact ? null : STATE_FALLBACK[st] || intact) base = index.get(bkey(t, 'base', st));
     if (!base) return null;
@@ -283,19 +319,43 @@
   function loadImg(src) { return new Promise((res, rej) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => res(im); im.onerror = () => rej(new Error('failed to load ' + src)); im.src = src; }); }
   function loadSet(set) {
     const S = SETS[set], parse = S.kind === 'buildings' ? parseBuildingManifest : S.kind === 'fx' ? parseFxManifest : parseManifest, j0 = url(set, S.json);
+    const fail = e => { A.failed[set] = true; if (!S.optional) warnOnce(e.message); };
     if (S.kind === 'fx') return fetch(j0).then(r => { if (!r.ok) throw new Error(S.json + ' HTTP ' + r.status); return r.json(); })
       .then(j => { const m = parse(j); return loadImg(url(set, m.image)).then(im => { A.man[set] = m; A.img[set] = im; A.ready[set] = true; }); })
-      .catch(e => { A.failed[set] = true; warnOnce(e.message); });
+      .catch(fail);
     return fetch(j0).catch(e => { throw new Error('failed to load ' + j0 + ' (' + e.message + ')'); }).then(r => { if (!r.ok) throw new Error(S.json + ' HTTP ' + r.status); return r.json(); })
       .then(j => { const m = parse(j); return Promise.all([loadImg(url(set, m.image)), loadImg(url(set, m.trim))]).then(([im, tr]) => { A.man[set] = m; A.img[set] = im; A.trim[set] = tr; A.ready[set] = true; }); })
-      .catch(e => { A.failed[set] = true; warnOnce(e.message); });
+      .catch(fail);
+  }
+  function loadArt5() {
+    // Only fetch atlases the manifest marks shipped:true. A 404 would appear as a
+    // console error and fail the 0-warning browser checks; Artie flips the flag when a sheet lands.
+    // New dirs/jsons listed in the manifest register themselves, so a sheet can drop in without a code change.
+    const manUrl = A.root + 'art5-manifest.json';
+    return fetch(manUrl).then(r => r.ok ? r.json() : { atlases: [] }).then(man => {
+      const list = (man && (man.atlases || man.sets)) || [];
+      const shipped = [];
+      for (const a of list) {
+        const k = a && (a.set || a.id);
+        if (!k || a.shipped !== true) continue;
+        const def = Object.assign({ optional: true }, ART5_SETS[k] || {}, a.dir || a.json || a.kind ? { dir: a.dir, json: a.json, kind: a.kind || 'units', optional: true } : {});
+        if (!def.dir || !def.json) continue;
+        SETS[k] = def;
+        shipped.push(k);
+      }
+      if (!shipped.length) return;
+      return Promise.all(shipped.map(loadSet));
+    }).catch(() => {});
   }
   function load(opts) {
     opts = opts || {};
     if (opts.base) A.root = opts.base;
     if (opts.team) Object.assign(A.team, opts.team);
     if (opts.baked) A.forceBaked = true;
-    return Promise.all(Object.keys(SETS).filter(k => !opts.sets || opts.sets.includes(k)).map(loadSet));
+    const keys = Object.keys(SETS).filter(k => !opts.sets || opts.sets.includes(k));
+    const jobs = keys.map(loadSet);
+    if (opts.art5 !== false && !opts.sets) jobs.push(loadArt5());
+    return Promise.all(jobs);
   }
   // one offscreen canvas per set x team, built once (never per draw call)
   // recolour impossible -> load the baked colour atlas (drawImage of a cross-origin image is fine; only readback taints)
@@ -366,8 +426,11 @@
   // plan = everything needed to draw b this frame, or null -> procedural drawBld. o as selectBuilding (+ padTile [x,y] from the game)
   function planBuilding(b, o) {
     if (!BLD_MAP[b.type] || (b.side !== 0 && b.side !== 1)) return null;
-    const set = 'bld:' + SIDE_FACTION[b.side], team = A.team[b.side] || DEFAULT_TEAM[b.side];
-    const at = atlasIndex(set, team); if (!at) { A.stats.bFallback++; return null; }
+    const fac = SIDE_FACTION[b.side], team = A.team[b.side] || DEFAULT_TEAM[b.side];
+    const tries = L5_BLD[b.type] ? ['bld:' + fac + '-l5', 'bld:' + fac] : ['bld:' + fac];
+    let set = null, at = null;
+    for (const s of tries) { at = atlasIndex(s, team); if (at) { set = s; break; } }
+    if (!at) { A.stats.bFallback++; return null; }
     const sel = selectBuilding(at.man, b, o, at.idx);
     if (!sel) { warnOnce('no building frame for ' + b.type); A.stats.bFallback++; return null; }
     const [ox, oy] = bodyPos(sel.base, b.tx, b.ty);
@@ -447,16 +510,36 @@
   // rubble of a dead tech building (d = { type, side, tx, ty }); false -> caller draws the procedural ruin
   function drawBuildingDestroyed(c, d) {
     if (!BLD_MAP[d.type] || (d.side !== 0 && d.side !== 1)) return false;
-    const at = atlasIndex('bld:' + SIDE_FACTION[d.side], A.team[d.side] || DEFAULT_TEAM[d.side]); if (!at) return false;
+    const fac = SIDE_FACTION[d.side], team = A.team[d.side] || DEFAULT_TEAM[d.side];
+    const tries = L5_BLD[d.type] ? ['bld:' + fac + '-l5', 'bld:' + fac] : ['bld:' + fac];
+    let at = null; for (const set of tries) { at = atlasIndex(set, team); if (at) break; }
+    if (!at) return false;
     const f = selectDestroyed(at.man, d, at.idx); if (!f) return false;
     const [x, y] = bodyPos(f, d.tx, d.ty), prev = c.imageSmoothingEnabled; c.imageSmoothingEnabled = false;
     blitAt(c, at.atlas, f, x, y); c.imageSmoothingEnabled = prev; return true;
   }
   // fx atlas frame (team-less), or null while loading / failed
   function fxFrame(name, k) {
-    const set = 'fx:l4'; if (!A.ready[set] || A.failed[set]) return null;
-    const fr = A.man[set].fx.get(name); if (!fr || !fr.length) return null;
-    return { atlas: A.img[set], f: fr[((k % fr.length) + fr.length) % fr.length], n: fr.length };
+    for (const set of ['fx:l5', 'fx:l4']) {
+      if (!A.ready[set] || A.failed[set]) continue;
+      const fr = A.man[set].fx.get(name); if (!fr || !fr.length) continue;
+      return { atlas: A.img[set], f: fr[((k % fr.length) + fr.length) % fr.length], n: fr.length };
+    }
+    return null;
+  }
+  // Loop 5 damage-state attach points from atlas metadata (fire_points / smoke_points / fx_points on the base frame)
+  function dmgPoints(b) {
+    if (!b || (b.side !== 0 && b.side !== 1) || !(BLD_MAP[b.type] || L5_BLD_MAP[b.type])) return null;
+    const P = (typeof planBuilding === 'function') ? planBuilding(b, {}) : null;
+    const f = P && P.sel && P.sel.base;
+    const raw = f && (f.fx_points || f.fire_points || f.smoke_points || f.dmg_points);
+    if (!raw || !raw.length) return null;
+    const [ox, oy] = bodyPos(f, b.tx, b.ty);
+    return raw.map((p, i) => {
+      const px = Array.isArray(p) ? p[0] : p.x, py = Array.isArray(p) ? p[1] : p.y;
+      const k = (Array.isArray(p) ? p[2] : p.k) || (i % 2 ? 'fire' : 'smoke');
+      return { x: ox + px, y: oy + py, k };
+    });
   }
   // draw fx frame with its anchor at (x, y), rotated by rot (rad), scaled by s
   function drawFx(c, name, k, x, y, rot, s, o) {
@@ -471,10 +554,10 @@
     const at = atlasIndex(map.faction, A.team[u.side] || DEFAULT_TEAM[u.side]); if (!at) return null;
     const sel = selectFrame(at.man, u.type, u, at.idx); return sel ? sel.frame : null;
   }
-  const UnitArt = { ROOT, BASE, SETS, UNIT_MAP, BLD_MAP, RAMPS, DEFAULT_TEAM, DAMAGED_BELOW, IDLE_TOP_HEADING, LAUNCH_OPEN_S, salvage, snap16, facing4, fkey, parseManifest, selectFrame, stateFor, topLeft, turretPos, recolourPixels, hexToRgb,
+  const UnitArt = { ROOT, BASE, SETS, ART5_SETS, L5_BLD, L5_BLD_MAP, UNIT_MAP, BLD_MAP, RAMPS, DEFAULT_TEAM, DAMAGED_BELOW, CRITICAL_BELOW, IDLE_TOP_HEADING, LAUNCH_OPEN_S, salvage, snap16, facing4, fkey, parseManifest, selectFrame, stateFor, topLeft, turretPos, recolourPixels, hexToRgb,
     bkey, parseBuildingManifest, buildingState, launching, topHeading, selectBuilding, bodyPos, anchorPos, topPos, padPos, padTileOf, shadowGeom, revealRows, sortKey,
     xkey, OVERLAY_FPS, selectOverlay, DEPLOY_FRAMES, DEPLOY_FX_FPS, selectDeployFx, selectDestroyed, topFxFrames, parseFxManifest, burnScale, hpBarY,
-    load, draw, atlasFor, atlasIndex, url, planBuilding, drawBuildingGround, drawBuildingBody, drawBuildingTop, drawBuildingOverlay, drawBuildingTopFx, drawBuildingDeployFx, drawBuildingDestroyed, fxFrame, drawFx, unitFrame, state: A };
+    load, loadArt5, draw, atlasFor, atlasIndex, url, planBuilding, drawBuildingGround, drawBuildingBody, drawBuildingTop, drawBuildingOverlay, drawBuildingTopFx, drawBuildingDeployFx, drawBuildingDestroyed, fxFrame, drawFx, unitFrame, dmgPoints, state: A };
   if (typeof module !== 'undefined' && module.exports) module.exports = UnitArt;
   root.UnitArt = UnitArt;
 })(typeof window !== 'undefined' ? window : globalThis);
