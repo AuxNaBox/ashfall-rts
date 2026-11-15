@@ -29,13 +29,18 @@ test('starting AI credits go entirely to the main wallet', () => {
     const { RTS, G } = boot(diff);
     assert.strictEqual(G.credits[1], start, diff + ' main start');
     assert.strictEqual(G.techCredits, 0, diff + ' tech starts empty');
-    assert.strictEqual(RTS.aiL5Share(), SHARE[diff]);
+    assert.strictEqual(RTS.aiL5Share(), 0, diff + ' share is off until wave 1');
+    assert.strictEqual(RTS.techShareActive(), false);
+    G.ai.waveN = 1;
+    assert.strictEqual(RTS.aiL5Share(), SHARE[diff], diff + ' share after wave 1');
+    assert.strictEqual(RTS.techShareActive(), true);
   }
 });
 
 test('addIncome splits by difficulty share and leaves player income unsplit', () => {
   for (const diff of ['easy', 'normal', 'hard']) {
     const { RTS, G } = boot(diff);
+    G.ai.waveN = 1;
     G.credits[1] = 1000; // under the 2,000 Hive cap so the incoming main share is not clamped
     G.techCredits = 0;
     RTS.addIncome(1, 1000);
@@ -52,6 +57,7 @@ test('addIncome splits by difficulty share and leaves player income unsplit', ()
 
 test('addIncome does not slash starting credits that already sit over the Hive cap', () => {
   const { RTS, G } = boot('normal'); // start 2,500, Hive cap 2,000
+  G.ai.waveN = 1;
   assert.ok(G.credits[1] > RTS.storageCapOf(1));
   const main0 = G.credits[1];
   RTS.addIncome(1, 100);
@@ -61,6 +67,7 @@ test('addIncome does not slash starting credits that already sit over the Hive c
 
 test('storage cap applies to the main wallet only; the stall fix still reaches the cap', () => {
   const { RTS, G } = boot('hard');
+  G.ai.waveN = 1;
   const cap = RTS.storageCapOf(1);
   assert.ok(cap >= 2000);
   G.credits[1] = cap - 100;
@@ -138,4 +145,31 @@ test('snapMainWallet lifts a split remainder so the 2,000 Grinder Pit stays affo
   G.credits[1] = 2000 - 1e-7;
   assert.strictEqual(RTS.canAiAfford('refinery', 0), true);
   assert.strictEqual(G.credits[1], 2000);
+});
+
+test('AI_L5_SHARE_AFTER_WAVE is 1; all income goes to main until wave 1 is sent', () => {
+  const { RTS } = load();
+  assert.strictEqual(RTS.Loop5.D.AI_L5_SHARE_AFTER_WAVE, 1);
+  for (const diff of ['easy', 'normal', 'hard']) {
+    const L = boot(diff);
+    const { G } = L;
+    assert.strictEqual(G.ai.waveN, 0);
+    G.credits[1] = 1000;
+    G.techCredits = 0;
+    L.RTS.addIncome(1, 800);
+    assert.strictEqual(G.techCredits, 0, diff + ' no tech share before wave 1');
+    assert.strictEqual(G.credits[1], 1800, diff + ' all income to main before wave 1');
+  }
+});
+
+test('the tech share starts on the tick wave 1 is sent', () => {
+  const { RTS, G } = boot('hard');
+  G.credits[1] = 1000;
+  G.techCredits = 0;
+  RTS.addIncome(1, 100);
+  assert.strictEqual(G.techCredits, 0);
+  G.ai.waveN = 1; // the tick the wave is sent
+  RTS.addIncome(1, 1000);
+  assert.strictEqual(G.techCredits, 350);
+  assert.strictEqual(G.credits[1], 1000 + 100 + 650);
 });
