@@ -102,7 +102,8 @@ function runMatchup(m, runs = 20) {
   const avg = k => +(res.reduce((s, r) => s + (r[k] || 0), 0) / res.length).toFixed(1);
   return { id: m.id, name: m.name, expect: m.expect, runs, wins, winRate: wins / runs, targetMet: met, target: m.target, res, avg };
 }
-module.exports = { MATCHUPS, MATCHUPS4, runOne, runMatchup };
+const { MATCHUPS5, printAll: printL5 } = require('./loop5-matchups');
+module.exports = { MATCHUPS, MATCHUPS4, MATCHUPS5, runOne, runMatchup };
 if (require.main === module) {
   const runs = +process.argv[2] || 20;
   for (const m of MATCHUPS.concat(MATCHUPS4)) {
@@ -111,4 +112,5 @@ if (require.main === module) {
     const extra = m.custom === 'medic' ? `with Medics alive avg ${r.avg('withAlive')}/4, without avg ${r.avg('withoutAlive')}/4` : m.custom === 'aura' ? `damage without Holy Ground avg ${r.avg('dmgNoHG')}, inside Holy Ground avg ${r.avg('dmgHG')}` : m.truck ? `crushed avg ${r.avg('crushed')}, truck HP lost avg ${r.avg('truckLossPct')}%` : `A left ${r.avg('aLeft')} (HP ${r.avg('aHpPct')}%), B left ${r.avg('bLeft')} (orig ${r.avg('bLeftOrig')}, HP ${r.avg('bHpPct')}%), risen ${r.avg('risen')}, purified ${r.avg('purified')}, time ${r.avg('time')}s`;
     console.log(`${r.id.padEnd(3)} ${(r.winRate * 100).toFixed(0).padStart(3)}% ${r.winRate >= 0.8 ? 'PASS' : 'FAIL'} | target met ${r.targetMet}/${runs} | ${r.name} | ${extra} | outcomes ${[...new Set(r.res.map(x => x.win))].map(w => w + ':' + r.res.filter(x => x.win === w).length).join(' ')}`);
   }
+  printL5(runs);
 }

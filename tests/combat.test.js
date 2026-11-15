@@ -17,7 +17,7 @@ test('damage matrix matches the spec', () => {
   assert.deepEqual(M.shell, { light: 0.8, heavy: 1.25, air: null, structure: 1.0 });
   assert.deepEqual(M.cleave, { light: 1.0, heavy: 1.25, air: null, structure: 1.25 });
   assert.deepEqual(M.beam, { light: 1.25, heavy: 1.0, air: 1.0, structure: 0.6 });
-  assert.equal(Combat.mult('plague', 'light'), 1); assert.equal(Combat.mult('nuke', 'structure'), 1);
+  assert.equal(Combat.mult('plague', 'light'), 1.25); assert.equal(Combat.mult('plague', 'heavy'), 0.75); assert.equal(Combat.mult('plague', 'air'), 0); assert.equal(Combat.mult('plague', 'structure'), 0.4); assert.equal(Combat.mult('nuke', 'structure'), 1);
 });
 
 test('unit definitions carry armor, dmgType, hitsAir and the spec stats', () => {

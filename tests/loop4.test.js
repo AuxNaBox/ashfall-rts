@@ -23,7 +23,7 @@ test('L4 data: new units, buildings, limits, power, research table', () => {
   assert.deepEqual([B.church.cost, B.church.time, B.church.hp, B.church.w, B.church.h], [1500, 15, 1000, 2, 3]);
   assert.deepEqual([B.altar.cost, B.altar.time, B.altar.hp, B.altar.w, B.altar.h, B.altar.name[1]], [1500, 15, 1000, 2, 3, 'Dark Altar']);
   assert.deepEqual([Salvage.powerOfType('armory'), Salvage.powerOfType('church'), Salvage.powerOfType('altar')], [-30, -40, -40]);
-  assert.deepEqual(Object.keys(Combat.RESEARCH).sort(), ['barrels', 'blessed', 'halo', 'hollow', 'holyground', 'plating', 'rockets']);
+  assert.deepEqual(Object.keys(Combat.RESEARCH).sort(), ['acid', 'barrels', 'blessed', 'boneplate', 'claws', 'halo', 'hollow', 'holyground', 'plating', 'rockets', 'spines']);
   const cost = id => [Combat.RESEARCH[id].cost, Combat.RESEARCH[id].time];
   assert.deepEqual([cost('hollow'), cost('plating'), cost('rockets'), cost('barrels'), cost('blessed'), cost('halo'), cost('holyground')], [[600, 30], [800, 40], [600, 30], [1000, 45], [800, 40], [900, 40], [1000, 45]]);
 });
@@ -114,6 +114,8 @@ test('L4 AI: Dark Altar after the Factory at altarTime (earlier once the player 
   G.time = 300; assert.equal(RTS.aiNextBuild(), 'refinery'); // remote yards §7: the 2nd Grinder Pit comes right after the Factory
   RTS.makeBld('refinery', 1, 58, 9);
   G.time = 300; assert.notEqual(RTS.aiNextBuild(), 'altar');
+  G.time = 541; assert.equal(RTS.aiNextBuild(), 'forge'); // L5 §13: Bone Forge after the Factory, not before 8:00
+  RTS.makeBld('forge', 1, 50, 14);
   G.time = 541; assert.equal(RTS.aiNextBuild(), 'altar');
   G.time = 300; G.ai.churchSeen = true; assert.equal(RTS.aiNextBuild(), 'altar');
 });

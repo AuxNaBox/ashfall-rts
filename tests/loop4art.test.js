@@ -68,7 +68,7 @@ test('overlay: Church also plays while training (Archangel / Templar), Dark Alta
 test('overlay: other building types never play it; a finished structure waiting for placement is not busy', () => {
   const { G } = base('armory', true);
   for (const t of ['barracks', 'factory', 'power', 'hq']) assert.equal(RTS.bldOverlayOn(RTS.makeBld(t, 0, 50, 50)), false, t);
-  assert.deepEqual([...RTS.L4_OVERLAY], ['armory', 'church', 'altar']);
+  assert.deepEqual([...RTS.L4_OVERLAY], ['armory', 'church', 'altar', 'forge']);
   G.queues[0].structure.list.push('power'); G.queues[0].structure.ready = 'power';
   assert.equal(RTS.bldBusy({ type: 'structure', side: 0 }), false);
   for (const m of Object.values(MAN)) for (const t of ['hq', 'power', 'barracks']) assert.equal(UA.selectOverlay(m, { type: t, side: 0 }, 0), null, t);

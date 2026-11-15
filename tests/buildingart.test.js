@@ -62,7 +62,7 @@ test('parseBuildingManifest: indexes base/top/pad by code type; rejects bad mani
 test('BDEF type -> building id per faction (HANDOFF §3), and every manifest footprint matches game.js BDEF', () => {
   const want = { hq: ['hq', 'hive'], power: ['power_plant', 'power_plant'], refinery: ['scrap_yard', 'grinder_pit'], depot: ['depot', 'depot'], barracks: ['barracks', 'spawning_pit'], factory: ['factory', 'factory'], turret: ['turret', 'bone_spire'], silo: ['nuke_silo', 'hell_silo'] };
   assert.deepEqual(Object.keys(UA.BLD_MAP).sort(), ART_TYPES.sort());
-  assert.deepEqual([...RTS.ART_PENDING], []);                                                  // loop 4: AI art replaces the procedural tech buildings
+  assert.deepEqual([...RTS.ART_PENDING].sort(), ['flametower', 'forge', 'gate', 'rockettower', 'wall']); // L5: no art HANDOFF yet
   for (const [t, fac] of Object.entries(ONLY)) {
     const id = { armory: 'armory', church: 'church', altar: 'dark_altar' }[t], other = fac === 'survivors' ? 'horde' : 'survivors';
     assert.equal(UA.BLD_MAP[t][fac], id); assert.equal(UA.BLD_MAP[t][other], null);
