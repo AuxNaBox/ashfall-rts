@@ -66,6 +66,7 @@
     CATAPULT_DMG: { v: 95, src: 'L5 §6' },
     CATAPULT_HQ_FLOOR_S: { v: 720, src: 'Hard only: Corpse Catapults skip the player HQ until 12:00' },
     CRAWLER_RAID_AFTER_WAVE: { v: 4, src: 'Hard only: Crawlers may load but cannot leave on a raid until wave 4 has been sent' },
+    AI_L5_SHARE: { v: { easy: 0.20, normal: 0.25, hard: 0.35 }, src: 'L5 §18 share of every AI credit income that goes to the tech wallet' },
     // transport (L5 §6)
     CARGO_CAP: { v: 5, src: 'L5 §6' },
     LOAD_TILES: { v: 1.0, src: 'L5 §6 (walk to it and enter)' },
@@ -208,7 +209,18 @@
     },
   };
 
+  const TECH_UNITS = { crawler: 1, catapult: 1, sprayer: 1, bloater: 1, spitter: 1, leaper: 1 };
+  const TECH_BLDS = { forge: 1, flametower: 1, rockettower: 1, wall: 1, gate: 1 };
+  const TECH_RES = { acid: 1, claws: 1, boneplate: 1, spines: 1 };
+  function isTechPaid(type) { return !!(TECH_UNITS[type] || TECH_BLDS[type] || TECH_RES[type]); }
+  function l5Share(diffKey) {
+    const s = D.AI_L5_SHARE;
+    if (s == null) return 0;
+    if (typeof s === 'number') return s;
+    return s[diffKey] || 0;
+  }
   const Loop5 = { TABLE, D, AI, isWallish, isDefense, gateOpen, gatePathableFor,
+    isTechPaid, l5Share, TECH_UNITS, TECH_BLDS, TECH_RES,
     // Q1 / Q3 held
     HELD: {},
     onDamageState: null, // atlas / hook: function (bld, prev, next)

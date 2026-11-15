@@ -679,7 +679,7 @@ function cutOffWarning(side, type, tx, ty, rot) {
 function sellBld(b) {
   if (!b || b.dead || b.type === 'hq') return false;
   const back = Math.floor((b.d.cost || 0) * Loop5.D.SELL_REFUND);
-  G.credits[b.side] += back;
+  creditWallet(b.side, b.type, back);
   removeBld(b); b.dead = true;
   if (b.side === 0) msg((b.d.name && b.d.name[0]) + ' sold' + (back ? ' (+' + back + ')' : '') + '.', '#DDF6FF', b.x, b.y);
   return true;
@@ -828,8 +828,8 @@ function placeWallLine(side, tiles) {
     if (wallCount(side) >= Loop5.D.WALL_CAP) break;
     const pc = placeCheck(side, 'wall', tx, ty, 0);
     if (!pc.ok) continue;
-    if (G.credits && G.credits[side] < Loop5.D.WALL_COST) break;
-    if (G.credits) G.credits[side] -= Loop5.D.WALL_COST;
+    if (walletCredits(side, 'wall') < Loop5.D.WALL_COST) break;
+    debitWallet(side, 'wall', Loop5.D.WALL_COST);
     out.push(makeBld('wall', side, tx, ty));
   }
   if (out.length) cutOffWarning(side, 'wall', out[out.length - 1].tx, out[out.length - 1].ty);
@@ -1094,6 +1094,44 @@ function crawlerRaidGated() {
   const need = Loop5.D.CRAWLER_RAID_AFTER_WAVE;
   if (need == null) return false;
   return (G.ai.waveN || 0) < need;
+}
+// L5 §18 tech wallet: a share of AI income pays for Loop 5 units, the Bone Forge and its research, Spires, Cannons and Flesh Walls.
+function aiL5Share() { return (G && Loop5.l5Share) ? Loop5.l5Share(G.diffKey) : 0; }
+function usesTechWallet(side, type) { return side === 1 && Loop5.isTechPaid && Loop5.isTechPaid(type); }
+function walletCredits(side, type) { return usesTechWallet(side, type) ? (G.techCredits || 0) : G.credits[side]; }
+function debitWallet(side, type, amt) { if (usesTechWallet(side, type)) G.techCredits = (G.techCredits || 0) - amt; else G.credits[side] -= amt; }
+function creditWallet(side, type, amt) { if (usesTechWallet(side, type)) G.techCredits = (G.techCredits || 0) + amt; else G.credits[side] += amt; }
+function canAiAfford(type, mainReserve) {
+  snapMainWallet();
+  const c = costOf(type);
+  if (usesTechWallet(1, type)) return walletCredits(1, type) >= c;
+  return G.credits[1] - (mainReserve || 0) >= c;
+}
+// Starting credits stay in the main wallet (they are not income). Storage cap applies to the main wallet only;
+// the tech wallet is uncapped and is paced by the §9 caps. Trucks still block when the main wallet is full, so
+// the 7123578 stall fix is unchanged: getCredits returns the main wallet, and the filling unload still reaches the cap.
+function snapMainWallet() {
+  if (!G) return;
+  const cap = storageCapOf(1), cr = G.credits[1];
+  // After the income split, the last unload can leave main a fraction below the cap, which is too
+  // small for salvage to take another cargo unit (the 7123578 stall, in a new form). Snap that
+  // remainder so the Grinder Pit remains affordable.
+  if (cr < cap && cap - cr < 1e-4) G.credits[1] = cap;
+}
+function addIncome(side, n) {
+  if (side === 1 && aiL5Share() > 0) {
+    const tech = n * aiL5Share();
+    const main = n - tech;
+    // Cap applies to the main wallet only. Never slash credits that are already over the cap
+    // (Easy/Normal start at 2,500 on a 2,000 Hive). Only the incoming main share is clamped.
+    const room = Math.max(0, storageCapOf(1) - G.credits[1]);
+    G.credits[1] += Math.min(main, room);
+    G.techCredits = (G.techCredits || 0) + tech;
+    snapMainWallet();
+  } else {
+    G.credits[side] += n;
+  }
+  if (side === 0) G.stats.salvage += n;
 }
 function findEnemy(e, range, side) {
   const demo = e.kind === 'u' && e.d && e.d.demo;
@@ -1441,7 +1479,7 @@ function makeSalvage() {
     dockReady: p => !p.setup,
     dockPoint, moveTo, followPath,
     getCredits: side => G.credits[side],
-    addCredits: (side, n) => { G.credits[side] += n; if (side === 0) G.stats.salvage += n; },
+    addCredits: (side, n) => addIncome(side, n),
     storageCap: storageCapOf,
     incomeMult: side => side === 1 ? G.diff.inc : 1,
     tilePenalty: (u, i) => plague[i] && u.side === 0 ? 12 : 0, // Survivors avoid plague fields
@@ -1509,15 +1547,15 @@ function queueItem(side, type) {
   if (atLimit(side, type)) { if (side === 0) { msg(`Limit reached: ${UDEF[type].limit} ${UDEF[type].name}${UDEF[type].limit > 1 ? 's' : ''} at a time.`, '#ffb060'); sfx('err'); } return false; }
   if (q.list.length >= 5) return false;
   const c = costOf(type);
-  if (G.credits[side] < c) { if (side === 0) { msg('Insufficient Credits.', '#ff6a5a'); sfx('err'); } return false; }
-  G.credits[side] -= c; q.list.push(type); if (side === 0) sfx('click');
+  if (walletCredits(side, type) < c) { if (side === 0) { msg('Insufficient Credits.', '#ff6a5a'); sfx('err'); } return false; }
+  debitWallet(side, type, c); q.list.push(type); if (side === 0) sfx('click');
   return true;
 }
 function cancelItem(side, type) {
   const q = G.queues[side][catOf(type)];
-  if (q.ready === type) { q.ready = null; G.credits[side] += costOf(type); if (G.placing === type) G.placing = null; return; }
+  if (q.ready === type) { q.ready = null; creditWallet(side, type, costOf(type)); if (G.placing === type) G.placing = null; return; }
   const i = q.list.lastIndexOf(type); if (i < 0) return;
-  q.list.splice(i, 1); if (i === 0) q.prog = 0; G.credits[side] += costOf(type); if (side === 0) sfx('click');
+  q.list.splice(i, 1); if (i === 0) q.prog = 0; creditWallet(side, type, costOf(type)); if (side === 0) sfx('click');
 }
 function updProduction(dt) {
   for (let side = 0; side < 2; side++) {
@@ -1567,8 +1605,8 @@ function queueResearch(side, id) {
   const miss = (R.reqRes || []).filter(r => !isDone(side, r) && !q.list.includes(r)); // a queued prerequisite counts: it finishes first
   if (!hasBld(side, R.at) || (R.reqBld || []).some(b => !hasBld(side, b)) || miss.length) { if (side === 0) msg('Requires ' + (miss.length ? Combat.RESEARCH[miss[0]].name : researchMissing(side, id)), '#ffb060'); return false; }
   if (q.list.length >= 5) return false;
-  if (G.credits[side] < R.cost) { if (side === 0) { msg('Insufficient Credits.', '#ff6a5a'); sfx('err'); } return false; }
-  G.credits[side] -= R.cost; q.list.push(id); if (side === 0) sfx('click');
+  if (walletCredits(side, id) < R.cost) { if (side === 0) { msg('Insufficient Credits.', '#ff6a5a'); sfx('err'); } return false; }
+  debitWallet(side, id, R.cost); q.list.push(id); if (side === 0) sfx('click');
   return true;
 }
 function cancelResearch(side, id) {
@@ -1576,7 +1614,7 @@ function cancelResearch(side, id) {
   const q = G.rq[side][R.at], i = q.list.indexOf(id); if (i < 0) return;
   // cancelling a prerequisite also cancels anything queued that needs it
   const drop = [id, ...q.list.filter(x => (Combat.RESEARCH[x].reqRes || []).includes(id))];
-  for (const x of drop) { const j = q.list.indexOf(x); if (j < 0) continue; q.list.splice(j, 1); if (j === 0) q.prog = 0; G.credits[side] += Combat.RESEARCH[x].cost; }
+  for (const x of drop) { const j = q.list.indexOf(x); if (j < 0) continue; q.list.splice(j, 1); if (j === 0) q.prog = 0; creditWallet(side, x, Combat.RESEARCH[x].cost); }
   if (side === 0) sfx('click');
 }
 function applyResearch(side, id) {
@@ -1601,8 +1639,8 @@ function loseResearch(side, at) {
   if (hasBld(side, at) || !G.rq[side][at]) return;
   const q = G.rq[side][at]; if (!q.list.length) return;
   const [cur, ...rest] = q.list; let back = 0;
-  for (const id of rest) back += Combat.RESEARCH[id].cost;
-  G.credits[side] += back; q.list = []; q.prog = 0;
+  for (const id of rest) { creditWallet(side, id, Combat.RESEARCH[id].cost); back += Combat.RESEARCH[id].cost; }
+  q.list = []; q.prog = 0;
   if (side === 0) msg(`${Combat.RESEARCH[cur].name} research lost${back ? `; ${back} Credits refunded for queued research` : ''}.`, '#ff6a3d');
 }
 // placement: { ok, remote, reason }. The footprint rules, then 'near own buildings' (5 tiles), then for a Scrap Yard only the remote rules.
@@ -1976,6 +2014,7 @@ function aiRushCheck() {
   return R;
 }
 function updAI(dt) {
+  snapMainWallet();
   const A = G.ai; A.t -= dt; if (A.t > 0) return; A.t = 0.5;
   const side = 1, Q = G.queues[1], cr = () => G.credits[1];
   if (!G.blds.some(b => b.side === 1 && !b.dead)) return;
@@ -2007,8 +2046,8 @@ function updAI(dt) {
     } else cancelItem(1, t);
   } else if (rush) { /* rush response: build order paused */ }
   else if (A.spireFor && !Q.structure.list.length && prereqOk(1, 'turret') && cr() >= BDEF.turret.cost) queueItem(1, 'turret');
-  else if (next && !Q.structure.list.length && prereqOk(1, next) && cr() - (econBuild ? firstEater : eaterReserve + demonReserve) >= BDEF[next].cost) queueItem(1, next);
-  const reserve = (next && !Q.structure.list.length && !Q.structure.ready ? BDEF[next].cost : 0) + eaterReserve + demonReserve;
+  else if (next && !Q.structure.list.length && prereqOk(1, next) && canAiAfford(next, econBuild ? firstEater : eaterReserve + demonReserve)) queueItem(1, next);
+  const reserve = (next && !Q.structure.list.length && !Q.structure.ready && !usesTechWallet(1, next) ? BDEF[next].cost : 0) + eaterReserve + demonReserve;
   const want = Math.min(5, Math.max(1, countBld(1, 'refinery')) * 2);
   if (!rush && hasBld(1, 'refinery') && harv < want && Q.vehicle.list.length === 0 && cr() >= costOf('reaper') && prereqOk(1, 'reaper')) { if (queueItem(1, 'reaper') && harv === 1) G.ai.eater2At = G.time; }
   // army (capped so waves stay beatable; the cap grows with every wave)
@@ -2117,7 +2156,7 @@ function updAI_L5() {
         if (miss && !((Combat.RESEARCH[id].reqRes || []).every(r => isDone(1, r) || G.rq[1].forge.list.includes(r)))) continue;
         if (researchMissing(1, id) && !(Combat.RESEARCH[id].reqBld || []).every(b => hasBld(1, b))) continue;
         if (researchState(1, id) !== 'ready') continue;
-        if (cr() - Combat.RESEARCH[id].cost < aiWaveReserve()) break;
+        if (walletCredits(1, id) < Combat.RESEARCH[id].cost) break;
         queueResearch(1, id); break;
       }
     }
@@ -2134,7 +2173,7 @@ function updAI_L5() {
   };
   if (!Q.structure.list.length && !Q.structure.ready) {
     const pick = wantTower('flametower') ? 'flametower' : (wantTower('rockettower') ? 'rockettower' : null);
-    if (pick && cr() >= BDEF[pick].cost) queueItem(1, pick);
+    if (pick && canAiAfford(pick)) queueItem(1, pick);
   }
   // Hard tower shields: 5-segment wall 2 tiles in front, cap 30, ends open
   if (cap.walls && A.shieldFor && !A.shieldFor.dead && wallCount(1) < (cap.wallCap || 30)) {
@@ -2159,17 +2198,17 @@ function updAI_L5() {
   const aliveQ = (type) => aliveOf(1, type) + inQueue(1, type);
   if (!Q.vehicle.list.length && hasBld(1, 'factory')) {
     const cv = cap.crawler;
-    if (cv && G.time >= (cv.from || 0) && aliveQ('crawler') < (cv.perWave || 1) + (cv.from2 && G.time >= cv.from2 ? (cv.perWave2 || 0) : 0) && prereqOk(1, 'crawler') && cr() >= UDEF.crawler.cost) queueItem(1, 'crawler');
+    if (cv && G.time >= (cv.from || 0) && aliveQ('crawler') < (cv.perWave || 1) + (cv.from2 && G.time >= cv.from2 ? (cv.perWave2 || 0) : 0) && prereqOk(1, 'crawler') && canAiAfford('crawler')) queueItem(1, 'crawler');
     const ct = cap.catapult;
-    if (ct && G.time >= (ct.from || 0) && aliveQ('catapult') < ct.cap && (!ct.whenTowers || countBld(0, 'turret') + countBld(0, 'flametower') + countBld(0, 'rockettower') >= ct.whenTowers) && prereqOk(1, 'catapult') && cr() >= UDEF.catapult.cost) queueItem(1, 'catapult');
+    if (ct && G.time >= (ct.from || 0) && aliveQ('catapult') < ct.cap && (!ct.whenTowers || countBld(0, 'turret') + countBld(0, 'flametower') + countBld(0, 'rockettower') >= ct.whenTowers) && prereqOk(1, 'catapult') && canAiAfford('catapult')) queueItem(1, 'catapult');
     const sp = cap.sprayer;
-    if (sp && G.time >= (sp.from || 0) && aliveQ('sprayer') < sp.cap && prereqOk(1, 'sprayer') && cr() >= UDEF.sprayer.cost) queueItem(1, 'sprayer');
+    if (sp && G.time >= (sp.from || 0) && aliveQ('sprayer') < sp.cap && prereqOk(1, 'sprayer') && canAiAfford('sprayer')) queueItem(1, 'sprayer');
   }
   // spitters: train toward the wave cap once Acid Glands is done
   if (hasBld(1, 'barracks') && isDone(1, 'acid') && G.time >= (G.diff.spitterFrom || 0) && Q.infantry.list.length < 2) {
     const heavy = aiSeenCount(['ark', 'apc', 'artillery', 'purifier'], 30);
     const want = Math.min(G.diff.spitterCap || 0, Math.floor(heavy * (G.diff.spitterPerHeavy || 0) + 1e-9) || (heavy > 0 ? Math.max(1, Math.floor(heavy * (G.diff.spitterPerHeavy || 0))) : 0));
-    if (aliveQ('spitter') < want && cr() - UDEF.spitter.cost >= aiWaveReserve() && prereqOk(1, 'spitter')) queueItem(1, 'spitter');
+    if (aliveQ('spitter') < want && canAiAfford('spitter') && prereqOk(1, 'spitter')) queueItem(1, 'spitter');
   }
   // crawler raid: load 5 zombies, march to nearest player yard or truck
   for (const crw of G.units) {
@@ -2222,14 +2261,14 @@ function updAI_L5() {
   const lep = cap.leaper;
   if (lep && hasBld(1, 'forge') && (countBld(0, 'wall') + countBld(0, 'gate') > 0 || aiSeenCount(['artillery'], 30) > 0) && Q.infantry.list.length < 2) {
     const want = lep.perWave || 0;
-    if (aliveQ('leaper') < want && prereqOk(1, 'leaper') && cr() - UDEF.leaper.cost >= aiWaveReserve()) queueItem(1, 'leaper');
+    if (aliveQ('leaper') < want && prereqOk(1, 'leaper') && canAiAfford('leaper')) queueItem(1, 'leaper');
   }
   const bl = cap.bloater;
   if (bl && G.time >= (bl.from || 0) && Q.infantry.list.length < 2) {
     const walls = countBld(0, 'wall') + countBld(0, 'gate');
     const towers = countBld(0, 'turret') + countBld(0, 'flametower') + countBld(0, 'rockettower');
     const trig = !bl.whenWallsOrTowers || walls > 0 || towers >= bl.whenWallsOrTowers;
-    if (trig && aliveQ('bloater') < (bl.perWave || 0) && prereqOk(1, 'bloater') && cr() >= UDEF.bloater.cost) queueItem(1, 'bloater');
+    if (trig && aliveQ('bloater') < (bl.perWave || 0) && prereqOk(1, 'bloater') && canAiAfford('bloater')) queueItem(1, 'bloater');
   }
   // leapers: auto-leap already runs in engage; prefer soft targets behind walls
   for (const lp of G.units) {
@@ -3459,7 +3498,7 @@ function newGame(diffKey, opts) {
   idc = 0; bById.clear();
   if ($('msgs')) $('msgs').innerHTML = '';
   G = { seed, time: 0, diff: DIFF[diffKey] || DIFF.normal, diffKey, units: [], blds: [], proj: [], fx: [], decals: [], patches: [], suppress: {}, rad: [], missiles: [], rises: [], sel: [], groups: {}, placeRot: 0,
-    credits: [SD.startScripPlayer, (DIFF[diffKey] || DIFF.normal).startScripAI ?? SD.startScripAI], queues: [mkQ(), mkQ()], rq: [mkRQ(), mkRQ()], research: [{}, {}], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0 },
+    credits: [SD.startScripPlayer, (DIFF[diffKey] || DIFF.normal).startScripAI ?? SD.startScripAI], techCredits: 0, queues: [mkQ(), mkQ()], rq: [mkRQ(), mkRQ()], research: [{}, {}], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0 },
     over: false, paused: false, started: false, mode: null, placing: null, ai: { t: 1, nextWave: 0, waveN: 0 }, fogT: 0, winT: 0, shakeA: 0,
     baseP: { x: 9, y: MH - 10 }, baseE: { x: MW - 10, y: 9 } };
   G.ai.nextWave = G.diff.firstWave;
@@ -3491,7 +3530,7 @@ function newGame(diffKey, opts) {
 function newArena(seed) {
   rng = mulberry32(seed | 0); idc = 0; bById.clear(); setMapSize(80, 80);
   G = { seed, time: 0, diff: DIFF.normal, diffKey: 'normal', units: [], blds: [], proj: [], fx: [], decals: [], patches: [], suppress: {}, rad: [], missiles: [], rises: [], sel: [], groups: {}, placeRot: 0,
-    credits: [0, 0], queues: [mkQ(), mkQ()], rq: [mkRQ(), mkRQ()], research: [{}, {}], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0, risen: 0, purified: 0, crushed: 0, burned: 0, blessed: 0 },
+    credits: [0, 0], techCredits: 0, queues: [mkQ(), mkQ()], rq: [mkRQ(), mkRQ()], research: [{}, {}], stats: { kills: 0, lost: 0, bKills: 0, bLost: 0, built: 0, bBuilt: 0, salvage: 0, nukes: 0, risen: 0, purified: 0, crushed: 0, burned: 0, blessed: 0 },
     over: false, paused: false, started: true, mode: null, placing: null, ai: { t: 1e9, nextWave: 1e9, waveN: 0 }, fogT: 0, winT: 0, shakeA: 0, arena: true,
     baseP: { x: 2, y: 2 }, baseE: { x: MW - 3, y: MH - 3 }, mapSrc: null };
   terr = new Uint8Array(N); res = new Uint16Array(N); plague = new Uint8Array(N);
@@ -3586,4 +3625,4 @@ if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(locati
   } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { catapultSkipsHq, crawlerRaidGated, AI_RUSH_DEFENSE, AI_FIRST_NUKE_MIN, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, canAttack, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, setDmgState, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX, Loop5, sellBld, cutOffWarning, pathExists, placeWallLine, wallTilesFromDrag, wallCount, tryBreach, addPatch, cleanseAt, inPatch, loadUnit, canLoadUnit, ejectCargo, startUnload, finishUnload, orderLoad, allySees, DIFF, canLeap, startLeap, shouldAutoLeap, autoLeapTo, beginLeapCommand, issueLeapAt, boomDemo, startArm, untargetable, showTab, get sbTab() { return sbTab; } };
+window.RTS = { catapultSkipsHq, crawlerRaidGated, aiL5Share, usesTechWallet, walletCredits, debitWallet, creditWallet, addIncome, snapMainWallet, canAiAfford, AI_RUSH_DEFENSE, AI_FIRST_NUKE_MIN, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, canAttack, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, setDmgState, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX, Loop5, sellBld, cutOffWarning, pathExists, placeWallLine, wallTilesFromDrag, wallCount, tryBreach, addPatch, cleanseAt, inPatch, loadUnit, canLoadUnit, ejectCargo, startUnload, finishUnload, orderLoad, allySees, DIFF, canLeap, startLeap, shouldAutoLeap, autoLeapTo, beginLeapCommand, issueLeapAt, boomDemo, startArm, untargetable, showTab, get sbTab() { return sbTab; } };

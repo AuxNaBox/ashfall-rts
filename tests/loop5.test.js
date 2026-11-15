@@ -332,7 +332,7 @@ test('L5-13 Bone Forge and Spitter tech requirements', () => {
   assert.ok(forge);
   // Acid Glands needs a Factory
   assert.ok(R.Combat.RESEARCH.acid.reqBld.includes('factory'));
-  G.credits[1] = 99999;
+  G.credits[1] = 99999; G.techCredits = 99999;
   assert.equal(R.queueResearch(1, 'acid'), false, 'Acid Glands is locked without a Factory');
   R.makeBld('factory', 1, 58, 13);
   assert.equal(R.queueResearch(1, 'acid'), true);
