@@ -127,10 +127,10 @@ test('burn decal: 2x only for units 2+ tiles in size (Demon Lord), 1x for Templa
   const dl = mk('demon'); RTS.kill(dl, null, 'fire'); const d2 = RTS.G.decals.filter(d => d.k === 'burn').pop(); assert.equal(d2.s, 2); assert.equal(d2.r, 16);
 });
 
-test('Demon Lord health bar sits above the sprite (u.y - 85); other units keep u.y - r - 7', () => {
+test('Demon Lord health bar sits above the sprite (u.y - 86, Loop 5 art); other units keep u.y - r - 7', () => {
   const H = UA.parseManifest(J('units/horde-l4-atlas.json')), S = UA.parseManifest(J('units/survivors-l4-atlas.json'));
   const u = { type: 'demon', side: 1, x: 100, y: 200, r: 22, ang: 0 }, f = UA.selectFrame(H, 'demon', u).frame;
-  assert.equal(UA.hpBarY(u, f), 200 - 85);
+  assert.equal(UA.hpBarY(u, f), 200 - 86);
   const t = { type: 'templar', side: 0, x: 0, y: 200, r: 11, ang: 0 };
   assert.equal(UA.hpBarY(t, UA.selectFrame(S, 'templar', t).frame), 200 - 11 - 7);
   assert.equal(UA.hpBarY(u, null), 200 - 22 - 7);

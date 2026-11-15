@@ -24,7 +24,8 @@ const D = Math.PI / 180;
 // Loop 4 (HANDOFF-buildings §10): Armory / Church are Survivors-only and the Dark Altar Horde-only, each with an extra 'destroyed'
 // rubble state + 4 research overlay frames; HQ / Hive add a 16-heading top gun + a dock pad (indexed) and weapon fx frames (not indexed)
 const L4 = ['armory', 'church', 'altar'], ONLY = { armory: 'survivors', church: 'survivors', altar: 'horde' };
-const STATES = t => t === 'silo' ? ['closed', 'open', 'damaged', 'damaged_open', 'construct'] : L4.includes(t) ? ['idle', 'damaged', 'construct', 'destroyed'] : ['idle', 'damaged', 'construct'];
+// Loop 5 (HANDOFF-loop5): every type adds a 'critical' state (hp <= 25%), silos also 'critical_open'
+const STATES = t => t === 'silo' ? ['closed', 'open', 'damaged', 'damaged_open', 'critical', 'critical_open', 'construct'] : L4.includes(t) ? ['idle', 'damaged', 'critical', 'construct', 'destroyed'] : ['idle', 'damaged', 'critical', 'construct'];
 const FAC_TYPES = fac => ART_TYPES.filter(t => !ONLY[t] || ONLY[t] === fac);
 // remote setup (HANDOFF-buildings §12): Scrap Yard / Grinder Pit deploy_0..3 base frames (indexed) + 4 deploy dust fx frames (not indexed)
 const DEPLOY = ['deploy_0', 'deploy_1', 'deploy_2', 'deploy_3'];
@@ -38,7 +39,7 @@ test('building atlases: frame counts derived from the manifests (neutral x teams
     assert.deepEqual(pngSize(m.image), m.size); assert.deepEqual(pngSize(m.trim_mask.image), m.trim_mask.size);
     assert.deepEqual(pngSize(m.neutral.image), m.neutral.size); assert.deepEqual(pngSize(m.neutral.trim_image), m.neutral.size);
     for (const f of m.neutral.frames) { const [x, y, w, h] = f.rect; assert.ok(x + w <= 1024 && y + h <= 512, f.name); }
-    for (const f of m.frames) { const [x, y, w, h] = f.rect; assert.ok(x + w <= 1024 && y + h <= (DEPLOY.includes(f.state) || f.state === 'deploy_dust' ? 1024 : 512), f.name); }   // v1 frames keep their rects
+    for (const f of m.frames) { const [x, y, w, h] = f.rect; assert.ok(x + w <= 1024 && y + h <= 1024, f.name); }   // Loop 5 rebuild (critical states): team frames repacked over the full 1024x1024 sheet
   }
   assert.deepEqual(fs.readdirSync(DIR).filter(f => /-v1b?\./.test(f)), []);
   assert.deepEqual(MAN.horde.ramps.violet, { light: '#DABCFF', base: '#BE90FF', dark: '#9060E8' });
@@ -91,7 +92,7 @@ test('anchor maths: anchor = footprint bottom-centre, body drawn at tx*32 - foot
     assert.equal(UA.sortKey({ tx, ty, h: fh }), (ty + fh) * 32);
   }
   const hq = MAN.survivors.index.get(UA.bkey('hq', 'base', 'idle'));
-  assert.deepEqual(UA.bodyPos(hq, 10, 20), [320, 620]);          // 116 px tall on a 96 px footprint: rises 20 px above it
+  assert.deepEqual(UA.bodyPos(hq, 10, 20), [319, 617]);          // Loop 5 HQ: 98x119 on a 96 px footprint: rises 23 px above it
 });
 
 test('shadow: Survivors footprint rect, Horde ellipse; 30% black, +3,+3 from the footprint centre, footprint inset 2 px', () => {
@@ -148,7 +149,9 @@ test('state selection: damaged below 50% hp (HANDOFF suggestion), silo closed/op
     assert.equal(UA.selectBuilding(m, B('silo', { charge: 199.9 }), o).state, 'closed');
     assert.equal(UA.selectBuilding(m, B('silo', { charge: 200 }), o).state, 'open');
     assert.equal(UA.selectBuilding(m, B('silo', { charge: 0 }), Object.assign({ launching: true }, o)).state, 'open');
-    assert.equal(UA.selectBuilding(m, B('silo', { charge: 10, hp: 10 }), o).state, 'damaged');
+    assert.equal(UA.selectBuilding(m, B('silo', { charge: 10, hp: 30 }), o).state, 'damaged');
+    assert.equal(UA.selectBuilding(m, B('silo', { charge: 10, hp: 10 }), o).state, 'critical');
+    assert.equal(UA.selectBuilding(m, B('hq', { hp: 25 })).state, 'critical');
   }
 });
 
@@ -163,9 +166,9 @@ test('silo: the four states (closed / open / damaged / damaged_open), launch win
     for (const team of m.baked.keys()) assert.equal(UA.selectBuilding(m, B('silo', { charge: 200, hp: 1 }), o, m.baked.get(team)).base.team, team);
     // damaged_open missing -> open frame; open missing too -> closed
     const drop = re => Object.assign({}, m, { index: new Map([...m.index].filter(([k]) => !re.test(k))) });
-    assert.equal(UA.selectBuilding(drop(/^silo\|base\|damaged_open$/), B('silo', { charge: 200, hp: 1 }), o).base.state, 'open');
-    assert.equal(UA.selectBuilding(drop(/^silo\|base\|(damaged_open|open)$/), B('silo', { charge: 200, hp: 1 }), o).base.state, 'closed');
-    assert.equal(UA.selectBuilding(drop(/^silo\|base\|damaged$/), B('silo', { charge: 10, hp: 1 }), o).base.state, 'closed');
+    assert.equal(UA.selectBuilding(drop(/^silo\|base\|(critical_open|damaged_open)$/), B('silo', { charge: 200, hp: 1 }), o).base.state, 'open');
+    assert.equal(UA.selectBuilding(drop(/^silo\|base\|(critical_open|damaged_open|open)$/), B('silo', { charge: 200, hp: 1 }), o).base.state, 'closed');
+    assert.equal(UA.selectBuilding(drop(/^silo\|base\|(critical|damaged)$/), B('silo', { charge: 10, hp: 1 }), o).base.state, 'closed');
     // every damaged frame names the intact frame it was cracked from, and that frame exists
     for (const f of m.index.values()) if (/damaged/.test(f.state)) assert.ok(m.index.get(UA.bkey(f.code_type, 'base', f.damaged_of)), f.name + ' damaged_of ' + f.damaged_of);
   }
@@ -217,7 +220,8 @@ test('fallback: unknown type / missing frames -> null (procedural); damaged/open
   assert.equal(UA.selectBuilding(m, B('wall')), null); assert.equal(UA.selectBuilding(null, B('hq')), null);
   const drop = pred => { const index = new Map([...m.index].filter(([k]) => !pred(k))); return Object.assign({}, m, { index }); };
   assert.equal(UA.selectBuilding(drop(k => k === 'hq|base|idle'), B('hq')), null);
-  assert.equal(UA.selectBuilding(drop(k => k === 'hq|base|damaged'), B('hq', { hp: 1 })).base.state, 'idle');
+  assert.equal(UA.selectBuilding(drop(k => k === 'hq|base|critical'), B('hq', { hp: 1 })).base.state, 'damaged');
+  assert.equal(UA.selectBuilding(drop(k => k === 'hq|base|damaged' || k === 'hq|base|critical'), B('hq', { hp: 1 })).base.state, 'idle');
   assert.equal(UA.selectBuilding(drop(k => k === 'silo|base|open'), B('silo', { charge: 200 }), { nukeCharge: 200 }).base.state, 'closed');
   assert.equal(UA.selectBuilding(drop(k => k === 'turret|top|idle|90.0'), B('turret')), null);   // never a turret without its head
   assert.equal(UA.selectBuilding(drop(k => k.startsWith('refinery|pad')), B('refinery')), null);
