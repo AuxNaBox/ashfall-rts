@@ -99,7 +99,7 @@ const UDEF = {
   spitter: { side: 1, name: 'Spitter', desc: 'Anti-heavy acid infantry. Cannot hit air. Its kills do not rise', r: 7, inf: true, cat: 'infantry', from: ['barracks'], reqRes: ['acid'], acid: true, travel: Loop5.D.ACID_TRAVEL_S },
   shock: { side: 0, name: 'Shock Trooper', desc: 'Mobile infantry. Leap over walls (Q). SMG hits air', r: 7, inf: true, cat: 'infantry', from: ['barracks'], reqBld: ['armory'], leap: true },
   leaper: { side: 1, name: 'Ghoul Leaper', desc: 'Leaps over walls to reach soft targets. Claw kills can rise', r: 7, inf: true, cat: 'infantry', from: ['barracks'], reqBld: ['forge'], leap: true, melee: true },
-  demo: { side: 0, name: 'Demo Squad', desc: 'Suicide charge vs buildings, walls and gates. Arms 1.5 s. Limit 6', r: 7, inf: true, cat: 'infantry', from: ['barracks'], reqBld: ['factory'], demo: true },
+  demo: { side: 0, name: 'Demo Squad', desc: 'Suicide charge vs buildings, walls and gates. Arms 2.5 s. Limit 6', r: 7, inf: true, cat: 'infantry', from: ['barracks'], reqBld: ['factory'], demo: true },
   bloater: { side: 1, name: 'Bloater', desc: 'Suicide charge vs buildings. A dud death leaves a plague patch. Limit 6', r: 8, inf: true, cat: 'infantry', from: ['barracks'], reqBld: ['factory'], demo: true, bloater: true },
 };
 // Loop 3: armor / damage type / hitsAir and spec stats come from combat.js (CS balance table)
@@ -789,7 +789,16 @@ function orderLoad(units, tr) {
 }
 function canHurtStructure(u) { const w = weaponOf(u); return !!w && Combat.canHit(w, 'structure'); }
 function minRangeOf(e) { return (e.d.minRange || 0) * TILE; }
-function tooClose(e, t) { const mn = minRangeOf(e); return mn > 0 && edgeDist(e.x, e.y, t) - (e.r || 0) * 0.5 < mn; }
+// Rocket Tower / Bone Cannon min range is infantry-only (L5 §15). Heavy units can be hit at any range.
+function minRangeApplies(e, t) {
+  if (!e || !t || minRangeOf(e) <= 0) return false;
+  if ((e.kind === 'b' && e.type === 'rockettower') || (e.d && e.type === 'rockettower')) {
+    if (t.kind !== 'u') return false;
+    return !t.d.heavy;
+  }
+  return true;
+}
+function tooClose(e, t) { if (!minRangeApplies(e, t)) return false; const mn = minRangeOf(e); return mn > 0 && edgeDist(e.x, e.y, t) - (e.r || 0) * 0.5 < mn; }
 function tryBreach(u, goal) {
   if (!u || u.dead || u.d.fly || u.d.harv) return false;
   const gx = goal.x != null ? goal.x : (goal.tx + goal.w / 2) * TILE, gy = goal.y != null ? goal.y : (goal.ty + goal.h / 2) * TILE;
@@ -945,7 +954,8 @@ function boomDemo(u) {
   u.exploded = true;
   const rs = Loop5.D.DEMO_STRUCT_R * TILE, ru = Loop5.D.DEMO_UNIT_R * TILE;
   for (const b of G.blds) if (!b.dead && b.side !== u.side && edgeDist(u.x, u.y, b) < rs) {
-    b.hp -= Loop5.D.DEMO_DMG; // flat, no matrix
+    const mult = b.type === 'hq' ? Loop5.D.DEMO_HQ_MULT : 1;
+    b.hp -= Loop5.D.DEMO_DMG * mult; // flat, no matrix; HQ/Hive take half (§15)
     if (b.kind === 'b') setDmgState(b);
     if (b.hp <= 0) kill(b, u, 'shell');
   }
@@ -1076,7 +1086,7 @@ function findEnemy(e, range, side) {
   const consider = (o, tier) => {
     if (tier > bt) return;
     const d = edgeDist(e.x, e.y, o); if (d >= range) return;
-    if (mn > 0 && d - (e.r || 0) * 0.5 < mn) return;
+    if (minRangeApplies(e, o) && d - (e.r || 0) * 0.5 < mn) return;
     if (tier < bt || d < bd) { bt = tier; bd = d; best = o; }
   };
   if (!demo) for (const o of G.units) {
@@ -1272,7 +1282,7 @@ function updProj(dt) {
 }
 function projImpact(p) {
   const ix = p.tx, iy = p.ty + (p.air || 0);
-  if (p.minRange && p.s && !p.s.dead && dist(p.s.x, p.s.y, ix, iy) < p.minRange * TILE) {
+  if (p.minRange && p.s && !p.s.dead && dist(p.s.x, p.s.y, ix, iy) < p.minRange * TILE && minRangeApplies(p.s, p.t)) {
     G.fx.push({ k: 'smoke', x: ix, y: iy, t: 0, dur: 0.4, s: 0.5 }); // too close: miss
     return;
   }
@@ -1753,7 +1763,7 @@ function updEnv(dt) {
 function inPlague(u, i, demons) {
   if (u.carried) return false;
   if (plague[i] && !tileSuppressed(i)) return true;
-  if (inPatch(u.x, u.y)) return true;
+  if (inPatch(u.x, u.y) && !(Loop5.D.PURIFIER_PATCH_IMMUNE && u.type === 'purifier')) return true;
   const tx = tileOf(u.x), ty = tileOf(u.y), R = Combat.D.demonAuraTiles;
   for (const d of demons || G.units.filter(d => d.type === 'demon' && !d.dead)) if (d !== u && Math.hypot(tileOf(d.x) - tx, tileOf(d.y) - ty) <= R) return true;
   return false;

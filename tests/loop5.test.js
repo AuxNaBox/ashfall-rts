@@ -152,7 +152,7 @@ test('L5-6 self-seal warning appears and placement is still allowed', () => {
   assert.ok(b && !b.dead);
 });
 
-test('L5-7 Rocket Tower minimum range: 1.5 tiles not targeted, 2.5 is', () => {
+test('L5-7 Rocket Tower minimum range: 1.5 tiles not targeted, 2.5 is; heavies are hittable at any range', () => {
   boot(7);
   const tw = R.makeBld('rockettower', 0, 20, 20);
   const close = R.makeUnit('zombie', 1, tw.x, tw.y + 1.5 * TILE);
@@ -161,12 +161,16 @@ test('L5-7 Rocket Tower minimum range: 1.5 tiles not targeted, 2.5 is', () => {
   // only the 2.5-tile unit should be considered
   assert.notEqual(tClose, close, 'unit at 1.5 tiles is inside min range and is not targeted');
   assert.equal(tClose, mid, 'unit at 2.5 tiles is targeted');
+  // §15: heavies (Hellbrute) can be hit inside the 2-tile blind spot
+  close.dead = true; mid.dead = true;
+  const brute = R.makeUnit('brute', 1, tw.x, tw.y + 1.5 * TILE);
+  assert.equal(R.findEnemy(tw, 7.5 * TILE, 0), brute, 'a Hellbrute at 1.5 tiles is targeted');
 });
 
 test('L5-8 Artillery lands on the fire-time tile, misses a unit that moved, does not fire while moving', () => {
   boot(8);
   const art = R.makeUnit('artillery', 0, at(20, 20).x, at(20, 20).y);
-  const dummy = R.makeUnit('zombie', 1, at(20, 25).x, at(20, 25).y); // 5 tiles: in sight, so the artillery itself spots
+  const dummy = R.makeUnit('zombie', 1, at(20, 26).x, at(20, 26).y); // 6 tiles: outside the §15 min range of 5, still in sight
   dummy.scan = 1e9; dummy.order = 'idle';
   art.target = dummy; art.tmode = 'forced'; art.order = 'attack'; art.cd = 0; art.moving = false; art.path = null;
   // fire once
@@ -433,20 +437,21 @@ R.makeBld('factory', 0, 32, 30); // 3x3 between 30,30 and 36,30? dest 36 is 6 ti
   assert.ok(sh.leaping);
 });
 
-test('L5-17 Demo Squad: structures only, 1.5 s arm, dud if killed, 450/50 blast, no friendly fire, limit 6', () => {
+test('L5-17 Demo Squad: structures only, 2.5 s arm, dud if killed, 450/50 blast, no friendly fire, limit 6', () => {
   boot(17);
   const d = R.makeUnit('demo', 0, at(20, 20).x, at(20, 20).y);
   const z = R.makeUnit('zombie', 1, at(20, 22).x, at(20, 22).y);
   assert.equal(R.canAttack(d, z), false, 'does not target units');
   const wall = R.makeBld('wall', 1, 20, 21);
   assert.equal(R.canAttack(d, wall), true);
-  // arm 1.5 s then 450 to the wall (400 HP) — it dies
+  // arm 2.5 s then 450 to the wall (400 HP) — it dies
   d.target = wall; d.tmode = 'forced'; d.order = 'attack'; d.path = null; d.moving = false;
   for (let i = 0; i < 10 && !d.arming; i++) R.step(1 / 30);
   assert.ok(d.arming, 'starts arming next to the wall');
   const t0 = G.time;
-  while (d.arming && !d.dead && G.time - t0 < 2) R.step(1 / 30);
-  assert.ok(d.dead && d.exploded, 'explodes after 1.5 s');
+  while (d.arming && !d.dead && G.time - t0 < 3) R.step(1 / 30);
+  assert.ok(d.dead && d.exploded, 'explodes after 2.5 s');
+  assert.ok(G.time - t0 >= 2.4 && G.time - t0 <= 2.7, 'arm duration ~2.5 s, got ' + (G.time - t0));
   assert.ok(wall.dead, '450 flat kills a 400 HP wall');
   // dud: killed while arming
   const d2 = R.makeUnit('demo', 0, at(30, 20).x, at(30, 20).y);
@@ -491,6 +496,48 @@ test('L5-18 Bloater: same charge rules, dud death leaves an 8 s 1-tile plague pa
   assert.ok(p.length >= 1, 'bloater dud leaves a patch');
   const dur = p[p.length - 1].until - p[p.length - 1].born;
   assert.ok(Math.abs(dur - 8) < 0.05, 'patch lasts 8 s, got ' + dur);
+});
+
+
+test('L5 §15 tower pairs have identical stats', () => {
+  boot(21);
+  const keys = ['hp', 'dmg', 'rof', 'range', 'splash', 'sight', 'power', 'minRange', 'travel'];
+  const flame0 = R.makeBld('flametower', 0, 10, 10), flame1 = R.makeBld('flametower', 1, 14, 10);
+  for (const k of keys) assert.equal(flame0.d[k], flame1.d[k], 'flametower ' + k);
+  assert.equal(flame0.maxhp, flame1.maxhp);
+  const r0 = R.makeBld('rockettower', 0, 10, 14), r1 = R.makeBld('rockettower', 1, 14, 14);
+  for (const k of keys) assert.equal(r0.d[k], r1.d[k], 'rockettower ' + k);
+  assert.equal(r0.maxhp, r1.maxhp);
+  assert.equal(r0.d.minRange, R.Loop5.D.ROCKETTOWER_MIN_RANGE);
+});
+
+test('L5 §15 HQ takes half demo damage; Purifier is immune to patch DPS but not to a Sprayer shot', () => {
+  boot(22);
+  const hq = R.makeBld('hq', 1, 20, 20);
+  const hp0 = hq.hp;
+  const d = R.makeUnit('demo', 0, hq.x, hq.y);
+  R.boomDemo(d);
+  const took = hp0 - hq.hp;
+  assert.equal(took, R.Loop5.D.DEMO_DMG * R.Loop5.D.DEMO_HQ_MULT, 'HQ takes 50% demo damage, took ' + took);
+  // patch immunity
+  const pur = R.makeUnit('purifier', 0, at(40, 20).x, at(40, 20).y);
+  const tank = R.makeUnit('ark', 0, at(41, 20).x, at(41, 20).y);
+  R.addPatch(pur.x, pur.y, 1, 8, 1);
+  const php0 = pur.hp, thp0 = tank.hp;
+  for (let i = 0; i < 30 * 4; i++) R.step(1 / 30);
+  assert.equal(pur.hp, php0, 'Purifier takes no plague patch damage');
+  assert.ok(tank.hp < thp0, 'a Tank on the same patch is damaged');
+  // direct Sprayer hit still lands
+  const sp = R.makeUnit('sprayer', 1, at(40, 22).x, at(40, 22).y);
+  const before = pur.hp;
+  R.damage = R.damage; // keep
+  // fire via damage path used by sprayer weapon
+  const Combat = R.Combat;
+  const raw = R.dmgOf(sp);
+  // use the unit fire by giving it the purifier as a target at range
+  sp.target = pur; sp.tmode = 'forced'; sp.order = 'attack'; sp.cd = 0; sp.moving = false; sp.path = null;
+  for (let i = 0; i < 30 && pur.hp === before; i++) R.step(1 / 30);
+  assert.ok(pur.hp < before, 'direct Sprayer hits still damage the Purifier, hp ' + pur.hp);
 });
 
 test('L5 leap key: mixed selection leaps only leapers; no selection switches tabs; tooltip shown', () => {

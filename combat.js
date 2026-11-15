@@ -41,10 +41,10 @@
     // Loop 5 §6 vehicles and §13 Spitter. Q1 (a): Purifier Survivors, Sprayer Horde.
     apc: { armor: 'heavy', dmgType: 'bullet', cost: 700, time: 10, hp: 600, dmg: 8, rof: 0.5, range: 4, speed: 2.0, sight: 7 },
     crawler: { armor: 'heavy', dmgType: 'claw', cost: 700, time: 10, hp: 650, dmg: 14, rof: 1.0, range: 0.8, speed: 1.9, sight: 6 },
-    artillery: { armor: 'heavy', dmgType: 'shell', splash: 1.5, cost: 1100, time: 16, hp: 300, dmg: 110, rof: 4.0, range: 11, minRange: 3, speed: 0.9, sight: 6 },
-    catapult: { armor: 'heavy', dmgType: 'shell', splash: 1.5, cost: 1100, time: 16, hp: 320, dmg: 95, rof: 4.0, range: 11, minRange: 3, speed: 0.9, sight: 6 },
+    artillery: { armor: 'heavy', dmgType: 'shell', splash: 1.5, cost: 1100, time: 16, hp: 300, dmg: 110, rof: 4.0, range: 11, minRange: 5, speed: 0.9, sight: 6 },
+    catapult: { armor: 'heavy', dmgType: 'shell', splash: 1.5, cost: 1100, time: 16, hp: 320, dmg: 95, rof: 4.0, range: 11, minRange: 5, speed: 0.9, sight: 6 },
     purifier: { armor: 'heavy', dmgType: 'fire', splash: 1.0, cost: 1000, time: 14, hp: 550, dmg: 22, rof: 1.0, range: 3.5, speed: 1.4, sight: 6 },
-    sprayer: { armor: 'heavy', dmgType: 'plague', splash: 1.0, cost: 1000, time: 14, hp: 550, dmg: 25, rof: 1.0, range: 3, speed: 1.4, sight: 6 },
+    sprayer: { armor: 'heavy', dmgType: 'plague', splash: 1.0, cost: 1000, time: 14, hp: 550, dmg: 22, rof: 1.0, range: 3, speed: 1.4, sight: 6 },
     spitter: { armor: 'light', dmgType: 'acid', cost: 300, time: 8, hp: 160, dmg: 55, rof: 1.8, range: 5.5, speed: 1.5, sight: 6 },
     shock: { armor: 'light', dmgType: 'bullet', cost: 350, time: 9, hp: 160, dmg: 9, rof: 0.4, range: 3, speed: 2.0, sight: 6 },
     leaper: { armor: 'light', dmgType: 'claw', cost: 300, time: 8, hp: 150, dmg: 18, rof: 0.8, range: 0.8, speed: 2.2, sight: 6 },
