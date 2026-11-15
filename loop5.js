@@ -65,6 +65,7 @@
     ARTILLERY_DMG: { v: 110, src: 'L5 §6' },
     CATAPULT_DMG: { v: 95, src: 'L5 §6' },
     CATAPULT_HQ_FLOOR_S: { v: 720, src: 'Hard only: Corpse Catapults skip the player HQ until 12:00' },
+    CRAWLER_RAID_AFTER_WAVE: { v: 4, src: 'Hard only: Crawlers may load but cannot leave on a raid until wave 4 has been sent' },
     // transport (L5 §6)
     CARGO_CAP: { v: 5, src: 'L5 §6' },
     LOAD_TILES: { v: 1.0, src: 'L5 §6 (walk to it and enter)' },
