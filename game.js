@@ -2159,8 +2159,7 @@ function updAI(dt) {
       const tgt = grp || nearestPlayerTarget(cx, cy);
             // L5 §13: add Spitters on top of the existing wave (not instead of the Hellbrute bonus)
       if (isDone(1, 'acid') && G.time >= (G.diff.spitterFrom || 0)) {
-        const heavy = aiSeenCount(['ark', 'apc', 'artillery', 'purifier'], 30);
-        const want = Math.min(G.diff.spitterCap || 0, Math.floor(heavy * (G.diff.spitterPerHeavy || 0)));
+        const want = spitterWant();
         const extra = G.units.filter(u => u.side === 1 && u.type === 'spitter' && !u.dead && !u.carried && !send.includes(u)).slice(0, want);
         send.push(...extra);
       }
@@ -2262,10 +2261,9 @@ function updAI_L5() {
     const sp = cap.sprayer;
     if (sp && G.time >= (sp.from || 0) && aliveQ('sprayer') < sp.cap && prereqOk(1, 'sprayer') && canAiAfford('sprayer')) queueItem(1, 'sprayer');
   }
-  // spitters: train toward the wave cap once Acid Glands is done
+  // spitters: baseline after Acid Glands, plus the heavy trigger up to the §13 cap
   if (hasBld(1, 'barracks') && isDone(1, 'acid') && G.time >= (G.diff.spitterFrom || 0) && Q.infantry.list.length < 2) {
-    const heavy = aiSeenCount(['ark', 'apc', 'artillery', 'purifier'], 30);
-    const want = Math.min(G.diff.spitterCap || 0, Math.floor(heavy * (G.diff.spitterPerHeavy || 0) + 1e-9) || (heavy > 0 ? Math.max(1, Math.floor(heavy * (G.diff.spitterPerHeavy || 0))) : 0));
+    const want = spitterWant();
     if (aliveQ('spitter') < want && canAiAfford('spitter') && prereqOk(1, 'spitter')) queueItem(1, 'spitter');
   }
   // crawler raid: load 5 zombies, march to nearest player yard or truck
@@ -2317,9 +2315,9 @@ function updAI_L5() {
 
   // L5 §14: Ghoul Leapers (after Bone Forge, once player walls or Artillery are seen) and Bloaters
   const lep = cap.leaper;
-  if (lep && hasBld(1, 'forge') && (countBld(0, 'wall') + countBld(0, 'gate') > 0 || aiSeenCount(['artillery'], 30) > 0) && Q.infantry.list.length < 2) {
-    const want = lep.perWave || 0;
-    if (aliveQ('leaper') < want && prereqOk(1, 'leaper') && canAiAfford('leaper')) queueItem(1, 'leaper');
+  if (hasBld(1, 'forge') && Q.infantry.list.length < 2) {
+    const want = leaperWant();
+    if (want > 0 && aliveQ('leaper') < want && prereqOk(1, 'leaper') && canAiAfford('leaper')) queueItem(1, 'leaper');
   }
   const bl = cap.bloater;
   if (bl && G.time >= (bl.from || 0) && Q.infantry.list.length < 2) {
@@ -2363,7 +2361,7 @@ function updAI_L5() {
       if (extra.length && A.lastWave[0]) issueMove(extra, A.lastWave[0].x, A.lastWave[0].y, true);
       A.lastWave.push(...extra);
     };
-    if (lep) add('leaper', lep.perWave || 0);
+    if (lep || leaperWant() > 0) add('leaper', leaperWant());
     if (bl && G.time >= (bl.from || 0)) add('bloater', Math.max(0, (Loop5.D.BLOATER_PER_WAVE ?? 2) - A.lastWave.filter(u => u.type === 'bloater').length));
   }
 
