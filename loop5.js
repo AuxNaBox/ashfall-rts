@@ -140,14 +140,24 @@
     BLOATER_HP: { v: 120, src: 'L5 §14' },
     BLOATER_COST: { v: 250, src: 'L5 §14' },
     BLOATER_TIME: { v: 7, src: 'L5 §14' },
-    // decal layer (engine; atlas-agnostic until Artie's HANDOFF)
-    DECAL_CAP: { v: 400, src: 'L5 engine (existing cap kept)' },
-    DECAL_FADE_SCORCH: { v: 30, src: 'L5 engine visual' },
+    // decal layer (visual; Artie 2-art-notes §4.9 + style guide). Does not touch the sim.
+    DECAL_CAP: { v: 400, src: 'L5 engine (existing G.decals cap kept)' },
+    DECAL_FADE_SCORCH: { v: 20, src: 'L5 art-notes / style guide explosion scorch ~20 s' },
     DECAL_FADE_BLOOD: { v: 20, src: 'L5 engine visual' },
-    DECAL_FADE_TRACK: { v: 8, src: 'L5 engine visual' },
-    // damage-state hooks (atlas-agnostic)
-    DMG_STATE_DAMAGED: { v: 0.66, src: 'L5 engine hook' },
-    DMG_STATE_CRITICAL: { v: 0.33, src: 'L5 engine hook' },
+    DECAL_FADE_TRACK: { v: 8, src: 'L5 engine visual / art-notes track B' },
+    DECAL_FADE_CRATER: { v: 20, src: 'L5 art-notes siege crater fades like scorch' },
+    TREAD_STEP_PX: { v: 20, src: 'L5 art-notes tread_mark ~20×8; spacing follows heading' },
+    TREAD_CAP: { v: 160, src: 'L5 visual pool cap' },
+    CRATER_CAP: { v: 80, src: 'L5 visual pool cap' },
+    SCORCH_CAP: { v: 80, src: 'L5 visual pool cap' },
+    DUST_CAP: { v: 80, src: 'L5 visual pool cap' },
+    DMG_FX_CAP: { v: 80, src: 'L5 visual fire/smoke/drip/ooze pool cap' },
+    SHADOW_ALPHA: { v: 0.30, src: 'style guide: 30% black ellipse, +3,+3' },
+    SHADOW_DX: { v: 3, src: 'style guide / art-notes manifest shadow +3,+3' },
+    SHADOW_DY: { v: 3, src: 'style guide / art-notes manifest shadow +3,+3' },
+    // damage-state hooks (Don art overhaul / style guide / unitart DAMAGED_BELOW)
+    DMG_STATE_DAMAGED: { v: 0.50, src: 'L5 art overhaul: stronger damaged state below 50% HP' },
+    DMG_STATE_CRITICAL: { v: 0.25, src: 'L5 art overhaul: critical state at 25% HP' },
   };
   const D = {}; for (const k in TABLE) D[k] = TABLE[k].v;
 

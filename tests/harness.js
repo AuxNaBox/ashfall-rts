@@ -3,7 +3,7 @@
 'use strict';
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const ROOT = path.join(__dirname, '..');
-const SRC = ['salvage.js', 'combat.js', 'loop5.js', 'game.js'].map(f => fs.readFileSync(path.join(ROOT, f), 'utf8')).join('\n;\n');
+const SRC = ['salvage.js', 'combat.js', 'loop5.js', 'loop5-fx.js', 'game.js'].map(f => fs.readFileSync(path.join(ROOT, f), 'utf8')).join('\n;\n');
 
 function stub() { // callable, chainable, numeric-0 object
   const f = function () { return p; };

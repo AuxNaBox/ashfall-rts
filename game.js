@@ -838,8 +838,12 @@ function placeWallLine(side, tiles) {
 function setDmgState(b) {
   if (!b || b.kind !== 'b') return;
   const f = b.hp / b.maxhp;
-  const next = f < Loop5.D.DMG_STATE_CRITICAL ? 2 : (f <= Loop5.D.DMG_STATE_DAMAGED ? 1 : 0);
+  const next = (Loop5.dmgStateOf ? Loop5.dmgStateOf(b.hp, b.maxhp) : (f <= Loop5.D.DMG_STATE_CRITICAL ? 2 : (f < Loop5.D.DMG_STATE_DAMAGED ? 1 : 0)));
   if (next !== b.dmgState) { const prev = b.dmgState; b.dmgState = next; if (Loop5.onDamageState) Loop5.onDamageState(b, prev, next); }
+}
+function callFX(name) {
+  const F = Loop5.FX && Loop5.FX[name];
+  if (typeof F === 'function') { const a = arguments; const rest = []; for (let i = 1; i < a.length; i++) rest.push(a[i]); F.apply(Loop5.FX, rest); }
 }
 function toggleGateLock(b) {
   const gates = b ? [b] : (G.sel || []).filter(e => e.kind === 'b' && e.type === 'gate' && e.side === 0 && !e.dead);
@@ -1296,6 +1300,7 @@ function projImpact(p) {
   if (p.acid) G.fx.push({ k: 'smoke', x: ix, y: iy, t: 0, dur: 0.45, s: 0.5 });
   G.fx.push({ k: 'boom', x: p.tx, y: p.ty, r: p.big ? 30 : p.w === 'shell' ? 16 : (p.acid ? 8 : 9), c: p.acid ? '#7dff6a' : (p.bolt ? '#ffb040' : '#ff8a30'), t: 0, dur: 0.35 });
   if (p.w === 'shell') sfx('boom', p.tx, p.ty);
+  callFX('onImpact', p, G.time);
 }
 function areaDamage(x, y, r, dmg, src, w) {
   const side = src && src.side;
@@ -1342,6 +1347,7 @@ function kill(t, src, w) {
     if (t.d.harv && t.load > 0) dropCargo(t);
     // L4: bodies killed by fire are marked burned (burn decal) and never rise; holy (Templar) kills never rise either
     if (w === 'fire') { t.burned = true; const bs = burnScaleOf(t); G.decals.push({ k: 'burn', x: t.x, y: t.y, s: bs, r: bs === 2 ? 16 : 7, a: simRand() * 6, t: 0, born: G.time }); G.stats.burned = (G.stats.burned || 0) + 1; }
+    callFX('onKill', t, w, G.time);
     if (w === 'holy') t.hallowed = true;
     const eligible = Combat.riseEligible(t.type, t.side, w) && !t.burned && !t.hallowed;
     if (eligible && Combat.noRiseBy(doneOf(t.side), t.type)) {
@@ -1365,6 +1371,7 @@ function kill(t, src, w) {
     for (let k = 0; k < 6; k++) G.fx.push({ k: 'boom', x: t.tx * TILE + simRand() * t.w * TILE, y: t.ty * TILE + simRand() * t.h * TILE, r: 22 + simRand() * 18, c: '#ffa040', t: -k * 0.08, dur: 0.7 });
     G.decals.push({ k: 'scorch', x: t.x, y: t.y, r: t.w * 20, t: 0 });
     G.decals.push({ k: 'ruin', x: t.tx * TILE, y: t.ty * TILE, w: t.w, h: t.h, t: 0, type: t.type, side: t.side, tx: t.tx, ty: t.ty });   // loop 4: art {id}-destroyed while it lives
+    callFX('onKill', t, w, G.time);
     sfx('boom', t.x, t.y); shake(6);
     if (t.side === 0) msg(`${ename(t)} destroyed!`, '#ff6a3d', t.x, t.y);
     else msg(`Enemy ${ename(t)} destroyed.`, '#DDF6FF');
@@ -1699,6 +1706,7 @@ function placeBld(side, type, tx, ty, rot) {
     if (REMOTE_SETUP_S > 0) { b.setup = true; b.setupT0 = G.time; b.hp = b.maxhp * REMOTE_SETUP_HP0; } // R2 deploy
     if (side === 0) { msg(REMOTE_SETUP_S > 0 ? 'Scrap Yard deploying.' : 'Scrap Yard online.', '#DDF6FF', b.x, b.y); ping(b.x, b.y, '#6FA8FF'); }
   }
+  callFX('onPlaced', b, G.time);
   return b;
 }
 
@@ -1728,6 +1736,7 @@ function nukeExplode(x, y, side) {
   for (const b of G.blds) if (!b.dead) { const d = edgeDist(x, y, b); if (d < R) damage(b, 1400 * (1 - 0.5 * d / R), src, 'nuke'); }
   G.rad.push({ x, y, r: R * 1.15, t: 45, max: 45, side });
   G.decals.push({ k: 'scorch', x, y, r: R * 1.1, t: 0 });
+  callFX('addCrater', x, y, { large: true, r: R * 0.45, born: G.time });
   G.fx.push({ k: 'nuke', x, y, r: R, c: side ? '#ff4a1a' : '#fff6c8', t: 0, dur: 2.5 });
   G.flash = { t: 0, c: side ? '255,80,30' : '255,250,220' };
   shake(18); sfx('nuke');
@@ -2714,6 +2723,7 @@ function render() {
     else if (d.k === 'blood') { ctx.fillStyle = d.c; ctx.globalAlpha = 0.6; ell(ctx, d.x, d.y, 5, 3); ctx.globalAlpha = 1; }
     else if (d.k === 'ruin') { if (!bgrid[d.y / TILE * MW + d.x / TILE] && !(d.type && typeof UnitArt !== 'undefined' && UnitArt.drawBuildingDestroyed(ctx, d))) { ctx.fillStyle = 'rgba(40,34,30,0.7)'; for (let k = 0; k < d.w * d.h * 2; k++) ctx.fillRect(d.x + hash(k + d.x) * d.w * TILE, d.y + hash(k * 3 + d.y) * d.h * TILE, 6, 4); } }
   }
+  if (Loop5.FX) { Loop5.FX.tick(G, { time: G.time, dt: 1 / 15 }); Loop5.FX.drawDecals(ctx, G.time); }
   drawResources(ctx, x0, y0, x1, y1);
   drawGroundL4(ctx, G.blds.filter(b => !b.dead && onScreen(b.x, b.y, 300) && (b.side === 0 || isVisible(b))));
   // plague & radiation
@@ -2743,6 +2753,15 @@ function render() {
     ctx.beginPath(); ctx.ellipse(e.x, e.y + 2, e.r + 3, (e.r + 3) * 0.7, 0, 0, 7); ctx.stroke();
   }
   const vu = G.units.filter(u => !u.dead && onScreen(u.x, u.y, 40) && (u.side === 0 || vis[tileOf(u.y) * MW + tileOf(u.x)]));
+  // Loop 5 contact shadows: procedural ground units/buildings, and an offset ground blob for air units
+  if (Loop5.FX) {
+    for (const b of vb) if (!plans.get(b)) Loop5.FX.drawContactShadow(ctx, b);
+    for (const u of vu) {
+      if (u.d.fly) Loop5.FX.drawContactShadow(ctx, u);
+      else if (typeof UnitArt === 'undefined' || !UnitArt.unitFrame(u)) Loop5.FX.drawContactShadow(ctx, u);
+    }
+    Loop5.FX.drawDust(ctx);
+  }
   const ysort = [];
   for (const b of vb) { const k = (b.ty + b.h) * TILE; ysort.push({ k, b, o: 0 }); const P = plans.get(b); if (P && P.sel.top) ysort.push({ k, b, o: 1 }); }
   for (const u of vu) if (!u.d.fly) ysort.push({ k: u.y, u, o: 0 });
@@ -2763,6 +2782,7 @@ function render() {
     bldArtOverlay(ctx, b, P);
   }
   for (const u of vu.filter(u => u.d.fly).sort((a, b) => a.y - b.y)) drawUnit(ctx, u);
+  if (Loop5.FX) Loop5.FX.drawDmgFx(ctx);
   // building selection boxes on top of the sprites
   for (const e of G.sel) if (!e.dead && e.kind === 'b') { ctx.strokeStyle = e.side === 0 ? '#6CFF6C' : '#FF5A5A'; ctx.lineWidth = 1.5; ctx.strokeRect(e.tx * TILE - 1, e.ty * TILE - 1, e.w * TILE + 2, e.h * TILE + 2); }
   for (const p of G.proj) {
@@ -3456,7 +3476,8 @@ showPanel('startPanel');
 if (typeof UnitArt !== 'undefined') {
   const q = new URLSearchParams(location.search), team = {};
   if (q.get('team0')) team[0] = q.get('team0'); if (q.get('team1')) team[1] = q.get('team1');
-  if (q.get('unitart') !== 'off') UnitArt.load({ team, baked: q.get('unitart') === 'baked' }).then(() => { rebakeArt(); setTimeout(rebakeArt, 1500); }, rebakeArt); // re-bake the cameos from the atlases (again after a baked-atlas fallback)
+  if (q.get('unitart') !== 'off') UnitArt.load({ team, baked: q.get('unitart') === 'baked', art5: q.get('art5') !== 'off' }).then(() => { rebakeArt(); setTimeout(rebakeArt, 1500); }, rebakeArt); // re-bake the cameos from the atlases (again after a baked-atlas fallback)
+  if (Loop5.FX && q.get('art5') === 'off') Loop5.FX.setArt5(false);
   else artDone = true;
 }
 // env art pass 1: ?envart=off keeps the procedural ground (nothing fetched); atlas failure -> same fallback, one warning
@@ -3473,4 +3494,4 @@ if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(locati
   } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { AI_RUSH_DEFENSE, AI_FIRST_NUKE_MIN, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, canAttack, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX, Loop5, sellBld, cutOffWarning, pathExists, placeWallLine, wallTilesFromDrag, wallCount, tryBreach, addPatch, cleanseAt, inPatch, loadUnit, canLoadUnit, ejectCargo, startUnload, finishUnload, orderLoad, allySees, DIFF, canLeap, startLeap, shouldAutoLeap, autoLeapTo, beginLeapCommand, issueLeapAt, boomDemo, startArm, untargetable, showTab, get sbTab() { return sbTab; } };
+window.RTS = { AI_RUSH_DEFENSE, AI_FIRST_NUKE_MIN, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, canAttack, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, setDmgState, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX, Loop5, sellBld, cutOffWarning, pathExists, placeWallLine, wallTilesFromDrag, wallCount, tryBreach, addPatch, cleanseAt, inPatch, loadUnit, canLoadUnit, ejectCargo, startUnload, finishUnload, orderLoad, allySees, DIFF, canLeap, startLeap, shouldAutoLeap, autoLeapTo, beginLeapCommand, issueLeapAt, boomDemo, startArm, untargetable, showTab, get sbTab() { return sbTab; } };
