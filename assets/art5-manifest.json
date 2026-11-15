@@ -1,10 +1,10 @@
 {
   "comment": "Loop 5 atlas catalog (Artie 2-art-notes.md §4.1). Set shipped:true and drop the PNG/JSON under assets/ to load a sheet without a code change. Missing or unshipped sheets fall back to procedural drawing. ?art5=off skips this catalog.",
   "atlases": [
-    { "id": "survivors-l5", "dir": "units/", "json": "survivors-l5-atlas.json", "kind": "units", "shipped": false },
-    { "id": "horde-l5", "dir": "units/", "json": "horde-l5-atlas.json", "kind": "units", "shipped": false },
-    { "id": "bld:survivors-l5", "dir": "buildings/", "json": "survivors-l5-atlas.json", "kind": "buildings", "shipped": false },
-    { "id": "bld:horde-l5", "dir": "buildings/", "json": "horde-l5-atlas.json", "kind": "buildings", "shipped": false },
-    { "id": "fx:l5", "dir": "units/", "json": "loop5-fx-atlas.json", "kind": "fx", "shipped": false }
+    { "id": "survivors-l5", "dir": "units/", "json": "survivors-l5-atlas.json", "kind": "units", "shipped": true },
+    { "id": "horde-l5", "dir": "units/", "json": "horde-l5-atlas.json", "kind": "units", "shipped": true },
+    { "id": "bld:survivors-l5", "dir": "buildings/", "json": "survivors-l5-atlas.json", "kind": "buildings", "shipped": true },
+    { "id": "bld:horde-l5", "dir": "buildings/", "json": "horde-l5-atlas.json", "kind": "buildings", "shipped": true },
+    { "id": "fx:l5", "dir": "units/", "json": "loop5-fx-atlas.json", "kind": "fx", "shipped": true }
   ]
 }

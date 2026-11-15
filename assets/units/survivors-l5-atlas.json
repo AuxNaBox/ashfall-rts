@@ -1,0 +1,8547 @@
+{
+ "_doc": "Ashfall survivors-l5 unit atlas v2 (polish pass; v1 kept as *-atlas-v1.*). rect = [x,y,w,h] in the atlas. anchor = draw origin inside the rect: ground point (bottom-centre of the body) for infantry/creatures, rotation pivot (body centre) for vehicles and the turret. Draw the sprite at (unitX - anchor[0], unitY - anchor[1]). facing: E/S/N/W for infantry+creatures (W = E mirrored), heading in degrees for vehicles (0 = east, +90 = south, i.e. clockwise on screen). turret_mount (hull frames) = where the turret pivot goes, relative to the rect. shadow: ellipse the engine draws first, centre relative to the anchor, 30% black; vehicle shadows should be rotated to the heading. Frames carry no baked shadow.",
+ "image": "survivors-l5-atlas.png",
+ "size": [
+  512,
+  1024
+ ],
+ "default_team": "blue",
+ "teams": [
+  "blue",
+  "red"
+ ],
+ "frames": [
+  {
+   "name": "apc_hull-idle-r0000-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "blue",
+   "rect": [
+    333,
+    406,
+    54,
+    31
+   ],
+   "anchor": [
+    26.88,
+    15.5
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    31.26,
+    9.07
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r0000-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "red",
+   "rect": [
+    389,
+    406,
+    54,
+    31
+   ],
+   "anchor": [
+    26.88,
+    15.5
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    31.26,
+    9.07
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r0225-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "blue",
+   "rect": [
+    234,
+    272,
+    56,
+    43
+   ],
+   "anchor": [
+    27.17,
+    22.27
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    33.71,
+    17.94
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r0225-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "red",
+   "rect": [
+    292,
+    272,
+    56,
+    43
+   ],
+   "anchor": [
+    27.17,
+    22.27
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    33.71,
+    17.94
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r0450-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "blue",
+   "rect": [
+    2,
+    116,
+    51,
+    51
+   ],
+   "anchor": [
+    24.62,
+    26.32
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    32.26,
+    24.83
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r0450-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "red",
+   "rect": [
+    55,
+    116,
+    51,
+    51
+   ],
+   "anchor": [
+    24.62,
+    26.32
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    32.26,
+    24.83
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r0675-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "blue",
+   "rect": [
+    182,
+    2,
+    42,
+    56
+   ],
+   "anchor": [
+    21.12,
+    28.42
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    28.71,
+    29.99
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r0675-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "red",
+   "rect": [
+    226,
+    2,
+    42,
+    56
+   ],
+   "anchor": [
+    21.12,
+    28.42
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    28.71,
+    29.99
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r0900-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "blue",
+   "rect": [
+    218,
+    60,
+    31,
+    54
+   ],
+   "anchor": [
+    15.5,
+    26.88
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    21.93,
+    31.26
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r0900-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "red",
+   "rect": [
+    251,
+    60,
+    31,
+    54
+   ],
+   "anchor": [
+    15.5,
+    26.88
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    21.93,
+    31.26
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r1125-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "blue",
+   "rect": [
+    2,
+    2,
+    43,
+    56
+   ],
+   "anchor": [
+    20.73,
+    27.17
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    25.06,
+    33.71
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r1125-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "red",
+   "rect": [
+    47,
+    2,
+    43,
+    56
+   ],
+   "anchor": [
+    20.73,
+    27.17
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    25.06,
+    33.71
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r1350-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "blue",
+   "rect": [
+    108,
+    116,
+    51,
+    51
+   ],
+   "anchor": [
+    24.68,
+    24.62
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    26.17,
+    32.26
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r1350-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "red",
+   "rect": [
+    161,
+    116,
+    51,
+    51
+   ],
+   "anchor": [
+    24.68,
+    24.62
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    26.17,
+    32.26
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r1575-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "blue",
+   "rect": [
+    2,
+    319,
+    56,
+    42
+   ],
+   "anchor": [
+    27.58,
+    21.12
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    26.01,
+    28.71
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r1575-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "red",
+   "rect": [
+    60,
+    319,
+    56,
+    42
+   ],
+   "anchor": [
+    27.58,
+    21.12
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    26.01,
+    28.71
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r1800-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "blue",
+   "rect": [
+    445,
+    406,
+    54,
+    31
+   ],
+   "anchor": [
+    27.12,
+    15.5
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    22.74,
+    21.93
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r1800-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "red",
+   "rect": [
+    2,
+    447,
+    54,
+    31
+   ],
+   "anchor": [
+    27.12,
+    15.5
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    22.74,
+    21.93
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r2025-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "blue",
+   "rect": [
+    350,
+    272,
+    56,
+    43
+   ],
+   "anchor": [
+    28.83,
+    20.73
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    22.29,
+    25.06
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r2025-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "red",
+   "rect": [
+    408,
+    272,
+    56,
+    43
+   ],
+   "anchor": [
+    28.83,
+    20.73
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    22.29,
+    25.06
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r2250-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "blue",
+   "rect": [
+    214,
+    116,
+    51,
+    51
+   ],
+   "anchor": [
+    26.38,
+    24.68
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    18.74,
+    26.17
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r2250-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "red",
+   "rect": [
+    267,
+    116,
+    51,
+    51
+   ],
+   "anchor": [
+    26.38,
+    24.68
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    18.74,
+    26.17
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r2475-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "blue",
+   "rect": [
+    270,
+    2,
+    42,
+    56
+   ],
+   "anchor": [
+    20.88,
+    27.58
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    13.29,
+    26.01
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r2475-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "red",
+   "rect": [
+    314,
+    2,
+    42,
+    56
+   ],
+   "anchor": [
+    20.88,
+    27.58
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    13.29,
+    26.01
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r2700-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "blue",
+   "rect": [
+    284,
+    60,
+    31,
+    54
+   ],
+   "anchor": [
+    15.5,
+    27.12
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    9.07,
+    22.74
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r2700-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "red",
+   "rect": [
+    317,
+    60,
+    31,
+    54
+   ],
+   "anchor": [
+    15.5,
+    27.12
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    9.07,
+    22.74
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r2925-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "blue",
+   "rect": [
+    92,
+    2,
+    43,
+    56
+   ],
+   "anchor": [
+    22.27,
+    28.83
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    17.94,
+    22.29
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r2925-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "red",
+   "rect": [
+    137,
+    2,
+    43,
+    56
+   ],
+   "anchor": [
+    22.27,
+    28.83
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    17.94,
+    22.29
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r3150-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "blue",
+   "rect": [
+    320,
+    116,
+    51,
+    51
+   ],
+   "anchor": [
+    26.32,
+    26.38
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    24.83,
+    18.74
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r3150-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "red",
+   "rect": [
+    373,
+    116,
+    51,
+    51
+   ],
+   "anchor": [
+    26.32,
+    26.38
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    24.83,
+    18.74
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r3375-blue",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "blue",
+   "rect": [
+    118,
+    319,
+    56,
+    42
+   ],
+   "anchor": [
+    28.42,
+    20.88
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    29.99,
+    13.29
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_hull-idle-r3375-red",
+   "unit": "apc_hull",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "red",
+   "rect": [
+    176,
+    319,
+    56,
+    42
+   ],
+   "anchor": [
+    28.42,
+    20.88
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.11823,
+   "turret_mount": [
+    29.99,
+    13.29
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "apc_turret-idle-r0000-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "blue",
+   "rect": [
+    146,
+    571,
+    23,
+    15
+   ],
+   "anchor": [
+    8.32,
+    7.5
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r0000-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "red",
+   "rect": [
+    171,
+    571,
+    23,
+    15
+   ],
+   "anchor": [
+    8.32,
+    7.5
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r0225-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "blue",
+   "rect": [
+    264,
+    551,
+    23,
+    16
+   ],
+   "anchor": [
+    8.65,
+    8.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r0225-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "red",
+   "rect": [
+    289,
+    551,
+    23,
+    16
+   ],
+   "anchor": [
+    8.65,
+    8.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r0450-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "blue",
+   "rect": [
+    436,
+    505,
+    20,
+    20
+   ],
+   "anchor": [
+    8.47,
+    8.56
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r0450-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "red",
+   "rect": [
+    458,
+    505,
+    20,
+    20
+   ],
+   "anchor": [
+    8.47,
+    8.56
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r0675-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "blue",
+   "rect": [
+    298,
+    480,
+    16,
+    22
+   ],
+   "anchor": [
+    7.98,
+    8.33
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r0675-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "red",
+   "rect": [
+    316,
+    480,
+    16,
+    22
+   ],
+   "anchor": [
+    7.98,
+    8.33
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r0900-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "blue",
+   "rect": [
+    74,
+    480,
+    15,
+    23
+   ],
+   "anchor": [
+    7.5,
+    8.32
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r0900-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "red",
+   "rect": [
+    91,
+    480,
+    15,
+    23
+   ],
+   "anchor": [
+    7.5,
+    8.32
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r1125-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "blue",
+   "rect": [
+    2,
+    480,
+    16,
+    23
+   ],
+   "anchor": [
+    8.0,
+    8.65
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r1125-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "red",
+   "rect": [
+    20,
+    480,
+    16,
+    23
+   ],
+   "anchor": [
+    8.0,
+    8.65
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r1350-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "blue",
+   "rect": [
+    480,
+    505,
+    20,
+    20
+   ],
+   "anchor": [
+    11.44,
+    8.47
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r1350-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "red",
+   "rect": [
+    2,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    11.44,
+    8.47
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r1575-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "blue",
+   "rect": [
+    364,
+    551,
+    22,
+    16
+   ],
+   "anchor": [
+    13.67,
+    7.98
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r1575-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "red",
+   "rect": [
+    388,
+    551,
+    22,
+    16
+   ],
+   "anchor": [
+    13.67,
+    7.98
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r1800-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "blue",
+   "rect": [
+    196,
+    571,
+    23,
+    15
+   ],
+   "anchor": [
+    14.68,
+    7.5
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r1800-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "red",
+   "rect": [
+    221,
+    571,
+    23,
+    15
+   ],
+   "anchor": [
+    14.68,
+    7.5
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r2025-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "blue",
+   "rect": [
+    314,
+    551,
+    23,
+    16
+   ],
+   "anchor": [
+    14.35,
+    8.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r2025-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "red",
+   "rect": [
+    339,
+    551,
+    23,
+    16
+   ],
+   "anchor": [
+    14.35,
+    8.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r2250-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "blue",
+   "rect": [
+    24,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    11.53,
+    11.44
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r2250-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "red",
+   "rect": [
+    46,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    11.53,
+    11.44
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r2475-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "blue",
+   "rect": [
+    334,
+    480,
+    16,
+    22
+   ],
+   "anchor": [
+    8.02,
+    13.67
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r2475-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "red",
+   "rect": [
+    352,
+    480,
+    16,
+    22
+   ],
+   "anchor": [
+    8.02,
+    13.67
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r2700-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "blue",
+   "rect": [
+    108,
+    480,
+    15,
+    23
+   ],
+   "anchor": [
+    7.5,
+    14.68
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r2700-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "red",
+   "rect": [
+    125,
+    480,
+    15,
+    23
+   ],
+   "anchor": [
+    7.5,
+    14.68
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r2925-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "blue",
+   "rect": [
+    38,
+    480,
+    16,
+    23
+   ],
+   "anchor": [
+    8.0,
+    14.35
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r2925-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "red",
+   "rect": [
+    56,
+    480,
+    16,
+    23
+   ],
+   "anchor": [
+    8.0,
+    14.35
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r3150-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "blue",
+   "rect": [
+    68,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    8.56,
+    11.53
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r3150-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "red",
+   "rect": [
+    90,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    8.56,
+    11.53
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r3375-blue",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "blue",
+   "rect": [
+    412,
+    551,
+    22,
+    16
+   ],
+   "anchor": [
+    8.33,
+    8.02
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "apc_turret-idle-r3375-red",
+   "unit": "apc_turret",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "red",
+   "rect": [
+    436,
+    551,
+    22,
+    16
+   ],
+   "anchor": [
+    8.33,
+    8.02
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04945,
+   "shadow": null
+  },
+  {
+   "name": "artillery_hull-idle-r0000-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "blue",
+   "rect": [
+    58,
+    447,
+    53,
+    30
+   ],
+   "anchor": [
+    26.43,
+    15.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    27.0,
+    12.32
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r0000-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "red",
+   "rect": [
+    113,
+    447,
+    53,
+    30
+   ],
+   "anchor": [
+    26.43,
+    15.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    27.0,
+    12.32
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r0225-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "blue",
+   "rect": [
+    2,
+    363,
+    54,
+    41
+   ],
+   "anchor": [
+    27.77,
+    21.43
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    29.3,
+    19.14
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r0225-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "red",
+   "rect": [
+    58,
+    363,
+    54,
+    41
+   ],
+   "anchor": [
+    27.77,
+    21.43
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    29.3,
+    19.14
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r0450-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "blue",
+   "rect": [
+    158,
+    169,
+    51,
+    50
+   ],
+   "anchor": [
+    26.07,
+    25.93
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    28.38,
+    24.42
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r0450-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "red",
+   "rect": [
+    211,
+    169,
+    51,
+    50
+   ],
+   "anchor": [
+    26.07,
+    25.93
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    28.38,
+    24.42
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r0675-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "blue",
+   "rect": [
+    358,
+    2,
+    42,
+    54
+   ],
+   "anchor": [
+    22.12,
+    27.64
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    24.78,
+    27.13
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r0675-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "red",
+   "rect": [
+    402,
+    2,
+    42,
+    54
+   ],
+   "anchor": [
+    22.12,
+    27.64
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    24.78,
+    27.13
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r0900-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "blue",
+   "rect": [
+    350,
+    60,
+    30,
+    53
+   ],
+   "anchor": [
+    15.0,
+    26.43
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    17.68,
+    27.0
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r0900-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "red",
+   "rect": [
+    382,
+    60,
+    30,
+    53
+   ],
+   "anchor": [
+    15.0,
+    26.43
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    17.68,
+    27.0
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r1125-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "blue",
+   "rect": [
+    46,
+    60,
+    41,
+    54
+   ],
+   "anchor": [
+    19.57,
+    27.77
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    21.86,
+    29.3
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r1125-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "red",
+   "rect": [
+    89,
+    60,
+    41,
+    54
+   ],
+   "anchor": [
+    19.57,
+    27.77
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    21.86,
+    29.3
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r1350-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "blue",
+   "rect": [
+    426,
+    116,
+    50,
+    51
+   ],
+   "anchor": [
+    24.07,
+    26.07
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    25.58,
+    28.38
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r1350-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "red",
+   "rect": [
+    2,
+    169,
+    50,
+    51
+   ],
+   "anchor": [
+    24.07,
+    26.07
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    25.58,
+    28.38
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r1575-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "blue",
+   "rect": [
+    234,
+    319,
+    54,
+    42
+   ],
+   "anchor": [
+    26.36,
+    22.12
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    26.87,
+    24.78
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r1575-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "red",
+   "rect": [
+    290,
+    319,
+    54,
+    42
+   ],
+   "anchor": [
+    26.36,
+    22.12
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    26.87,
+    24.78
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r1800-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "blue",
+   "rect": [
+    168,
+    447,
+    53,
+    30
+   ],
+   "anchor": [
+    26.57,
+    15.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    26.0,
+    17.68
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r1800-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "red",
+   "rect": [
+    223,
+    447,
+    53,
+    30
+   ],
+   "anchor": [
+    26.57,
+    15.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    26.0,
+    17.68
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r2025-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "blue",
+   "rect": [
+    114,
+    363,
+    54,
+    41
+   ],
+   "anchor": [
+    26.23,
+    19.57
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    24.7,
+    21.86
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r2025-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "red",
+   "rect": [
+    170,
+    363,
+    54,
+    41
+   ],
+   "anchor": [
+    26.23,
+    19.57
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    24.7,
+    21.86
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r2250-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "blue",
+   "rect": [
+    264,
+    169,
+    51,
+    50
+   ],
+   "anchor": [
+    24.93,
+    24.07
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    22.62,
+    25.58
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r2250-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "red",
+   "rect": [
+    317,
+    169,
+    51,
+    50
+   ],
+   "anchor": [
+    24.93,
+    24.07
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    22.62,
+    25.58
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r2475-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "blue",
+   "rect": [
+    446,
+    2,
+    42,
+    54
+   ],
+   "anchor": [
+    19.88,
+    26.36
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    17.22,
+    26.87
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r2475-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "red",
+   "rect": [
+    2,
+    60,
+    42,
+    54
+   ],
+   "anchor": [
+    19.88,
+    26.36
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    17.22,
+    26.87
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r2700-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "blue",
+   "rect": [
+    414,
+    60,
+    30,
+    53
+   ],
+   "anchor": [
+    15.0,
+    26.57
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    12.32,
+    26.0
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r2700-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "red",
+   "rect": [
+    446,
+    60,
+    30,
+    53
+   ],
+   "anchor": [
+    15.0,
+    26.57
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    12.32,
+    26.0
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r2925-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "blue",
+   "rect": [
+    132,
+    60,
+    41,
+    54
+   ],
+   "anchor": [
+    21.43,
+    26.23
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    19.14,
+    24.7
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r2925-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "red",
+   "rect": [
+    175,
+    60,
+    41,
+    54
+   ],
+   "anchor": [
+    21.43,
+    26.23
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    19.14,
+    24.7
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r3150-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "blue",
+   "rect": [
+    54,
+    169,
+    50,
+    51
+   ],
+   "anchor": [
+    25.93,
+    24.93
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    24.42,
+    22.62
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r3150-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "red",
+   "rect": [
+    106,
+    169,
+    50,
+    51
+   ],
+   "anchor": [
+    25.93,
+    24.93
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    24.42,
+    22.62
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r3375-blue",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "blue",
+   "rect": [
+    346,
+    319,
+    54,
+    42
+   ],
+   "anchor": [
+    27.64,
+    19.88
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    27.13,
+    17.22
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_hull-idle-r3375-red",
+   "unit": "artillery_hull",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "red",
+   "rect": [
+    402,
+    319,
+    54,
+    42
+   ],
+   "anchor": [
+    27.64,
+    19.88
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.14118,
+   "turret_mount": [
+    27.13,
+    17.22
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "artillery_turret-idle-r0000-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "blue",
+   "rect": [
+    246,
+    571,
+    23,
+    14
+   ],
+   "anchor": [
+    7.75,
+    7.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r0000-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "red",
+   "rect": [
+    271,
+    571,
+    23,
+    14
+   ],
+   "anchor": [
+    7.75,
+    7.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r0225-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "blue",
+   "rect": [
+    460,
+    551,
+    22,
+    16
+   ],
+   "anchor": [
+    7.78,
+    7.66
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r0225-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "red",
+   "rect": [
+    484,
+    551,
+    22,
+    16
+   ],
+   "anchor": [
+    7.78,
+    7.66
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r0450-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "blue",
+   "rect": [
+    112,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    7.99,
+    8.01
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r0450-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "red",
+   "rect": [
+    134,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    7.99,
+    8.01
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r0675-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "blue",
+   "rect": [
+    370,
+    480,
+    16,
+    22
+   ],
+   "anchor": [
+    7.61,
+    7.79
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r0675-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "red",
+   "rect": [
+    388,
+    480,
+    16,
+    22
+   ],
+   "anchor": [
+    7.61,
+    7.79
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r0900-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "blue",
+   "rect": [
+    142,
+    480,
+    14,
+    23
+   ],
+   "anchor": [
+    7.0,
+    7.75
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r0900-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "red",
+   "rect": [
+    158,
+    480,
+    14,
+    23
+   ],
+   "anchor": [
+    7.0,
+    7.75
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r1125-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "blue",
+   "rect": [
+    406,
+    480,
+    16,
+    22
+   ],
+   "anchor": [
+    8.34,
+    7.78
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r1125-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "red",
+   "rect": [
+    424,
+    480,
+    16,
+    22
+   ],
+   "anchor": [
+    8.34,
+    7.78
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r1350-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "blue",
+   "rect": [
+    156,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    11.99,
+    7.99
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r1350-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "red",
+   "rect": [
+    178,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    11.99,
+    7.99
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r1575-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "blue",
+   "rect": [
+    2,
+    571,
+    22,
+    16
+   ],
+   "anchor": [
+    14.21,
+    7.61
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r1575-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "red",
+   "rect": [
+    26,
+    571,
+    22,
+    16
+   ],
+   "anchor": [
+    14.21,
+    7.61
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r1800-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "blue",
+   "rect": [
+    296,
+    571,
+    23,
+    14
+   ],
+   "anchor": [
+    15.25,
+    7.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r1800-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "red",
+   "rect": [
+    321,
+    571,
+    23,
+    14
+   ],
+   "anchor": [
+    15.25,
+    7.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r2025-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "blue",
+   "rect": [
+    50,
+    571,
+    22,
+    16
+   ],
+   "anchor": [
+    14.22,
+    8.34
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r2025-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "red",
+   "rect": [
+    74,
+    571,
+    22,
+    16
+   ],
+   "anchor": [
+    14.22,
+    8.34
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r2250-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "blue",
+   "rect": [
+    200,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    12.01,
+    11.99
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r2250-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "red",
+   "rect": [
+    222,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    12.01,
+    11.99
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r2475-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "blue",
+   "rect": [
+    442,
+    480,
+    16,
+    22
+   ],
+   "anchor": [
+    8.39,
+    14.21
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r2475-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "red",
+   "rect": [
+    460,
+    480,
+    16,
+    22
+   ],
+   "anchor": [
+    8.39,
+    14.21
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r2700-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "blue",
+   "rect": [
+    174,
+    480,
+    14,
+    23
+   ],
+   "anchor": [
+    7.0,
+    15.25
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r2700-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "red",
+   "rect": [
+    190,
+    480,
+    14,
+    23
+   ],
+   "anchor": [
+    7.0,
+    15.25
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r2925-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "blue",
+   "rect": [
+    478,
+    480,
+    16,
+    22
+   ],
+   "anchor": [
+    7.66,
+    14.22
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r2925-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "red",
+   "rect": [
+    2,
+    505,
+    16,
+    22
+   ],
+   "anchor": [
+    7.66,
+    14.22
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r3150-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "blue",
+   "rect": [
+    244,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    8.01,
+    12.01
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r3150-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "red",
+   "rect": [
+    266,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    8.01,
+    12.01
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r3375-blue",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "blue",
+   "rect": [
+    98,
+    571,
+    22,
+    16
+   ],
+   "anchor": [
+    7.79,
+    8.39
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "artillery_turret-idle-r3375-red",
+   "unit": "artillery_turret",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "red",
+   "rect": [
+    122,
+    571,
+    22,
+    16
+   ],
+   "anchor": [
+    7.79,
+    8.39
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.04396,
+   "shadow": null
+  },
+  {
+   "name": "demo-idle-e-blue",
+   "unit": "demo",
+   "state": "idle",
+   "facing": "E",
+   "team": "blue",
+   "rect": [
+    288,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    10.0,
+    17
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.06038,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "demo-idle-e-red",
+   "unit": "demo",
+   "state": "idle",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    310,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    10.0,
+    17
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.06038,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "demo-idle-n-blue",
+   "unit": "demo",
+   "state": "idle",
+   "facing": "N",
+   "team": "blue",
+   "rect": [
+    376,
+    529,
+    15,
+    20
+   ],
+   "anchor": [
+    7.0,
+    17
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.06015,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "demo-idle-n-red",
+   "unit": "demo",
+   "state": "idle",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    393,
+    529,
+    15,
+    20
+   ],
+   "anchor": [
+    7.0,
+    17
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.06015,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "demo-idle-s-blue",
+   "unit": "demo",
+   "state": "idle",
+   "facing": "S",
+   "team": "blue",
+   "rect": [
+    410,
+    529,
+    14,
+    20
+   ],
+   "anchor": [
+    7.0,
+    17
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.05993,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "demo-idle-s-red",
+   "unit": "demo",
+   "state": "idle",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    426,
+    529,
+    14,
+    20
+   ],
+   "anchor": [
+    7.0,
+    17
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.05993,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "demo-idle-w-blue",
+   "unit": "demo",
+   "state": "idle",
+   "facing": "W",
+   "team": "blue",
+   "rect": [
+    332,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    10.0,
+    17
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.06038,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "demo-idle-w-red",
+   "unit": "demo",
+   "state": "idle",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    354,
+    529,
+    20,
+    20
+   ],
+   "anchor": [
+    10.0,
+    17
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.06038,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r0000-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "blue",
+   "rect": [
+    149,
+    406,
+    44,
+    32
+   ],
+   "anchor": [
+    22.0,
+    15.88
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    34.88,
+    13.62
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r0000-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "red",
+   "rect": [
+    195,
+    406,
+    44,
+    32
+   ],
+   "anchor": [
+    22.0,
+    15.88
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    34.88,
+    13.62
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r0225-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "blue",
+   "rect": [
+    426,
+    363,
+    47,
+    39
+   ],
+   "anchor": [
+    23.56,
+    19.31
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    36.28,
+    22.13
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r0225-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "red",
+   "rect": [
+    2,
+    406,
+    47,
+    39
+   ],
+   "anchor": [
+    23.56,
+    19.31
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    36.28,
+    22.13
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r0450-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "blue",
+   "rect": [
+    207,
+    222,
+    45,
+    46
+   ],
+   "anchor": [
+    22.69,
+    23.19
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    33.35,
+    30.77
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r0450-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "red",
+   "rect": [
+    254,
+    222,
+    45,
+    46
+   ],
+   "anchor": [
+    22.69,
+    23.19
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    33.35,
+    30.77
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r0675-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "blue",
+   "rect": [
+    370,
+    169,
+    39,
+    48
+   ],
+   "anchor": [
+    20.0,
+    24.19
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    27.01,
+    35.32
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r0675-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "red",
+   "rect": [
+    411,
+    169,
+    39,
+    48
+   ],
+   "anchor": [
+    20.0,
+    24.19
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    27.01,
+    35.32
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r0900-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "blue",
+   "rect": [
+    98,
+    272,
+    32,
+    44
+   ],
+   "anchor": [
+    16.12,
+    22.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    18.38,
+    34.88
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r0900-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "red",
+   "rect": [
+    132,
+    272,
+    32,
+    44
+   ],
+   "anchor": [
+    16.12,
+    22.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    18.38,
+    34.88
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r1125-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "blue",
+   "rect": [
+    43,
+    222,
+    39,
+    47
+   ],
+   "anchor": [
+    19.69,
+    23.56
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    16.87,
+    36.28
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r1125-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "red",
+   "rect": [
+    84,
+    222,
+    39,
+    47
+   ],
+   "anchor": [
+    19.69,
+    23.56
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    16.87,
+    36.28
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r1350-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "blue",
+   "rect": [
+    395,
+    222,
+    46,
+    45
+   ],
+   "anchor": [
+    22.81,
+    22.69
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    15.23,
+    33.35
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r1350-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "red",
+   "rect": [
+    443,
+    222,
+    46,
+    45
+   ],
+   "anchor": [
+    22.81,
+    22.69
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    15.23,
+    33.35
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r1575-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "blue",
+   "rect": [
+    226,
+    363,
+    48,
+    39
+   ],
+   "anchor": [
+    23.81,
+    20.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    12.68,
+    27.01
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r1575-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "red",
+   "rect": [
+    276,
+    363,
+    48,
+    39
+   ],
+   "anchor": [
+    23.81,
+    20.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    12.68,
+    27.01
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r1800-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "blue",
+   "rect": [
+    241,
+    406,
+    44,
+    32
+   ],
+   "anchor": [
+    22.0,
+    16.12
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    9.12,
+    18.38
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r1800-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "red",
+   "rect": [
+    287,
+    406,
+    44,
+    32
+   ],
+   "anchor": [
+    22.0,
+    16.12
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    9.12,
+    18.38
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r2025-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "blue",
+   "rect": [
+    51,
+    406,
+    47,
+    39
+   ],
+   "anchor": [
+    23.44,
+    19.69
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    10.72,
+    16.87
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r2025-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "red",
+   "rect": [
+    100,
+    406,
+    47,
+    39
+   ],
+   "anchor": [
+    23.44,
+    19.69
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    10.72,
+    16.87
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r2250-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "blue",
+   "rect": [
+    301,
+    222,
+    45,
+    46
+   ],
+   "anchor": [
+    22.31,
+    22.81
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    11.65,
+    15.23
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r2250-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "red",
+   "rect": [
+    348,
+    222,
+    45,
+    46
+   ],
+   "anchor": [
+    22.31,
+    22.81
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    11.65,
+    15.23
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r2475-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "blue",
+   "rect": [
+    452,
+    169,
+    39,
+    48
+   ],
+   "anchor": [
+    19.0,
+    23.81
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    11.99,
+    12.68
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r2475-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "red",
+   "rect": [
+    2,
+    222,
+    39,
+    48
+   ],
+   "anchor": [
+    19.0,
+    23.81
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    11.99,
+    12.68
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r2700-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "blue",
+   "rect": [
+    166,
+    272,
+    32,
+    44
+   ],
+   "anchor": [
+    15.88,
+    22.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    13.62,
+    9.12
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r2700-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "red",
+   "rect": [
+    200,
+    272,
+    32,
+    44
+   ],
+   "anchor": [
+    15.88,
+    22.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    13.62,
+    9.12
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r2925-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "blue",
+   "rect": [
+    125,
+    222,
+    39,
+    47
+   ],
+   "anchor": [
+    19.31,
+    23.44
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    22.13,
+    10.72
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r2925-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "red",
+   "rect": [
+    166,
+    222,
+    39,
+    47
+   ],
+   "anchor": [
+    19.31,
+    23.44
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    22.13,
+    10.72
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r3150-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "blue",
+   "rect": [
+    2,
+    272,
+    46,
+    45
+   ],
+   "anchor": [
+    23.19,
+    22.31
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    30.77,
+    11.65
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r3150-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "red",
+   "rect": [
+    50,
+    272,
+    46,
+    45
+   ],
+   "anchor": [
+    23.19,
+    22.31
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    30.77,
+    11.65
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r3375-blue",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "blue",
+   "rect": [
+    326,
+    363,
+    48,
+    39
+   ],
+   "anchor": [
+    24.19,
+    19.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    35.32,
+    11.99
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_hull-idle-r3375-red",
+   "unit": "purifier_hull",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "red",
+   "rect": [
+    376,
+    363,
+    48,
+    39
+   ],
+   "anchor": [
+    24.19,
+    19.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.125,
+   "turret_mount": [
+    35.32,
+    11.99
+   ],
+   "shadow": {
+    "dx": 3,
+    "dy": 3,
+    "rx": 22,
+    "ry": 13,
+    "rotate_with_heading": true,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "purifier_turret-idle-r0000-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "blue",
+   "rect": [
+    156,
+    551,
+    25,
+    16
+   ],
+   "anchor": [
+    10.96,
+    8.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r0000-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 0.0,
+   "team": "red",
+   "rect": [
+    183,
+    551,
+    25,
+    16
+   ],
+   "anchor": [
+    10.96,
+    8.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r0225-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "blue",
+   "rect": [
+    52,
+    551,
+    24,
+    17
+   ],
+   "anchor": [
+    10.24,
+    8.26
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r0225-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 22.5,
+   "team": "red",
+   "rect": [
+    78,
+    551,
+    24,
+    17
+   ],
+   "anchor": [
+    10.24,
+    8.26
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r0450-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "blue",
+   "rect": [
+    20,
+    505,
+    22,
+    21
+   ],
+   "anchor": [
+    10.18,
+    9.01
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r0450-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 45.0,
+   "team": "red",
+   "rect": [
+    44,
+    505,
+    22,
+    21
+   ],
+   "anchor": [
+    10.18,
+    9.01
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r0675-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "blue",
+   "rect": [
+    426,
+    447,
+    18,
+    23
+   ],
+   "anchor": [
+    8.83,
+    9.62
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r0675-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 67.5,
+   "team": "red",
+   "rect": [
+    446,
+    447,
+    18,
+    23
+   ],
+   "anchor": [
+    8.83,
+    9.62
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r0900-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "blue",
+   "rect": [
+    278,
+    447,
+    16,
+    25
+   ],
+   "anchor": [
+    8.0,
+    10.96
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r0900-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 90.0,
+   "team": "red",
+   "rect": [
+    296,
+    447,
+    16,
+    25
+   ],
+   "anchor": [
+    8.0,
+    10.96
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r1125-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "blue",
+   "rect": [
+    350,
+    447,
+    17,
+    24
+   ],
+   "anchor": [
+    8.74,
+    10.24
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r1125-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 112.5,
+   "team": "red",
+   "rect": [
+    369,
+    447,
+    17,
+    24
+   ],
+   "anchor": [
+    8.74,
+    10.24
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r1350-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "blue",
+   "rect": [
+    206,
+    480,
+    21,
+    22
+   ],
+   "anchor": [
+    11.99,
+    10.18
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r1350-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 135.0,
+   "team": "red",
+   "rect": [
+    229,
+    480,
+    21,
+    22
+   ],
+   "anchor": [
+    11.99,
+    10.18
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r1575-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "blue",
+   "rect": [
+    442,
+    529,
+    23,
+    18
+   ],
+   "anchor": [
+    13.38,
+    8.83
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r1575-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 157.5,
+   "team": "red",
+   "rect": [
+    467,
+    529,
+    23,
+    18
+   ],
+   "anchor": [
+    13.38,
+    8.83
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r1800-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "blue",
+   "rect": [
+    210,
+    551,
+    25,
+    16
+   ],
+   "anchor": [
+    14.04,
+    8.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r1800-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 180.0,
+   "team": "red",
+   "rect": [
+    237,
+    551,
+    25,
+    16
+   ],
+   "anchor": [
+    14.04,
+    8.0
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r2025-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "blue",
+   "rect": [
+    104,
+    551,
+    24,
+    17
+   ],
+   "anchor": [
+    13.76,
+    8.74
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r2025-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 202.5,
+   "team": "red",
+   "rect": [
+    130,
+    551,
+    24,
+    17
+   ],
+   "anchor": [
+    13.76,
+    8.74
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r2250-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "blue",
+   "rect": [
+    68,
+    505,
+    22,
+    21
+   ],
+   "anchor": [
+    11.82,
+    11.99
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r2250-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 225.0,
+   "team": "red",
+   "rect": [
+    92,
+    505,
+    22,
+    21
+   ],
+   "anchor": [
+    11.82,
+    11.99
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r2475-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "blue",
+   "rect": [
+    466,
+    447,
+    18,
+    23
+   ],
+   "anchor": [
+    9.17,
+    13.38
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r2475-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 247.5,
+   "team": "red",
+   "rect": [
+    486,
+    447,
+    18,
+    23
+   ],
+   "anchor": [
+    9.17,
+    13.38
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r2700-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "blue",
+   "rect": [
+    314,
+    447,
+    16,
+    25
+   ],
+   "anchor": [
+    8.0,
+    14.04
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r2700-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 270.0,
+   "team": "red",
+   "rect": [
+    332,
+    447,
+    16,
+    25
+   ],
+   "anchor": [
+    8.0,
+    14.04
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r2925-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "blue",
+   "rect": [
+    388,
+    447,
+    17,
+    24
+   ],
+   "anchor": [
+    8.26,
+    13.76
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r2925-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 292.5,
+   "team": "red",
+   "rect": [
+    407,
+    447,
+    17,
+    24
+   ],
+   "anchor": [
+    8.26,
+    13.76
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r3150-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "blue",
+   "rect": [
+    252,
+    480,
+    21,
+    22
+   ],
+   "anchor": [
+    9.01,
+    11.82
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r3150-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 315.0,
+   "team": "red",
+   "rect": [
+    275,
+    480,
+    21,
+    22
+   ],
+   "anchor": [
+    9.01,
+    11.82
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r3375-blue",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "blue",
+   "rect": [
+    2,
+    551,
+    23,
+    18
+   ],
+   "anchor": [
+    9.62,
+    9.17
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "purifier_turret-idle-r3375-red",
+   "unit": "purifier_turret",
+   "state": "idle",
+   "facing": 337.5,
+   "team": "red",
+   "rect": [
+    27,
+    551,
+    23,
+    18
+   ],
+   "anchor": [
+    9.62,
+    9.17
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette2",
+   "scale": 0.05495,
+   "shadow": null
+  },
+  {
+   "name": "shock-air-e-blue",
+   "unit": "shock",
+   "state": "air",
+   "facing": "E",
+   "team": "blue",
+   "rect": [
+    116,
+    505,
+    21,
+    21
+   ],
+   "anchor": [
+    11.0,
+    18
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.0632,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-air-e-red",
+   "unit": "shock",
+   "state": "air",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    139,
+    505,
+    21,
+    21
+   ],
+   "anchor": [
+    11.0,
+    18
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.0632,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-air-n-blue",
+   "unit": "shock",
+   "state": "air",
+   "facing": "N",
+   "team": "blue",
+   "rect": [
+    336,
+    505,
+    17,
+    21
+   ],
+   "anchor": [
+    9.0,
+    18
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.06182,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-air-n-red",
+   "unit": "shock",
+   "state": "air",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    355,
+    505,
+    17,
+    21
+   ],
+   "anchor": [
+    9.0,
+    18
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.06182,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-air-s-blue",
+   "unit": "shock",
+   "state": "air",
+   "facing": "S",
+   "team": "blue",
+   "rect": [
+    208,
+    505,
+    20,
+    21
+   ],
+   "anchor": [
+    10.5,
+    18
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.06343,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-air-s-red",
+   "unit": "shock",
+   "state": "air",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    230,
+    505,
+    20,
+    21
+   ],
+   "anchor": [
+    10.5,
+    18
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.06343,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-air-w-blue",
+   "unit": "shock",
+   "state": "air",
+   "facing": "W",
+   "team": "blue",
+   "rect": [
+    162,
+    505,
+    21,
+    21
+   ],
+   "anchor": [
+    10.0,
+    18
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.0632,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-air-w-red",
+   "unit": "shock",
+   "state": "air",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    185,
+    505,
+    21,
+    21
+   ],
+   "anchor": [
+    10.0,
+    18
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.0632,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-idle-e-blue",
+   "unit": "shock",
+   "state": "idle",
+   "facing": "E",
+   "team": "blue",
+   "rect": [
+    252,
+    505,
+    19,
+    21
+   ],
+   "anchor": [
+    9.5,
+    18
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.06296,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-idle-e-red",
+   "unit": "shock",
+   "state": "idle",
+   "facing": "E",
+   "team": "red",
+   "rect": [
+    273,
+    505,
+    19,
+    21
+   ],
+   "anchor": [
+    9.5,
+    18
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.06296,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-idle-n-blue",
+   "unit": "shock",
+   "state": "idle",
+   "facing": "N",
+   "team": "blue",
+   "rect": [
+    374,
+    505,
+    14,
+    21
+   ],
+   "anchor": [
+    7.0,
+    18
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.06343,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-idle-n-red",
+   "unit": "shock",
+   "state": "idle",
+   "facing": "N",
+   "team": "red",
+   "rect": [
+    390,
+    505,
+    14,
+    21
+   ],
+   "anchor": [
+    7.0,
+    18
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.06343,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-idle-s-blue",
+   "unit": "shock",
+   "state": "idle",
+   "facing": "S",
+   "team": "blue",
+   "rect": [
+    406,
+    505,
+    13,
+    21
+   ],
+   "anchor": [
+    6.5,
+    18
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.0632,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.05,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-idle-s-red",
+   "unit": "shock",
+   "state": "idle",
+   "facing": "S",
+   "team": "red",
+   "rect": [
+    421,
+    505,
+    13,
+    21
+   ],
+   "anchor": [
+    6.5,
+    18
+   ],
+   "mirror_of_E": false,
+   "outline": "silhouette1",
+   "scale": 0.0632,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 4.05,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-idle-w-blue",
+   "unit": "shock",
+   "state": "idle",
+   "facing": "W",
+   "team": "blue",
+   "rect": [
+    294,
+    505,
+    19,
+    21
+   ],
+   "anchor": [
+    9.5,
+    18
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.06296,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  },
+  {
+   "name": "shock-idle-w-red",
+   "unit": "shock",
+   "state": "idle",
+   "facing": "W",
+   "team": "red",
+   "rect": [
+    315,
+    505,
+    19,
+    21
+   ],
+   "anchor": [
+    9.5,
+    18
+   ],
+   "mirror_of_E": true,
+   "outline": "silhouette1",
+   "scale": 0.06296,
+   "shadow": {
+    "dx": 3.0,
+    "dy": 2.0,
+    "rx": 5,
+    "ry": 2,
+    "alpha": 0.3
+   }
+  }
+ ],
+ "team_ramps": {
+  "blue": {
+   "light": "#7FAEFF",
+   "base": "#3A7BFF",
+   "dark": "#1F4BB0"
+  },
+  "red": {
+   "light": "#FF7E66",
+   "base": "#E8432F",
+   "dark": "#8E2418"
+  }
+ },
+ "trim_mask": {
+  "image": "survivors-l5-atlas-trim.png",
+  "size": [
+   512,
+   1024
+  ],
+  "rects": "same as frames[].rect",
+  "encoding": "alpha 255 = team trim; R=G=B: 255 light, 170 base, 85 dark"
+ },
+ "neutral": {
+  "image": "survivors-l5-atlas-neutral.png",
+  "trim_image": "survivors-l5-atlas-neutral-trim.png",
+  "size": [
+   512,
+   512
+  ],
+  "trim_neutral_rgb": {
+   "light": "#FFFFFF",
+   "base": "#FFFFFF",
+   "dark": "#949494"
+  },
+  "frames": [
+   {
+    "name": "apc_hull-idle-r0000",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 0.0,
+    "anchor": [
+     26.88,
+     15.5
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     31.26,
+     9.07
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     143,
+     206,
+     54,
+     31
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r0225",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 22.5,
+    "anchor": [
+     27.17,
+     22.27
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     33.71,
+     17.94
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     342,
+     113,
+     56,
+     43
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r0450",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 45.0,
+    "anchor": [
+     24.62,
+     26.32
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     32.26,
+     24.83
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     60,
+     51,
+     51
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r0675",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 67.5,
+    "anchor": [
+     21.12,
+     28.42
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     28.71,
+     29.99
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     92,
+     2,
+     42,
+     56
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r0900",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 90.0,
+    "anchor": [
+     15.5,
+     26.88
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     21.93,
+     31.26
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     354,
+     2,
+     31,
+     54
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r1125",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 112.5,
+    "anchor": [
+     20.73,
+     27.17
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     25.06,
+     33.71
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     2,
+     43,
+     56
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r1350",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 135.0,
+    "anchor": [
+     24.68,
+     24.62
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     26.17,
+     32.26
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     55,
+     60,
+     51,
+     51
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r1575",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 157.5,
+    "anchor": [
+     27.58,
+     21.12
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     26.01,
+     28.71
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     162,
+     56,
+     42
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r1800",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 180.0,
+    "anchor": [
+     27.12,
+     15.5
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     22.74,
+     21.93
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     199,
+     206,
+     54,
+     31
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r2025",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 202.5,
+    "anchor": [
+     28.83,
+     20.73
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     22.29,
+     25.06
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     400,
+     113,
+     56,
+     43
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r2250",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 225.0,
+    "anchor": [
+     26.38,
+     24.68
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     18.74,
+     26.17
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     108,
+     60,
+     51,
+     51
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r2475",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 247.5,
+    "anchor": [
+     20.88,
+     27.58
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     13.29,
+     26.01
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     136,
+     2,
+     42,
+     56
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r2700",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 270.0,
+    "anchor": [
+     15.5,
+     27.12
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     9.07,
+     22.74
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     387,
+     2,
+     31,
+     54
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r2925",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 292.5,
+    "anchor": [
+     22.27,
+     28.83
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     17.94,
+     22.29
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     47,
+     2,
+     43,
+     56
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r3150",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 315.0,
+    "anchor": [
+     26.32,
+     26.38
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     24.83,
+     18.74
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     161,
+     60,
+     51,
+     51
+    ]
+   },
+   {
+    "name": "apc_hull-idle-r3375",
+    "unit": "apc_hull",
+    "state": "idle",
+    "facing": 337.5,
+    "anchor": [
+     28.42,
+     20.88
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.11823,
+    "turret_mount": [
+     29.99,
+     13.29
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     60,
+     162,
+     56,
+     42
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r0000",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 0.0,
+    "anchor": [
+     8.32,
+     7.5
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     74,
+     294,
+     23,
+     15
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r0225",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 22.5,
+    "anchor": [
+     8.65,
+     8.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     367,
+     272,
+     23,
+     16
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r0450",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 45.0,
+    "anchor": [
+     8.47,
+     8.56
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     448,
+     247,
+     20,
+     20
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r0675",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 67.5,
+    "anchor": [
+     7.98,
+     8.33
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     132,
+     247,
+     16,
+     22
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r0900",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 90.0,
+    "anchor": [
+     7.5,
+     8.32
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     20,
+     247,
+     15,
+     23
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r1125",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 112.5,
+    "anchor": [
+     8.0,
+     8.65
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     479,
+     206,
+     16,
+     23
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r1350",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 135.0,
+    "anchor": [
+     11.44,
+     8.47
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     470,
+     247,
+     20,
+     20
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r1575",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 157.5,
+    "anchor": [
+     13.67,
+     7.98
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     417,
+     272,
+     22,
+     16
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r1800",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 180.0,
+    "anchor": [
+     14.68,
+     7.5
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     99,
+     294,
+     23,
+     15
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r2025",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 202.5,
+    "anchor": [
+     14.35,
+     8.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     392,
+     272,
+     23,
+     16
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r2250",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 225.0,
+    "anchor": [
+     11.53,
+     11.44
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     2,
+     272,
+     20,
+     20
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r2475",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 247.5,
+    "anchor": [
+     8.02,
+     13.67
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     150,
+     247,
+     16,
+     22
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r2700",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 270.0,
+    "anchor": [
+     7.5,
+     14.68
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     37,
+     247,
+     15,
+     23
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r2925",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 292.5,
+    "anchor": [
+     8.0,
+     14.35
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     2,
+     247,
+     16,
+     23
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r3150",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 315.0,
+    "anchor": [
+     8.56,
+     11.53
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     24,
+     272,
+     20,
+     20
+    ]
+   },
+   {
+    "name": "apc_turret-idle-r3375",
+    "unit": "apc_turret",
+    "state": "idle",
+    "facing": 337.5,
+    "anchor": [
+     8.33,
+     8.02
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04945,
+    "shadow": null,
+    "rect": [
+     441,
+     272,
+     22,
+     16
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r0000",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 0.0,
+    "anchor": [
+     26.43,
+     15.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     27.0,
+     12.32
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     255,
+     206,
+     53,
+     30
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r0225",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 22.5,
+    "anchor": [
+     27.77,
+     21.43
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     29.3,
+     19.14
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     230,
+     162,
+     54,
+     41
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r0450",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 45.0,
+    "anchor": [
+     26.07,
+     25.93
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     28.38,
+     24.42
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     318,
+     60,
+     51,
+     50
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r0675",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 67.5,
+    "anchor": [
+     22.12,
+     27.64
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     24.78,
+     27.13
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     180,
+     2,
+     42,
+     54
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r0900",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 90.0,
+    "anchor": [
+     15.0,
+     26.43
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     17.68,
+     27.0
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     420,
+     2,
+     30,
+     53
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r1125",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 112.5,
+    "anchor": [
+     19.57,
+     27.77
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     21.86,
+     29.3
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     268,
+     2,
+     41,
+     54
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r1350",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 135.0,
+    "anchor": [
+     24.07,
+     26.07
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     25.58,
+     28.38
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     214,
+     60,
+     50,
+     51
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r1575",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 157.5,
+    "anchor": [
+     26.36,
+     22.12
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     26.87,
+     24.78
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     118,
+     162,
+     54,
+     42
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r1800",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 180.0,
+    "anchor": [
+     26.57,
+     15.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     26.0,
+     17.68
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     310,
+     206,
+     53,
+     30
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r2025",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 202.5,
+    "anchor": [
+     26.23,
+     19.57
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     24.7,
+     21.86
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     286,
+     162,
+     54,
+     41
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r2250",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 225.0,
+    "anchor": [
+     24.93,
+     24.07
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     22.62,
+     25.58
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     371,
+     60,
+     51,
+     50
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r2475",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 247.5,
+    "anchor": [
+     19.88,
+     26.36
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     17.22,
+     26.87
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     224,
+     2,
+     42,
+     54
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r2700",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 270.0,
+    "anchor": [
+     15.0,
+     26.57
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     12.32,
+     26.0
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     452,
+     2,
+     30,
+     53
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r2925",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 292.5,
+    "anchor": [
+     21.43,
+     26.23
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     19.14,
+     24.7
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     311,
+     2,
+     41,
+     54
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r3150",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 315.0,
+    "anchor": [
+     25.93,
+     24.93
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     24.42,
+     22.62
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     266,
+     60,
+     50,
+     51
+    ]
+   },
+   {
+    "name": "artillery_hull-idle-r3375",
+    "unit": "artillery_hull",
+    "state": "idle",
+    "facing": 337.5,
+    "anchor": [
+     27.64,
+     19.88
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.14118,
+    "turret_mount": [
+     27.13,
+     17.22
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     174,
+     162,
+     54,
+     42
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r0000",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 0.0,
+    "anchor": [
+     7.75,
+     7.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     124,
+     294,
+     23,
+     14
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r0225",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 22.5,
+    "anchor": [
+     7.78,
+     7.66
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     465,
+     272,
+     22,
+     16
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r0450",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 45.0,
+    "anchor": [
+     7.99,
+     8.01
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     46,
+     272,
+     20,
+     20
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r0675",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 67.5,
+    "anchor": [
+     7.61,
+     7.79
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     168,
+     247,
+     16,
+     22
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r0900",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 90.0,
+    "anchor": [
+     7.0,
+     7.75
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     54,
+     247,
+     14,
+     23
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r1125",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 112.5,
+    "anchor": [
+     8.34,
+     7.78
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     186,
+     247,
+     16,
+     22
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r1350",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 135.0,
+    "anchor": [
+     11.99,
+     7.99
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     68,
+     272,
+     20,
+     20
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r1575",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 157.5,
+    "anchor": [
+     14.21,
+     7.61
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     2,
+     294,
+     22,
+     16
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r1800",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 180.0,
+    "anchor": [
+     15.25,
+     7.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     149,
+     294,
+     23,
+     14
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r2025",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 202.5,
+    "anchor": [
+     14.22,
+     8.34
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     26,
+     294,
+     22,
+     16
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r2250",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 225.0,
+    "anchor": [
+     12.01,
+     11.99
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     90,
+     272,
+     20,
+     20
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r2475",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 247.5,
+    "anchor": [
+     8.39,
+     14.21
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     204,
+     247,
+     16,
+     22
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r2700",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 270.0,
+    "anchor": [
+     7.0,
+     15.25
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     70,
+     247,
+     14,
+     23
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r2925",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 292.5,
+    "anchor": [
+     7.66,
+     14.22
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     222,
+     247,
+     16,
+     22
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r3150",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 315.0,
+    "anchor": [
+     8.01,
+     12.01
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     112,
+     272,
+     20,
+     20
+    ]
+   },
+   {
+    "name": "artillery_turret-idle-r3375",
+    "unit": "artillery_turret",
+    "state": "idle",
+    "facing": 337.5,
+    "anchor": [
+     7.79,
+     8.39
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.04396,
+    "shadow": null,
+    "rect": [
+     50,
+     294,
+     22,
+     16
+    ]
+   },
+   {
+    "name": "demo-idle-e",
+    "unit": "demo",
+    "state": "idle",
+    "facing": "E",
+    "anchor": [
+     10.0,
+     17
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.06038,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     134,
+     272,
+     20,
+     20
+    ]
+   },
+   {
+    "name": "demo-idle-n",
+    "unit": "demo",
+    "state": "idle",
+    "facing": "N",
+    "anchor": [
+     7.0,
+     17
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.06015,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     178,
+     272,
+     15,
+     20
+    ]
+   },
+   {
+    "name": "demo-idle-s",
+    "unit": "demo",
+    "state": "idle",
+    "facing": "S",
+    "anchor": [
+     7.0,
+     17
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.05993,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     195,
+     272,
+     14,
+     20
+    ]
+   },
+   {
+    "name": "demo-idle-w",
+    "unit": "demo",
+    "state": "idle",
+    "facing": "W",
+    "anchor": [
+     10.0,
+     17
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette1",
+    "scale": 0.06038,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     156,
+     272,
+     20,
+     20
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r0000",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 0.0,
+    "anchor": [
+     22.0,
+     15.88
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     34.88,
+     13.62
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     51,
+     206,
+     44,
+     32
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r0225",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 22.5,
+    "anchor": [
+     23.56,
+     19.31
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     36.28,
+     22.13
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     442,
+     162,
+     47,
+     39
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r0450",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 45.0,
+    "anchor": [
+     22.69,
+     23.19
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     33.35,
+     30.77
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     84,
+     113,
+     45,
+     46
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r0675",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 67.5,
+    "anchor": [
+     20.0,
+     24.19
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     27.01,
+     35.32
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     424,
+     60,
+     39,
+     48
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r0900",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 90.0,
+    "anchor": [
+     16.12,
+     22.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     18.38,
+     34.88
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     274,
+     113,
+     32,
+     44
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r1125",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 112.5,
+    "anchor": [
+     19.69,
+     23.56
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     16.87,
+     36.28
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     113,
+     39,
+     47
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r1350",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 135.0,
+    "anchor": [
+     22.81,
+     22.69
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     15.23,
+     33.35
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     178,
+     113,
+     46,
+     45
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r1575",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 157.5,
+    "anchor": [
+     23.81,
+     20.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     12.68,
+     27.01
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     342,
+     162,
+     48,
+     39
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r1800",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 180.0,
+    "anchor": [
+     22.0,
+     16.12
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     9.12,
+     18.38
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     97,
+     206,
+     44,
+     32
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r2025",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 202.5,
+    "anchor": [
+     23.44,
+     19.69
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     10.72,
+     16.87
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     2,
+     206,
+     47,
+     39
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r2250",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 225.0,
+    "anchor": [
+     22.31,
+     22.81
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     11.65,
+     15.23
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     131,
+     113,
+     45,
+     46
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r2475",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 247.5,
+    "anchor": [
+     19.0,
+     23.81
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     11.99,
+     12.68
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     465,
+     60,
+     39,
+     48
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r2700",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 270.0,
+    "anchor": [
+     15.88,
+     22.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     13.62,
+     9.12
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     308,
+     113,
+     32,
+     44
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r2925",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 292.5,
+    "anchor": [
+     19.31,
+     23.44
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     22.13,
+     10.72
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     43,
+     113,
+     39,
+     47
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r3150",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 315.0,
+    "anchor": [
+     23.19,
+     22.31
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     30.77,
+     11.65
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     226,
+     113,
+     46,
+     45
+    ]
+   },
+   {
+    "name": "purifier_hull-idle-r3375",
+    "unit": "purifier_hull",
+    "state": "idle",
+    "facing": 337.5,
+    "anchor": [
+     24.19,
+     19.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.125,
+    "turret_mount": [
+     35.32,
+     11.99
+    ],
+    "shadow": {
+     "dx": 3,
+     "dy": 3,
+     "rx": 22,
+     "ry": 13,
+     "rotate_with_heading": true,
+     "alpha": 0.3
+    },
+    "rect": [
+     392,
+     162,
+     48,
+     39
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r0000",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 0.0,
+    "anchor": [
+     10.96,
+     8.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     313,
+     272,
+     25,
+     16
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r0225",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 22.5,
+    "anchor": [
+     10.24,
+     8.26
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     261,
+     272,
+     24,
+     17
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r0450",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 45.0,
+    "anchor": [
+     10.18,
+     9.01
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     240,
+     247,
+     22,
+     21
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r0675",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 67.5,
+    "anchor": [
+     8.83,
+     9.62
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     439,
+     206,
+     18,
+     23
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r0900",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 90.0,
+    "anchor": [
+     8.0,
+     10.96
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     365,
+     206,
+     16,
+     25
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r1125",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 112.5,
+    "anchor": [
+     8.74,
+     10.24
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     401,
+     206,
+     17,
+     24
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r1350",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 135.0,
+    "anchor": [
+     11.99,
+     10.18
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     86,
+     247,
+     21,
+     22
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r1575",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 157.5,
+    "anchor": [
+     13.38,
+     8.83
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     211,
+     272,
+     23,
+     18
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r1800",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 180.0,
+    "anchor": [
+     14.04,
+     8.0
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     340,
+     272,
+     25,
+     16
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r2025",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 202.5,
+    "anchor": [
+     13.76,
+     8.74
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     287,
+     272,
+     24,
+     17
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r2250",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 225.0,
+    "anchor": [
+     11.82,
+     11.99
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     264,
+     247,
+     22,
+     21
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r2475",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 247.5,
+    "anchor": [
+     9.17,
+     13.38
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     459,
+     206,
+     18,
+     23
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r2700",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 270.0,
+    "anchor": [
+     8.0,
+     14.04
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     383,
+     206,
+     16,
+     25
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r2925",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 292.5,
+    "anchor": [
+     8.26,
+     13.76
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     420,
+     206,
+     17,
+     24
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r3150",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 315.0,
+    "anchor": [
+     9.01,
+     11.82
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     109,
+     247,
+     21,
+     22
+    ]
+   },
+   {
+    "name": "purifier_turret-idle-r3375",
+    "unit": "purifier_turret",
+    "state": "idle",
+    "facing": 337.5,
+    "anchor": [
+     9.62,
+     9.17
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette2",
+    "scale": 0.05495,
+    "shadow": null,
+    "rect": [
+     236,
+     272,
+     23,
+     18
+    ]
+   },
+   {
+    "name": "shock-air-e",
+    "unit": "shock",
+    "state": "air",
+    "facing": "E",
+    "anchor": [
+     11.0,
+     18
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.0632,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     288,
+     247,
+     21,
+     21
+    ]
+   },
+   {
+    "name": "shock-air-n",
+    "unit": "shock",
+    "state": "air",
+    "facing": "N",
+    "anchor": [
+     9.0,
+     18
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.06182,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     398,
+     247,
+     17,
+     21
+    ]
+   },
+   {
+    "name": "shock-air-s",
+    "unit": "shock",
+    "state": "air",
+    "facing": "S",
+    "anchor": [
+     10.5,
+     18
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.06343,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     334,
+     247,
+     20,
+     21
+    ]
+   },
+   {
+    "name": "shock-air-w",
+    "unit": "shock",
+    "state": "air",
+    "facing": "W",
+    "anchor": [
+     10.0,
+     18
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette1",
+    "scale": 0.0632,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     311,
+     247,
+     21,
+     21
+    ]
+   },
+   {
+    "name": "shock-idle-e",
+    "unit": "shock",
+    "state": "idle",
+    "facing": "E",
+    "anchor": [
+     9.5,
+     18
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.06296,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     356,
+     247,
+     19,
+     21
+    ]
+   },
+   {
+    "name": "shock-idle-n",
+    "unit": "shock",
+    "state": "idle",
+    "facing": "N",
+    "anchor": [
+     7.0,
+     18
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.06343,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     417,
+     247,
+     14,
+     21
+    ]
+   },
+   {
+    "name": "shock-idle-s",
+    "unit": "shock",
+    "state": "idle",
+    "facing": "S",
+    "anchor": [
+     6.5,
+     18
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.0632,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.05,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     433,
+     247,
+     13,
+     21
+    ]
+   },
+   {
+    "name": "shock-idle-w",
+    "unit": "shock",
+    "state": "idle",
+    "facing": "W",
+    "anchor": [
+     9.5,
+     18
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette1",
+    "scale": 0.06296,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     377,
+     247,
+     19,
+     21
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,191 @@
+{
+ "_doc": "Ashfall loop 5 build icons 32x32 (bevel baked, #232527 face / #3A3D40 bevel; blue/violet team shown). Built by pipeline/l5ui.py from the l5 atlases.",
+ "image": "loop5-icons-32.png",
+ "size": [
+  682,
+  36
+ ],
+ "icon_size": 32,
+ "icons": [
+  {
+   "id": "wall",
+   "rect": [
+    2,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "fleshwall",
+   "rect": [
+    36,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "gate",
+   "rect": [
+    70,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "fleshgate",
+   "rect": [
+    104,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "flametower",
+   "rect": [
+    138,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "rockettower",
+   "rect": [
+    172,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "brimstone",
+   "rect": [
+    206,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "bonecannon",
+   "rect": [
+    240,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "forge",
+   "rect": [
+    274,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "apc",
+   "rect": [
+    308,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "artillery",
+   "rect": [
+    342,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "purifier",
+   "rect": [
+    376,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "crawler",
+   "rect": [
+    410,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "catapult",
+   "rect": [
+    444,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "sprayer",
+   "rect": [
+    478,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "shock",
+   "rect": [
+    512,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "demo",
+   "rect": [
+    546,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "spitter",
+   "rect": [
+    580,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "leaper",
+   "rect": [
+    614,
+    2,
+    32,
+    32
+   ]
+  },
+  {
+   "id": "bloater",
+   "rect": [
+    648,
+    2,
+    32,
+    32
+   ]
+  }
+ ]
+}

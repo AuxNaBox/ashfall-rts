@@ -20,16 +20,16 @@
    "rect": [
     2,
     2,
-    36,
-    32
+    37,
+    33
    ],
    "anchor": [
-    18.5,
+    19.0,
     29
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.03752,
+   "scale": 0.03698,
    "shadow": {
     "dx": 3.0,
     "dy": 1.5,
@@ -45,18 +45,18 @@
    "facing": "E",
    "team": "red",
    "rect": [
-    40,
+    41,
     2,
-    36,
-    32
+    37,
+    33
    ],
    "anchor": [
-    18.5,
+    19.0,
     29
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.03752,
+   "scale": 0.03698,
    "shadow": {
     "dx": 3.0,
     "dy": 1.5,
@@ -72,14 +72,14 @@
    "facing": "N",
    "team": "blue",
    "rect": [
-    230,
+    236,
     2,
-    24,
-    29
+    26,
+    31
    ],
    "anchor": [
-    12.0,
-    26
+    13.0,
+    27
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
@@ -99,14 +99,14 @@
    "facing": "N",
    "team": "red",
    "rect": [
-    256,
+    264,
     2,
-    24,
-    29
+    26,
+    31
    ],
    "anchor": [
-    12.0,
-    26
+    13.0,
+    27
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
@@ -126,18 +126,18 @@
    "facing": "S",
    "team": "blue",
    "rect": [
-    78,
+    80,
     2,
-    36,
-    32
+    37,
+    33
    ],
    "anchor": [
-    18.5,
+    19.0,
     29
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.03621,
+   "scale": 0.03591,
    "shadow": {
     "dx": 3.0,
     "dy": 1.5,
@@ -153,18 +153,18 @@
    "facing": "S",
    "team": "red",
    "rect": [
-    116,
+    119,
     2,
-    36,
-    32
+    37,
+    33
    ],
    "anchor": [
-    18.5,
+    19.0,
     29
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.03621,
+   "scale": 0.03591,
    "shadow": {
     "dx": 3.0,
     "dy": 1.5,
@@ -180,18 +180,18 @@
    "facing": "W",
    "team": "blue",
    "rect": [
-    154,
+    158,
     2,
-    36,
-    32
+    37,
+    33
    ],
    "anchor": [
-    17.5,
+    18.0,
     29
    ],
    "mirror_of_E": true,
    "outline": "silhouette2",
-   "scale": 0.03752,
+   "scale": 0.03698,
    "shadow": {
     "dx": 3.0,
     "dy": 1.5,
@@ -207,18 +207,18 @@
    "facing": "W",
    "team": "red",
    "rect": [
-    192,
+    197,
     2,
-    36,
-    32
+    37,
+    33
    ],
    "anchor": [
-    17.5,
+    18.0,
     29
    ],
    "mirror_of_E": true,
    "outline": "silhouette2",
-   "scale": 0.03752,
+   "scale": 0.03698,
    "shadow": {
     "dx": 3.0,
     "dy": 1.5,
@@ -234,18 +234,18 @@
    "facing": "E",
    "team": "blue",
    "rect": [
-    28,
-    36,
-    18,
-    18
+    66,
+    37,
+    20,
+    20
    ],
    "anchor": [
-    9.5,
-    16
+    10.5,
+    17
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.02162,
+   "scale": 0.02133,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -261,18 +261,18 @@
    "facing": "E",
    "team": "red",
    "rect": [
-    48,
-    36,
-    18,
-    18
+    88,
+    37,
+    20,
+    20
    ],
    "anchor": [
-    9.5,
-    16
+    10.5,
+    17
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.02162,
+   "scale": 0.02133,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -288,18 +288,18 @@
    "facing": "N",
    "team": "blue",
    "rect": [
-    482,
     2,
-    13,
-    19
+    37,
+    15,
+    21
    ],
    "anchor": [
-    6.5,
-    17
+    7.5,
+    18
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.02162,
+   "scale": 0.02133,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -315,18 +315,18 @@
    "facing": "N",
    "team": "red",
    "rect": [
-    497,
-    2,
-    13,
-    19
+    19,
+    37,
+    15,
+    21
    ],
    "anchor": [
-    6.5,
-    17
+    7.5,
+    18
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.02162,
+   "scale": 0.02133,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -342,18 +342,18 @@
    "facing": "S",
    "team": "blue",
    "rect": [
-    2,
     36,
-    11,
-    19
+    37,
+    13,
+    21
    ],
    "anchor": [
-    5.5,
-    17
+    6.5,
+    18
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.02162,
+   "scale": 0.02133,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -369,18 +369,18 @@
    "facing": "S",
    "team": "red",
    "rect": [
-    15,
-    36,
-    11,
-    19
+    51,
+    37,
+    13,
+    21
    ],
    "anchor": [
-    5.5,
-    17
+    6.5,
+    18
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.02162,
+   "scale": 0.02133,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -396,18 +396,18 @@
    "facing": "W",
    "team": "blue",
    "rect": [
-    68,
-    36,
-    18,
-    18
+    110,
+    37,
+    20,
+    20
    ],
    "anchor": [
-    8.5,
-    16
+    9.5,
+    17
    ],
    "mirror_of_E": true,
    "outline": "silhouette1",
-   "scale": 0.02162,
+   "scale": 0.02133,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -423,18 +423,18 @@
    "facing": "W",
    "team": "red",
    "rect": [
-    88,
-    36,
-    18,
-    18
+    132,
+    37,
+    20,
+    20
    ],
    "anchor": [
-    8.5,
-    16
+    9.5,
+    17
    ],
    "mirror_of_E": true,
    "outline": "silhouette1",
-   "scale": 0.02162,
+   "scale": 0.02133,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -450,18 +450,18 @@
    "facing": "E",
    "team": "blue",
    "rect": [
-    300,
-    36,
-    11,
-    18
+    338,
+    37,
+    13,
+    20
    ],
    "anchor": [
-    5.5,
-    16
+    6.5,
+    17
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.01998,
+   "scale": 0.02003,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -477,18 +477,18 @@
    "facing": "E",
    "team": "red",
    "rect": [
-    313,
-    36,
-    11,
-    18
+    353,
+    37,
+    13,
+    20
    ],
    "anchor": [
-    5.5,
-    16
+    6.5,
+    17
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.01998,
+   "scale": 0.02003,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -504,18 +504,18 @@
    "facing": "N",
    "team": "blue",
    "rect": [
-    246,
-    36,
-    12,
-    18
+    306,
+    37,
+    14,
+    20
    ],
    "anchor": [
-    6.0,
-    16
+    7.0,
+    17
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.02049,
+   "scale": 0.01956,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -531,18 +531,18 @@
    "facing": "N",
    "team": "red",
    "rect": [
-    260,
-    36,
-    12,
-    18
+    322,
+    37,
+    14,
+    20
    ],
    "anchor": [
-    6.0,
-    16
+    7.0,
+    17
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.02049,
+   "scale": 0.01956,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -558,22 +558,22 @@
    "facing": "S",
    "team": "blue",
    "rect": [
-    188,
-    36,
-    13,
-    18
+    274,
+    37,
+    14,
+    20
    ],
    "anchor": [
-    6.5,
-    16
+    7.0,
+    17
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.0218,
+   "scale": 0.02086,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
-    "rx": 4.95,
+    "rx": 4.5,
     "ry": 2,
     "alpha": 0.3
    }
@@ -585,22 +585,22 @@
    "facing": "S",
    "team": "red",
    "rect": [
-    203,
-    36,
-    13,
-    18
+    290,
+    37,
+    14,
+    20
    ],
    "anchor": [
-    6.5,
-    16
+    7.0,
+    17
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.0218,
+   "scale": 0.02086,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
-    "rx": 4.95,
+    "rx": 4.5,
     "ry": 2,
     "alpha": 0.3
    }
@@ -612,18 +612,18 @@
    "facing": "W",
    "team": "blue",
    "rect": [
-    326,
-    36,
-    11,
-    18
+    368,
+    37,
+    13,
+    20
    ],
    "anchor": [
-    5.5,
-    16
+    6.5,
+    17
    ],
    "mirror_of_E": true,
    "outline": "silhouette1",
-   "scale": 0.01998,
+   "scale": 0.02003,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -639,18 +639,18 @@
    "facing": "W",
    "team": "red",
    "rect": [
-    339,
-    36,
-    11,
-    18
+    383,
+    37,
+    13,
+    20
    ],
    "anchor": [
-    5.5,
-    16
+    6.5,
+    17
    ],
    "mirror_of_E": true,
    "outline": "silhouette1",
-   "scale": 0.01998,
+   "scale": 0.02003,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -666,18 +666,18 @@
    "facing": "E",
    "team": "blue",
    "rect": [
-    108,
-    36,
-    18,
-    18
+    154,
+    37,
+    20,
+    20
    ],
    "anchor": [
-    9.0,
-    16
+    10.0,
+    17
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.02125,
+   "scale": 0.02078,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -693,18 +693,18 @@
    "facing": "E",
    "team": "red",
    "rect": [
-    128,
-    36,
-    18,
-    18
+    176,
+    37,
+    20,
+    20
    ],
    "anchor": [
-    9.0,
-    16
+    10.0,
+    17
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.02125,
+   "scale": 0.02078,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -720,18 +720,18 @@
    "facing": "N",
    "team": "blue",
    "rect": [
-    274,
-    36,
-    11,
-    18
+    398,
+    37,
+    13,
+    19
    ],
    "anchor": [
-    5.5,
+    6.5,
     16
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.02125,
+   "scale": 0.02078,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -747,18 +747,18 @@
    "facing": "N",
    "team": "red",
    "rect": [
-    287,
-    36,
-    11,
-    18
+    413,
+    37,
+    13,
+    19
    ],
    "anchor": [
-    5.5,
+    6.5,
     16
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.02125,
+   "scale": 0.02078,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -774,18 +774,18 @@
    "facing": "S",
    "team": "blue",
    "rect": [
-    218,
-    36,
-    12,
-    18
+    242,
+    37,
+    14,
+    20
    ],
    "anchor": [
-    6.0,
-    16
+    7.0,
+    17
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.02125,
+   "scale": 0.02078,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -801,18 +801,18 @@
    "facing": "S",
    "team": "red",
    "rect": [
-    232,
-    36,
-    12,
-    18
+    258,
+    37,
+    14,
+    20
    ],
    "anchor": [
-    6.0,
-    16
+    7.0,
+    17
    ],
    "mirror_of_E": false,
    "outline": "silhouette1",
-   "scale": 0.02125,
+   "scale": 0.02078,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -828,18 +828,18 @@
    "facing": "W",
    "team": "blue",
    "rect": [
-    148,
-    36,
-    18,
-    18
+    198,
+    37,
+    20,
+    20
    ],
    "anchor": [
-    9.0,
-    16
+    10.0,
+    17
    ],
    "mirror_of_E": true,
    "outline": "silhouette1",
-   "scale": 0.02125,
+   "scale": 0.02078,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -855,18 +855,18 @@
    "facing": "W",
    "team": "red",
    "rect": [
-    168,
-    36,
-    18,
-    18
+    220,
+    37,
+    20,
+    20
    ],
    "anchor": [
-    9.0,
-    16
+    10.0,
+    17
    ],
    "mirror_of_E": true,
    "outline": "silhouette1",
-   "scale": 0.02125,
+   "scale": 0.02078,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -882,18 +882,18 @@
    "facing": "E",
    "team": "blue",
    "rect": [
-    282,
+    292,
     2,
-    25,
-    24
+    27,
+    26
    ],
    "anchor": [
-    13.0,
-    21
+    14.0,
+    22
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.02567,
+   "scale": 0.02532,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -909,18 +909,18 @@
    "facing": "E",
    "team": "red",
    "rect": [
-    309,
+    321,
     2,
-    25,
-    24
+    27,
+    26
    ],
    "anchor": [
-    13.0,
-    21
+    14.0,
+    22
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.02567,
+   "scale": 0.02532,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -936,14 +936,14 @@
    "facing": "N",
    "team": "blue",
    "rect": [
-    390,
+    408,
     2,
-    23,
-    24
+    25,
+    26
    ],
    "anchor": [
-    11.5,
-    21
+    12.5,
+    22
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
@@ -963,14 +963,14 @@
    "facing": "N",
    "team": "red",
    "rect": [
-    415,
+    435,
     2,
-    23,
-    24
+    25,
+    26
    ],
    "anchor": [
-    11.5,
-    21
+    12.5,
+    22
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
@@ -990,18 +990,18 @@
    "facing": "S",
    "team": "blue",
    "rect": [
-    440,
+    462,
     2,
-    19,
-    24
+    21,
+    26
    ],
    "anchor": [
-    9.5,
-    21
+    10.5,
+    22
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.02478,
+   "scale": 0.02481,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -1017,18 +1017,18 @@
    "facing": "S",
    "team": "red",
    "rect": [
-    461,
+    485,
     2,
-    19,
-    24
+    21,
+    26
    ],
    "anchor": [
-    9.5,
-    21
+    10.5,
+    22
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.02478,
+   "scale": 0.02481,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -1044,18 +1044,18 @@
    "facing": "W",
    "team": "blue",
    "rect": [
-    336,
+    350,
     2,
-    25,
-    24
+    27,
+    26
    ],
    "anchor": [
-    12.0,
-    21
+    13.0,
+    22
    ],
    "mirror_of_E": true,
    "outline": "silhouette2",
-   "scale": 0.02567,
+   "scale": 0.02532,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -1071,18 +1071,18 @@
    "facing": "W",
    "team": "red",
    "rect": [
-    363,
+    379,
     2,
-    25,
-    24
+    27,
+    26
    ],
    "anchor": [
-    12.0,
-    21
+    13.0,
+    22
    ],
    "mirror_of_E": true,
    "outline": "silhouette2",
-   "scale": 0.02567,
+   "scale": 0.02532,
    "shadow": {
     "dx": 3.0,
     "dy": 2.0,
@@ -1132,12 +1132,12 @@
     "state": "idle",
     "facing": "E",
     "anchor": [
-     18.5,
+     19.0,
      29
     ],
     "mirror_of_E": false,
     "outline": "silhouette2",
-    "scale": 0.03752,
+    "scale": 0.03698,
     "shadow": {
      "dx": 3.0,
      "dy": 1.5,
@@ -1148,8 +1148,8 @@
     "rect": [
      2,
      2,
-     36,
-     32
+     37,
+     33
     ]
    },
    {
@@ -1158,8 +1158,8 @@
     "state": "idle",
     "facing": "N",
     "anchor": [
-     12.0,
-     26
+     13.0,
+     27
     ],
     "mirror_of_E": false,
     "outline": "silhouette2",
@@ -1172,10 +1172,10 @@
      "alpha": 0.3
     },
     "rect": [
-     116,
+     119,
      2,
-     24,
-     29
+     26,
+     31
     ]
    },
    {
@@ -1184,12 +1184,12 @@
     "state": "idle",
     "facing": "S",
     "anchor": [
-     18.5,
+     19.0,
      29
     ],
     "mirror_of_E": false,
     "outline": "silhouette2",
-    "scale": 0.03621,
+    "scale": 0.03591,
     "shadow": {
      "dx": 3.0,
      "dy": 1.5,
@@ -1198,10 +1198,10 @@
      "alpha": 0.3
     },
     "rect": [
-     40,
+     41,
      2,
-     36,
-     32
+     37,
+     33
     ]
    },
    {
@@ -1210,12 +1210,12 @@
     "state": "idle",
     "facing": "W",
     "anchor": [
-     17.5,
+     18.0,
      29
     ],
     "mirror_of_E": true,
     "outline": "silhouette2",
-    "scale": 0.03752,
+    "scale": 0.03698,
     "shadow": {
      "dx": 3.0,
      "dy": 1.5,
@@ -1224,10 +1224,10 @@
      "alpha": 0.3
     },
     "rect": [
-     78,
+     80,
      2,
-     36,
-     32
+     37,
+     33
     ]
    },
    {
@@ -1236,12 +1236,12 @@
     "state": "idle",
     "facing": "E",
     "anchor": [
-     9.5,
-     16
+     10.5,
+     17
     ],
     "mirror_of_E": false,
     "outline": "silhouette1",
-    "scale": 0.02162,
+    "scale": 0.02133,
     "shadow": {
      "dx": 3.0,
      "dy": 2.0,
@@ -1250,10 +1250,10 @@
      "alpha": 0.3
     },
     "rect": [
-     270,
+     287,
      2,
-     18,
-     18
+     20,
+     20
     ]
    },
    {
@@ -1262,12 +1262,12 @@
     "state": "idle",
     "facing": "N",
     "anchor": [
-     6.5,
-     17
+     7.5,
+     18
     ],
     "mirror_of_E": false,
     "outline": "silhouette1",
-    "scale": 0.02162,
+    "scale": 0.02133,
     "shadow": {
      "dx": 3.0,
      "dy": 2.0,
@@ -1276,10 +1276,10 @@
      "alpha": 0.3
     },
     "rect": [
-     242,
+     255,
      2,
-     13,
-     19
+     15,
+     21
     ]
    },
    {
@@ -1288,12 +1288,12 @@
     "state": "idle",
     "facing": "S",
     "anchor": [
-     5.5,
-     17
+     6.5,
+     18
     ],
     "mirror_of_E": false,
     "outline": "silhouette1",
-    "scale": 0.02162,
+    "scale": 0.02133,
     "shadow": {
      "dx": 3.0,
      "dy": 2.0,
@@ -1302,10 +1302,10 @@
      "alpha": 0.3
     },
     "rect": [
-     257,
+     272,
      2,
-     11,
-     19
+     13,
+     21
     ]
    },
    {
@@ -1314,12 +1314,12 @@
     "state": "idle",
     "facing": "W",
     "anchor": [
-     8.5,
-     16
+     9.5,
+     17
     ],
     "mirror_of_E": true,
     "outline": "silhouette1",
-    "scale": 0.02162,
+    "scale": 0.02133,
     "shadow": {
      "dx": 3.0,
      "dy": 2.0,
@@ -1328,10 +1328,10 @@
      "alpha": 0.3
     },
     "rect": [
-     290,
+     309,
      2,
-     18,
-     18
+     20,
+     20
     ]
    },
    {
@@ -1340,12 +1340,12 @@
     "state": "idle",
     "facing": "E",
     "anchor": [
-     5.5,
-     16
+     6.5,
+     17
     ],
     "mirror_of_E": false,
     "outline": "silhouette1",
-    "scale": 0.01998,
+    "scale": 0.02003,
     "shadow": {
      "dx": 3.0,
      "dy": 2.0,
@@ -1354,10 +1354,10 @@
      "alpha": 0.3
     },
     "rect": [
-     393,
+     423,
      2,
-     11,
-     18
+     13,
+     20
     ]
    },
    {
@@ -1366,12 +1366,12 @@
     "state": "idle",
     "facing": "N",
     "anchor": [
-     6.0,
-     16
+     7.0,
+     17
     ],
     "mirror_of_E": false,
     "outline": "silhouette1",
-    "scale": 0.02049,
+    "scale": 0.01956,
     "shadow": {
      "dx": 3.0,
      "dy": 2.0,
@@ -1380,10 +1380,10 @@
      "alpha": 0.3
     },
     "rect": [
-     365,
+     375,
      2,
-     12,
-     18
+     14,
+     20
     ]
    },
    {
@@ -1392,116 +1392,12 @@
     "state": "idle",
     "facing": "S",
     "anchor": [
-     6.5,
-     16
+     7.0,
+     17
     ],
     "mirror_of_E": false,
     "outline": "silhouette1",
-    "scale": 0.0218,
-    "shadow": {
-     "dx": 3.0,
-     "dy": 2.0,
-     "rx": 4.95,
-     "ry": 2,
-     "alpha": 0.3
-    },
-    "rect": [
-     350,
-     2,
-     13,
-     18
-    ]
-   },
-   {
-    "name": "medic-idle-w",
-    "unit": "medic",
-    "state": "idle",
-    "facing": "W",
-    "anchor": [
-     5.5,
-     16
-    ],
-    "mirror_of_E": true,
-    "outline": "silhouette1",
-    "scale": 0.01998,
-    "shadow": {
-     "dx": 3.0,
-     "dy": 2.0,
-     "rx": 4.05,
-     "ry": 2,
-     "alpha": 0.3
-    },
-    "rect": [
-     406,
-     2,
-     11,
-     18
-    ]
-   },
-   {
-    "name": "rocket_soldier-idle-e",
-    "unit": "rocket_soldier",
-    "state": "idle",
-    "facing": "E",
-    "anchor": [
-     9.0,
-     16
-    ],
-    "mirror_of_E": false,
-    "outline": "silhouette1",
-    "scale": 0.02125,
-    "shadow": {
-     "dx": 3.0,
-     "dy": 2.0,
-     "rx": 5,
-     "ry": 2,
-     "alpha": 0.3
-    },
-    "rect": [
-     310,
-     2,
-     18,
-     18
-    ]
-   },
-   {
-    "name": "rocket_soldier-idle-n",
-    "unit": "rocket_soldier",
-    "state": "idle",
-    "facing": "N",
-    "anchor": [
-     5.5,
-     16
-    ],
-    "mirror_of_E": false,
-    "outline": "silhouette1",
-    "scale": 0.02125,
-    "shadow": {
-     "dx": 3.0,
-     "dy": 2.0,
-     "rx": 4.05,
-     "ry": 2,
-     "alpha": 0.3
-    },
-    "rect": [
-     419,
-     2,
-     11,
-     18
-    ]
-   },
-   {
-    "name": "rocket_soldier-idle-s",
-    "unit": "rocket_soldier",
-    "state": "idle",
-    "facing": "S",
-    "anchor": [
-     6.0,
-     16
-    ],
-    "mirror_of_E": false,
-    "outline": "silhouette1",
-    "scale": 0.02125,
+    "scale": 0.02086,
     "shadow": {
      "dx": 3.0,
      "dy": 2.0,
@@ -1510,24 +1406,50 @@
      "alpha": 0.3
     },
     "rect": [
-     379,
+     391,
      2,
-     12,
-     18
+     14,
+     20
     ]
    },
    {
-    "name": "rocket_soldier-idle-w",
-    "unit": "rocket_soldier",
+    "name": "medic-idle-w",
+    "unit": "medic",
     "state": "idle",
     "facing": "W",
     "anchor": [
-     9.0,
-     16
+     6.5,
+     17
     ],
     "mirror_of_E": true,
     "outline": "silhouette1",
-    "scale": 0.02125,
+    "scale": 0.02003,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.05,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     438,
+     2,
+     13,
+     20
+    ]
+   },
+   {
+    "name": "rocket_soldier-idle-e",
+    "unit": "rocket_soldier",
+    "state": "idle",
+    "facing": "E",
+    "anchor": [
+     10.0,
+     17
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02078,
     "shadow": {
      "dx": 3.0,
      "dy": 2.0,
@@ -1536,10 +1458,88 @@
      "alpha": 0.3
     },
     "rect": [
-     330,
+     331,
      2,
-     18,
-     18
+     20,
+     20
+    ]
+   },
+   {
+    "name": "rocket_soldier-idle-n",
+    "unit": "rocket_soldier",
+    "state": "idle",
+    "facing": "N",
+    "anchor": [
+     6.5,
+     16
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02078,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.05,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     453,
+     2,
+     13,
+     19
+    ]
+   },
+   {
+    "name": "rocket_soldier-idle-s",
+    "unit": "rocket_soldier",
+    "state": "idle",
+    "facing": "S",
+    "anchor": [
+     7.0,
+     17
+    ],
+    "mirror_of_E": false,
+    "outline": "silhouette1",
+    "scale": 0.02078,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 4.5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     407,
+     2,
+     14,
+     20
+    ]
+   },
+   {
+    "name": "rocket_soldier-idle-w",
+    "unit": "rocket_soldier",
+    "state": "idle",
+    "facing": "W",
+    "anchor": [
+     10.0,
+     17
+    ],
+    "mirror_of_E": true,
+    "outline": "silhouette1",
+    "scale": 0.02078,
+    "shadow": {
+     "dx": 3.0,
+     "dy": 2.0,
+     "rx": 5,
+     "ry": 2,
+     "alpha": 0.3
+    },
+    "rect": [
+     353,
+     2,
+     20,
+     20
     ]
    },
    {
@@ -1548,12 +1548,12 @@
     "state": "idle",
     "facing": "E",
     "anchor": [
-     13.0,
-     21
+     14.0,
+     22
     ],
     "mirror_of_E": false,
     "outline": "silhouette2",
-    "scale": 0.02567,
+    "scale": 0.02532,
     "shadow": {
      "dx": 3.0,
      "dy": 2.0,
@@ -1562,10 +1562,10 @@
      "alpha": 0.3
     },
     "rect": [
-     142,
+     147,
      2,
-     25,
-     24
+     27,
+     26
     ]
    },
    {
@@ -1574,8 +1574,8 @@
     "state": "idle",
     "facing": "N",
     "anchor": [
-     11.5,
-     21
+     12.5,
+     22
     ],
     "mirror_of_E": false,
     "outline": "silhouette2",
@@ -1588,10 +1588,10 @@
      "alpha": 0.3
     },
     "rect": [
-     196,
+     205,
      2,
-     23,
-     24
+     25,
+     26
     ]
    },
    {
@@ -1600,12 +1600,12 @@
     "state": "idle",
     "facing": "S",
     "anchor": [
-     9.5,
-     21
+     10.5,
+     22
     ],
     "mirror_of_E": false,
     "outline": "silhouette2",
-    "scale": 0.02478,
+    "scale": 0.02481,
     "shadow": {
      "dx": 3.0,
      "dy": 2.0,
@@ -1614,10 +1614,10 @@
      "alpha": 0.3
     },
     "rect": [
-     221,
+     232,
      2,
-     19,
-     24
+     21,
+     26
     ]
    },
    {
@@ -1626,12 +1626,12 @@
     "state": "idle",
     "facing": "W",
     "anchor": [
-     12.0,
-     21
+     13.0,
+     22
     ],
     "mirror_of_E": true,
     "outline": "silhouette2",
-    "scale": 0.02567,
+    "scale": 0.02532,
     "shadow": {
      "dx": 3.0,
      "dy": 2.0,
@@ -1640,10 +1640,10 @@
      "alpha": 0.3
     },
     "rect": [
-     169,
+     176,
      2,
-     25,
-     24
+     27,
+     26
     ]
    }
   ]

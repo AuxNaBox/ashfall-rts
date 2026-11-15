@@ -1,0 +1,62 @@
+{
+ "_doc": "Ashfall loop 5 UI pieces (pipeline/l5ui.py). Min-range ring (#E8D23A) and leap cooldown ring are engine-drawn, no sprite.",
+ "image": "loop5-ui-atlas.png",
+ "size": [
+  128,
+  32
+ ],
+ "frames": [
+  {
+   "name": "transport_pip_full",
+   "rect": [
+    2,
+    1,
+    6,
+    6
+   ]
+  },
+  {
+   "name": "transport_pip_empty",
+   "rect": [
+    10,
+    1,
+    6,
+    6
+   ]
+  },
+  {
+   "name": "lock_icon",
+   "rect": [
+    20,
+    1,
+    12,
+    12
+   ],
+   "anchor": [
+    6,
+    12
+   ],
+   "_": "drawn centred above a locked gate (closed frame), no extra sprite (Dezi 4a)"
+  },
+  {
+   "name": "wall_drag_ok",
+   "rect": [
+    40,
+    0,
+    32,
+    32
+   ],
+   "_": "32x32 per-tile wall drag preview at ~50% alpha with a 1 px edge; draw one per tile of wallTilesFromDrag"
+  },
+  {
+   "name": "wall_drag_bad",
+   "rect": [
+    76,
+    0,
+    32,
+    32
+   ],
+   "_": "32x32 per-tile wall drag preview at ~50% alpha with a 1 px edge; draw one per tile of wallTilesFromDrag"
+  }
+ ]
+}

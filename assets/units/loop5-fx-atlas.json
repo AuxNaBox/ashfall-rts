@@ -1,0 +1,1931 @@
+{
+ "_doc": "Ashfall loop 5 fx atlas (team-less, no trim mask, no recolour). rect = [x,y,w,h]; anchor = attach point; frame = animation frame or decal variant. Cones/projectiles point east (rotate in code about the anchor). layer ground = draw with decals before bodies. Built by pipeline/l5fx.py. See loop5/HANDOFF-loop5.md.",
+ "image": "loop5-fx-atlas.png",
+ "size": [
+  512,
+  256
+ ],
+ "frames": [
+  {
+   "name": "acid_glob-0",
+   "fx": "acid_glob",
+   "frame": 0,
+   "rect": [
+    261,
+    237,
+    8,
+    7
+   ],
+   "anchor": [
+    4,
+    3
+   ],
+   "layer": "unit",
+   "doc": "Spitter acid glob (0) + stretch (1); rotate in code; 0.5 s arc."
+  },
+  {
+   "name": "acid_glob-1",
+   "fx": "acid_glob",
+   "frame": 1,
+   "rect": [
+    271,
+    237,
+    8,
+    7
+   ],
+   "anchor": [
+    4,
+    3
+   ],
+   "layer": "unit",
+   "doc": "Spitter acid glob (0) + stretch (1); rotate in code; 0.5 s arc."
+  },
+  {
+   "name": "artillery_muzzle-0",
+   "fx": "artillery_muzzle",
+   "frame": 0,
+   "rect": [
+    438,
+    216,
+    14,
+    10
+   ],
+   "anchor": [
+    1,
+    5
+   ],
+   "layer": "unit",
+   "doc": "Artillery muzzle flash, 3 frames, anchor = muzzle."
+  },
+  {
+   "name": "artillery_muzzle-1",
+   "fx": "artillery_muzzle",
+   "frame": 1,
+   "rect": [
+    454,
+    216,
+    14,
+    10
+   ],
+   "anchor": [
+    1,
+    5
+   ],
+   "layer": "unit",
+   "doc": "Artillery muzzle flash, 3 frames, anchor = muzzle."
+  },
+  {
+   "name": "artillery_muzzle-2",
+   "fx": "artillery_muzzle",
+   "frame": 2,
+   "rect": [
+    470,
+    216,
+    14,
+    10
+   ],
+   "anchor": [
+    1,
+    5
+   ],
+   "layer": "unit",
+   "doc": "Artillery muzzle flash, 3 frames, anchor = muzzle."
+  },
+  {
+   "name": "artillery_shell-0",
+   "fx": "artillery_shell",
+   "frame": 0,
+   "rect": [
+    293,
+    237,
+    10,
+    6
+   ],
+   "anchor": [
+    5,
+    3
+   ],
+   "layer": "unit",
+   "doc": "Shell (frame 0) + trail (frame 1); points east, rotate in code; arc in code (1.5 s)."
+  },
+  {
+   "name": "artillery_shell-1",
+   "fx": "artillery_shell",
+   "frame": 1,
+   "rect": [
+    305,
+    237,
+    10,
+    6
+   ],
+   "anchor": [
+    5,
+    3
+   ],
+   "layer": "unit",
+   "doc": "Shell (frame 0) + trail (frame 1); points east, rotate in code; arc in code (1.5 s)."
+  },
+  {
+   "name": "bloater_belly-0",
+   "fx": "bloater_belly",
+   "frame": 0,
+   "rect": [
+    486,
+    216,
+    12,
+    10
+   ],
+   "anchor": [
+    6,
+    5
+   ],
+   "layer": "unit",
+   "doc": "Bloater belly overlay, 4-frame loop: 4 fps idle; 12 fps + brighter lighter pass while arming. Plague ramp only."
+  },
+  {
+   "name": "bloater_belly-1",
+   "fx": "bloater_belly",
+   "frame": 1,
+   "rect": [
+    2,
+    237,
+    12,
+    10
+   ],
+   "anchor": [
+    6,
+    5
+   ],
+   "layer": "unit",
+   "doc": "Bloater belly overlay, 4-frame loop: 4 fps idle; 12 fps + brighter lighter pass while arming. Plague ramp only."
+  },
+  {
+   "name": "bloater_belly-2",
+   "fx": "bloater_belly",
+   "frame": 2,
+   "rect": [
+    16,
+    237,
+    12,
+    10
+   ],
+   "anchor": [
+    6,
+    5
+   ],
+   "layer": "unit",
+   "doc": "Bloater belly overlay, 4-frame loop: 4 fps idle; 12 fps + brighter lighter pass while arming. Plague ramp only."
+  },
+  {
+   "name": "bloater_belly-3",
+   "fx": "bloater_belly",
+   "frame": 3,
+   "rect": [
+    30,
+    237,
+    12,
+    10
+   ],
+   "anchor": [
+    6,
+    5
+   ],
+   "layer": "unit",
+   "doc": "Bloater belly overlay, 4-frame loop: 4 fps idle; 12 fps + brighter lighter pass while arming. Plague ramp only."
+  },
+  {
+   "name": "bone_shard-0",
+   "fx": "bone_shard",
+   "frame": 0,
+   "rect": [
+    317,
+    237,
+    10,
+    5
+   ],
+   "anchor": [
+    5,
+    2
+   ],
+   "layer": "unit",
+   "doc": "Bone Cannon bolt (0) + exhaust (1), points east."
+  },
+  {
+   "name": "bone_shard-1",
+   "fx": "bone_shard",
+   "frame": 1,
+   "rect": [
+    329,
+    237,
+    10,
+    5
+   ],
+   "anchor": [
+    5,
+    2
+   ],
+   "layer": "unit",
+   "doc": "Bone Cannon bolt (0) + exhaust (1), points east."
+  },
+  {
+   "name": "brimstone_cone-0",
+   "fx": "brimstone_cone",
+   "frame": 0,
+   "rect": [
+    110,
+    100,
+    110,
+    26
+   ],
+   "anchor": [
+    0,
+    13
+   ],
+   "layer": "unit",
+   "doc": "Brimstone Spire jet: hellfire with a thin violet lip; as flame_cone_tower."
+  },
+  {
+   "name": "brimstone_cone-1",
+   "fx": "brimstone_cone",
+   "frame": 1,
+   "rect": [
+    222,
+    100,
+    110,
+    26
+   ],
+   "anchor": [
+    0,
+    13
+   ],
+   "layer": "unit",
+   "doc": "Brimstone Spire jet: hellfire with a thin violet lip; as flame_cone_tower."
+  },
+  {
+   "name": "brimstone_cone-2",
+   "fx": "brimstone_cone",
+   "frame": 2,
+   "rect": [
+    334,
+    100,
+    110,
+    26
+   ],
+   "anchor": [
+    0,
+    13
+   ],
+   "layer": "unit",
+   "doc": "Brimstone Spire jet: hellfire with a thin violet lip; as flame_cone_tower."
+  },
+  {
+   "name": "building_fire-0",
+   "fx": "building_fire",
+   "frame": 0,
+   "rect": [
+    72,
+    216,
+    11,
+    16
+   ],
+   "anchor": [
+    5,
+    14
+   ],
+   "layer": "unit",
+   "doc": "Damaged/critical building fire, 6-frame loop (@8 fps via k = floor(t*8)); anchor = flame base on a fx_points/fire point. Hellfire ramp. Each spawn point starts on its own frame (particle t offset)."
+  },
+  {
+   "name": "building_fire-1",
+   "fx": "building_fire",
+   "frame": 1,
+   "rect": [
+    85,
+    216,
+    11,
+    16
+   ],
+   "anchor": [
+    5,
+    14
+   ],
+   "layer": "unit",
+   "doc": "Damaged/critical building fire, 6-frame loop (@8 fps via k = floor(t*8)); anchor = flame base on a fx_points/fire point. Hellfire ramp. Each spawn point starts on its own frame (particle t offset)."
+  },
+  {
+   "name": "building_fire-2",
+   "fx": "building_fire",
+   "frame": 2,
+   "rect": [
+    98,
+    216,
+    11,
+    16
+   ],
+   "anchor": [
+    5,
+    14
+   ],
+   "layer": "unit",
+   "doc": "Damaged/critical building fire, 6-frame loop (@8 fps via k = floor(t*8)); anchor = flame base on a fx_points/fire point. Hellfire ramp. Each spawn point starts on its own frame (particle t offset)."
+  },
+  {
+   "name": "building_fire-3",
+   "fx": "building_fire",
+   "frame": 3,
+   "rect": [
+    111,
+    216,
+    11,
+    16
+   ],
+   "anchor": [
+    5,
+    14
+   ],
+   "layer": "unit",
+   "doc": "Damaged/critical building fire, 6-frame loop (@8 fps via k = floor(t*8)); anchor = flame base on a fx_points/fire point. Hellfire ramp. Each spawn point starts on its own frame (particle t offset)."
+  },
+  {
+   "name": "building_fire-4",
+   "fx": "building_fire",
+   "frame": 4,
+   "rect": [
+    124,
+    216,
+    11,
+    16
+   ],
+   "anchor": [
+    5,
+    14
+   ],
+   "layer": "unit",
+   "doc": "Damaged/critical building fire, 6-frame loop (@8 fps via k = floor(t*8)); anchor = flame base on a fx_points/fire point. Hellfire ramp. Each spawn point starts on its own frame (particle t offset)."
+  },
+  {
+   "name": "building_fire-5",
+   "fx": "building_fire",
+   "frame": 5,
+   "rect": [
+    137,
+    216,
+    11,
+    16
+   ],
+   "anchor": [
+    5,
+    14
+   ],
+   "layer": "unit",
+   "doc": "Damaged/critical building fire, 6-frame loop (@8 fps via k = floor(t*8)); anchor = flame base on a fx_points/fire point. Hellfire ramp. Each spawn point starts on its own frame (particle t offset)."
+  },
+  {
+   "name": "building_smoke-0",
+   "fx": "building_smoke",
+   "frame": 0,
+   "rect": [
+    398,
+    58,
+    16,
+    30
+   ],
+   "anchor": [
+    6,
+    27
+   ],
+   "layer": "unit",
+   "doc": "Damaged/critical dark smoke column, 6-frame seamless loop; anchor = column foot on a smoke point. Darker than loop 4 (user Q2)."
+  },
+  {
+   "name": "building_smoke-1",
+   "fx": "building_smoke",
+   "frame": 1,
+   "rect": [
+    416,
+    58,
+    16,
+    30
+   ],
+   "anchor": [
+    6,
+    27
+   ],
+   "layer": "unit",
+   "doc": "Damaged/critical dark smoke column, 6-frame seamless loop; anchor = column foot on a smoke point. Darker than loop 4 (user Q2)."
+  },
+  {
+   "name": "building_smoke-2",
+   "fx": "building_smoke",
+   "frame": 2,
+   "rect": [
+    434,
+    58,
+    16,
+    30
+   ],
+   "anchor": [
+    6,
+    27
+   ],
+   "layer": "unit",
+   "doc": "Damaged/critical dark smoke column, 6-frame seamless loop; anchor = column foot on a smoke point. Darker than loop 4 (user Q2)."
+  },
+  {
+   "name": "building_smoke-3",
+   "fx": "building_smoke",
+   "frame": 3,
+   "rect": [
+    452,
+    58,
+    16,
+    30
+   ],
+   "anchor": [
+    6,
+    27
+   ],
+   "layer": "unit",
+   "doc": "Damaged/critical dark smoke column, 6-frame seamless loop; anchor = column foot on a smoke point. Darker than loop 4 (user Q2)."
+  },
+  {
+   "name": "building_smoke-4",
+   "fx": "building_smoke",
+   "frame": 4,
+   "rect": [
+    470,
+    58,
+    16,
+    30
+   ],
+   "anchor": [
+    6,
+    27
+   ],
+   "layer": "unit",
+   "doc": "Damaged/critical dark smoke column, 6-frame seamless loop; anchor = column foot on a smoke point. Darker than loop 4 (user Q2)."
+  },
+  {
+   "name": "building_smoke-5",
+   "fx": "building_smoke",
+   "frame": 5,
+   "rect": [
+    488,
+    58,
+    16,
+    30
+   ],
+   "anchor": [
+    6,
+    27
+   ],
+   "layer": "unit",
+   "doc": "Damaged/critical dark smoke column, 6-frame seamless loop; anchor = column foot on a smoke point. Darker than loop 4 (user Q2)."
+  },
+  {
+   "name": "building_smoke_light-0",
+   "fx": "building_smoke_light",
+   "frame": 0,
+   "rect": [
+    2,
+    100,
+    16,
+    30
+   ],
+   "anchor": [
+    6,
+    27
+   ],
+   "layer": "unit",
+   "doc": "Optional lighter smoke (light damage / dust), same loop as building_smoke."
+  },
+  {
+   "name": "building_smoke_light-1",
+   "fx": "building_smoke_light",
+   "frame": 1,
+   "rect": [
+    20,
+    100,
+    16,
+    30
+   ],
+   "anchor": [
+    6,
+    27
+   ],
+   "layer": "unit",
+   "doc": "Optional lighter smoke (light damage / dust), same loop as building_smoke."
+  },
+  {
+   "name": "building_smoke_light-2",
+   "fx": "building_smoke_light",
+   "frame": 2,
+   "rect": [
+    38,
+    100,
+    16,
+    30
+   ],
+   "anchor": [
+    6,
+    27
+   ],
+   "layer": "unit",
+   "doc": "Optional lighter smoke (light damage / dust), same loop as building_smoke."
+  },
+  {
+   "name": "building_smoke_light-3",
+   "fx": "building_smoke_light",
+   "frame": 3,
+   "rect": [
+    56,
+    100,
+    16,
+    30
+   ],
+   "anchor": [
+    6,
+    27
+   ],
+   "layer": "unit",
+   "doc": "Optional lighter smoke (light damage / dust), same loop as building_smoke."
+  },
+  {
+   "name": "building_smoke_light-4",
+   "fx": "building_smoke_light",
+   "frame": 4,
+   "rect": [
+    74,
+    100,
+    16,
+    30
+   ],
+   "anchor": [
+    6,
+    27
+   ],
+   "layer": "unit",
+   "doc": "Optional lighter smoke (light damage / dust), same loop as building_smoke."
+  },
+  {
+   "name": "building_smoke_light-5",
+   "fx": "building_smoke_light",
+   "frame": 5,
+   "rect": [
+    92,
+    100,
+    16,
+    30
+   ],
+   "anchor": [
+    6,
+    27
+   ],
+   "layer": "unit",
+   "doc": "Optional lighter smoke (light damage / dust), same loop as building_smoke."
+  },
+  {
+   "name": "catapult_body-0",
+   "fx": "catapult_body",
+   "frame": 0,
+   "rect": [
+    242,
+    216,
+    13,
+    12
+   ],
+   "anchor": [
+    6,
+    6
+   ],
+   "layer": "unit",
+   "doc": "Corpse/skull chunk, 4 tumble frames; 1.5 s flight; lands -> plague_patch + siege_crater_lg."
+  },
+  {
+   "name": "catapult_body-1",
+   "fx": "catapult_body",
+   "frame": 1,
+   "rect": [
+    257,
+    216,
+    13,
+    12
+   ],
+   "anchor": [
+    6,
+    6
+   ],
+   "layer": "unit",
+   "doc": "Corpse/skull chunk, 4 tumble frames; 1.5 s flight; lands -> plague_patch + siege_crater_lg."
+  },
+  {
+   "name": "catapult_body-2",
+   "fx": "catapult_body",
+   "frame": 2,
+   "rect": [
+    272,
+    216,
+    13,
+    12
+   ],
+   "anchor": [
+    6,
+    6
+   ],
+   "layer": "unit",
+   "doc": "Corpse/skull chunk, 4 tumble frames; 1.5 s flight; lands -> plague_patch + siege_crater_lg."
+  },
+  {
+   "name": "catapult_body-3",
+   "fx": "catapult_body",
+   "frame": 3,
+   "rect": [
+    287,
+    216,
+    13,
+    12
+   ],
+   "anchor": [
+    6,
+    6
+   ],
+   "layer": "unit",
+   "doc": "Corpse/skull chunk, 4 tumble frames; 1.5 s flight; lands -> plague_patch + siege_crater_lg."
+  },
+  {
+   "name": "catapult_puff-0",
+   "fx": "catapult_puff",
+   "frame": 0,
+   "rect": [
+    44,
+    237,
+    12,
+    10
+   ],
+   "anchor": [
+    6,
+    5
+   ],
+   "layer": "unit",
+   "doc": "Catapult release puff, 3 frames, anchor = basket."
+  },
+  {
+   "name": "catapult_puff-1",
+   "fx": "catapult_puff",
+   "frame": 1,
+   "rect": [
+    58,
+    237,
+    12,
+    10
+   ],
+   "anchor": [
+    6,
+    5
+   ],
+   "layer": "unit",
+   "doc": "Catapult release puff, 3 frames, anchor = basket."
+  },
+  {
+   "name": "catapult_puff-2",
+   "fx": "catapult_puff",
+   "frame": 2,
+   "rect": [
+    72,
+    237,
+    12,
+    10
+   ],
+   "anchor": [
+    6,
+    5
+   ],
+   "layer": "unit",
+   "doc": "Catapult release puff, 3 frames, anchor = basket."
+  },
+  {
+   "name": "cleansed_tile-0",
+   "fx": "cleansed_tile",
+   "frame": 0,
+   "rect": [
+    294,
+    188,
+    32,
+    20
+   ],
+   "anchor": [
+    16,
+    10
+   ],
+   "layer": "ground",
+   "doc": "Holy dust tint, 3 hold stages over 30 s (frame = stage)."
+  },
+  {
+   "name": "cleansed_tile-1",
+   "fx": "cleansed_tile",
+   "frame": 1,
+   "rect": [
+    328,
+    188,
+    32,
+    20
+   ],
+   "anchor": [
+    16,
+    10
+   ],
+   "layer": "ground",
+   "doc": "Holy dust tint, 3 hold stages over 30 s (frame = stage)."
+  },
+  {
+   "name": "cleansed_tile-2",
+   "fx": "cleansed_tile",
+   "frame": 2,
+   "rect": [
+    362,
+    188,
+    32,
+    20
+   ],
+   "anchor": [
+    16,
+    10
+   ],
+   "layer": "ground",
+   "doc": "Holy dust tint, 3 hold stages over 30 s (frame = stage)."
+  },
+  {
+   "name": "crawler_print-0",
+   "fx": "crawler_print",
+   "frame": 0,
+   "rect": [
+    396,
+    188,
+    20,
+    20
+   ],
+   "anchor": [
+    10,
+    10
+   ],
+   "layer": "ground",
+   "doc": "Bone Crawler 6-leg print stamp, 2 variants; rotate like tread_mark."
+  },
+  {
+   "name": "crawler_print-1",
+   "fx": "crawler_print",
+   "frame": 1,
+   "rect": [
+    418,
+    188,
+    20,
+    20
+   ],
+   "anchor": [
+    10,
+    10
+   ],
+   "layer": "ground",
+   "doc": "Bone Crawler 6-leg print stamp, 2 variants; rotate like tread_mark."
+  },
+  {
+   "name": "demo_dud-0",
+   "fx": "demo_dud",
+   "frame": 0,
+   "rect": [
+    150,
+    216,
+    12,
+    14
+   ],
+   "anchor": [
+    6,
+    11
+   ],
+   "layer": "unit",
+   "doc": "Demo killed before arming: fuse sputter + thin smoke, 4 frames ~0.4 s, no fireball."
+  },
+  {
+   "name": "demo_dud-1",
+   "fx": "demo_dud",
+   "frame": 1,
+   "rect": [
+    164,
+    216,
+    12,
+    14
+   ],
+   "anchor": [
+    6,
+    11
+   ],
+   "layer": "unit",
+   "doc": "Demo killed before arming: fuse sputter + thin smoke, 4 frames ~0.4 s, no fireball."
+  },
+  {
+   "name": "demo_dud-2",
+   "fx": "demo_dud",
+   "frame": 2,
+   "rect": [
+    178,
+    216,
+    12,
+    14
+   ],
+   "anchor": [
+    6,
+    11
+   ],
+   "layer": "unit",
+   "doc": "Demo killed before arming: fuse sputter + thin smoke, 4 frames ~0.4 s, no fireball."
+  },
+  {
+   "name": "demo_dud-3",
+   "fx": "demo_dud",
+   "frame": 3,
+   "rect": [
+    192,
+    216,
+    12,
+    14
+   ],
+   "anchor": [
+    6,
+    11
+   ],
+   "layer": "unit",
+   "doc": "Demo killed before arming: fuse sputter + thin smoke, 4 frames ~0.4 s, no fireball."
+  },
+  {
+   "name": "demo_explosion-0",
+   "fx": "demo_explosion",
+   "frame": 0,
+   "rect": [
+    2,
+    58,
+    64,
+    40
+   ],
+   "anchor": [
+    32,
+    26
+   ],
+   "layer": "unit",
+   "doc": "Demo blast 64x36, 6 frames @20 fps; then scorch_decal / siege_crater_lg."
+  },
+  {
+   "name": "demo_explosion-1",
+   "fx": "demo_explosion",
+   "frame": 1,
+   "rect": [
+    68,
+    58,
+    64,
+    40
+   ],
+   "anchor": [
+    32,
+    26
+   ],
+   "layer": "unit",
+   "doc": "Demo blast 64x36, 6 frames @20 fps; then scorch_decal / siege_crater_lg."
+  },
+  {
+   "name": "demo_explosion-2",
+   "fx": "demo_explosion",
+   "frame": 2,
+   "rect": [
+    134,
+    58,
+    64,
+    40
+   ],
+   "anchor": [
+    32,
+    26
+   ],
+   "layer": "unit",
+   "doc": "Demo blast 64x36, 6 frames @20 fps; then scorch_decal / siege_crater_lg."
+  },
+  {
+   "name": "demo_explosion-3",
+   "fx": "demo_explosion",
+   "frame": 3,
+   "rect": [
+    200,
+    58,
+    64,
+    40
+   ],
+   "anchor": [
+    32,
+    26
+   ],
+   "layer": "unit",
+   "doc": "Demo blast 64x36, 6 frames @20 fps; then scorch_decal / siege_crater_lg."
+  },
+  {
+   "name": "demo_explosion-4",
+   "fx": "demo_explosion",
+   "frame": 4,
+   "rect": [
+    266,
+    58,
+    64,
+    40
+   ],
+   "anchor": [
+    32,
+    26
+   ],
+   "layer": "unit",
+   "doc": "Demo blast 64x36, 6 frames @20 fps; then scorch_decal / siege_crater_lg."
+  },
+  {
+   "name": "demo_explosion-5",
+   "fx": "demo_explosion",
+   "frame": 5,
+   "rect": [
+    332,
+    58,
+    64,
+    40
+   ],
+   "anchor": [
+    32,
+    26
+   ],
+   "layer": "unit",
+   "doc": "Demo blast 64x36, 6 frames @20 fps; then scorch_decal / siege_crater_lg."
+  },
+  {
+   "name": "dud_satchel-0",
+   "fx": "dud_satchel",
+   "frame": 0,
+   "rect": [
+    281,
+    237,
+    10,
+    7
+   ],
+   "anchor": [
+    5,
+    4
+   ],
+   "layer": "ground",
+   "doc": "Dropped satchel decal, no spark."
+  },
+  {
+   "name": "flame_cone_tower-0",
+   "fx": "flame_cone_tower",
+   "frame": 0,
+   "rect": [
+    2,
+    132,
+    110,
+    26
+   ],
+   "anchor": [
+    0,
+    13
+   ],
+   "layer": "unit",
+   "doc": "Flame Tower jet ~110x26, points east, anchor = nozzle; 3 frames @15 fps; additive OK."
+  },
+  {
+   "name": "flame_cone_tower-1",
+   "fx": "flame_cone_tower",
+   "frame": 1,
+   "rect": [
+    114,
+    132,
+    110,
+    26
+   ],
+   "anchor": [
+    0,
+    13
+   ],
+   "layer": "unit",
+   "doc": "Flame Tower jet ~110x26, points east, anchor = nozzle; 3 frames @15 fps; additive OK."
+  },
+  {
+   "name": "flame_cone_tower-2",
+   "fx": "flame_cone_tower",
+   "frame": 2,
+   "rect": [
+    226,
+    132,
+    110,
+    26
+   ],
+   "anchor": [
+    0,
+    13
+   ],
+   "layer": "unit",
+   "doc": "Flame Tower jet ~110x26, points east, anchor = nozzle; 3 frames @15 fps; additive OK."
+  },
+  {
+   "name": "fuse_cue-0",
+   "fx": "fuse_cue",
+   "frame": 0,
+   "rect": [
+    185,
+    237,
+    8,
+    8
+   ],
+   "anchor": [
+    4,
+    4
+   ],
+   "layer": "unit",
+   "doc": "Demo Squad arming spark, 4-frame loop @10 fps for 1.5 s, anchor = fuse tip."
+  },
+  {
+   "name": "fuse_cue-1",
+   "fx": "fuse_cue",
+   "frame": 1,
+   "rect": [
+    195,
+    237,
+    8,
+    8
+   ],
+   "anchor": [
+    4,
+    4
+   ],
+   "layer": "unit",
+   "doc": "Demo Squad arming spark, 4-frame loop @10 fps for 1.5 s, anchor = fuse tip."
+  },
+  {
+   "name": "fuse_cue-2",
+   "fx": "fuse_cue",
+   "frame": 2,
+   "rect": [
+    205,
+    237,
+    8,
+    8
+   ],
+   "anchor": [
+    4,
+    4
+   ],
+   "layer": "unit",
+   "doc": "Demo Squad arming spark, 4-frame loop @10 fps for 1.5 s, anchor = fuse tip."
+  },
+  {
+   "name": "fuse_cue-3",
+   "fx": "fuse_cue",
+   "frame": 3,
+   "rect": [
+    215,
+    237,
+    8,
+    8
+   ],
+   "anchor": [
+    4,
+    4
+   ],
+   "layer": "unit",
+   "doc": "Demo Squad arming spark, 4-frame loop @10 fps for 1.5 s, anchor = fuse tip."
+  },
+  {
+   "name": "hiss_puff-0",
+   "fx": "hiss_puff",
+   "frame": 0,
+   "rect": [
+    302,
+    216,
+    12,
+    12
+   ],
+   "anchor": [
+    6,
+    9
+   ],
+   "layer": "unit",
+   "doc": "Acid hiss on heavy targets, 4 frames ~0.3 s."
+  },
+  {
+   "name": "hiss_puff-1",
+   "fx": "hiss_puff",
+   "frame": 1,
+   "rect": [
+    316,
+    216,
+    12,
+    12
+   ],
+   "anchor": [
+    6,
+    9
+   ],
+   "layer": "unit",
+   "doc": "Acid hiss on heavy targets, 4 frames ~0.3 s."
+  },
+  {
+   "name": "hiss_puff-2",
+   "fx": "hiss_puff",
+   "frame": 2,
+   "rect": [
+    330,
+    216,
+    12,
+    12
+   ],
+   "anchor": [
+    6,
+    9
+   ],
+   "layer": "unit",
+   "doc": "Acid hiss on heavy targets, 4 frames ~0.3 s."
+  },
+  {
+   "name": "hiss_puff-3",
+   "fx": "hiss_puff",
+   "frame": 3,
+   "rect": [
+    344,
+    216,
+    12,
+    12
+   ],
+   "anchor": [
+    6,
+    9
+   ],
+   "layer": "unit",
+   "doc": "Acid hiss on heavy targets, 4 frames ~0.3 s."
+  },
+  {
+   "name": "holy_fire_cone-0",
+   "fx": "holy_fire_cone",
+   "frame": 0,
+   "rect": [
+    338,
+    132,
+    110,
+    26
+   ],
+   "anchor": [
+    0,
+    13
+   ],
+   "layer": "unit",
+   "doc": "Purifier holy fire ~110x26: holy core, hellfire lip; additive OK."
+  },
+  {
+   "name": "holy_fire_cone-1",
+   "fx": "holy_fire_cone",
+   "frame": 1,
+   "rect": [
+    2,
+    160,
+    110,
+    26
+   ],
+   "anchor": [
+    0,
+    13
+   ],
+   "layer": "unit",
+   "doc": "Purifier holy fire ~110x26: holy core, hellfire lip; additive OK."
+  },
+  {
+   "name": "holy_fire_cone-2",
+   "fx": "holy_fire_cone",
+   "frame": 2,
+   "rect": [
+    114,
+    160,
+    110,
+    26
+   ],
+   "anchor": [
+    0,
+    13
+   ],
+   "layer": "unit",
+   "doc": "Purifier holy fire ~110x26: holy core, hellfire lip; additive OK."
+  },
+  {
+   "name": "horde_drip-0",
+   "fx": "horde_drip",
+   "frame": 0,
+   "rect": [
+    206,
+    216,
+    7,
+    14
+   ],
+   "anchor": [
+    3,
+    1
+   ],
+   "layer": "unit",
+   "doc": "Horde damaged: ichor drip, 4-frame loop; anchor = drip source."
+  },
+  {
+   "name": "horde_drip-1",
+   "fx": "horde_drip",
+   "frame": 1,
+   "rect": [
+    215,
+    216,
+    7,
+    14
+   ],
+   "anchor": [
+    3,
+    1
+   ],
+   "layer": "unit",
+   "doc": "Horde damaged: ichor drip, 4-frame loop; anchor = drip source."
+  },
+  {
+   "name": "horde_drip-2",
+   "fx": "horde_drip",
+   "frame": 2,
+   "rect": [
+    224,
+    216,
+    7,
+    14
+   ],
+   "anchor": [
+    3,
+    1
+   ],
+   "layer": "unit",
+   "doc": "Horde damaged: ichor drip, 4-frame loop; anchor = drip source."
+  },
+  {
+   "name": "horde_drip-3",
+   "fx": "horde_drip",
+   "frame": 3,
+   "rect": [
+    233,
+    216,
+    7,
+    14
+   ],
+   "anchor": [
+    3,
+    1
+   ],
+   "layer": "unit",
+   "doc": "Horde damaged: ichor drip, 4-frame loop; anchor = drip source."
+  },
+  {
+   "name": "horde_ooze-0",
+   "fx": "horde_ooze",
+   "frame": 0,
+   "rect": [
+    113,
+    237,
+    16,
+    9
+   ],
+   "anchor": [
+    8,
+    5
+   ],
+   "layer": "ground",
+   "doc": "Horde critical: ichor pool bubbling, 4-frame loop; anchor = pool centre."
+  },
+  {
+   "name": "horde_ooze-1",
+   "fx": "horde_ooze",
+   "frame": 1,
+   "rect": [
+    131,
+    237,
+    16,
+    9
+   ],
+   "anchor": [
+    8,
+    5
+   ],
+   "layer": "ground",
+   "doc": "Horde critical: ichor pool bubbling, 4-frame loop; anchor = pool centre."
+  },
+  {
+   "name": "horde_ooze-2",
+   "fx": "horde_ooze",
+   "frame": 2,
+   "rect": [
+    149,
+    237,
+    16,
+    9
+   ],
+   "anchor": [
+    8,
+    5
+   ],
+   "layer": "ground",
+   "doc": "Horde critical: ichor pool bubbling, 4-frame loop; anchor = pool centre."
+  },
+  {
+   "name": "horde_ooze-3",
+   "fx": "horde_ooze",
+   "frame": 3,
+   "rect": [
+    167,
+    237,
+    16,
+    9
+   ],
+   "anchor": [
+    8,
+    5
+   ],
+   "layer": "ground",
+   "doc": "Horde critical: ichor pool bubbling, 4-frame loop; anchor = pool centre."
+  },
+  {
+   "name": "jump_jet-0",
+   "fx": "jump_jet",
+   "frame": 0,
+   "rect": [
+    86,
+    237,
+    7,
+    10
+   ],
+   "anchor": [
+    3,
+    0
+   ],
+   "layer": "unit",
+   "doc": "Shock Trooper nozzle jet while airborne, 3 frames @15 fps, anchor = nozzles (points down)."
+  },
+  {
+   "name": "jump_jet-1",
+   "fx": "jump_jet",
+   "frame": 1,
+   "rect": [
+    95,
+    237,
+    7,
+    10
+   ],
+   "anchor": [
+    3,
+    0
+   ],
+   "layer": "unit",
+   "doc": "Shock Trooper nozzle jet while airborne, 3 frames @15 fps, anchor = nozzles (points down)."
+  },
+  {
+   "name": "jump_jet-2",
+   "fx": "jump_jet",
+   "frame": 2,
+   "rect": [
+    104,
+    237,
+    7,
+    10
+   ],
+   "anchor": [
+    3,
+    0
+   ],
+   "layer": "unit",
+   "doc": "Shock Trooper nozzle jet while airborne, 3 frames @15 fps, anchor = nozzles (points down)."
+  },
+  {
+   "name": "landing_marker-0",
+   "fx": "landing_marker",
+   "frame": 0,
+   "rect": [
+    2,
+    2,
+    96,
+    54
+   ],
+   "anchor": [
+    48,
+    27
+   ],
+   "layer": "ground",
+   "doc": "Artillery/catapult counterplay ring 96x54, dashed 1 px #E8D23A @50%, 4 pulse frames; additive OK."
+  },
+  {
+   "name": "landing_marker-1",
+   "fx": "landing_marker",
+   "frame": 1,
+   "rect": [
+    100,
+    2,
+    96,
+    54
+   ],
+   "anchor": [
+    48,
+    27
+   ],
+   "layer": "ground",
+   "doc": "Artillery/catapult counterplay ring 96x54, dashed 1 px #E8D23A @50%, 4 pulse frames; additive OK."
+  },
+  {
+   "name": "landing_marker-2",
+   "fx": "landing_marker",
+   "frame": 2,
+   "rect": [
+    198,
+    2,
+    96,
+    54
+   ],
+   "anchor": [
+    48,
+    27
+   ],
+   "layer": "ground",
+   "doc": "Artillery/catapult counterplay ring 96x54, dashed 1 px #E8D23A @50%, 4 pulse frames; additive OK."
+  },
+  {
+   "name": "landing_marker-3",
+   "fx": "landing_marker",
+   "frame": 3,
+   "rect": [
+    296,
+    2,
+    96,
+    54
+   ],
+   "anchor": [
+    48,
+    27
+   ],
+   "layer": "ground",
+   "doc": "Artillery/catapult counterplay ring 96x54, dashed 1 px #E8D23A @50%, 4 pulse frames; additive OK."
+  },
+  {
+   "name": "leap_arc-0",
+   "fx": "leap_arc",
+   "frame": 0,
+   "rect": [
+    341,
+    237,
+    24,
+    5
+   ],
+   "anchor": [
+    0,
+    2
+   ],
+   "layer": "ground",
+   "doc": "Leap trail dashed segment, 3 frames (dash scroll); tile along the jump path, 0.8 s."
+  },
+  {
+   "name": "leap_arc-1",
+   "fx": "leap_arc",
+   "frame": 1,
+   "rect": [
+    367,
+    237,
+    24,
+    5
+   ],
+   "anchor": [
+    0,
+    2
+   ],
+   "layer": "ground",
+   "doc": "Leap trail dashed segment, 3 frames (dash scroll); tile along the jump path, 0.8 s."
+  },
+  {
+   "name": "leap_arc-2",
+   "fx": "leap_arc",
+   "frame": 2,
+   "rect": [
+    393,
+    237,
+    24,
+    5
+   ],
+   "anchor": [
+    0,
+    2
+   ],
+   "layer": "ground",
+   "doc": "Leap trail dashed segment, 3 frames (dash scroll); tile along the jump path, 0.8 s."
+  },
+  {
+   "name": "leap_puff-0",
+   "fx": "leap_puff",
+   "frame": 0,
+   "rect": [
+    358,
+    216,
+    18,
+    12
+   ],
+   "anchor": [
+    9,
+    6
+   ],
+   "layer": "ground",
+   "doc": "Leap landing dust, 4 frames ~0.3 s; reuse smaller at takeoff."
+  },
+  {
+   "name": "leap_puff-1",
+   "fx": "leap_puff",
+   "frame": 1,
+   "rect": [
+    378,
+    216,
+    18,
+    12
+   ],
+   "anchor": [
+    9,
+    6
+   ],
+   "layer": "ground",
+   "doc": "Leap landing dust, 4 frames ~0.3 s; reuse smaller at takeoff."
+  },
+  {
+   "name": "leap_puff-2",
+   "fx": "leap_puff",
+   "frame": 2,
+   "rect": [
+    398,
+    216,
+    18,
+    12
+   ],
+   "anchor": [
+    9,
+    6
+   ],
+   "layer": "ground",
+   "doc": "Leap landing dust, 4 frames ~0.3 s; reuse smaller at takeoff."
+  },
+  {
+   "name": "leap_puff-3",
+   "fx": "leap_puff",
+   "frame": 3,
+   "rect": [
+    418,
+    216,
+    18,
+    12
+   ],
+   "anchor": [
+    9,
+    6
+   ],
+   "layer": "ground",
+   "doc": "Leap landing dust, 4 frames ~0.3 s; reuse smaller at takeoff."
+  },
+  {
+   "name": "plague_patch-0",
+   "fx": "plague_patch",
+   "frame": 0,
+   "rect": [
+    100,
+    188,
+    38,
+    24
+   ],
+   "anchor": [
+    19,
+    12
+   ],
+   "layer": "ground",
+   "doc": "1-tile ragged bile patch, 4-frame bubble loop; engine owns the 8/12 s timer and the fade."
+  },
+  {
+   "name": "plague_patch-1",
+   "fx": "plague_patch",
+   "frame": 1,
+   "rect": [
+    140,
+    188,
+    38,
+    24
+   ],
+   "anchor": [
+    19,
+    12
+   ],
+   "layer": "ground",
+   "doc": "1-tile ragged bile patch, 4-frame bubble loop; engine owns the 8/12 s timer and the fade."
+  },
+  {
+   "name": "plague_patch-2",
+   "fx": "plague_patch",
+   "frame": 2,
+   "rect": [
+    180,
+    188,
+    38,
+    24
+   ],
+   "anchor": [
+    19,
+    12
+   ],
+   "layer": "ground",
+   "doc": "1-tile ragged bile patch, 4-frame bubble loop; engine owns the 8/12 s timer and the fade."
+  },
+  {
+   "name": "plague_patch-3",
+   "fx": "plague_patch",
+   "frame": 3,
+   "rect": [
+    220,
+    188,
+    38,
+    24
+   ],
+   "anchor": [
+    19,
+    12
+   ],
+   "layer": "ground",
+   "doc": "1-tile ragged bile patch, 4-frame bubble loop; engine owns the 8/12 s timer and the fade."
+  },
+  {
+   "name": "plague_spray_cone-0",
+   "fx": "plague_spray_cone",
+   "frame": 0,
+   "rect": [
+    226,
+    160,
+    96,
+    26
+   ],
+   "anchor": [
+    0,
+    13
+   ],
+   "layer": "unit",
+   "doc": "Plague Sprayer ragged bile cone ~96x26."
+  },
+  {
+   "name": "plague_spray_cone-1",
+   "fx": "plague_spray_cone",
+   "frame": 1,
+   "rect": [
+    324,
+    160,
+    96,
+    26
+   ],
+   "anchor": [
+    0,
+    13
+   ],
+   "layer": "unit",
+   "doc": "Plague Sprayer ragged bile cone ~96x26."
+  },
+  {
+   "name": "plague_spray_cone-2",
+   "fx": "plague_spray_cone",
+   "frame": 2,
+   "rect": [
+    2,
+    188,
+    96,
+    26
+   ],
+   "anchor": [
+    0,
+    13
+   ],
+   "layer": "unit",
+   "doc": "Plague Sprayer ragged bile cone ~96x26."
+  },
+  {
+   "name": "rocket-0",
+   "fx": "rocket",
+   "frame": 0,
+   "rect": [
+    419,
+    237,
+    11,
+    5
+   ],
+   "anchor": [
+    5,
+    2
+   ],
+   "layer": "unit",
+   "doc": "Rocket (0) + exhaust (1), points east; Rocket Tower 0.6 s flight."
+  },
+  {
+   "name": "rocket-1",
+   "fx": "rocket",
+   "frame": 1,
+   "rect": [
+    432,
+    237,
+    11,
+    5
+   ],
+   "anchor": [
+    5,
+    2
+   ],
+   "layer": "unit",
+   "doc": "Rocket (0) + exhaust (1), points east; Rocket Tower 0.6 s flight."
+  },
+  {
+   "name": "rocket_launch-0",
+   "fx": "rocket_launch",
+   "frame": 0,
+   "rect": [
+    225,
+    237,
+    10,
+    8
+   ],
+   "anchor": [
+    1,
+    4
+   ],
+   "layer": "unit",
+   "doc": "Rocket Tower launch flash, 3 frames, anchor = rail tip."
+  },
+  {
+   "name": "rocket_launch-1",
+   "fx": "rocket_launch",
+   "frame": 1,
+   "rect": [
+    237,
+    237,
+    10,
+    8
+   ],
+   "anchor": [
+    1,
+    4
+   ],
+   "layer": "unit",
+   "doc": "Rocket Tower launch flash, 3 frames, anchor = rail tip."
+  },
+  {
+   "name": "rocket_launch-2",
+   "fx": "rocket_launch",
+   "frame": 2,
+   "rect": [
+    249,
+    237,
+    10,
+    8
+   ],
+   "anchor": [
+    1,
+    4
+   ],
+   "layer": "unit",
+   "doc": "Rocket Tower launch flash, 3 frames, anchor = rail tip."
+  },
+  {
+   "name": "scorch_decal-0",
+   "fx": "scorch_decal",
+   "frame": 0,
+   "rect": [
+    440,
+    188,
+    26,
+    20
+   ],
+   "anchor": [
+    13,
+    10
+   ],
+   "layer": "ground",
+   "doc": "Explosion scorch, 2 variants; ground layer; fade ~20 s."
+  },
+  {
+   "name": "scorch_decal-1",
+   "fx": "scorch_decal",
+   "frame": 1,
+   "rect": [
+    260,
+    188,
+    32,
+    24
+   ],
+   "anchor": [
+    16,
+    12
+   ],
+   "layer": "ground",
+   "doc": "Explosion scorch, 2 variants; ground layer; fade ~20 s."
+  },
+  {
+   "name": "siege_crater-0",
+   "fx": "siege_crater",
+   "frame": 0,
+   "rect": [
+    468,
+    188,
+    24,
+    19
+   ],
+   "anchor": [
+    12,
+    9
+   ],
+   "layer": "ground",
+   "doc": "Small crater ~16 px (rocket / bone shard / unit death), 2 variants."
+  },
+  {
+   "name": "siege_crater-1",
+   "fx": "siege_crater",
+   "frame": 1,
+   "rect": [
+    2,
+    216,
+    24,
+    19
+   ],
+   "anchor": [
+    12,
+    9
+   ],
+   "layer": "ground",
+   "doc": "Small crater ~16 px (rocket / bone shard / unit death), 2 variants."
+  },
+  {
+   "name": "siege_crater_lg-0",
+   "fx": "siege_crater_lg",
+   "frame": 0,
+   "rect": [
+    394,
+    2,
+    54,
+    54
+   ],
+   "anchor": [
+    27,
+    27
+   ],
+   "layer": "ground",
+   "doc": "Large crater ~48 px (artillery / catapult / demo), 2 variants."
+  },
+  {
+   "name": "siege_crater_lg-1",
+   "fx": "siege_crater_lg",
+   "frame": 1,
+   "rect": [
+    450,
+    2,
+    54,
+    54
+   ],
+   "anchor": [
+    27,
+    27
+   ],
+   "layer": "ground",
+   "doc": "Large crater ~48 px (artillery / catapult / demo), 2 variants."
+  },
+  {
+   "name": "tread_mark-0",
+   "fx": "tread_mark",
+   "frame": 0,
+   "rect": [
+    28,
+    216,
+    20,
+    18
+   ],
+   "anchor": [
+    10,
+    9
+   ],
+   "layer": "ground",
+   "doc": "Tread stamp ~20 px EW, 2 variants (frame = variant); engine rotates to the hull heading about the centre anchor and fades it."
+  },
+  {
+   "name": "tread_mark-1",
+   "fx": "tread_mark",
+   "frame": 1,
+   "rect": [
+    50,
+    216,
+    20,
+    18
+   ],
+   "anchor": [
+    10,
+    9
+   ],
+   "layer": "ground",
+   "doc": "Tread stamp ~20 px EW, 2 variants (frame = variant); engine rotates to the hull heading about the centre anchor and fades it."
+  }
+ ]
+}

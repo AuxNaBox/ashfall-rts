@@ -18,18 +18,18 @@
    "facing": "E",
    "team": "red",
    "rect": [
-    86,
+    89,
     2,
-    82,
-    82
+    85,
+    84
    ],
    "anchor": [
-    41.0,
-    79
+    42.5,
+    80
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.09443,
+   "scale": 0.09398,
    "shadow": {
     "dx": 3.0,
     "dy": -0.5,
@@ -47,16 +47,16 @@
    "rect": [
     2,
     2,
-    82,
-    82
+    85,
+    84
    ],
    "anchor": [
-    41.0,
-    79
+    42.5,
+    80
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.09443,
+   "scale": 0.09398,
    "shadow": {
     "dx": 3.0,
     "dy": -0.5,
@@ -72,18 +72,18 @@
    "facing": "N",
    "team": "red",
    "rect": [
-    67,
-    86,
-    63,
-    82
+    69,
+    88,
+    65,
+    84
    ],
    "anchor": [
-    31.5,
-    79
+    32.5,
+    80
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.09264,
+   "scale": 0.0908,
    "shadow": {
     "dx": 3.0,
     "dy": -0.5,
@@ -100,17 +100,17 @@
    "team": "violet",
    "rect": [
     2,
-    86,
-    63,
-    82
+    88,
+    65,
+    84
    ],
    "anchor": [
-    31.5,
-    79
+    32.5,
+    80
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.09264,
+   "scale": 0.0908,
    "shadow": {
     "dx": 3.0,
     "dy": -0.5,
@@ -126,18 +126,18 @@
    "facing": "S",
    "team": "red",
    "rect": [
-    411,
+    424,
     2,
-    71,
-    82
+    72,
+    84
    ],
    "anchor": [
-    35.5,
-    79
+    36.0,
+    80
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.09176,
+   "scale": 0.09007,
    "shadow": {
     "dx": 3.0,
     "dy": -0.5,
@@ -153,18 +153,18 @@
    "facing": "S",
    "team": "violet",
    "rect": [
-    338,
+    350,
     2,
-    71,
-    82
+    72,
+    84
    ],
    "anchor": [
-    35.5,
-    79
+    36.0,
+    80
    ],
    "mirror_of_E": false,
    "outline": "silhouette2",
-   "scale": 0.09176,
+   "scale": 0.09007,
    "shadow": {
     "dx": 3.0,
     "dy": -0.5,
@@ -180,18 +180,18 @@
    "facing": "W",
    "team": "red",
    "rect": [
-    254,
+    263,
     2,
-    82,
-    82
+    85,
+    84
    ],
    "anchor": [
-    41.0,
-    79
+    42.5,
+    80
    ],
    "mirror_of_E": true,
    "outline": "silhouette2",
-   "scale": 0.09443,
+   "scale": 0.09398,
    "shadow": {
     "dx": 3.0,
     "dy": -0.5,
@@ -207,18 +207,18 @@
    "facing": "W",
    "team": "violet",
    "rect": [
-    170,
+    176,
     2,
-    82,
-    82
+    85,
+    84
    ],
    "anchor": [
-    41.0,
-    79
+    42.5,
+    80
    ],
    "mirror_of_E": true,
    "outline": "silhouette2",
-   "scale": 0.09443,
+   "scale": 0.09398,
    "shadow": {
     "dx": 3.0,
     "dy": -0.5,
@@ -268,12 +268,12 @@
     "state": "idle",
     "facing": "E",
     "anchor": [
-     41.0,
-     79
+     42.5,
+     80
     ],
     "mirror_of_E": false,
     "outline": "silhouette2",
-    "scale": 0.09443,
+    "scale": 0.09398,
     "shadow": {
      "dx": 3.0,
      "dy": -0.5,
@@ -284,8 +284,8 @@
     "rect": [
      2,
      2,
-     82,
-     82
+     85,
+     84
     ]
    },
    {
@@ -294,12 +294,12 @@
     "state": "idle",
     "facing": "N",
     "anchor": [
-     31.5,
-     79
+     32.5,
+     80
     ],
     "mirror_of_E": false,
     "outline": "silhouette2",
-    "scale": 0.09264,
+    "scale": 0.0908,
     "shadow": {
      "dx": 3.0,
      "dy": -0.5,
@@ -308,10 +308,10 @@
      "alpha": 0.3
     },
     "rect": [
-     243,
+     250,
      2,
-     63,
-     82
+     65,
+     84
     ]
    },
    {
@@ -320,12 +320,12 @@
     "state": "idle",
     "facing": "S",
     "anchor": [
-     35.5,
-     79
+     36.0,
+     80
     ],
     "mirror_of_E": false,
     "outline": "silhouette2",
-    "scale": 0.09176,
+    "scale": 0.09007,
     "shadow": {
      "dx": 3.0,
      "dy": -0.5,
@@ -334,10 +334,10 @@
      "alpha": 0.3
     },
     "rect": [
-     170,
+     176,
      2,
-     71,
-     82
+     72,
+     84
     ]
    },
    {
@@ -346,12 +346,12 @@
     "state": "idle",
     "facing": "W",
     "anchor": [
-     41.0,
-     79
+     42.5,
+     80
     ],
     "mirror_of_E": true,
     "outline": "silhouette2",
-    "scale": 0.09443,
+    "scale": 0.09398,
     "shadow": {
      "dx": 3.0,
      "dy": -0.5,
@@ -360,10 +360,10 @@
      "alpha": 0.3
     },
     "rect": [
-     86,
+     89,
      2,
-     82,
-     82
+     85,
+     84
     ]
    }
   ]
