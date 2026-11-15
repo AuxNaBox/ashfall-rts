@@ -13,8 +13,9 @@ const RAW = { survivors: J('survivors-buildings-atlas.json'), horde: J('horde-bu
 const MAN = { survivors: UA.parseBuildingManifest(RAW.survivors), horde: UA.parseBuildingManifest(RAW.horde) };
 const pngSize = f => { const b = fs.readFileSync(path.join(DIR, f)); return [b.readUInt32BE(16), b.readUInt32BE(20)]; };
 const { RTS } = load(); const BDEF = RTS.BDEF;
-// Loop 4: types with no building art yet (procedural drawBld fallback) are not in the atlases or BLD_MAP
-const ART_TYPES = Object.keys(BDEF).filter(t => !RTS.ART_PENDING.includes(t));
+// Loop 5 types live in the l5 building atlases, not the v1 buildings-* sheets this file counts
+const L5_ART = ['wall', 'gate', 'flametower', 'rockettower', 'forge'];
+const ART_TYPES = Object.keys(BDEF).filter(t => !L5_ART.includes(t));
 const TYPES = ['hq', 'power', 'refinery', 'depot', 'barracks', 'turret', 'factory', 'silo'];
 const B = (type, extra) => Object.assign({ type, side: 0, tx: 10, ty: 20, w: BDEF[type] ? BDEF[type].w : 1, h: BDEF[type] ? BDEF[type].h : 1, hp: 100, maxhp: 100, charge: 0, tang: 0, target: null }, extra || {});
 const D = Math.PI / 180;
@@ -62,15 +63,16 @@ test('parseBuildingManifest: indexes base/top/pad by code type; rejects bad mani
 
 test('BDEF type -> building id per faction (HANDOFF §3), and every manifest footprint matches game.js BDEF', () => {
   const want = { hq: ['hq', 'hive'], power: ['power_plant', 'power_plant'], refinery: ['scrap_yard', 'grinder_pit'], depot: ['depot', 'depot'], barracks: ['barracks', 'spawning_pit'], factory: ['factory', 'factory'], turret: ['turret', 'bone_spire'], silo: ['nuke_silo', 'hell_silo'] };
-  assert.deepEqual(Object.keys(UA.BLD_MAP).sort(), ART_TYPES.sort());
-  assert.deepEqual([...RTS.ART_PENDING].sort(), ['flametower', 'forge', 'gate', 'rockettower', 'wall']); // L5: no art HANDOFF yet
+  assert.deepEqual(Object.keys(UA.BLD_MAP).filter(k => !L5_ART.includes(k)).sort(), ART_TYPES.sort());
+  assert.deepEqual([...RTS.ART_PENDING].sort(), []); // Loop 5 atlases shipped
+  for (const typ of L5_ART) assert.ok(UA.BLD_MAP[typ], typ);
+  assert.equal(UA.BLD_MAP.forge.survivors, null); assert.equal(UA.BLD_MAP.forge.horde, 'forge');
   for (const [t, fac] of Object.entries(ONLY)) {
     const id = { armory: 'armory', church: 'church', altar: 'dark_altar' }[t], other = fac === 'survivors' ? 'horde' : 'survivors';
     assert.equal(UA.BLD_MAP[t][fac], id); assert.equal(UA.BLD_MAP[t][other], null);
     assert.equal(UA.selectBuilding(MAN[fac], B(t, { side: fac === 'horde' ? 1 : 0 })).base.building, id);
     assert.equal(UA.selectBuilding(MAN[other], B(t, { side: fac === 'horde' ? 0 : 1 })), null);         // no frames on the other side
   }
-  for (const t of RTS.ART_PENDING) assert.equal(UA.BLD_MAP[t], undefined, t);
   for (const [t, [s, h]] of Object.entries(want)) {
     assert.equal(UA.BLD_MAP[t].survivors, s); assert.equal(UA.BLD_MAP[t].horde, h);
     assert.equal(UA.selectBuilding(MAN.survivors, B(t)).base.building, s); assert.equal(UA.selectBuilding(MAN.horde, B(t, { side: 1 })).base.building, h);

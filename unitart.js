@@ -44,15 +44,14 @@
     armory: { survivors: 'armory', horde: null },
     church: { survivors: 'church', horde: null },
     altar: { survivors: null, horde: 'dark_altar' },
-  };
-  // Loop 5 building ids (Artie 2-art-notes §4.1). Kept out of BLD_MAP until the l5 atlases ship (ART_PENDING).
-  const L5_BLD_MAP = {
+    // Loop 5 (HANDOFF-loop5): walls, gates, towers, Bone Forge
     wall: { survivors: 'wall', horde: 'wall' },
     gate: { survivors: 'gate', horde: 'gate' },
     flametower: { survivors: 'flametower', horde: 'flametower' },
     rockettower: { survivors: 'rockettower', horde: 'rockettower' },
     forge: { survivors: null, horde: 'forge' },
   };
+  const L5_BLD_MAP = { wall: BLD_MAP.wall, gate: BLD_MAP.gate, flametower: BLD_MAP.flametower, rockettower: BLD_MAP.rockettower, forge: BLD_MAP.forge };
   const SIDE_FACTION = { 0: 'survivors', 1: 'horde' };
   const DAMAGED_BELOW = 0.5;      // HANDOFF-buildings §5 "Suggested use: hp < 50%" (same line as game.js smoke)
   const CRITICAL_BELOW = 0.25;    // Loop 5 art overhaul / style guide: critical at 25%
@@ -143,6 +142,10 @@
   // stage 'half' uses a 'half' frame when the manifest has one, otherwise the 'empty' frame (data-driven)
   function selectFrame(man, type, u, idx, S) {
     const map = UNIT_MAP[type]; if (!man || !map) return null;
+    if (u && u.leaping) {
+      const air = pickFrame(man, map, u, idx || man.index, 'air');
+      if (air) return Object.assign(air, { stage: 'air' });
+    }
     const stage = stateFor(map, u, S); if (!stage) return null;
     const r = pickFrame(man, map, u, idx || man.index, stage);
     if (r || stage !== 'half') return r && Object.assign(r, { stage });
@@ -251,10 +254,62 @@
   const DEPLOY_FRAMES = 4, DEPLOY_FX_FPS = 8;
   // frames for one building, or null -> procedural. o: { p: build progress 0..1 (undefined = built), nukeCharge, launching, ghost,
   //   setup: remote setup (o.p = setup progress) -> the deploy_k frame instead of the scaffold reveal when the manifest has one }
+  function gateOrient(b) { return (b && (b.rot || ((b.h || 1) > (b.w || 1)))) ? 'v' : 'h'; }
+  function gateLeaf(b) {
+    const anim = (root.Loop5 && root.Loop5.D && root.Loop5.D.GATE_ANIM_S) || 0.4;
+    const g = (b && b.gate) || 'closed';
+    const k = Math.max(0, Math.min(3, Math.floor((((b && b.animT) || 0) / anim) * 4)));
+    if (g === 'open') return 3;
+    if (g === 'opening') return k;
+    if (g === 'closing') return 3 - k;
+    return 0;
+  }
+  function wallMaskState(b, o) {
+    const m = (b && b.tileMask != null) ? b.tileMask : (o && o.tileMask != null ? o.tileMask : 0);
+    return 'm' + String((m | 0) & 15).padStart(2, '0');
+  }
   function selectBuilding(man, b, o, idx) {
     o = o || {}; const index = idx || (man && man.index), t = b.type;
     if (!index || !(BLD_MAP[t] || L5_BLD_MAP[t])) return null;
     const p = o.ghost ? 0 : o.p == null ? 1 : clamp01(o.p), building = p < 1;
+    // walls: autotile m00-m15 (N=1,E=2,S=4,W=8), crack/tear overlays on damaged/critical
+    if (t === 'wall') {
+      const mask = wallMaskState(b, o);
+      const construct = index.get(bkey(t, 'base', 'construct')) || null;
+      if (o.ghost && !construct) return null;
+      if (o.ghost || building) {
+        const base = index.get(bkey(t, 'base', mask)) || index.get(bkey(t, 'base', 'idle'));
+        if (!base && !construct) return null;
+        return { base: base || construct, construct, top: null, pad: null, p, state: o.ghost ? 'ghost' : 'construct' };
+      }
+      const base = index.get(bkey(t, 'base', mask)) || index.get(bkey(t, 'base', 'idle'));
+      if (!base) return null;
+      const dmg = !!(b.maxhp && b.hp < b.maxhp * DAMAGED_BELOW), crit = !!(b.maxhp && b.hp <= b.maxhp * CRITICAL_BELOW);
+      let ov = null;
+      if (crit || dmg) {
+        const kind = crit ? 'tear' : 'crack';
+        const n = 1 + (Math.abs((b.id) || (b.tx) || 0) % 2);
+        ov = index.get(bkey(t, 'base', kind + n)) || index.get(bkey(t, 'base', kind + '1')) || null;
+      }
+      return { base, construct: null, top: null, pad: null, p: 1, state: crit ? 'critical' : dmg ? 'damaged' : mask, ov };
+    }
+    // gates: h-/v- by rot (or h>w), f0 closed → f3 open over GATE_ANIM_S; damaged/critical overlays on the current leaf
+    if (t === 'gate') {
+      const ovp = gateOrient(b);
+      const construct = index.get(bkey(t, 'base', ovp + '-construct')) || index.get(bkey(t, 'base', 'construct')) || null;
+      if (o.ghost && !construct) return null;
+      if (o.ghost || building) {
+        const base = index.get(bkey(t, 'base', ovp + '-f0')) || index.get(bkey(t, 'base', 'idle'));
+        return { base: base || construct, construct, top: null, pad: null, p, state: o.ghost ? 'ghost' : 'construct' };
+      }
+      const leaf = gateLeaf(b);
+      const base = index.get(bkey(t, 'base', ovp + '-f' + leaf)) || index.get(bkey(t, 'base', 'idle'));
+      if (!base) return null;
+      const dmg = !!(b.maxhp && b.hp < b.maxhp * DAMAGED_BELOW), crit = !!(b.maxhp && b.hp <= b.maxhp * CRITICAL_BELOW);
+      const ov = crit ? (index.get(bkey(t, 'base', ovp + '-critical_ov')) || null)
+        : dmg ? (index.get(bkey(t, 'base', ovp + '-damaged_ov')) || null) : null;
+      return { base, construct: null, top: null, pad: null, p: 1, state: crit ? 'critical' : dmg ? 'damaged' : (ovp + '-f' + leaf), ov };
+    }
     const intact = t === 'silo' ? 'closed' : 'idle', state = building ? intact : buildingState(b, o, index);
     let base = null;
     for (let st = state; st && !base; st = st === intact ? null : STATE_FALLBACK[st] || intact) base = index.get(bkey(t, 'base', st));
@@ -278,11 +333,19 @@
   // loop 4 research/training overlay frame at time t (s), ~4 fps loop over frames 0-3; null when the building type has none
   const OVERLAY_FPS = 4;
   function selectOverlay(man, b, t, xmap) {
-    const m = xmap || (man && man.extra); if (!m || !BLD_MAP[b.type]) return null;
+    const m = xmap || (man && man.extra); if (!m || !(BLD_MAP[b.type] || L5_BLD_MAP[b.type])) return null;
     return m.get(xkey(b.type, 'overlay', Math.floor(Math.max(0, t || 0) * OVERLAY_FPS) % 4)) || null;
   }
   // rubble frame left after a tech building dies (HANDOFF-buildings §10 'destroyed'); null for types without one
-  function selectDestroyed(man, b, idx) { const index = idx || (man && man.index); return index && BLD_MAP[b.type] ? index.get(bkey(b.type, 'base', 'destroyed')) || null : null; }
+  function selectDestroyed(man, b, idx) {
+    const index = idx || (man && man.index); if (!index || !(BLD_MAP[b.type] || L5_BLD_MAP[b.type])) return null;
+    if (b.type === 'gate') {
+      const ovp = gateOrient(b);
+      return index.get(bkey('gate', 'base', ovp + '-destroyed')) || index.get(bkey('gate', 'base', 'destroyed')) || null;
+    }
+    if (b.type === 'wall') return index.get(bkey('wall', 'base', 'destroyed')) || index.get(bkey('wall', 'base', 'rubble1')) || null;
+    return index.get(bkey(b.type, 'base', 'destroyed')) || null;
+  }
   // HQ / Hive weapon fx frame k (hq_muzzle_flash 0-2 / hive_fire_puff 0-3); count = frames available
   function topFxFrames(man, type, xmap) { const m = xmap || (man && man.extra), out = []; if (!m) return out; for (let k = 0; m.has(xkey(type, 'fx', k)); k++) out.push(m.get(xkey(type, 'fx', k))); return out; }
   // fx atlas (team-less): frames by fx name, ordered by frame number
@@ -425,7 +488,7 @@
   // ---------- buildings (browser) ----------
   // plan = everything needed to draw b this frame, or null -> procedural drawBld. o as selectBuilding (+ padTile [x,y] from the game)
   function planBuilding(b, o) {
-    if (!BLD_MAP[b.type] || (b.side !== 0 && b.side !== 1)) return null;
+    if (!(BLD_MAP[b.type] || L5_BLD_MAP[b.type]) || (b.side !== 0 && b.side !== 1)) return null;
     const fac = SIDE_FACTION[b.side], team = A.team[b.side] || DEFAULT_TEAM[b.side];
     const tries = L5_BLD[b.type] ? ['bld:' + fac + '-l5', 'bld:' + fac] : ['bld:' + fac];
     let set = null, at = null;
@@ -472,7 +535,8 @@
       if (k > 0) c.drawImage(atlas, rx, ry + rh - k, rw, k, ox, oy + rh - k, rw, k);
     } else {
       blitAt(c, atlas, sel.base, ox, oy);
-      if (o && o.hit) { c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha *= 0.35; blitAt(c, atlas, sel.base, ox, oy); c.restore(); }
+      if (sel.ov) { const [vx, vy] = bodyPos(sel.ov, P.b.tx, P.b.ty); blitAt(c, atlas, sel.ov, vx, vy); }
+      if (o && o.hit) { c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha *= 0.35; blitAt(c, atlas, sel.base, ox, oy); if (sel.ov) { const [vx, vy] = bodyPos(sel.ov, P.b.tx, P.b.ty); blitAt(c, atlas, sel.ov, vx, vy); } c.restore(); }
     }
     c.imageSmoothingEnabled = prev;
   }
@@ -509,7 +573,7 @@
   }
   // rubble of a dead tech building (d = { type, side, tx, ty }); false -> caller draws the procedural ruin
   function drawBuildingDestroyed(c, d) {
-    if (!BLD_MAP[d.type] || (d.side !== 0 && d.side !== 1)) return false;
+    if (!(BLD_MAP[d.type] || L5_BLD_MAP[d.type]) || (d.side !== 0 && d.side !== 1)) return false;
     const fac = SIDE_FACTION[d.side], team = A.team[d.side] || DEFAULT_TEAM[d.side];
     const tries = L5_BLD[d.type] ? ['bld:' + fac + '-l5', 'bld:' + fac] : ['bld:' + fac];
     let at = null; for (const set of tries) { at = atlasIndex(set, team); if (at) break; }
@@ -531,7 +595,7 @@
   function dmgPoints(b) {
     if (!b || (b.side !== 0 && b.side !== 1) || !(BLD_MAP[b.type] || L5_BLD_MAP[b.type])) return null;
     const P = (typeof planBuilding === 'function') ? planBuilding(b, {}) : null;
-    const f = P && P.sel && P.sel.base;
+    const f = P && P.sel && ((P.sel.ov && (P.sel.ov.fx_points || P.sel.ov.fire_points || P.sel.ov.smoke_points)) ? P.sel.ov : P.sel.base);
     const raw = f && (f.fx_points || f.fire_points || f.smoke_points || f.dmg_points);
     if (!raw || !raw.length) return null;
     const [ox, oy] = bodyPos(f, b.tx, b.ty);
@@ -557,7 +621,7 @@
   const UnitArt = { ROOT, BASE, SETS, ART5_SETS, L5_BLD, L5_BLD_MAP, UNIT_MAP, BLD_MAP, RAMPS, DEFAULT_TEAM, DAMAGED_BELOW, CRITICAL_BELOW, IDLE_TOP_HEADING, LAUNCH_OPEN_S, salvage, snap16, facing4, fkey, parseManifest, selectFrame, stateFor, topLeft, turretPos, recolourPixels, hexToRgb,
     bkey, parseBuildingManifest, buildingState, launching, topHeading, selectBuilding, bodyPos, anchorPos, topPos, padPos, padTileOf, shadowGeom, revealRows, sortKey,
     xkey, OVERLAY_FPS, selectOverlay, DEPLOY_FRAMES, DEPLOY_FX_FPS, selectDeployFx, selectDestroyed, topFxFrames, parseFxManifest, burnScale, hpBarY,
-    load, loadArt5, draw, atlasFor, atlasIndex, url, planBuilding, drawBuildingGround, drawBuildingBody, drawBuildingTop, drawBuildingOverlay, drawBuildingTopFx, drawBuildingDeployFx, drawBuildingDestroyed, fxFrame, drawFx, unitFrame, dmgPoints, state: A };
+    load, loadArt5, draw, atlasFor, atlasIndex, url, planBuilding, gateOrient, gateLeaf, wallMaskState, drawBuildingGround, drawBuildingBody, drawBuildingTop, drawBuildingOverlay, drawBuildingTopFx, drawBuildingDeployFx, drawBuildingDestroyed, fxFrame, drawFx, unitFrame, dmgPoints, state: A };
   if (typeof module !== 'undefined' && module.exports) module.exports = UnitArt;
   root.UnitArt = UnitArt;
 })(typeof window !== 'undefined' ? window : globalThis);

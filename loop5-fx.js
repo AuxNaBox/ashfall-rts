@@ -100,6 +100,10 @@
     list.push(o);
     return o;
   }
+  function fxAtlasReady() {
+    const UA = root.UnitArt;
+    return !!(UA && UA.state && UA.state.ready && UA.state.ready['fx:l5']);
+  }
   function fadeOf(d, now) {
     const life = d.fade || D.DECAL_FADE_SCORCH;
     const a = 1 - (now - d.born) / life;
@@ -195,10 +199,12 @@
       // damaged: small fires + darker smoke; critical: more / hotter
       const dark = st >= 1;
       const s = st === 2 ? 1.25 : 0.85;
+      const pi = pts.indexOf(p);
+      const start = (pi * 2 + hash32(b.id || 0)) & 255;
       alloc(pool.dmg, D.DMG_FX_CAP, {
         k: kind, dark, x: p.x, y: p.y, t: 0, dur: kind === 'fire' || kind === 'ooze' ? 0.7 : 1.1,
         s, vx: (v01(p.x, time * 20, b.id || 0) - 0.5) * 6, vy: -10 - v01(p.y, time * 20) * 10,
-        side: b.side, st,
+        side: b.side, st, start, pi,
       });
     }
   }
@@ -268,7 +274,7 @@
         : d.k === 'crawler' ? root.UnitArt.drawFx(c, 'crawler_print', d.variant, d.x, d.y, d.a, 1)
         : false
       );
-      if (!drawn) {
+      if (!drawn && !fxAtlasReady()) {
         if (d.k === 'crater') {
           c.fillStyle = 'rgba(18,14,10,0.85)';
           c.beginPath(); c.ellipse(d.x, d.y, d.r, d.r * 0.62, d.a || 0, 0, Math.PI * 2); c.fill();
@@ -304,7 +310,8 @@
   }
 
   function drawDmgFx(c) {
-    for (const o of pool.dmg) {
+    const atlasOn = fxAtlasReady();
+    if (!atlasOn) for (const o of pool.dmg) {
       if (o.dead) continue;
       const p = 1 - o.t / o.dur;
       c.save(); c.globalAlpha *= Math.max(0, p);
@@ -330,7 +337,7 @@
         if (o.dead) continue;
         const name = o.k === 'fire' ? 'building_fire' : o.k === 'smoke' ? 'building_smoke' : o.k === 'drip' ? 'horde_drip' : o.k === 'ooze' ? 'horde_ooze' : null;
         if (!name) continue;
-        const k = Math.floor(o.t * 8);
+        const k = Math.floor(o.t * 8) + (o.start || 0);
         root.UnitArt.drawFx(c, name, k, o.x, o.y, 0, o.s, { alpha: Math.max(0, 1 - o.t / o.dur) });
       }
     }
@@ -349,7 +356,7 @@
   }
 
   const FX = {
-    dmgStateOf, spawnPoints, addDecal, addCrater, addScorch, onImpact, onKill, onPlaced, onComplete,
+    dmgStateOf, spawnPoints, addDecal, addCrater, addScorch, onImpact, onKill, onPlaced, onComplete, fxAtlasReady,
     tick, drawContactShadow, drawDecals, drawDust, drawDmgFx, footprintShadow, reset, counts,
     pool, TREAD_TYPES, setArt5(v) { art5 = !!v; }, art5Enabled() { return art5; },
     hash32, v01,

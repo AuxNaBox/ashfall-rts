@@ -137,7 +137,7 @@ function setBarracksNeedsYard(v) { BARRACKS_NEEDS_YARD = !!v; BDEF.barracks.req 
 setBarracksNeedsYard(BARRACKS_NEEDS_YARD);
 
 // Loop 4 buildings without art yet: drawn by the procedural drawBld (unitart.js BLD_MAP has no entry)
-const ART_PENDING = ['wall', 'gate', 'flametower', 'rockettower', 'forge']; // L5: no art HANDOFF yet (procedural fallback)
+const ART_PENDING = []; // Loop 5 atlases shipped: walls, gates, towers and the Bone Forge draw from unitart
 for (const k in BDEF) BDEF[k].armor = 'structure';
 const BORDER = ['refinery', 'barracks', 'turret', 'wall', 'gate', 'flametower', 'rockettower', 'factory', 'silo', 'power', 'depot', 'armory', 'church'];
 const UORDER = [['gleaner', 'survivor', 'seraph', 'ark', 'apc', 'artillery', 'purifier', 'flamer', 'rocket', 'shock', 'demo', 'medic', 'archangel', 'templar'], ['reaper', 'zombie', 'leaper', 'imp', 'brute', 'crawler', 'catapult', 'sprayer', 'spitter', 'bloater', 'demon']];
@@ -2264,6 +2264,17 @@ function shake(a) { G.shakeA = Math.max(G.shakeA || 0, a); }
 function circ(c, x, y, r) { c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2); c.fill(); }
 function ell(c, x, y, rx, ry) { c.beginPath(); c.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2); c.fill(); }
 
+function drawBloaterBelly(c, u) {
+  if (!u || u.dead || typeof UnitArt === 'undefined' || typeof UnitArt.drawFx !== 'function') return;
+  const arm = !!u.arming, fps = arm ? 12 : 4;
+  const k = Math.floor((G && G.time ? G.time : (u.anim || 0)) * fps);
+  UnitArt.drawFx(c, 'bloater_belly', k, u.x, u.y, 0, 1, arm ? { add: true } : null);
+}
+function drawLeapRing(c, u) {
+  if (!u || !u.d || !u.d.leap || u.dead || u.leaping || !(u.leapCd > 0)) return;
+  const col = (SIDES[u.side] && SIDES[u.side].dot) || (u.side ? '#ff5040' : '#9FE8FF');
+  c.save(); c.strokeStyle = col; c.lineWidth = 1; c.beginPath(); c.arc(u.x, u.y, (u.r || 8) + 5, 0, Math.PI * 2); c.stroke(); c.restore();
+}
 function drawUnit(c, u) {
   const t = u.type, A = u.anim;
   // unit art v2 (unitart.js): atlas sprite if loaded and the frame exists, else the procedural sprite below
@@ -2272,6 +2283,7 @@ function drawUnit(c, u) {
     const bob = u.moving && !u.d.fly && t !== 'imp' && !u.d.harv && t !== 'ark' ? -Math.round(Math.abs(Math.sin(A * 10))) : 0;
     c.save(); if (u.hitT > 0) c.globalAlpha = 0.75;
     const ok = UnitArt.draw(c, u, { lift, bob });
+    if (ok && t === 'bloater') drawBloaterBelly(c, u);
     c.restore(); if (ok) return;
   }
   c.save(); c.translate(u.x, u.y);
@@ -2812,6 +2824,7 @@ function render() {
     FS.lights = env.drawLights(ctx, L, G.time, { x0: cx, y0: cy, x1: cx + VW, y1: cy + VH }, 24);
   }
   // health bars
+  for (const u of vu) drawLeapRing(ctx, u);
   for (const u of vu) if ((u.hp < u.maxhp || G.sel.includes(u))) hpBar(ctx, u.x, u.d.fly ? u.y - u.r - 18 : u.d.big && typeof UnitArt !== 'undefined' ? UnitArt.hpBarY(u, UnitArt.unitFrame(u)) : u.y - u.r - 7, Math.max(16, u.r * 2), u.hp / u.maxhp);   // loop 4: art > 2 tiles tall (Demon Lord) -> above the sprite
   for (const b of G.blds) if (!b.dead && (b.hp < b.maxhp || G.sel.includes(b) || b.setup) && onScreen(b.x, b.y, 100) && (b.side === 0 || isVisible(b))) hpBar(ctx, b.x, b.ty * TILE - 6, b.w * TILE - 8, b.hp / b.maxhp);
   for (const u of vu) if (u.d.harv && u.side === 0 && (G.sel.includes(u) || u.blocked)) { const n = Salvage.pipsOf(u.load, u.d.cap); for (let k = 0; k < 5; k++) { ctx.fillStyle = '#000'; ctx.fillRect(u.x - 17 + k * 7, u.y - u.r - 4, 6, 4); ctx.fillStyle = k < n ? (u.blocked ? '#ffb347' : PAL.steel) : '#333333'; ctx.fillRect(u.x - 16.5 + k * 7, u.y - u.r - 3.5, 5, 3); } }
