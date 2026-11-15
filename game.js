@@ -1643,6 +1643,9 @@ function updProduction(dt) {
           if (side === 0) G.stats.built++;
           if (type === 'archangel') { msg(side ? 'An enemy Archangel descends.' : 'The Archangel descends.', '#DDF6FF', u.x, u.y); sfx('ready'); }
           if (type === 'demon') { msg(side ? 'A Demon Lord rises!' : 'Our Demon Lord rises.', '#ff8a5a', u.x, u.y); sfx('horn'); if (side === 0) G.lastAlert = { x: u.x, y: u.y }; }
+          if (side === 1 && Loop5.D.AI_FACTORY_ALT_BRUTE && Loop5.isTechPaid(type) && UDEF[type].cat === 'vehicle' && (UDEF[type].from || []).includes('factory')) {
+            G.ai.factoryNextBrute = true;
+          }
           if (u.d.harv) u.hs = 'seek';
           else if (b.rally) issueMove([u], b.rally.x, b.rally.y, false);
           else issueMove([u], sp.x + (simRand() - 0.5) * 60, sp.y + 30 + simRand() * 30, false);
@@ -2117,10 +2120,15 @@ function updAI(dt) {
   else if (next && !Q.structure.list.length && prereqOk(1, next) && canAiAfford(next, econBuild ? firstEater : eaterReserve + demonReserve)) queueItem(1, next);
   const reserve = (next && !Q.structure.list.length && !Q.structure.ready && !usesTechWallet(1, next) ? BDEF[next].cost : 0) + eaterReserve + demonReserve;
   const want = Math.min(5, Math.max(1, countBld(1, 'refinery')) * 2);
-  if (!rush && hasBld(1, 'refinery') && harv < want && Q.vehicle.list.length === 0 && cr() >= costOf('reaper') && prereqOk(1, 'reaper')) { if (queueItem(1, 'reaper') && harv === 1) G.ai.eater2At = G.time; }
   // army (capped so waves stay beatable; the cap grows with every wave)
   const armyN = G.units.filter(u => u.side === 1 && !u.d.harv && !u.dead).length;
   const cap = Math.min(45, Math.round((10 + 5 * A.waveN) * G.diff.inc) + (G.credits[1] > 3000 ? 8 : 0));
+  // L5 §18 pass 5: after a Factory L5 unit finishes, the next slot is a Hellbrute if main can afford one under the reserve rule.
+  if (Loop5.D.AI_FACTORY_ALT_BRUTE && A.factoryNextBrute) {
+    if (!rush && hasBld(1, 'factory') && Q.vehicle.list.length === 0 && cr() - 900 >= reserve) queueItem(1, 'brute');
+    A.factoryNextBrute = false;
+  }
+  if (!rush && hasBld(1, 'refinery') && harv < want && Q.vehicle.list.length === 0 && cr() >= costOf('reaper') && prereqOk(1, 'reaper')) { if (queueItem(1, 'reaper') && harv === 1) G.ai.eater2At = G.time; }
   if (rush) { // rush response: Zombies until the army is 1.5x the attackers (no cap, no reserves)
     const goal = Math.ceil(RUSH.ratio * rush.n);
     let have = armyN + Q.infantry.list.length;
