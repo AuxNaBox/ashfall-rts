@@ -7,7 +7,8 @@ const MATCHUPS5 = [
   { id: 'M1', name: '1 Flame Tower vs 15 Zombies', b: { zombie: 15 }, bldsA: { flametower: 1 }, expect: 'a', target: 'the tower survives', check: r => r.aBldAlive >= 1 },
   { id: 'M2', name: '1 Flame Tower vs 5 Rocket Soldiers from range', a: { rocket: 5 }, bldsB: { flametower: 1 }, expect: 'a', target: 'soldiers win, lose 1 at most', check: r => r.aLeft >= 4, gap: 6 },
   { id: 'M3a', name: '1 Rocket Tower vs 1 Tank', a: { ark: 1 }, bldsB: { rockettower: 1 }, expect: 'b', target: 'the tower wins', check: () => true },
-  { id: 'M3b', name: '2 Rocket Towers vs 3 Hellbrutes', b: { brute: 3 }, bldsA: { rockettower: 2 }, expect: 'a', target: 'the towers win', check: r => r.aBldAlive >= 1 },
+  { id: 'M3b', name: '2 Rocket Towers 3 tiles apart vs 2 Hellbrutes from 9 tiles', custom: 'm3b', expect: 'a', target: 'the towers win', check: r => r.aBldAlive >= 1 },
+  { id: 'M3b-3', name: '2 Rocket Towers vs 3 Hellbrutes (report only)', b: { brute: 3 }, bldsA: { rockettower: 2 }, expect: 'a', target: 'logged only, no pass rule', check: r => r.aBldAlive >= 1, reportOnly: true },
   { id: 'M4', name: '1 Rocket Tower vs 8 Zombies', b: { zombie: 8 }, bldsA: { rockettower: 1 }, expect: 'b', target: 'the Zombies win', check: () => true },
   { id: 'M5', name: '2 Artillery + 1 Rifleman vs 1 Turret + 1 Rocket Tower', a: { artillery: 2, survivor: 1 }, bldsB: { turret: 1, rockettower: 1 }, expect: 'a', target: 'towers die, 0 Artillery lost', check: r => r.aLostArt === 0 && r.bBldAlive === 0, gap: 9 },
   { id: 'M6', name: '2 Artillery vs 3 Imps rushing', a: { artillery: 2 }, b: { imp: 3 }, expect: 'b', target: 'the Imps win', check: () => true, gap: 2 },
@@ -16,7 +17,7 @@ const MATCHUPS5 = [
   { id: 'M9', name: 'Purifier vs 20 Zombies in a plague zone', a: { purifier: 1 }, b: { zombie: 20 }, expect: 'a', target: 'the Purifier survives', check: r => r.aLeft >= 1, plague: true },
   { id: 'M10', name: 'APC drop of 5 Rocket Soldiers on an unguarded Grinder Pit', custom: 'drop', expect: 'a', target: 'the pit dies within 30 s of unload', check: r => r.killedIn <= 30 },
   { id: 'M11', name: '15 Zombies vs a 6-segment wall + 1 Flame Tower', b: { zombie: 15 }, custom: 'hold', expect: 'a', target: 'the defense holds', check: r => r.aBldAlive >= 1 && r.towerAlive },
-  { id: 'M12', name: '1v1 pairs: asymmetric winner <=40% HP; tower swap 6–14', custom: 'pairs', expect: 'a', target: 'asymmetric winner ends at 40% HP or less on 16/20; tower pairs each win 6–14 after update-order swap', check: r => r.pairsOk },
+  { id: 'M12', name: '1v1 pairs: asymmetric winner <=40% HP; tower swap 6–14 or same-tick mutual kill', custom: 'pairs', expect: 'a', target: 'asymmetric winner ends at 40% HP or less on 16/20; identical-stat tower pairs each win 6–14 after update-order swap, or a same-tick mutual kill counts as a pass', check: r => r.pairsOk },
   { id: 'M13', name: '4 Spitters vs 1 Tank', a: { ark: 1 }, b: { spitter: 4 }, expect: 'b', target: 'Spitters win and lose 1 at most', check: r => r.bLeft >= 3 },
   { id: 'M14', name: '4 Spitters vs 1 Tank compared with 4 Rocket Soldiers vs 1 Hellbrute', custom: 'compare', expect: 'a', target: 'win rates within 10 points', check: r => r.delta <= 10 },
   { id: 'M15', name: '6 Riflemen vs 2 Spitters (equal cost)', a: { survivor: 6 }, b: { spitter: 2 }, expect: 'a', target: 'the Riflemen win', check: () => true },
@@ -112,17 +113,23 @@ function runCustom(m, R, seed, jit) {
       rows.push({ name: p.name, kind: 'asym', close, aW, bW, avgWinHp: +(hp.reduce((a, b) => a + b, 0) / 20).toFixed(1), ok: close >= 16 });
     }
     for (const p of towers) {
-      let aW = 0, bW = 0, draw = 0, unsw = { a: 0, b: 0, d: 0 }, sw = { a: 0, b: 0, d: 0 };
+      let aW = 0, bW = 0, draw = 0, mutual = 0, unsw = { a: 0, b: 0, d: 0, m: 0 }, sw = { a: 0, b: 0, d: 0, m: 0 };
       for (let s = 1; s <= 20; s++) {
         const swap = s > 10; // seeds 11–20: side 1 updates first
         const r = runOne({ id: 'p', bldsA: p.bldsA, bldsB: p.bldsB, expect: 'a', check: () => true, gap: p.gap, updateFirst: swap ? 1 : 0 }, s);
-        if (r.win === 'a') { aW++; (swap ? sw : unsw).a++; }
-        else if (r.win === 'b') { bW++; (swap ? sw : unsw).b++; }
-        else { draw++; (swap ? sw : unsw).d++; }
+        const bin = swap ? sw : unsw;
+        if (r.win === 'a') { aW++; bin.a++; }
+        else if (r.win === 'b') { bW++; bin.b++; }
+        else {
+          draw++; bin.d++;
+          if (r.mutualSameTick) { mutual++; bin.m++; }
+        }
       }
-      const swapChanges = unsw.a !== sw.a || unsw.b !== sw.b;
-      const why = swapChanges ? '' : 'swap of update order did not change the winner';
-      rows.push({ name: p.name, kind: 'tower', aW, bW, draw, unsw, sw, swapChanges, why, ok: aW >= 6 && aW <= 14 && bW >= 6 && bW <= 14 });
+      const splitOk = aW >= 6 && aW <= 14 && bW >= 6 && bW <= 14;
+      const mutualOk = mutual >= 16; // §16: a same-tick mutual kill counts as a pass for identical-stat tower pairs
+      const swapChanges = unsw.a !== sw.a || unsw.b !== sw.b || unsw.m !== sw.m;
+      const why = splitOk || mutualOk ? (mutualOk ? 'same-tick mutual kill counts as a pass' : '') : (swapChanges ? '' : 'swap of update order did not change the winner');
+      rows.push({ name: p.name, kind: 'tower', aW, bW, draw, mutual, unsw, sw, swapChanges, why, ok: splitOk || mutualOk });
     }
     const r = { pairsOk: rows.every(x => x.ok), rows, time: 0 };
     r.win = r.pairsOk ? 'a' : 'b';
@@ -139,6 +146,22 @@ function runCustom(m, R, seed, jit) {
     const hpDrop = noHp <= 0 ? (withHp < noHp ? 1 : 0) : (noHp - withHp) / noHp;
     const r = { withHp, noHp, hpDrop, time: 0 };
     r.win = hpDrop >= 0.2 ? 'a' : 'b';
+    return r;
+  }
+  if (m.custom === 'm3b') {
+    // §16: 2 Rocket Towers 3 tiles apart, 2 Hellbrutes start 9 tiles away, equal cost
+    const tx = Math.floor(CX / TILE), ty = Math.floor(CY / TILE);
+    const towers = [R.makeBld('rockettower', 0, tx, ty - 1), R.makeBld('rockettower', 0, tx, ty - 1 + 3)];
+    const midX = (towers[0].x + towers[1].x) / 2, midY = (towers[0].y + towers[1].y) / 2;
+    const br = [R.makeUnit('brute', 1, midX + 9 * TILE, midY - 16 + jit()), R.makeUnit('brute', 1, midX + 9 * TILE, midY + 16 + jit())];
+    R.issueMove(br, midX, midY, true);
+    let t = 0;
+    while (t < LIMIT && towers.some(x => !x.dead) && br.some(x => !x.dead)) { R.step(1 / 30); t += 1 / 30; }
+    const r = {
+      time: +t.toFixed(1), aBldAlive: towers.filter(x => !x.dead).length, bLeft: br.filter(x => !x.dead).length,
+      aLeft: 0, bBldAlive: 0, aHpPct: 0, bHpPct: Math.round(100 * br.filter(x => !x.dead).reduce((s, u) => s + u.hp, 0) / br.reduce((s, u) => s + u.maxhp, 0)),
+    };
+    r.win = r.aBldAlive >= 1 && r.bLeft === 0 ? 'a' : (r.bLeft > 0 && r.aBldAlive === 0 ? 'b' : 'draw');
     return r;
   }
   if (m.custom === 'leapkill') {
@@ -236,7 +259,14 @@ function runOne(m, seed) {
     const aArmed = aU + aB, bArmed = bU + bB;
     return !aArmed || !bArmed;
   };
-  while (t < LIMIT && !combatOver()) { R.step(1 / 30); t += 1 / 30; if (t >= next) { next += 5; order(); } }
+  let aDeadAt = null, bDeadAt = null;
+  while (t < LIMIT && !combatOver()) {
+    R.step(1 / 30); t += 1 / 30; if (t >= next) { next += 5; order(); }
+    if (aDeadAt == null && !aliveU(0).length && !aliveB(0).length) aDeadAt = t;
+    if (bDeadAt == null && !aliveU(1).length && !aliveB(1).length) bDeadAt = t;
+  }
+  if (aDeadAt == null && !aliveU(0).length && !aliveB(0).length) aDeadAt = t;
+  if (bDeadAt == null && !aliveU(1).length && !aliveB(1).length) bDeadAt = t;
   const a = aliveU(0), b = aliveU(1);
   const r = {
     time: +t.toFixed(1), aLeft: a.length, bLeft: b.length, aBldAlive: aliveB(0).length, bBldAlive: aliveB(1).length,
@@ -248,6 +278,8 @@ function runOne(m, seed) {
   const aWin = (a.length || r.aBldAlive) && !b.length && !r.bBldAlive;
   const bWin = (b.length || r.bBldAlive) && !a.length && !r.aBldAlive;
   r.win = aWin ? 'a' : bWin ? 'b' : 'draw';
+  r.aDeadAt = aDeadAt; r.bDeadAt = bDeadAt;
+  r.mutualSameTick = !aWin && !bWin && aDeadAt != null && bDeadAt != null && Math.abs(aDeadAt - bDeadAt) < 1 / 30 + 1e-9;
   return r;
 }
 function runMatchup(m, runs = 20) {
@@ -275,18 +307,20 @@ function printAll(runs = 20) {
   const out = [];
   for (const m of MATCHUPS5) {
     const r = runMatchup(m, runs);
-    const pass = r.targetMet >= Math.ceil(runs * 0.8);
+    const pass = m.reportOnly ? null : r.targetMet >= Math.ceil(runs * 0.8);
     let extra;
     if (m.custom === 'drop') extra = `killedIn avg ${r.avg('killedIn')}s`;
     else if (m.custom === 'pairs') extra = (r.detail.rows || []).map(x => {
-      if (x.kind === 'tower') return `${x.name} A ${x.aW}/20 B ${x.bW}/20 draws ${x.draw} (unswapped A${x.unsw.a}/B${x.unsw.b}, swapped A${x.sw.a}/B${x.sw.b})${x.ok ? '' : ' FAIL'}${x.why ? ' — ' + x.why : ''}`;
+      if (x.kind === 'tower') return `${x.name} A ${x.aW}/20 B ${x.bW}/20 draws ${x.draw} same-tick mutual ${x.mutual} (unswapped A${x.unsw.a}/B${x.unsw.b}/M${x.unsw.m}, swapped A${x.sw.a}/B${x.sw.b}/M${x.sw.m})${x.ok ? '' : ' FAIL'}${x.why ? ' — ' + x.why : ''}`;
       return `${x.name} winner<=40% on ${x.close}/20 (avg winner HP ${x.avgWinHp}%, A ${x.aW} B ${x.bW})${x.ok ? '' : ' FAIL'}`;
     }).join('; ');
     else if (m.custom === 'compare') extra = `delta ${r.detail.delta.toFixed(1)} pts (spitter ${((r.detail.aRate || 0) * 100).toFixed(0)}% vs rocket ${((r.detail.bRate || 0) * 100).toFixed(0)}%)`;
     else if (m.custom === 'spines') extra = `Riflemen HP with spines ${r.detail.withHp.toFixed(1)}% vs without ${r.detail.noHp.toFixed(1)}%, drop ${(r.detail.hpDrop * 100).toFixed(1)}%`;
     else if (m.split) extra = `A ${r.aW}/${runs} B ${r.bW}/${runs}`;
     else extra = `A left ${r.avg('aLeft')} (HP ${r.avg('aHpPct')}%, blds ${r.avg('aBldAlive')}), B left ${r.avg('bLeft')} (HP ${r.avg('bHpPct')}%, blds ${r.avg('bBldAlive')}), time ${r.avg('time')}s`;
-    const line = `${r.id.padEnd(4)} ${pass ? 'PASS' : 'FAIL'} | target met ${r.targetMet}/${runs} | ${r.name} | ${extra}`;
+    const tag = m.reportOnly ? 'REPORT' : (pass ? 'PASS' : 'FAIL');
+    const met = m.reportOnly ? `logged ${r.targetMet}/${runs} (no pass rule)` : `target met ${r.targetMet}/${runs}`;
+    const line = `${r.id.padEnd(6)} ${tag} | ${met} | ${r.name} | ${extra}`;
     console.log(line);
     out.push({ id: r.id, pass, targetMet: r.targetMet, runs, name: r.name, extra });
   }
