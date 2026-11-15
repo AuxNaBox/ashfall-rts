@@ -1081,6 +1081,13 @@ function stopUnits(list) { for (const u of list) { u.path = null; u.target = nul
 const armorOf = e => e.kind === 'b' ? 'structure' : e.d.armor;
 const weaponOf = e => e.kind === 'b' ? e.weapon : e.d.weapon;
 const canAttack = (a, t) => { if (!t || t.dead || untargetable(t)) return false; if (a.d && a.d.demo) return demoTargetOk(t); const w = weaponOf(a); return !!w && Combat.canHit(w, armorOf(t)) && !(w === 'plague' && t.kind === 'u' && t.d.plagueImmune); };
+// Hard only: Corpse Catapults skip the player HQ until CATAPULT_HQ_FLOOR_S (12:00), then use normal priority.
+function catapultSkipsHq(u, t) {
+  if (!u || u.type !== 'catapult' || !t || t.dead) return false;
+  if (t.type !== 'hq' || t.side !== 0) return false;
+  if (!G || G.diffKey !== 'hard') return false;
+  return G.time < Loop5.D.CATAPULT_HQ_FLOOR_S;
+}
 function findEnemy(e, range, side) {
   const demo = e.kind === 'u' && e.d && e.d.demo;
   const w = weaponOf(e); if (!w && !demo) return null;
@@ -1101,6 +1108,7 @@ function findEnemy(e, range, side) {
   const towerShootsBlds = isB && (e.type === 'flametower' || e.type === 'rockettower');
   if (!isB || towerShootsBlds) for (const o of G.blds) {
     if (o.side === side || o.dead) continue;
+    if (catapultSkipsHq(e, o)) continue;
     if (demo) { consider(o, Loop5.isWallish(o) ? 1 : 0); continue; }
     if (!Combat.canHit(w, 'structure')) continue;
     if (Loop5.isWallish(o)) continue; // units never auto-target walls or gates (L5 §4 rule 5)
@@ -1129,7 +1137,7 @@ function updUnit(u, dt) {
     else { if (!u.path) moveTo(u, tr.x, tr.y); followPath(u, dt); return; }
   }
   if (u.order === 'unloadat' && u.dest && !u.path) { startUnload(u); u.order = 'idle'; }
-  if (u.target && u.target.dead) {
+  if (u.target && (u.target.dead || catapultSkipsHq(u, u.target))) {
     u.target = null;
     if (u.order === 'attack') u.order = 'idle';
     if (u.order === 'attackmove' && u.dest) moveTo(u, u.dest.x, u.dest.y);
@@ -2183,10 +2191,11 @@ function updAI_L5() {
       const bx = front.x - Math.cos(ang) * TILE, by = front.y - Math.sin(ang) * TILE;
       if (dist(c.x, c.y, bx, by) > 1.2 * TILE && !c.target) issueMove([c], bx, by, false);
     }
+    if (catapultSkipsHq(c, c.target)) c.target = null;
     if (!c.target) {
-      const towers = G.blds.filter(b => b.side === 0 && !b.dead && (b.type === 'turret' || b.type === 'flametower' || b.type === 'rockettower' || b.type === 'hq') && allySees(1, b.x, b.y));
+      const towers = G.blds.filter(b => b.side === 0 && !b.dead && (b.type === 'turret' || b.type === 'flametower' || b.type === 'rockettower' || b.type === 'hq') && allySees(1, b.x, b.y) && !catapultSkipsHq(c, b));
       const walls = G.blds.filter(b => b.side === 0 && !b.dead && Loop5.isWallish(b) && allySees(1, b.x, b.y));
-      const other = G.blds.filter(b => b.side === 0 && !b.dead && !Loop5.isWallish(b) && allySees(1, b.x, b.y));
+      const other = G.blds.filter(b => b.side === 0 && !b.dead && !Loop5.isWallish(b) && allySees(1, b.x, b.y) && !catapultSkipsHq(c, b));
       const units = G.units.filter(u => u.side === 0 && !u.dead && !u.carried && allySees(1, u.x, u.y) && Combat.canHit('shell', u.d.armor));
       const pick = (arr) => { let best = null, bd = 1e9; for (const o of arr) { const d = dist(c.x, c.y, o.x, o.y); if (d < bd && d >= minRangeOf(c) && d <= rangeOf(c) * TILE) { bd = d; best = o; } } return best; };
       c.target = pick(towers) || pick(walls) || pick(other) || pick(units);
@@ -3570,4 +3579,4 @@ if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(locati
   } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { AI_RUSH_DEFENSE, AI_FIRST_NUKE_MIN, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, canAttack, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, setDmgState, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX, Loop5, sellBld, cutOffWarning, pathExists, placeWallLine, wallTilesFromDrag, wallCount, tryBreach, addPatch, cleanseAt, inPatch, loadUnit, canLoadUnit, ejectCargo, startUnload, finishUnload, orderLoad, allySees, DIFF, canLeap, startLeap, shouldAutoLeap, autoLeapTo, beginLeapCommand, issueLeapAt, boomDemo, startArm, untargetable, showTab, get sbTab() { return sbTab; } };
+window.RTS = { catapultSkipsHq, AI_RUSH_DEFENSE, AI_FIRST_NUKE_MIN, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, canAttack, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, setDmgState, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX, Loop5, sellBld, cutOffWarning, pathExists, placeWallLine, wallTilesFromDrag, wallCount, tryBreach, addPatch, cleanseAt, inPatch, loadUnit, canLoadUnit, ejectCargo, startUnload, finishUnload, orderLoad, allySees, DIFF, canLeap, startLeap, shouldAutoLeap, autoLeapTo, beginLeapCommand, issueLeapAt, boomDemo, startArm, untargetable, showTab, get sbTab() { return sbTab; } };

@@ -64,6 +64,7 @@
     SIEGE_STOP_TO_FIRE: { v: true, src: 'L5 §6' },
     ARTILLERY_DMG: { v: 110, src: 'L5 §6' },
     CATAPULT_DMG: { v: 95, src: 'L5 §6' },
+    CATAPULT_HQ_FLOOR_S: { v: 720, src: 'Hard only: Corpse Catapults skip the player HQ until 12:00' },
     // transport (L5 §6)
     CARGO_CAP: { v: 5, src: 'L5 §6' },
     LOAD_TILES: { v: 1.0, src: 'L5 §6 (walk to it and enter)' },
