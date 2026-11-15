@@ -85,7 +85,7 @@
     hq: { dmgType: ['bullet', 'fire'], dmg: 20, rof: 1.0, range: HQ_TURRET_RANGE, power: 0, hitsAir: true },
     // Loop 5 §5. Long Barrels / Hollow Points do not apply (effects list only turret).
     flametower: { dmgType: ['fire', 'fire'], cost: 700, time: 10, hp: 700, dmg: 22, rof: 0.5, range: 3.5, splash: 0.8, sight: 6, power: 30, hitsAir: false },
-    rockettower: { dmgType: ['shell', 'shell'], cost: 900, time: 12, hp: 750, dmg: 80, rof: 2.0, range: 7.5, minRange: 2, splash: 0.4, sight: 8, power: 30, hitsAir: false, travel: 0.6 },
+    rockettower: { dmgType: ['shell', 'shell'], cost: 900, time: 12, hp: 900, dmg: 80, rof: 2.0, range: 7.5, minRange: 2, splash: 0.4, sight: 8, power: 30, hitsAir: false, travel: 0.6 },
   }; // HQ and Hive share the hq turret
   const TABLE = {
     plagueInfDps: { v: 6, src: 'CS plague (was 8)' },

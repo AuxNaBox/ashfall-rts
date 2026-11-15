@@ -42,7 +42,7 @@
     FLAMETOWER_RANGE: { v: 3.5, src: 'L5 §5' },
     FLAMETOWER_SPLASH: { v: 0.8, src: 'L5 §5' },
     FLAMETOWER_SIGHT: { v: 6, src: 'L5 §5' },
-    ROCKETTOWER_HP: { v: 750, src: 'L5 §5' },
+    ROCKETTOWER_HP: { v: 900, src: 'L5 §17' },
     ROCKETTOWER_COST: { v: 900, src: 'L5 §1' },
     ROCKETTOWER_TIME: { v: 12, src: 'L5 §1' },
     ROCKETTOWER_POWER: { v: 30, src: 'L5 §1' },
