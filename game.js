@@ -2828,6 +2828,15 @@ function render() {
   for (const u of vu) if ((u.hp < u.maxhp || G.sel.includes(u))) hpBar(ctx, u.x, u.d.fly ? u.y - u.r - 18 : u.d.big && typeof UnitArt !== 'undefined' ? UnitArt.hpBarY(u, UnitArt.unitFrame(u)) : u.y - u.r - 7, Math.max(16, u.r * 2), u.hp / u.maxhp);   // loop 4: art > 2 tiles tall (Demon Lord) -> above the sprite
   for (const b of G.blds) if (!b.dead && (b.hp < b.maxhp || G.sel.includes(b) || b.setup) && onScreen(b.x, b.y, 100) && (b.side === 0 || isVisible(b))) hpBar(ctx, b.x, b.ty * TILE - 6, b.w * TILE - 8, b.hp / b.maxhp);
   for (const u of vu) if (u.d.harv && u.side === 0 && (G.sel.includes(u) || u.blocked)) { const n = Salvage.pipsOf(u.load, u.d.cap); for (let k = 0; k < 5; k++) { ctx.fillStyle = '#000'; ctx.fillRect(u.x - 17 + k * 7, u.y - u.r - 4, 6, 4); ctx.fillStyle = k < n ? (u.blocked ? '#ffb347' : PAL.steel) : '#333333'; ctx.fillRect(u.x - 16.5 + k * 7, u.y - u.r - 3.5, 5, 3); } }
+  for (const u of vu) if (u.d.transport && !u.carried && (G.sel.includes(u) || (u.cargo || []).length) && (u.side === 0 || isVisible(u))) {
+    const cap = u.d.cargoCap || Loop5.D.CARGO_CAP, n = (u.cargo || []).length, gap = 7, x0 = Math.round(u.x - (cap * gap) / 2), y = Math.round(u.y + u.r + 2);
+    for (let k = 0; k < cap; k++) {
+      if (!drawL5UI(ctx, k < n ? 'transport_pip_full' : 'transport_pip_empty', x0 + k * gap, y, false)) {
+        ctx.fillStyle = '#000'; ctx.fillRect(x0 + k * gap, y, 6, 6); ctx.fillStyle = k < n ? '#9FE8FF' : '#333'; ctx.fillRect(x0 + k * gap + 1, y + 1, 4, 4);
+      }
+    }
+  }
+  for (const b of G.blds) if (!b.dead && b.d && b.d.gate && b.locked && (b.side === 0 || isVisible(b)) && onScreen(b.x, b.y, 40)) drawL5UI(ctx, 'lock_icon', b.x, b.ty * TILE, true);
   // fog: env = dual-grid edge tiles only, clipped to the view (bits 0 nothing, bits 15 one fillRect); else the per-tile loop
   if (EV) FS.fogEdges = env.drawFog(ctx, { w: MW, h: MH, expl, vis, rim: 'ember' }, { x0, y0, x1, y1 });
   else for (let ty = y0; ty <= y1; ty++) for (let tx = x0; tx <= x1; tx++) {
@@ -2836,7 +2845,16 @@ function render() {
     else if (!vis[i]) { ctx.fillStyle = 'rgba(0,0,0,0.45)'; ctx.fillRect(tx * TILE, ty * TILE, TILE, TILE); }
   }
   // placement ghost
-  if (G.placing) {
+  if (G.placing === 'wall') {
+    const d = BDEF.wall, tx = tileOf(mouse.wx) - (d.w >> 1), ty = tileOf(mouse.wy) - (d.h >> 1);
+    const start = G.wallDrag || [tx, ty], tiles = wallTilesFromDrag(start[0], start[1], tx, ty);
+    for (const [x, y] of tiles) {
+      const ok = placeCheck(0, 'wall', x, y, 0).ok;
+      if (!drawL5UI(ctx, ok ? 'wall_drag_ok' : 'wall_drag_bad', x * TILE, y * TILE, false)) {
+        ctx.fillStyle = ok ? 'rgba(80,255,80,0.3)' : 'rgba(255,60,60,0.4)'; ctx.fillRect(x * TILE, y * TILE, TILE, TILE);
+      }
+    }
+  } else if (G.placing) {
     const d = BDEF[G.placing], tx = tileOf(mouse.wx) - (d.w >> 1), ty = tileOf(mouse.wy) - (d.h >> 1), pc = placeCheck(0, G.placing, tx, ty, 0), ok = pc.ok;
     if (G.placing === 'refinery' && G.half) { // remote yards: tint what is outside your half (red) and the strip along the line (amber)
       const x0 = Math.max(0, tileOf(cam.x)), y0 = Math.max(0, tileOf(cam.y)), x1 = Math.min(MW - 1, tileOf(cam.x + VW)), y1 = Math.min(MH - 1, tileOf(cam.y + VH));
@@ -2968,6 +2986,36 @@ const btns = {}, rbtns = {}, cells = [];
 const RICON_ORDER = ['hollow', 'plating', 'rockets', 'barrels', 'blessed', 'halo', 'holyground'];
 const RICON = {}; // B -> Image (assets/ui/loop4-research-icons{,-32,-24}.png; rect x = 2 + i (B + 2), y = 2)
 if (typeof Image !== 'undefined') for (const B of [48, 32, 24]) { const im = new Image(); im.onload = () => { RICON[B] = im; iconKey = ''; if (cells.length) bakeIcons(); }; im.src = 'assets/ui/loop4-research-icons' + (B === 48 ? '' : '-' + B) + '.png'; }
+// Loop 5 build icons (48 / 32, bevel already baked) and the UI atlas (lock, transport pips, wall-drag stamps). No 24 px sheet: a 24 tile is a 2:1 box-down of the 48 sheet. Visual only.
+const L5ICON_ORDER = ['wall', 'fleshwall', 'gate', 'fleshgate', 'flametower', 'rockettower', 'brimstone', 'bonecannon', 'forge', 'apc', 'artillery', 'purifier', 'crawler', 'catapult', 'sprayer', 'shock', 'demo', 'spitter', 'leaper', 'bloater'];
+const L5ICON = {}; // B -> Image
+const L5UI = { im: null };
+const L5UI_FR = { transport_pip_full: [2, 1, 6, 6], transport_pip_empty: [10, 1, 6, 6], lock_icon: [20, 1, 12, 12], wall_drag_ok: [40, 0, 32, 32], wall_drag_bad: [76, 0, 32, 32] };
+const L5UI_ANCHOR = { lock_icon: [6, 12] };
+function stampLockIcons() {
+  if (typeof document === 'undefined' || !L5UI.im) return;
+  const im = L5UI.im, [sx, sy, w, h] = L5UI_FR.lock_icon;
+  for (const cell of cells) {
+    const cv = cell.lk; if (!cv) continue;
+    if (cv.width !== w) { cv.width = w; cv.height = h; }
+    const c = cv.getContext('2d'); c.imageSmoothingEnabled = false; c.clearRect(0, 0, w, h);
+    c.drawImage(im, sx, sy, w, h, 0, 0, w, h);
+  }
+}
+if (typeof Image !== 'undefined') {
+  for (const B of [48, 32]) {
+    const im = new Image();
+    im.onload = () => { L5ICON[B] = im; iconKey = ''; if (cells.length) bakeIcons(); };
+    im.src = 'assets/ui/loop5-icons' + (B === 48 ? '' : '-32') + '.png';
+  }
+  const ui = new Image(); ui.onload = () => { L5UI.im = ui; stampLockIcons(); }; ui.src = 'assets/ui/loop5-ui-atlas.png';
+}
+function drawL5UI(ctx, name, x, y, useAnchor) {
+  const im = L5UI.im, fr = L5UI_FR[name]; if (!im || !fr) return false;
+  const [sx, sy, w, h] = fr, an = useAnchor ? L5UI_ANCHOR[name] : null;
+  ctx.drawImage(im, sx, sy, w, h, Math.round(x - (an ? an[0] : 0)), Math.round(y - (an ? an[1] : 0)), w, h);
+  return true;
+}
 function iconScale(css) { const D = Math.round(css * DPR); for (const [B, f] of [[48, 3], [48, 2], [48, 1], [32, 1], [24, 1]]) if (B * f <= D) return { D, B, f, o: Math.floor((D - B * f) / 2) }; return { D, B: 24, f: 1, o: 0 }; }
 const bevelOf = B => (B >= 48 ? 2 : 1);
 function bevelTile(c, B) {
@@ -3017,16 +3065,30 @@ function bakeTile(kind, id, B) {
     if (im && i >= 0) c.drawImage(im, 2 + i * (B + 2), 2, B, B, 0, 0, B, B);
     else { bevelTile(c, B); const g = researchIcon(id); c.drawImage(g, 0, 0, 56, 38, 0, Math.floor((B - B * 38 / 56) / 2), B, Math.floor(B * 38 / 56)); final = false; }
   } else {
-    bevelTile(c, B);
-    const small = B < 48, inner = B - (small ? 4 : 6);
-    let S = null; try { S = cameoSrc(kind, id); } catch (e) { S = null; }
-    if (S) {
-      let art;
-      if (kind === 'u' && Math.max(S.w, S.h) <= inner) { const k = Math.max(1, Math.floor(inner / Math.max(S.w, S.h))); art = document.createElement('canvas'); art.width = S.w * k; art.height = S.h * k; const a = art.getContext('2d'); a.imageSmoothingEnabled = false; a.drawImage(S.cv, S.x, S.y, S.w, S.h, 0, 0, S.w * k, S.h * k); }
-      else art = boxReduce(S, Math.max(1, Math.ceil(Math.max(S.w, S.h) / inner)));
-      c.drawImage(art, Math.floor((B - art.width) / 2), B - (small ? 2 : 3) - art.height - Math.max(0, Math.floor((inner - art.height) / 4)));
+    const li = L5ICON_ORDER.indexOf(id);
+    const srcB = (li >= 0 && L5ICON[B]) ? B : (li >= 0 && B === 24 && L5ICON[48]) ? 48 : 0;
+    const im = srcB ? L5ICON[srcB] : null;
+    if (im) {
+      const sx = 2 + li * (srcB + 2), sy = 2;
+      if (srcB === B) c.drawImage(im, sx, sy, B, B, 0, 0, B, B);
+      else {
+        const tmp = document.createElement('canvas'); tmp.width = srcB; tmp.height = srcB;
+        const t = tmp.getContext('2d'); t.imageSmoothingEnabled = false; t.drawImage(im, sx, sy, srcB, srcB, 0, 0, srcB, srcB);
+        const red = boxReduce({ cv: tmp, im: t.getImageData(0, 0, srcB, srcB).data, W: srcB, x: 0, y: 0, w: srcB, h: srcB }, srcB / B);
+        c.drawImage(red, 0, 0);
+      }
+    } else {
+      bevelTile(c, B);
+      const small = B < 48, inner = B - (small ? 4 : 6);
+      let S = null; try { S = cameoSrc(kind, id); } catch (e) { S = null; }
+      if (S) {
+        let art;
+        if (kind === 'u' && Math.max(S.w, S.h) <= inner) { const k = Math.max(1, Math.floor(inner / Math.max(S.w, S.h))); art = document.createElement('canvas'); art.width = S.w * k; art.height = S.h * k; const a = art.getContext('2d'); a.imageSmoothingEnabled = false; a.drawImage(S.cv, S.x, S.y, S.w, S.h, 0, 0, S.w * k, S.h * k); }
+        else art = boxReduce(S, Math.max(1, Math.ceil(Math.max(S.w, S.h) / inner)));
+        c.drawImage(art, Math.floor((B - art.width) / 2), B - (small ? 2 : 3) - art.height - Math.max(0, Math.floor((inner - art.height) / 4)));
+      }
+      final = artDone && li < 0; // cameo waits on unit art; an L5 sheet id waits on the icon PNG, then re-bakes
     }
-    final = artDone; // until the atlases load the cameo is procedural; it is re-baked once they are in
   }
   if (final) tileCache.set(key, cv);
   return cv;
@@ -3041,6 +3103,7 @@ function bakeIcons() {
     try { c.drawImage(bakeTile(cell.kind, cell.id, sc.B), sc.o, sc.o, sc.B * sc.f, sc.B * sc.f); } catch (e) { /* keep the cell blank rather than break the sidebar */ }
     cell.lastWipe = null;
   }
+  stampLockIcons();
 }
 // clock-wipe (notes §9, Director decision): the dark sector covers the *remaining* part, clearing clockwise from 12 o'clock; clipped
 // to the tile's inner rect (inside the edge + bevel) with a half-diagonal radius, so the wipe is square. 48 px tiers only.
@@ -3058,11 +3121,11 @@ function drawWipe(cell, p) {
 }
 function makeCell(grid, kind, id, name, onClick, onCancel) {
   const b = document.createElement('div'); b.className = 'btn'; b.dataset.id = id;
-  b.innerHTML = `<canvas class="ic"></canvas><canvas class="wipe"></canvas><span class="nm">${name}</span><span class="cs"></span><div class="bar"></div><span class="cnt"></span>`;
+  b.innerHTML = `<canvas class="ic"></canvas><canvas class="wipe"></canvas><canvas class="lk" width="12" height="12"></canvas><span class="nm">${name}</span><span class="cs"></span><div class="bar"></div><span class="cnt"></span>`;
   b.addEventListener('click', onClick);
   b.addEventListener('contextmenu', e => { e.preventDefault(); onCancel(); });
   grid.appendChild(b);
-  const cell = { el: b, kind, id, name, ic: b.querySelector('.ic'), wipe: b.querySelector('.wipe'), cs: b.querySelector('.cs'), bar: b.querySelector('.bar'), cnt: b.querySelector('.cnt'), lastWipe: null, sc: null };
+  const cell = { el: b, kind, id, name, ic: b.querySelector('.ic'), wipe: b.querySelector('.wipe'), lk: b.querySelector('.lk'), cs: b.querySelector('.cs'), bar: b.querySelector('.bar'), cnt: b.querySelector('.cnt'), lastWipe: null, sc: null };
   cells.push(cell); return cell;
 }
 function buildSidebar() {

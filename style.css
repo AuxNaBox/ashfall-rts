@@ -74,6 +74,8 @@ body[data-tier=S] .btn .cnt{font-size:9px;line-height:9px}
 .btn:hover{border-color:#9FE8FF}
 .btn.locked .ic{filter:grayscale(1) brightness(.55)}
 .btn.locked{cursor:not-allowed}
+.btn .lk{position:absolute;left:calc(var(--ix) + var(--icon) / 2 - 6px);top:calc(var(--iy) + var(--icon) / 2 - 6px);width:12px;height:12px;image-rendering:pixelated;pointer-events:none;z-index:2;display:none}
+.btn.locked .lk{display:block}
 .btn.poor .cs{color:#FF6A5A}
 .btn.prog{border-color:#9FE8FF}
 .btn.hold .bar{opacity:.5}
