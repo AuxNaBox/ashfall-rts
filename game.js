@@ -1139,6 +1139,12 @@ function waveIdleEligible(u) {
   if (u.type === 'crawler' || (u.d && u.d.transport)) return false;
   return true;
 }
+function capWaveBloaters(list) {
+  const cap = Loop5.D.BLOATER_PER_WAVE;
+  if (cap == null || !list) return list;
+  let n = 0;
+  return list.filter(u => { if (u.type !== 'bloater') return true; n++; return n <= cap; });
+}
 function findEnemy(e, range, side) {
   const demo = e.kind === 'u' && e.d && e.d.demo;
   const w = weaponOf(e); if (!w && !demo) return null;
@@ -2090,7 +2096,7 @@ function updAI(dt) {
     if (w1) { // wave 1 override: exactly the listed group
       const pick = []; for (const k in w1) pick.push(...idle.filter(u => u.type === k).slice(0, w1[k]));
       if (pick.length >= need) send = pick;
-    } else if (idle.length >= need) { const keep = idle.length > 10 ? 3 : 0; send = idle.slice(keep, keep + need + 4); }
+    } else if (idle.length >= need) { const keep = idle.length > 10 ? 3 : 0; send = capWaveBloaters(idle.slice(keep, keep + need + 4)); }
     // L4: the Demon Lord leads the next wave (even while busy defending)
     const dl = G.units.find(u => u.side === 1 && u.type === 'demon' && !u.dead);
     if (send && dl && !send.includes(dl)) send.unshift(dl);
@@ -2274,7 +2280,7 @@ function updAI_L5() {
     const walls = countBld(0, 'wall') + countBld(0, 'gate');
     const towers = countBld(0, 'turret') + countBld(0, 'flametower') + countBld(0, 'rockettower');
     const trig = !bl.whenWallsOrTowers || walls > 0 || towers >= bl.whenWallsOrTowers;
-    if (trig && aliveQ('bloater') < (bl.perWave || 0) && prereqOk(1, 'bloater') && canAiAfford('bloater')) queueItem(1, 'bloater');
+    if (trig && aliveQ('bloater') < (UDEF.bloater.limit || Loop5.D.DEMO_LIMIT) && prereqOk(1, 'bloater') && canAiAfford('bloater')) queueItem(1, 'bloater');
   }
   // leapers: auto-leap already runs in engage; prefer soft targets behind walls
   for (const lp of G.units) {
@@ -2312,7 +2318,7 @@ function updAI_L5() {
       A.lastWave.push(...extra);
     };
     if (lep) add('leaper', lep.perWave || 0);
-    if (bl && G.time >= (bl.from || 0)) add('bloater', bl.perWave || 0);
+    if (bl && G.time >= (bl.from || 0)) add('bloater', Math.max(0, (Loop5.D.BLOATER_PER_WAVE ?? 2) - A.lastWave.filter(u => u.type === 'bloater').length));
   }
 
 }
@@ -3631,4 +3637,4 @@ if (typeof EnvArt !== 'undefined') EnvArt.load({ off: new URLSearchParams(locati
   } }
 requestAnimationFrame(frame);
 // test hook
-window.RTS = { catapultSkipsHq, crawlerRaidGated, aiL5Share, usesTechWallet, walletCredits, debitWallet, creditWallet, addIncome, snapMainWallet, canAiAfford, waveIdleEligible, AI_RUSH_DEFENSE, AI_FIRST_NUKE_MIN, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, canAttack, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, setDmgState, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX, Loop5, sellBld, cutOffWarning, pathExists, placeWallLine, wallTilesFromDrag, wallCount, tryBreach, addPatch, cleanseAt, inPatch, loadUnit, canLoadUnit, ejectCargo, startUnload, finishUnload, orderLoad, allySees, DIFF, canLeap, startLeap, shouldAutoLeap, autoLeapTo, beginLeapCommand, issueLeapAt, boomDemo, startArm, untargetable, showTab, get sbTab() { return sbTab; } };
+window.RTS = { catapultSkipsHq, crawlerRaidGated, aiL5Share, usesTechWallet, walletCredits, debitWallet, creditWallet, addIncome, snapMainWallet, canAiAfford, waveIdleEligible, capWaveBloaters, AI_RUSH_DEFENSE, AI_FIRST_NUKE_MIN, RUSH, aiRushCheck, seed: seedSim, get simRand() { return simRand; }, get BARRACKS_NEEDS_YARD() { return BARRACKS_NEEDS_YARD; }, setBarracksNeedsYard, prereqOk, missingReq, spawnPoint, dropCargo, get ZOOM() { return ZOOM; }, ZOOMS, setZoom, zoomStep, zoomMin, get view() { return { SW, SH, VW, VH, DPR, ZOOM, KS, ZS, lowRes, tier: TIER, merged, short: SHORT, mini: { box: MBOX, px: MP, ox: MOX, oy: MOY } }; }, autoZoom, zoomMax, get userZoom() { return userZoom; }, set userZoom(v) { userZoom = !!v; }, get mouse() { return mouse; }, placeCheck, remoteCheck, buildHalf, reachOf, aiRemoteSpot, aiFindSpot, aiSpotNear, aiServedLow, get expl() { return expl; }, get vis() { return vis; }, REMOTE: { REMOTE_STRIP, REMOTE_ENEMY_UNIT, REMOTE_ENEMY_BLD, REMOTE_SALVAGE_GAP, REMOTE_EXTENDS_RADIUS, REMOTE_SETUP_S, REMOTE_SETUP_HP0, AI_PIT_CAP, AI_REMOTE_EASY_FROM }, get MW() { return MW; }, get MH() { return MH; }, TILE, T, get terr() { return terr; }, get bgrid() { return bgrid; }, get decos() { return decos; }, findPath, walk, applyDesignMap, setMapSize, envSourceMap, envPrepare, get designMap() { return designMap; }, set designMap(m) { designMap = m; }, get envStats() { return G && G.env ? G.env.stats : null; }, get blockedTiles() { let n = 0; for (let i = 0; i < N; i++) if (BLOCK[terr[i]]) n++; return n; }, get plague() { return plague; }, get res() { return res; }, newArena, Combat, findEnemy, canAttack, kill, damage, issueMove, orderAttack, separate, makeUnit, makeBld, setDmgState, get G() { return G; }, get SAL() { return SAL; }, Salvage, storageCapOf, powerOf, bldBusy, bldOverlayOn, hqShotPhase, burnScaleOf, L4_OVERLAY, dockPoint, command, step, newGame, UDEF, BDEF, ART_PENDING, QCATS, queueResearch, cancelResearch, researchState, updResearch, applyResearch, inPlague, holyGround, atLimit, aliveOf, valuableGroup, dropOffs, maxHpOf, dmgOf, rangeOf, speedOf, updAI, aiNextBuild, queueItem, cancelItem, updProduction, placeBld, canPlace, launchNuke, cam, centerOn, EDGE_SCROLL_PX, Loop5, sellBld, cutOffWarning, pathExists, placeWallLine, wallTilesFromDrag, wallCount, tryBreach, addPatch, cleanseAt, inPatch, loadUnit, canLoadUnit, ejectCargo, startUnload, finishUnload, orderLoad, allySees, DIFF, canLeap, startLeap, shouldAutoLeap, autoLeapTo, beginLeapCommand, issueLeapAt, boomDemo, startArm, untargetable, showTab, get sbTab() { return sbTab; } };
