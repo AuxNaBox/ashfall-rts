@@ -83,15 +83,40 @@ for (const kind of ['apc', 'crawler']) {
     const finalDist = Math.hypot(tr.x - dest.x, tr.y - dest.y);
     assert.ok(arrivedAt != null && arrivedAt <= 8, kind + ' arrived in ' + arrivedAt + 's (need <= 8s); final ' + finalDist.toFixed(1) + ' px from a ' + dist0.toFixed(0) + ' px trip');
     assert.ok(finalDist <= 16, kind + ' still at the destination (' + finalDist.toFixed(1) + ' px), not shoved off after arriving');
-    // After the first 0.2 s (initial turn onto the path), heading should stay stable.
-    const later = samples.slice(6, Math.min(samples.length, 30 * 6));
+    // After the first 0.2 s (initial turn onto the path), heading should stay stable
+    // and no tick should jump farther than normal travel (the bug kicked 13–18 px).
+    const later = samples.slice(6);
     const maxTurn = Math.max(...later.map(r => Math.abs(r.dAng)));
     assert.ok(maxTurn < 25 * Math.PI / 180, kind + ' max heading step after 0.2s is ' + (maxTurn * 180 / Math.PI).toFixed(1) + ' deg (need < 25)');
-    // Per-tick travel should be close to speed, not the 13–18 px collision kicks.
     const moving = later.filter(r => r.dx > 0.2 && r.order !== 'idle');
     if (moving.length) {
       const meanDx = moving.reduce((s, r) => s + r.dx, 0) / moving.length;
+      const maxDx = Math.max(...moving.map(r => r.dx));
       assert.ok(meanDx < 4, kind + ' mean step while moving is ' + meanDx.toFixed(2) + ' px (need < 4; collision kicks were ~15)');
+      assert.ok(maxDx < 8, kind + ' max per-tick jump while moving is ' + maxDx.toFixed(2) + ' px (need < 8; sporadic kicks were 13–18)');
+    }
+    // Cross-track drift off the start→goal line: the bug wandered randomly, not along the path.
+    const x0 = samples[0].x, y0 = samples[0].y;
+    const lx = dest.x - x0, ly = dest.y - y0, llen = Math.hypot(lx, ly) || 1;
+    let maxCross = 0;
+    for (const r of samples) {
+      const cross = Math.abs((r.x - x0) * ly - (r.y - y0) * lx) / llen;
+      if (cross > maxCross) maxCross = cross;
+    }
+    assert.ok(maxCross < 16, kind + ' wandered ' + maxCross.toFixed(1) + ' px off the path (need < 16; the bug drifted hundreds)');
+    // After the carrier settles at the goal, it must stay put — no more unordered jumps.
+    // "Arrived" is the first tick inside 16 px, so skip the remaining approach ticks.
+    if (arrivedAt != null) {
+      const first = Math.round(arrivedAt * 30);
+      let settle = samples.findIndex((r, i) => i >= first && (r.order === 'idle' || r.dx < 0.5));
+      if (settle < 0) settle = samples.length - 30;
+      const after = samples.slice(Math.max(settle, first) + 1);
+      if (after.length) {
+        const maxAfter = Math.max(...after.map(r => r.dx));
+        const endDrift = Math.hypot(tr.x - dest.x, tr.y - dest.y);
+        assert.ok(maxAfter < 0.5, kind + ' jumped ' + maxAfter.toFixed(2) + ' px/tick after settling (need < 0.5; bug was 13–18)');
+        assert.ok(endDrift <= 16, kind + ' drifted to ' + endDrift.toFixed(1) + ' px from the goal after settling');
+      }
     }
     assert.ok(samples.every(r => r.paxCarried), kind + ' passengers stay inside for the trip');
     assert.ok(samples.every(r => r.paxOff.every(d => d < 0.5)), kind + ' passengers are not separated off the hull');
@@ -113,9 +138,16 @@ test('player orders: infantry walk into an APC, then the APC can be sent to a po
   }
   assert.ok(loadedAt != null, 'all 5 board');
   const xBoard = apc.x, yBoard = apc.y;
-  for (let i = 0; i < 30; i++) RTS.step(DT);
+  let maxIdle = 0, lx = apc.x, ly = apc.y;
+  for (let i = 0; i < 30; i++) {
+    RTS.step(DT);
+    const step = Math.hypot(apc.x - lx, apc.y - ly);
+    if (step > maxIdle) maxIdle = step;
+    lx = apc.x; ly = apc.y;
+  }
   const idleDrift = Math.hypot(apc.x - xBoard, apc.y - yBoard);
-  assert.ok(idleDrift < 1, 'APC does not jitter after the last man boards, drift ' + idleDrift.toFixed(2));
+  assert.ok(maxIdle < 0.5, 'APC per-tick jump after boarding is ' + maxIdle.toFixed(2) + ' px (need < 0.5; bug was 13.6)');
+  assert.ok(idleDrift < 1, 'APC does not drift after the last man boards, drift ' + idleDrift.toFixed(2));
   RTS.issueMove([apc], dest.x, dest.y, false);
   let arrivedAt = null;
   for (let i = 0; i < 30 * 10; i++) {
