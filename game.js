@@ -1027,9 +1027,9 @@ function followPath(u, dt) {
 function separate() {
   const us = G.units; const n = us.length;
   for (let i = 0; i < n; i++) {
-    const a = us[i]; if (a.d.fly || a.dead) continue;
+    const a = us[i]; if (a.d.fly || a.dead || a.carried) continue;
     for (let j = i + 1; j < n; j++) {
-      const b = us[j]; if (b.d.fly || b.dead) continue;
+      const b = us[j]; if (b.d.fly || b.dead || b.carried) continue;
       if (a.d.harv && b.d.harv) continue; // trucks pass each other: avoids head-on jams at the dock
       if (a.side !== b.side && ((a.d.harv && b.d.armor === 'light') || (b.d.harv && a.d.armor === 'light'))) continue; // trucks drive over enemy infantry (crush)
       const dx = b.x - a.x, dy = b.y - a.y, md = (a.r + b.r) * 0.85;
