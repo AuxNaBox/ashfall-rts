@@ -76,6 +76,11 @@
     WAVE_CAP_PRE_FLOOR: { v: 20, src: 'L5 §18 pass 7: Hard waves before 12:00 cap at 20 units, far-idle joiners included' },
     WAVE_BRUTE_CAP_PRE_FLOOR: { v: 2, src: 'L5 §18 pass 7: Hard waves before 12:00 include at most 2 Hellbrutes' },
     WAVE_CAP_FLOOR_S: { v: 720, src: 'L5 §18 pass 7: the Hard wave caps lift at 12:00' },
+    NORMAL_LATE_FROM_S: { v: 720, src: 'L5 §18 pass N (N1): Normal late-wave cadence starts at 12:00' },
+    NORMAL_LATE_LAUNCH_FRAC: { v: 0.6, src: 'L5 §18 pass N (N1): after 12:00, launch once home idle weight is at least 0.6× the trigger' },
+    NORMAL_LATE_LAUNCH_MAX_S: { v: 45, src: 'L5 §18 pass N (N1): if still short 45 s after the timer, launch at min weight' },
+    NORMAL_LATE_LAUNCH_MIN_W: { v: 6, src: 'L5 §18 pass N (N1): minimum home idle weight for the 45 s fallback launch' },
+    NORMAL_REGROUP_TILES: { v: 15, src: 'L5 §18 pass N (N1): leftovers from a wiped wave within 15 tiles of the Hive join the next wave' },
     // transport (L5 §6)
     CARGO_CAP: { v: 5, src: 'L5 §6' },
     LOAD_TILES: { v: 1.0, src: 'L5 §6 (walk to it and enter)' },
